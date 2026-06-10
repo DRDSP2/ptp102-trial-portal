@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { verifyPassword } from '@/utils/passwordHash';
 
 // =============================================================================
 // UIBAKERY DATA MOCK — Enhanced for 4EVERLAND Deployment
@@ -730,8 +731,16 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const password = p?.password ?? '';
           const vet = getVets().find((v) => v.email === email);
           if (!vet) throw new Error('Invalid email or password');
-          // Simple string comparison for mock (real app uses bcrypt)
-          if (vet.password_hash !== password) throw new Error('Invalid email or password');
+          // Support both bcrypt hashes (from registration) and plain text (for testing)
+          let passwordValid = vet.password_hash === password;
+          if (!passwordValid) {
+            try {
+              passwordValid = await verifyPassword(password, vet.password_hash);
+            } catch {
+              passwordValid = false;
+            }
+          }
+          if (!passwordValid) throw new Error('Invalid email or password');
           if (vet.verification_status !== 'approved') throw new Error('Account pending approval');
           return [vet];
         }
