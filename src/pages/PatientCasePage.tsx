@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CaseWorkspace } from '@/components/CaseWorkspace';
 import { ByRockLogo } from '@/components/ByRockLogo';
 import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
+import { RegulatoryBanner } from '@/components/RegulatoryBanner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Shield, LogOut, ArrowLeft } from 'lucide-react';
@@ -33,6 +34,7 @@ export function PatientCasePage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <RegulatoryBanner />
       <WhatsAppChatButton variant="floating" />
       <header className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">

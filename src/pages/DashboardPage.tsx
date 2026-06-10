@@ -10,6 +10,7 @@ import { PatientsList } from '@/components/PatientsList';
 import { PatientEnrollmentForm } from '@/components/PatientEnrollmentForm';
 import { ByRockLogo } from '@/components/ByRockLogo';
 import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
+import { RegulatoryBanner } from '@/components/RegulatoryBanner';
 import { VeterinarianManagementPanel } from '@/components/VeterinarianManagementPanel';
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
@@ -47,6 +48,7 @@ export function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <RegulatoryBanner />
       <WhatsAppChatButton variant="floating" />
       <header className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="container mx-auto max-w-7xl flex items-center justify-between">
