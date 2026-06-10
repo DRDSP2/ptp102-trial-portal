@@ -20,7 +20,8 @@ import { AddLabResultForm } from '@/components/AddLabResultForm';
 import { AddAssessmentForm } from '@/components/AddAssessmentForm';
 import { ObelScoreChart } from '@/components/ObelScoreChart';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare } from 'lucide-react';
+import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare, FileVideo } from 'lucide-react';
+import { VideoUploadManager } from '@/components/VideoUploadManager';
 
 type CaseWorkspaceProps = {
   patientId: number;
@@ -375,23 +376,33 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
           </Card>
         </TabsContent>
 
-        <TabsContent value="videos" className="mt-4 sm:mt-6">
+        <TabsContent value="videos" className="mt-4 sm:mt-6 space-y-4">
+          <VideoUploadManager
+            patientId={patientId}
+            protocolHour={currentProtocolHour}
+            veterinarianName={localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'Unknown'}
+            onSuccess={handleRefresh}
+          />
+
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg sm:text-xl">Video Library</CardTitle>
+              <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
+                <FileVideo className="h-5 w-5" />
+                Video Library
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-3 sm:p-6">
               {patient.clinical_notes && patient.clinical_notes.filter((note: any) => note.video_url && note.video_url.trim() !== '').length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {patient.clinical_notes
                     .filter((note: any) => note.video_url && note.video_url.trim() !== '')
                     .map((note: any) => (
                       <div key={note.id} className="p-4 border rounded-lg bg-white">
                         <div className="flex items-start justify-between mb-3">
-                          <div className="flex items-center gap-2">
-                            <Video className="h-5 w-5 text-primary" />
-                            <div>
-                              <p className="font-medium text-sm">{note.video_file_name || 'Untitled Video'}</p>
+                          <div className="flex items-center gap-2 min-w-0">
+                            <Video className="h-5 w-5 text-blue-600 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="font-medium text-sm truncate">{note.video_file_name || 'Untitled Video'}</p>
                               <p className="text-xs text-muted-foreground">{note.note_content}</p>
                             </div>
                           </div>
@@ -403,8 +414,9 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                         <video
                           src={note.video_url}
                           controls
-                          className="w-full rounded-md max-h-[300px] mb-3"
+                          className="w-full rounded-md max-h-[300px] mb-3 bg-black"
                           preload="metadata"
+                          controlsList="nodownload"
                         />
                         
                         <div className="flex items-center justify-between pt-2 border-t">
@@ -415,13 +427,25 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => {
-                              const link = document.createElement('a');
-                              link.href = note.video_url;
-                              link.download = note.video_file_name || `video_${note.id}.mp4`;
-                              link.click();
+                            onClick={async () => {
+                              try {
+                                const response = await fetch(note.video_url);
+                                const blob = await response.blob();
+                                const url = window.URL.createObjectURL(blob);
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.download = note.video_file_name || `video_${note.id}.mp4`;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                                window.URL.revokeObjectURL(url);
+                              } catch (err) {
+                                console.error('Download failed:', err);
+                                window.open(note.video_url, '_blank');
+                              }
                             }}
                           >
+                            <Download className="h-3 w-3 mr-1" />
                             Download
                           </Button>
                         </div>
@@ -429,7 +453,11 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                     ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">No videos recorded yet</p>
+                <div className="text-center py-8">
+                  <FileVideo className="h-12 w-12 text-slate-300 mx-auto mb-3" />
+                  <p className="text-sm text-muted-foreground">No videos recorded yet</p>
+                  <p className="text-xs text-muted-foreground mt-1">Use the upload panel above to add gait assessment videos</p>
+                </div>
               )}
             </CardContent>
           </Card>

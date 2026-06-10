@@ -34,8 +34,8 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
   const [error, setError] = useState<string | null>(null);
   const [addNote, isSubmitting] = useMutateAction(addClinicalNoteAction);
 
-  const handleFileUpload = (fileInfo: UploadcareFileInfo & { status: string }) => {
-    if (fileInfo.status === 'success' && fileInfo.cdnUrl) {
+  const handleFileUpload = (fileInfo: UploadcareFileInfo) => {
+    if (fileInfo.cdnUrl) {
       console.log('Video uploaded to Uploadcare:', fileInfo);
       setUploadedVideo({
         uuid: fileInfo.uuid,
@@ -49,6 +49,12 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
       setShowGuidelines(true);
       setError(null);
     }
+  };
+
+  const handleFileUploadFailed = (errorInfo: any) => {
+    console.error('Video upload failed:', errorInfo);
+    setError(errorInfo?.message || 'Video upload failed. Please try again or use a smaller file.');
+    setShowUploader(false);
   };
 
   const handleRemoveVideo = () => {
@@ -221,6 +227,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
                 accept="video/*"
                 multiple={false}
                 onFileUploadSuccess={handleFileUpload}
+                onFileUploadFailed={handleFileUploadFailed}
               />
               <Button
                 type="button"
