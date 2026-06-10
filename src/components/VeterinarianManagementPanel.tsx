@@ -12,7 +12,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { CheckCircle, XCircle, Trash2, Eye, Mail } from 'lucide-react';
+import { CheckCircle, XCircle, Trash2, Eye, Mail, FileDown } from 'lucide-react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 type Veterinarian = {
   id: number;
@@ -22,6 +24,9 @@ type Veterinarian = {
   hospital_affiliation: string;
   verification_status: string;
   tc_accepted: boolean;
+  tc_accepted_at: string | null;
+  signature_text: string | null;
+  no_conflict_of_interest: boolean;
   created_at: string;
   last_login: string | null;
 };
@@ -106,6 +111,66 @@ export function VeterinarianManagementPanel() {
     }
   };
 
+  const handleExportTCReport = (vets: Veterinarian[]) => {
+    try {
+      const doc = new jsPDF('landscape', 'mm', 'a4');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+
+      // Header
+      doc.setFontSize(18);
+      doc.setTextColor(40, 40, 40);
+      doc.text('PTP-102 Laminitis Trial', 14, 15);
+      doc.setFontSize(12);
+      doc.text('Veterinarian Terms & Conditions Acceptance Report', 14, 22);
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 28);
+      doc.text('Byrock Technologies Ltd. — INAD-PTP102-2025', 14, 33);
+
+      // Table
+      autoTable(doc, {
+        startY: 38,
+        head: [['Name', 'Email', 'License', 'Hospital', 'T&C Date', 'Signature', 'No Conflict', 'Status']],
+        body: vets.map((v) => [
+          v.full_name,
+          v.email,
+          v.license_number,
+          v.hospital_affiliation,
+          v.tc_accepted_at ? new Date(v.tc_accepted_at).toLocaleDateString() : 'N/A',
+          v.signature_text || 'N/A',
+          v.no_conflict_of_interest ? 'Yes' : 'No',
+          v.verification_status,
+        ]),
+        headStyles: {
+          fillColor: [107, 127, 58],
+          textColor: [255, 255, 255],
+          fontSize: 9,
+        },
+        bodyStyles: { fontSize: 8 },
+        alternateRowStyles: { fillColor: [245, 245, 245] },
+        margin: { top: 38 },
+      });
+
+      // Footer / Disclaimer
+      const pageCount = doc.internal.pages.length - 1;
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(120, 120, 120);
+        doc.text(
+          `Page ${i} of ${pageCount} | PTP-102 is an investigational new animal drug (INAD) under FDA CVM review. This report is for regulatory compliance purposes only.`,
+          14,
+          doc.internal.pageSize.height - 10
+        );
+      }
+
+      doc.save(`PTP102_Vet_TC_Report_${timestamp}.pdf`);
+    } catch (err) {
+      console.error('PDF export failed:', err);
+      alert('Failed to export T&C report. Please try again.');
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
       approved: 'default',
@@ -139,11 +204,22 @@ export function VeterinarianManagementPanel() {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-2xl">Veterinarian Management</CardTitle>
-        <p className="text-sm text-muted-foreground mt-1">
-          Approve, reject, or manage veterinarian accounts
-        </p>
+      <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div>
+          <CardTitle className="text-2xl">Veterinarian Management</CardTitle>
+          <p className="text-sm text-muted-foreground mt-1">
+            Approve, reject, or manage veterinarian accounts
+          </p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleExportTCReport(vetsList)}
+          type="button"
+        >
+          <FileDown className="mr-2 h-4 w-4" />
+          Export T&C Report
+        </Button>
       </CardHeader>
       <CardContent className="p-3 sm:p-6">
         <div className="rounded-md border overflow-x-auto">
@@ -233,6 +309,24 @@ export function VeterinarianManagementPanel() {
                                 <p className="text-sm font-semibold">Last Login</p>
                                 <p className="text-sm text-muted-foreground">
                                   {vet.last_login ? new Date(vet.last_login).toLocaleString() : 'Never'}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-sm font-semibold">T&C Accepted</p>
+                                <p className="text-sm text-muted-foreground">
+                                  {vet.tc_accepted_at ? new Date(vet.tc_accepted_at).toLocaleString() : 'N/A'}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-sm font-semibold">Digital Signature</p>
+                                <p className="text-sm text-muted-foreground italic">
+                                  {vet.signature_text || 'N/A'}
+                                </p>
+                              </div>
+                              <div>
+                                <p className="text-sm font-semibold">No Conflicts of Interest</p>
+                                <p className="text-sm text-muted-foreground">
+                                  {vet.no_conflict_of_interest ? 'Yes ✓' : 'No ✗'}
                                 </p>
                               </div>
                             </div>

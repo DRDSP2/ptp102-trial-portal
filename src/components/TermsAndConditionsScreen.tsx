@@ -33,6 +33,7 @@ const termsSchema = z.object({
   investigationalAcknowledged: z.boolean().refine((val) => val === true, 'You must acknowledge the investigational status'),
   riskAccepted: z.boolean().refine((val) => val === true, 'You must accept all treatment risks'),
   liabilityAcknowledged: z.boolean().refine((val) => val === true, 'You must acknowledge liability'),
+  noConflictOfInterest: z.boolean().refine((val) => val === true, 'You must confirm no conflicts of interest'),
   signatureText: z.string().min(2, 'Digital signature is required'),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
@@ -63,6 +64,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
       investigationalAcknowledged: false,
       riskAccepted: false,
       liabilityAcknowledged: false,
+      noConflictOfInterest: false,
       signatureText: '',
     },
   });
@@ -89,6 +91,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
         passwordHash: hashedPassword,
         licenseNumber: values.licenseNumber,
         hospitalAffiliation: values.hospitalAffiliation,
+        noConflictOfInterest: values.noConflictOfInterest,
         signatureText: values.signatureText,
       });
 
@@ -176,6 +179,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   {formErrors.investigationalAcknowledged && <li>{formErrors.investigationalAcknowledged.message}</li>}
                   {formErrors.riskAccepted && <li>{formErrors.riskAccepted.message}</li>}
                   {formErrors.liabilityAcknowledged && <li>{formErrors.liabilityAcknowledged.message}</li>}
+                  {formErrors.noConflictOfInterest && <li>{formErrors.noConflictOfInterest.message}</li>}
                   {formErrors.signatureText && <li>{formErrors.signatureText.message}</li>}
                 </ul>
               </AlertDescription>
@@ -442,6 +446,27 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                         </FormLabel>
                         {formErrors.liabilityAcknowledged && (
                           <p className="text-sm text-destructive mt-1">{formErrors.liabilityAcknowledged.message}</p>
+                        )}
+                      </div>
+                      {field.value && <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />}
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="noConflictOfInterest"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
+                      <FormControl>
+                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                      </FormControl>
+                      <div className="space-y-1 leading-none flex-1">
+                        <FormLabel className="font-normal cursor-pointer">
+                          I confirm that <strong>I have no conflicts of interest</strong> in relation to PTP-102, Byrock Technologies Ltd., or this clinical trial, and I am not receiving any financial incentives, payments, or benefits from any competing pharmaceutical company or product
+                        </FormLabel>
+                        {formErrors.noConflictOfInterest && (
+                          <p className="text-sm text-destructive mt-1">{formErrors.noConflictOfInterest.message}</p>
                         )}
                       </div>
                       {field.value && <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />}
