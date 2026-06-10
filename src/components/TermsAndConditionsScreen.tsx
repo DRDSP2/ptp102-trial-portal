@@ -91,11 +91,12 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
         passwordHash: hashedPassword,
         licenseNumber: values.licenseNumber,
         hospitalAffiliation: values.hospitalAffiliation,
-        noConflictOfInterest: values.noConflictOfInterest,
         signatureText: values.signatureText,
       });
 
-      if (!result || result.length === 0) {
+      console.log('Registration result:', result);
+
+      if (!result) {
         setError('Registration failed: No response from database. Please contact support.');
         return;
       }
