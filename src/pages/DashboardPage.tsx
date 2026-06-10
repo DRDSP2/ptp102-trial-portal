@@ -15,12 +15,13 @@ import { VeterinarianManagementPanel } from '@/components/VeterinarianManagement
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck, Package } from 'lucide-react';
 import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
 import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
 import { AdverseEventReporter } from '@/components/AdverseEventReporter';
+import { TrialOperationsHub } from '@/components/TrialOperationsHub';
 import { InvestigatorOnboardingWizard } from '@/components/InvestigatorOnboardingWizard';
 import { useLoadAction } from '@uibakery/data';
 import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
@@ -85,7 +86,7 @@ export function DashboardPage() {
       <div className="container mx-auto p-6 max-w-7xl">
         {isAdmin ? (
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full max-w-3xl grid-cols-2 sm:grid-cols-5">
+            <TabsList className="grid w-full max-w-3xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
               <TabsTrigger value="overview">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Overview
@@ -105,6 +106,10 @@ export function DashboardPage() {
               <TabsTrigger value="compliance">
                 <ShieldCheck className="mr-2 h-4 w-4" />
                 Compliance
+              </TabsTrigger>
+              <TabsTrigger value="supply">
+                <Package className="mr-2 h-4 w-4" />
+                Supply
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="mt-6 space-y-6">
@@ -168,6 +173,9 @@ export function DashboardPage() {
             <TabsContent value="compliance" className="mt-6">
               <AdminComplianceDashboard />
             </TabsContent>
+            <TabsContent value="supply" className="mt-6">
+              <TrialOperationsHub />
+            </TabsContent>
           </Tabs>
         ) : qualLoading ? (
           <Card>
@@ -181,7 +189,7 @@ export function DashboardPage() {
           <>
             <AdverseEventReporter vetEmail={auth.email || ''} vetName={auth.email?.split('@')[0] || 'Vet'} />
             <Tabs defaultValue="patients" className="w-full">
-              <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-4">
+              <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
               <TabsTrigger value="patients">
                 <Users className="mr-2 h-4 w-4" />
                 Patients
@@ -197,6 +205,10 @@ export function DashboardPage() {
               <TabsTrigger value="protocol">
                 <FileText className="mr-2 h-4 w-4" />
                 Protocol
+              </TabsTrigger>
+              <TabsTrigger value="supply">
+                <Package className="mr-2 h-4 w-4" />
+                Supply
               </TabsTrigger>
             </TabsList>
 
@@ -259,6 +271,9 @@ export function DashboardPage() {
 
             <TabsContent value="protocol" className="mt-6">
               <ProtocolDocumentCenter isAdmin={false} />
+            </TabsContent>
+            <TabsContent value="supply" className="mt-6">
+              <TrialOperationsHub />
             </TabsContent>
           </Tabs>
           </>
