@@ -96,7 +96,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
 
       console.log('Registration result:', result);
 
-      if (!result) {
+      if (!result || result.length === 0) {
         setError('Registration failed: No response from database. Please contact support.');
         return;
       }

@@ -13,6 +13,7 @@ function simpleRegisterVet() {
         tc_accepted,
         tc_accepted_at,
         signature_text,
+        verification_status,
         created_at,
         updated_at
       )
@@ -25,10 +26,22 @@ function simpleRegisterVet() {
         true,
         NOW(),
         {{params.signatureText}},
+        'pending',
         NOW(),
         NOW()
       )
-      RETURNING id, email, full_name, tc_accepted, created_at;
+      ON CONFLICT (email) 
+      DO UPDATE SET
+        full_name = EXCLUDED.full_name,
+        password_hash = EXCLUDED.password_hash,
+        license_number = EXCLUDED.license_number,
+        hospital_affiliation = EXCLUDED.hospital_affiliation,
+        tc_accepted = true,
+        tc_accepted_at = NOW(),
+        signature_text = EXCLUDED.signature_text,
+        verification_status = 'pending',
+        updated_at = NOW()
+      RETURNING *;
     `,
   });
 }
