@@ -133,7 +133,7 @@ export function InformedConsentWorkflow({
       witnessName,
       witnessSignature,
       investigatorSignature,
-      icfPdfUrl: `/icf/signed-${patientId}.pdf`,
+      icfPdfUrl: `icf/signed-${patientId}.pdf`,
     });
     setStep('complete');
     onComplete();

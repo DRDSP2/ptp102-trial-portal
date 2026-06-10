@@ -1,7 +1,7 @@
 import '@/index.css';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { AuthSelectionPage } from '@/pages/AuthSelectionPage';
 import { VetLoginPage } from '@/pages/VetLoginPage';
@@ -19,7 +19,7 @@ function App() {
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
       <AuthProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<AuthSelectionPage />} />
             <Route path="/vet/login" element={<VetLoginPage />} />
@@ -45,7 +45,7 @@ function App() {
             />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </AuthProvider>
     </GoogleOAuthProvider>
   );

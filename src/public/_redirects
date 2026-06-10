@@ -1,3 +1,0 @@
-# Cloudflare Pages Redirects
-# All routes -> index.html for SPA routing (200! suppresses loop warning)
-/* /index.html 200!

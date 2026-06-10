@@ -41,7 +41,7 @@ export function ProtocolDocumentCenter({ isAdmin }: { isAdmin: boolean }) {
       versionNumber: newVersion.versionNumber,
       effectiveDate: newVersion.effectiveDate,
       description: newVersion.description,
-      pdfUrl: newVersion.pdfUrl || `/protocols/PTP102-Protocol-${newVersion.versionNumber}.pdf`,
+      pdfUrl: newVersion.pdfUrl || `protocols/PTP102-Protocol-${newVersion.versionNumber}.pdf`,
       uploadedBy: 'admin',
       previousVersion: currentVersion?.version_number || null,
       changeSummary: newVersion.changeSummary,
