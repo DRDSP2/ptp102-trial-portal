@@ -10,6 +10,15 @@ export function AuthSelectionPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      {/* Top Logo Bar */}
+      <div className="bg-black py-4 px-4">
+        <img
+          src="/byrock-logo.png"
+          alt="Byrock Technologies Limited"
+          className="h-14 sm:h-16 w-auto mx-auto object-contain"
+        />
+      </div>
+
       {/* Hero Section */}
       <HeroSection />
 
