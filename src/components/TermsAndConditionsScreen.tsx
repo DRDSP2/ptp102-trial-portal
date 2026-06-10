@@ -20,6 +20,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 const termsSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
   email: z.string().email('Please enter a valid email address'),
+  phone: z.string().min(7, 'Phone number is required').optional().or(z.literal('')),
   password: z.string()
     .min(10, 'Password must be at least 10 characters')
     .regex(/[a-z]/, 'Password needs at least one lowercase letter')
@@ -57,6 +58,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
     defaultValues: {
       fullName: '',
       email: '',
+      phone: '',
       password: '',
       confirmPassword: '',
       licenseNumber: '',
@@ -88,6 +90,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
       const result = await registerVet({
         fullName: values.fullName,
         email: normalizedEmail,
+        phone: values.phone || '',
         passwordHash: hashedPassword,
         licenseNumber: values.licenseNumber,
         hospitalAffiliation: values.hospitalAffiliation,
@@ -277,6 +280,20 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                       <FormLabel>Email Address *</FormLabel>
                       <FormControl>
                         <Input type="email" placeholder="jane.smith@hospital.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input type="tel" placeholder="+1 (555) 123-4567" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

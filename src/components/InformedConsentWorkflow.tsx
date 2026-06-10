@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useMutateAction } from '@uibakery/data';
+import { useLoadAction, useMutateAction } from '@uibakery/data';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,8 +8,13 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { FileUploaderRegular } from '@uploadcare/react-uploader';
+import '@uploadcare/react-uploader/core.css';
 import createInformedConsentAction from '@/actions/createInformedConsent';
 import signInformedConsentAction from '@/actions/signInformedConsent';
+import loadInformedConsentByPatientAction from '@/actions/loadInformedConsentByPatient';
+import jsPDF from 'jspdf';
 import {
   FileText,
   Clock,
@@ -18,7 +23,18 @@ import {
   PenTool,
   Download,
   ShieldAlert,
+  Upload,
+  X,
 } from 'lucide-react';
+
+type UploadcareFileInfo = {
+  uuid: string;
+  name: string;
+  size: number;
+  cdnUrl: string;
+  isImage: boolean;
+  mimeType: string;
+};
 
 const ICF_SECTIONS = [
   {
@@ -51,7 +67,7 @@ const ICF_SECTIONS = [
   },
   {
     title: 'Contact Information',
-    text: 'Principal Investigator: [Name], DVM. 24-Hour Emergency: [Phone]. Sponsor: Byrock Technologies Ltd. [Email]',
+    text: '', // populated dynamically
   },
   {
     title: 'Withdrawal',
@@ -63,25 +79,69 @@ export function InformedConsentWorkflow({
   patientId,
   horseName,
   ownerName,
+  vetEmail,
   onComplete,
 }: {
   patientId: number;
   horseName: string;
   ownerName: string;
+  vetEmail?: string;
   onComplete: () => void;
 }) {
   const [createConsent, creating] = useMutateAction(createInformedConsentAction);
   const [signConsent, signing] = useMutateAction(signInformedConsentAction);
+  const [existingConsents] = useLoadAction(loadInformedConsentByPatientAction, [], { patientId });
 
   const [step, setStep] = useState<'init' | 'viewing' | 'cooling' | 'signing' | 'complete'>('init');
   const [consentId, setConsentId] = useState<number | null>(null);
   const [canSignAfter, setCanSignAfter] = useState<Date | null>(null);
   const [countdown, setCountdown] = useState('');
   const [sectionAcks, setSectionAcks] = useState<Record<number, boolean>>({});
+
+  // Owner contact fields
+  const [ownerPhone, setOwnerPhone] = useState('');
+  const [ownerEmail, setOwnerEmail] = useState('');
+  const [ownerAddress, setOwnerAddress] = useState('');
+  const [ownerRelationship, setOwnerRelationship] = useState('owner');
+
+  // Vet info (auto-populated)
+  const [piName, setPiName] = useState('');
+  const [piPhone, setPiPhone] = useState('');
+
+  // Signatures
   const [ownerSignature, setOwnerSignature] = useState('');
   const [witnessName, setWitnessName] = useState('');
   const [witnessSignature, setWitnessSignature] = useState('');
   const [investigatorSignature, setInvestigatorSignature] = useState('');
+
+  // Scanned document
+  const [scannedDoc, setScannedDoc] = useState<UploadcareFileInfo | null>(null);
+  const [signatureMethod, setSignatureMethod] = useState<'digital' | 'scanned'>('digital');
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Load existing consent
+  useEffect(() => {
+    if (existingConsents && existingConsents.length > 0) {
+      const ec = existingConsents[0] as any;
+      if (ec.status === 'signed' || ec.status === 'approved') {
+        setStep('complete');
+        setConsentId(ec.id);
+      }
+    }
+  }, [existingConsents]);
+
+  // Auto-populate vet info
+  useEffect(() => {
+    if (vetEmail) {
+      const vets = JSON.parse(localStorage.getItem('ptp102_mock_vets') || '[]');
+      const vet = vets.find((v: any) => v.email === vetEmail);
+      if (vet) {
+        setPiName(vet.full_name || '');
+        setPiPhone(vet.phone || '');
+      }
+      setInvestigatorSignature(vet?.full_name || '');
+    }
+  }, [vetEmail]);
 
   useEffect(() => {
     if (step === 'cooling' && canSignAfter) {
@@ -106,16 +166,18 @@ export function InformedConsentWorkflow({
     const result = await createConsent({
       patientId,
       ownerName,
-      ownerAddress: '',
-      ownerPhone: '',
-      ownerEmail: '',
-      ownerRelationship: 'owner',
+      ownerAddress,
+      ownerPhone,
+      ownerEmail,
+      ownerRelationship,
       horseName,
       horseBreed: '',
       horseAge: 0,
       horseWeight: 0,
       horseMicrochip: '',
-      sectionAcknowledgments: {},
+      sectionAcknowledgments: sectionAcks,
+      vetEmail: vetEmail || null,
+      vetPhone: piPhone || null,
     });
     if (result && result.length > 0) {
       setConsentId(result[0].id);
@@ -125,15 +187,194 @@ export function InformedConsentWorkflow({
     }
   };
 
+  const generateICFPDF = () => {
+    const doc = new jsPDF('portrait', 'mm', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 20;
+    let y = 20;
+
+    const addWrapped = (text: string, x: number, yPos: number, maxWidth: number, fontSize = 10) => {
+      doc.setFontSize(fontSize);
+      const lines = doc.splitTextToSize(text, maxWidth);
+      doc.text(lines, x, yPos);
+      return yPos + lines.length * fontSize * 0.45;
+    };
+
+    // Header
+    doc.setFillColor(107, 127, 58);
+    doc.rect(0, 0, pageWidth, 30, 'F');
+    doc.setFontSize(18);
+    doc.setTextColor(255, 255, 255);
+    doc.text('Byrock Technologies Ltd.', margin, 13);
+    doc.setFontSize(10);
+    doc.text('PTP-102 Laminitis Trial — Informed Consent Form', margin, 20);
+    doc.text('FDA CVM INAD Review Pending', margin, 26);
+
+    y = 38;
+    doc.setTextColor(40, 40, 40);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('INFORMED CONSENT FOR PARTICIPATION', margin, y);
+    doc.text('INVESTIGATIONAL NEW ANIMAL DRUG STUDY', margin, y + 6);
+    doc.setFont('helvetica', 'normal');
+
+    y = 52;
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Patient ID: PTP-102-${String(patientId).padStart(3, '0')}`, margin, y);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, margin, y + 4);
+
+    y = 62;
+    doc.setTextColor(40, 40, 40);
+
+    // Patient & Owner Info
+    doc.setFontSize(11);
+    doc.setTextColor(107, 127, 58);
+    doc.setFont('helvetica', 'bold');
+    doc.text('1. PATIENT & OWNER INFORMATION', margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(40, 40, 40);
+    y += 6;
+    const infoRows = [
+      ['Horse Name:', horseName],
+      ['Owner Name:', ownerName],
+      ['Owner Phone:', ownerPhone || 'N/A'],
+      ['Owner Email:', ownerEmail || 'N/A'],
+      ['Owner Address:', ownerAddress || 'N/A'],
+      ['Relationship:', ownerRelationship || 'owner'],
+    ];
+    infoRows.forEach(([label, value]) => {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text(label, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), margin + 45, y);
+      y += 5;
+    });
+
+    // Contact Info
+    y += 4;
+    doc.setFontSize(11);
+    doc.setTextColor(107, 127, 58);
+    doc.setFont('helvetica', 'bold');
+    doc.text('2. CONTACT INFORMATION', margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(40, 40, 40);
+    y += 6;
+    const contactRows = [
+      ['Principal Investigator:', piName || 'N/A'],
+      ['PI Phone:', piPhone || 'N/A'],
+      ['Sponsor:', 'Byrock Technologies Ltd'],
+      ['Sponsor Email:', 'drdsp@pm.me'],
+    ];
+    contactRows.forEach(([label, value]) => {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text(label, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), margin + 55, y);
+      y += 5;
+    });
+
+    // Acknowledgments
+    y += 4;
+    doc.setFontSize(11);
+    doc.setTextColor(107, 127, 58);
+    doc.setFont('helvetica', 'bold');
+    doc.text('3. SECTION ACKNOWLEDGMENTS', margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(40, 40, 40);
+    y += 6;
+    ICF_SECTIONS.forEach((section, i) => {
+      const acked = sectionAcks[i] ? 'YES' : 'NO';
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`${i + 1}. ${section.title} [${acked}]`, margin, y);
+      y += 4;
+    });
+
+    // Signatures
+    y += 4;
+    doc.setFontSize(11);
+    doc.setTextColor(107, 127, 58);
+    doc.setFont('helvetica', 'bold');
+    doc.text('4. SIGNATURES', margin, y);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(40, 40, 40);
+    y += 6;
+    const sigRows = [
+      ['Owner Signature:', ownerSignature || 'N/A'],
+      ['Witness Name:', witnessName || 'N/A'],
+      ['Witness Signature:', witnessSignature || 'N/A'],
+      ['Investigator Signature:', investigatorSignature || 'N/A'],
+      ['Signature Method:', signatureMethod === 'scanned' ? 'Scanned Document' : 'Digital (Typed)'],
+      ['Signed At:', new Date().toLocaleString()],
+    ];
+    sigRows.forEach(([label, value]) => {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.text(label, margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(String(value), margin + 50, y);
+      y += 5;
+    });
+
+    // Acknowledgment statement
+    y += 6;
+    const ackStatement = 'I, the undersigned owner or authorized agent, acknowledge that I have read and understood the informed consent document for the PTP-102 Laminitis Clinical Trial. I understand that PTP-102 is an investigational new animal drug (INAD) under FDA CVM review and has not received marketing approval. I voluntarily consent to my horse\'s participation in this study and understand the risks, benefits, and alternatives described herein. I understand that I may withdraw my horse from the study at any time without penalty.';
+    y = addWrapped(ackStatement, margin, y, pageWidth - margin * 2, 9);
+
+    // Footer
+    const pageCount = doc.internal.pages.length - 1;
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(7);
+      doc.setTextColor(120, 120, 120);
+      doc.text(
+        `Page ${i} of ${pageCount} | Patient: ${horseName} | PTP-102 is an investigational new animal drug (INAD) under FDA CVM review.`,
+        margin,
+        doc.internal.pageSize.height - 10
+      );
+      doc.text(
+        'Byrock Technologies Ltd. — Confidential & Proprietary — For Regulatory Compliance Use Only',
+        margin,
+        doc.internal.pageSize.height - 6
+      );
+    }
+
+    doc.save(`PTP102_ICF_${horseName.replace(/\s+/g, '_')}_${patientId}.pdf`);
+    return doc.output('blob');
+  };
+
   const handleSign = async () => {
     if (!consentId) return;
+
+    let pdfBlob: Blob | null = null;
+    let icfPdfUrl = '';
+
+    if (signatureMethod === 'digital') {
+      if (!ownerSignature || !witnessName || !witnessSignature || !investigatorSignature) {
+        alert('All signatures are required for digital signing.');
+        return;
+      }
+      pdfBlob = generateICFPDF();
+    } else if (signatureMethod === 'scanned') {
+      if (!scannedDoc) {
+        alert('Please upload a scanned signed document.');
+        return;
+      }
+      icfPdfUrl = scannedDoc.cdnUrl;
+    }
+
     await signConsent({
       consentId,
-      ownerSignature,
-      witnessName,
-      witnessSignature,
-      investigatorSignature,
-      icfPdfUrl: `icf/signed-${patientId}.pdf`,
+      ownerSignature: ownerSignature || null,
+      witnessName: witnessName || null,
+      witnessSignature: witnessSignature || null,
+      investigatorSignature: investigatorSignature || null,
+      icfPdfUrl: icfPdfUrl || null,
+      scannedDocumentUrl: scannedDoc?.cdnUrl || null,
+      signatureMethod,
     });
     setStep('complete');
     onComplete();
@@ -154,7 +395,7 @@ export function InformedConsentWorkflow({
           <Alert className="bg-amber-50 border-amber-200">
             <ShieldAlert className="h-4 w-4 text-amber-600" />
             <AlertDescription className="text-amber-800 text-sm">
-              Owner informed consent is required before enrolling {horseName}. 
+              Owner informed consent is required before enrolling {horseName}.
               The owner must view the full consent document and wait 12 hours before signing.
             </AlertDescription>
           </Alert>
@@ -179,6 +420,40 @@ export function InformedConsentWorkflow({
           </div>
         </CardHeader>
         <CardContent className="p-6 space-y-4">
+          {/* Owner Contact Fields */}
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
+            <h4 className="text-sm font-semibold text-blue-900">Owner Contact Information</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label className="text-xs">Owner Phone *</Label>
+                <Input type="tel" value={ownerPhone} onChange={(e) => setOwnerPhone(e.target.value)} placeholder="+1 (555) 123-4567" />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Owner Email *</Label>
+                <Input type="email" value={ownerEmail} onChange={(e) => setOwnerEmail(e.target.value)} placeholder="owner@email.com" />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Owner Address</Label>
+                <Input value={ownerAddress} onChange={(e) => setOwnerAddress(e.target.value)} placeholder="Street, City, State, ZIP" />
+              </div>
+              <div className="space-y-1">
+                <Label className="text-xs">Relationship to Horse</Label>
+                <Input value={ownerRelationship} onChange={(e) => setOwnerRelationship(e.target.value)} placeholder="owner" />
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Info Preview */}
+          <div className="bg-slate-50 border rounded-lg p-4 space-y-2">
+            <h4 className="text-sm font-semibold">Contact Information (Auto-populated)</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <div><span className="font-medium">Principal Investigator:</span> {piName || 'N/A'}</div>
+              <div><span className="font-medium">PI Phone:</span> {piPhone || 'N/A'}</div>
+              <div><span className="font-medium">Sponsor:</span> Byrock Technologies Ltd</div>
+              <div><span className="font-medium">Sponsor Email:</span> drdsp@pm.me</div>
+            </div>
+          </div>
+
           <div className="space-y-4 max-h-96 overflow-y-auto pr-2">
             {ICF_SECTIONS.map((section, i) => (
               <div key={i} className="p-3 border rounded-lg bg-white">
@@ -189,20 +464,30 @@ export function InformedConsentWorkflow({
                   />
                   <div>
                     <p className="text-sm font-semibold">{section.title}</p>
-                    <p className="text-sm text-slate-600 mt-1">{section.text}</p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      {i === 7
+                        ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drdsp@pm.me`
+                        : section.text}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <Alert className={allSectionsAcked ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}>
+
+          <Alert className={allSectionsAcked && ownerPhone && ownerEmail ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}>
             <AlertDescription className="text-sm">
-              {allSectionsAcked
+              {allSectionsAcked && ownerPhone && ownerEmail
                 ? 'All sections acknowledged. You may proceed to the cooling-off period.'
-                : `Please acknowledge all ${ICF_SECTIONS.length} sections before proceeding.`}
+                : `Please acknowledge all ${ICF_SECTIONS.length} sections and provide owner phone/email before proceeding.`}
             </AlertDescription>
           </Alert>
-          <Button onClick={handleBeginICF} disabled={!allSectionsAcked || creating} className="w-full" type="button">
+          <Button
+            onClick={handleBeginICF}
+            disabled={!allSectionsAcked || !ownerPhone || !ownerEmail || creating}
+            className="w-full"
+            type="button"
+          >
             {creating ? 'Processing...' : 'Acknowledge All & Start 12-Hour Cooling Period'}
           </Button>
         </CardContent>
@@ -232,35 +517,95 @@ export function InformedConsentWorkflow({
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <PenTool className="h-5 w-5" />
-            Digital Signatures
+            Consent Signature
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>Owner Name</Label>
-              <Input value={ownerName} readOnly />
-            </div>
-            <div className="space-y-2">
-              <Label>Owner Digital Signature (type full name) *</Label>
-              <Input value={ownerSignature} onChange={(e) => setOwnerSignature(e.target.value)} placeholder="Type full legal name" />
-            </div>
-            <div className="space-y-2">
-              <Label>Witness Name *</Label>
-              <Input value={witnessName} onChange={(e) => setWitnessName(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <Label>Witness Digital Signature *</Label>
-              <Input value={witnessSignature} onChange={(e) => setWitnessSignature(e.target.value)} placeholder="Type full legal name" />
-            </div>
-            <div className="space-y-2 sm:col-span-2">
-              <Label>Investigator Digital Signature *</Label>
-              <Input value={investigatorSignature} onChange={(e) => setInvestigatorSignature(e.target.value)} placeholder="Type full legal name and credentials" />
-            </div>
-          </div>
+          <Tabs value={signatureMethod} onValueChange={(v) => setSignatureMethod(v as 'digital' | 'scanned')}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="digital">Digital Signature</TabsTrigger>
+              <TabsTrigger value="scanned">Upload Scanned Document</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="digital" className="space-y-4 pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Owner Name</Label>
+                  <Input value={ownerName} readOnly />
+                </div>
+                <div className="space-y-2">
+                  <Label>Owner Digital Signature (type full name) *</Label>
+                  <Input value={ownerSignature} onChange={(e) => setOwnerSignature(e.target.value)} placeholder="Type full legal name" />
+                </div>
+                <div className="space-y-2">
+                  <Label>Witness Name *</Label>
+                  <Input value={witnessName} onChange={(e) => setWitnessName(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Witness Digital Signature *</Label>
+                  <Input value={witnessSignature} onChange={(e) => setWitnessSignature(e.target.value)} placeholder="Type full legal name" />
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label>Investigator Digital Signature *</Label>
+                  <Input value={investigatorSignature} onChange={(e) => setInvestigatorSignature(e.target.value)} placeholder="Type full legal name and credentials" />
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="scanned" className="space-y-4 pt-2">
+              {uploadError && (
+                <Alert className="bg-red-50 border-red-200">
+                  <AlertDescription className="text-sm text-red-800">{uploadError}</AlertDescription>
+                </Alert>
+              )}
+              {scannedDoc ? (
+                <div className="border rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium">{scannedDoc.name}</span>
+                    <Button variant="ghost" size="sm" onClick={() => setScannedDoc(null)} type="button">
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  {scannedDoc.isImage && (
+                    <img src={scannedDoc.cdnUrl} alt="Scanned document" className="w-full h-48 object-contain border rounded" />
+                  )}
+                  <p className="text-xs text-slate-500">Uploaded: {scannedDoc.cdnUrl}</p>
+                </div>
+              ) : (
+                <div className="border rounded-lg p-4 bg-slate-50">
+                  <p className="text-sm text-slate-600 mb-3">
+                    Upload a scanned copy of the signed informed consent document (PDF, JPEG, or PNG, max 10MB).
+                  </p>
+                  <FileUploaderRegular
+                    pubkey="65522fb5ee7036edf97b"
+                    classNameUploader="uc-light uc-purple"
+                    sourceList="local, camera, gdrive"
+                    multiple={false}
+                    onFileUploadSuccess={(fileInfo: any) => {
+                      if (fileInfo.size > 10 * 1024 * 1024) {
+                        setUploadError('File exceeds 10MB limit.');
+                        return;
+                      }
+                      if (!fileInfo.mimeType?.match(/(image\/(jpeg|jpg|png)|application\/pdf)/i)) {
+                        setUploadError('Only PDF, JPEG, and PNG files are accepted.');
+                        return;
+                      }
+                      setUploadError(null);
+                      setScannedDoc(fileInfo);
+                    }}
+                  />
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+
           <Button
             onClick={handleSign}
-            disabled={signing || !ownerSignature || !witnessName || !witnessSignature || !investigatorSignature}
+            disabled={
+              signing ||
+              (signatureMethod === 'digital' && (!ownerSignature || !witnessName || !witnessSignature || !investigatorSignature)) ||
+              (signatureMethod === 'scanned' && !scannedDoc)
+            }
             className="w-full"
             type="button"
           >
@@ -277,7 +622,7 @@ export function InformedConsentWorkflow({
         <CheckCircle2 className="h-10 w-10 text-green-600 mx-auto" />
         <h3 className="text-lg font-semibold text-green-900">Informed Consent Complete</h3>
         <p className="text-sm text-green-700">Owner consent has been recorded for {horseName}.</p>
-        <Button variant="outline" size="sm" type="button">
+        <Button variant="outline" size="sm" type="button" onClick={generateICFPDF}>
           <Download className="h-4 w-4 mr-2" />
           Download Signed ICF PDF
         </Button>

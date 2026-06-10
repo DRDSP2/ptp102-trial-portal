@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
+import { FileUploaderRegular } from '@uploadcare/react-uploader';
+import '@uploadcare/react-uploader/core.css';
 import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
 import saveInvestigatorQualificationAction from '@/actions/saveInvestigatorQualification';
 import {
@@ -56,6 +58,15 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
   const [timerActive, setTimerActive] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [externalFileName, setExternalFileName] = useState('');
+
+  // Facility photo uploads
+  const [drugStoragePhoto, setDrugStoragePhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
+  const [emergencyPhoto, setEmergencyPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
+  const [recordsPhoto, setRecordsPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
+  const [showDrugUploader, setShowDrugUploader] = useState(false);
+  const [showEmergencyUploader, setShowEmergencyUploader] = useState(false);
+  const [showRecordsUploader, setShowRecordsUploader] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const totalSlides = 8;
   const PASSING_SCORE = 80;
@@ -445,6 +456,16 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
       agreementAcknowledged: qualification.investigator_agreement_signed || false,
       protocolAcknowledged: qualification.protocol_signed || false,
     });
+    // Populate facility photos from saved qualification
+    if (qualification.drug_storage_photo_url) {
+      setDrugStoragePhoto({ cdnUrl: qualification.drug_storage_photo_url, name: 'Drug Storage' });
+    }
+    if (qualification.emergency_equipment_photo_url) {
+      setEmergencyPhoto({ cdnUrl: qualification.emergency_equipment_photo_url, name: 'Emergency Equipment' });
+    }
+    if (qualification.records_area_photo_url) {
+      setRecordsPhoto({ cdnUrl: qualification.records_area_photo_url, name: 'Records Area' });
+    }
   }, [qualification]);
 
   const updateForm = (field: string, value: any) => {
@@ -473,6 +494,9 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
       protocolSignedAt: form.protocolSigned ? new Date().toISOString() : null,
       protocolSignedVersion: form.protocolSigned ? '1.0' : null,
       protocolSignature: form.protocolSigned ? `${vetEmail}-protocol` : null,
+      drugStoragePhotoUrl: drugStoragePhoto?.cdnUrl ?? null,
+      emergencyEquipmentPhotoUrl: emergencyPhoto?.cdnUrl ?? null,
+      recordsAreaPhotoUrl: recordsPhoto?.cdnUrl ?? null,
       qualificationStatus: form.investigatorAgreementSigned && form.protocolSigned ? 'pending_review' : 'pending_submission',
     });
   };
@@ -796,36 +820,156 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
               </h3>
               <Alert className="bg-blue-50 border-blue-200">
                 <AlertDescription className="text-sm text-blue-800">
-                  Confirm your facility meets the study requirements for drug storage, emergency equipment, and record-keeping.
+                  Confirm your facility meets the study requirements. Upload photos of each area (JPEG/PNG, max 10MB). Photos await administrative approval.
                 </AlertDescription>
               </Alert>
               <div className="space-y-3">
-                {[
-                  { key: 'facilityInspectionCompleted', label: 'Facility inspection completed and meets study requirements' },
-                ].map((item) => (
-                  <div key={item.key} className="flex items-center gap-2">
-                    <Checkbox
-                      checked={form[item.key as keyof typeof form] as boolean}
-                      onCheckedChange={(v) => updateForm(item.key, !!v)}
-                    />
-                    <Label className="font-normal">{item.label}</Label>
-                  </div>
-                ))}
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={form.facilityInspectionCompleted}
+                    onCheckedChange={(v) => updateForm('facilityInspectionCompleted', !!v)}
+                  />
+                  <Label className="font-normal">Facility inspection completed and meets study requirements</Label>
+                </div>
+
+                {uploadError && (
+                  <Alert className="bg-red-50 border-red-200">
+                    <AlertDescription className="text-sm text-red-800">{uploadError}</AlertDescription>
+                  </Alert>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                  {[
-                    { label: 'Drug Storage Area', desc: 'Refrigerated, secure, locked' },
-                    { label: 'Emergency Equipment', desc: 'Crash kit, oxygen, defibrillator' },
-                    { label: 'Records Area', desc: 'Secure filing, fire-safe' },
-                  ].map((item) => (
-                    <div key={item.label} className="border rounded-lg p-3 text-center space-y-2">
-                      <p className="text-sm font-medium">{item.label}</p>
-                      <p className="text-xs text-slate-500">{item.desc}</p>
-                      <Button variant="outline" size="sm" className="w-full" type="button">
+                  {/* Drug Storage */}
+                  <div className="border rounded-lg p-3 text-center space-y-2">
+                    <p className="text-sm font-medium">Drug Storage Area</p>
+                    <p className="text-xs text-slate-500">Refrigerated, secure, locked</p>
+                    {drugStoragePhoto ? (
+                      <div className="space-y-2">
+                        <img src={drugStoragePhoto.cdnUrl} alt="Drug Storage" className="w-full h-24 object-cover rounded-md border" />
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowDrugUploader(true)}>Replace</Button>
+                          <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setDrugStoragePhoto(null); setShowDrugUploader(false); }}>Remove</Button>
+                        </div>
+                      </div>
+                    ) : showDrugUploader ? (
+                      <div className="space-y-2">
+                        <FileUploaderRegular
+                          pubkey="65522fb5ee7036edf97b"
+                          classNameUploader="uc-light uc-purple"
+                          sourceList="local, camera"
+                          imgOnly={true}
+                          multiple={false}
+                          onFileUploadSuccess={(fileInfo: any) => {
+                            if (fileInfo.size > 10 * 1024 * 1024) {
+                              setUploadError('File exceeds 10MB limit.');
+                              return;
+                            }
+                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
+                              setUploadError('Only JPEG and PNG images are accepted.');
+                              return;
+                            }
+                            setUploadError(null);
+                            setDrugStoragePhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setShowDrugUploader(false);
+                          }}
+                        />
+                        <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowDrugUploader(false)}>Cancel</Button>
+                      </div>
+                    ) : (
+                      <Button variant="outline" size="sm" className="w-full" type="button" onClick={() => setShowDrugUploader(true)}>
                         <Upload className="h-3 w-3 mr-1" />
                         Upload Photo
                       </Button>
-                    </div>
-                  ))}
+                    )}
+                  </div>
+
+                  {/* Emergency Equipment */}
+                  <div className="border rounded-lg p-3 text-center space-y-2">
+                    <p className="text-sm font-medium">Emergency Equipment</p>
+                    <p className="text-xs text-slate-500">Crash kit, oxygen, defibrillator</p>
+                    {emergencyPhoto ? (
+                      <div className="space-y-2">
+                        <img src={emergencyPhoto.cdnUrl} alt="Emergency Equipment" className="w-full h-24 object-cover rounded-md border" />
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowEmergencyUploader(true)}>Replace</Button>
+                          <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setEmergencyPhoto(null); setShowEmergencyUploader(false); }}>Remove</Button>
+                        </div>
+                      </div>
+                    ) : showEmergencyUploader ? (
+                      <div className="space-y-2">
+                        <FileUploaderRegular
+                          pubkey="65522fb5ee7036edf97b"
+                          classNameUploader="uc-light uc-purple"
+                          sourceList="local, camera"
+                          imgOnly={true}
+                          multiple={false}
+                          onFileUploadSuccess={(fileInfo: any) => {
+                            if (fileInfo.size > 10 * 1024 * 1024) {
+                              setUploadError('File exceeds 10MB limit.');
+                              return;
+                            }
+                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
+                              setUploadError('Only JPEG and PNG images are accepted.');
+                              return;
+                            }
+                            setUploadError(null);
+                            setEmergencyPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setShowEmergencyUploader(false);
+                          }}
+                        />
+                        <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowEmergencyUploader(false)}>Cancel</Button>
+                      </div>
+                    ) : (
+                      <Button variant="outline" size="sm" className="w-full" type="button" onClick={() => setShowEmergencyUploader(true)}>
+                        <Upload className="h-3 w-3 mr-1" />
+                        Upload Photo
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Records Area */}
+                  <div className="border rounded-lg p-3 text-center space-y-2">
+                    <p className="text-sm font-medium">Records Area</p>
+                    <p className="text-xs text-slate-500">Secure filing, fire-safe</p>
+                    {recordsPhoto ? (
+                      <div className="space-y-2">
+                        <img src={recordsPhoto.cdnUrl} alt="Records Area" className="w-full h-24 object-cover rounded-md border" />
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowRecordsUploader(true)}>Replace</Button>
+                          <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setRecordsPhoto(null); setShowRecordsUploader(false); }}>Remove</Button>
+                        </div>
+                      </div>
+                    ) : showRecordsUploader ? (
+                      <div className="space-y-2">
+                        <FileUploaderRegular
+                          pubkey="65522fb5ee7036edf97b"
+                          classNameUploader="uc-light uc-purple"
+                          sourceList="local, camera"
+                          imgOnly={true}
+                          multiple={false}
+                          onFileUploadSuccess={(fileInfo: any) => {
+                            if (fileInfo.size > 10 * 1024 * 1024) {
+                              setUploadError('File exceeds 10MB limit.');
+                              return;
+                            }
+                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
+                              setUploadError('Only JPEG and PNG images are accepted.');
+                              return;
+                            }
+                            setUploadError(null);
+                            setRecordsPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setShowRecordsUploader(false);
+                          }}
+                        />
+                        <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowRecordsUploader(false)}>Cancel</Button>
+                      </div>
+                    ) : (
+                      <Button variant="outline" size="sm" className="w-full" type="button" onClick={() => setShowRecordsUploader(true)}>
+                        <Upload className="h-3 w-3 mr-1" />
+                        Upload Photo
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

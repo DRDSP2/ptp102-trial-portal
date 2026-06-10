@@ -9,11 +9,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Eye, Trash2, FileText, Loader2, Pencil, CheckCircle2, XCircle } from 'lucide-react';
+import { Eye, Trash2, FileText, Loader2, Pencil, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { generatePatientTrialReport } from '@/lib/reportGenerator';
 import approvePatientScreeningAction from '@/actions/approvePatientScreening';
 import rejectPatientScreeningAction from '@/actions/rejectPatientScreening';
+import requestPatientDetailsAction from '@/actions/requestPatientDetails';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 
@@ -28,6 +29,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
   const [deletePatient, isDeleting] = useMutateAction(deletePatientAction);
   const [approvePatient, isApproving] = useMutateAction(approvePatientScreeningAction);
   const [rejectPatient, isRejecting] = useMutateAction(rejectPatientScreeningAction);
+  const [requestDetails, isRequesting] = useMutateAction(requestPatientDetailsAction);
   const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState<Patient | null>(null);
@@ -37,7 +39,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
   const [patientIdForExport, setPatientIdForExport] = useState<number | null>(null);
   const [screenDialogOpen, setScreenDialogOpen] = useState(false);
   const [screenPatient, setScreenPatient] = useState<Patient | null>(null);
-  const [screenAction, setScreenAction] = useState<'approve' | 'reject' | null>(null);
+  const [screenAction, setScreenAction] = useState<'approve' | 'reject' | 'awaiting_details' | null>(null);
   const [screenNotes, setScreenNotes] = useState('');
   
   const [completeData, loadingComplete, completeError] = useLoadAction(
@@ -123,6 +125,17 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
       );
     }
 
+    if (screeningStatus === 'awaiting_details') {
+      return (
+        <div className="flex flex-wrap gap-1">
+          <Badge variant={variants[status] || 'secondary'}>{status}</Badge>
+          <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-300">
+            Awaiting Details
+          </Badge>
+        </div>
+      );
+    }
+
     return <Badge variant={variants[status] || 'default'}>{status}</Badge>;
   };
 
@@ -169,7 +182,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
     setPatientIdForExport(patient.id);
   };
 
-  const handleScreenClick = (patient: Patient, action: 'approve' | 'reject') => {
+  const handleScreenClick = (patient: Patient, action: 'approve' | 'reject' | 'awaiting_details') => {
     setScreenPatient(patient);
     setScreenAction(action);
     setScreenNotes('');
@@ -195,7 +208,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
             }
           ).catch(err => console.error('Email notification failed:', err));
         }
-      } else {
+      } else if (screenAction === 'reject') {
         if (!screenNotes.trim()) {
           alert('Rejection notes are required');
           return;
@@ -211,6 +224,25 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
               'Breed': screenPatient.breed,
               'Status': 'Rejected from PTP-102 trial',
               'Reason': screenNotes,
+            }
+          ).catch(err => console.error('Email notification failed:', err));
+        }
+      } else if (screenAction === 'awaiting_details') {
+        if (!screenNotes.trim()) {
+          alert('Please describe what details are missing');
+          return;
+        }
+        await requestDetails({ patientId: screenPatient.id, adminEmail, notes: screenNotes, messageToVet: screenNotes });
+        if (screenPatient.enrolled_by_vet_email) {
+          sendNotification(
+            sendEmail,
+            NotificationType.VET_REJECTED,
+            `⏳ Awaiting Further Details: ${screenPatient.horse_name}`,
+            {
+              'Horse Name': screenPatient.horse_name,
+              'Breed': screenPatient.breed,
+              'Status': 'Awaiting further details from vet',
+              'Message': screenNotes,
             }
           ).catch(err => console.error('Email notification failed:', err));
         }
@@ -324,7 +356,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                     </Button>
                     {isAdmin && (
                       <>
-                        {(patient as any).screening_status === 'pending_screening' && (
+                        {((patient as any).screening_status === 'pending_screening' || (patient as any).screening_status === 'awaiting_details') && (
                           <>
                             <Button
                               variant="ghost"
@@ -332,9 +364,21 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                               onClick={() => handleScreenClick(patient, 'approve')}
                               type="button"
                               className="text-green-600 hover:text-green-700 hover:bg-green-50"
-                              disabled={isApproving || isRejecting}
+                              disabled={isApproving || isRejecting || isRequesting}
+                              title="Admit"
                             >
                               <CheckCircle2 className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleScreenClick(patient, 'awaiting_details')}
+                              type="button"
+                              className="text-amber-600 hover:text-amber-700 hover:bg-amber-50"
+                              disabled={isApproving || isRejecting || isRequesting}
+                              title="Awaiting Further Details"
+                            >
+                              <AlertCircle className="h-4 w-4" />
                             </Button>
                             <Button
                               variant="ghost"
@@ -342,7 +386,8 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                               onClick={() => handleScreenClick(patient, 'reject')}
                               type="button"
                               className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                              disabled={isApproving || isRejecting}
+                              disabled={isApproving || isRejecting || isRequesting}
+                              title="Reject"
                             >
                               <XCircle className="h-4 w-4" />
                             </Button>
@@ -382,44 +427,75 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
       </Dialog>
 
       <Dialog open={screenDialogOpen} onOpenChange={setScreenDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>
-              {screenAction === 'approve' ? 'Approve Patient for Trial' : 'Reject Patient Enrollment'}
+              {screenAction === 'approve'
+                ? 'Admit Patient to Trial'
+                : screenAction === 'reject'
+                ? 'Reject Patient Enrollment'
+                : 'Awaiting Further Details'}
             </DialogTitle>
             <DialogDescription>
               {screenAction === 'approve'
-                ? `Approve ${screenPatient?.horse_name} for the PTP-102 laminitis trial.`
-                : `Reject ${screenPatient?.horse_name} from the PTP-102 laminitis trial.`}
+                ? `Admit ${screenPatient?.horse_name} for the PTP-102 laminitis trial.`
+                : screenAction === 'reject'
+                ? `Reject ${screenPatient?.horse_name} from the PTP-102 laminitis trial.`
+                : `Request additional information for ${screenPatient?.horse_name} before proceeding.`}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             <label className="text-sm font-medium">
-              {screenAction === 'approve' ? 'Approval Notes (optional)' : 'Rejection Reason (required)'}
+              {screenAction === 'approve'
+                ? 'Admission Notes (optional)'
+                : screenAction === 'reject'
+                ? 'Rejection Reason (required)'
+                : 'Message to Veterinarian (required)'}
             </label>
             <textarea
               className="w-full min-h-[80px] px-3 py-2 border rounded-md text-sm"
-              placeholder={screenAction === 'approve' ? 'Optional notes...' : 'Reason for rejection...'}
+              placeholder={
+                screenAction === 'approve'
+                  ? 'Optional notes...'
+                  : screenAction === 'reject'
+                  ? 'Reason for rejection...'
+                  : 'Describe what information or documents are missing...'
+              }
               value={screenNotes}
               onChange={(e) => setScreenNotes(e.target.value)}
             />
+            {screenPatient?.status_history && screenPatient.status_history.length > 0 && (
+              <div className="bg-slate-50 rounded-lg p-3 space-y-2">
+                <p className="text-xs font-semibold text-slate-700 uppercase">Status History</p>
+                <div className="space-y-1 max-h-24 overflow-y-auto">
+                  {screenPatient.status_history.map((entry, i) => (
+                    <div key={i} className="text-xs flex justify-between">
+                      <span className="font-medium capitalize">{entry.status.replace(/_/g, ' ')}</span>
+                      <span className="text-slate-500">{entry.admin} — {new Date(entry.timestamp).toLocaleString()}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={handleScreenCancel} type="button">
               Cancel
             </Button>
             <Button
-              variant={screenAction === 'approve' ? 'default' : 'destructive'}
+              variant={screenAction === 'approve' ? 'default' : screenAction === 'reject' ? 'destructive' : 'secondary'}
               onClick={handleScreenConfirm}
               type="button"
-              disabled={isApproving || isRejecting || (screenAction === 'reject' && !screenNotes.trim())}
-              className={screenAction === 'approve' ? 'bg-green-600 hover:bg-green-700' : ''}
+              disabled={isApproving || isRejecting || isRequesting || ((screenAction === 'reject' || screenAction === 'awaiting_details') && !screenNotes.trim())}
+              className={screenAction === 'approve' ? 'bg-green-600 hover:bg-green-700' : screenAction === 'awaiting_details' ? 'bg-amber-600 hover:bg-amber-700 text-white' : ''}
             >
-              {isApproving || isRejecting
+              {isApproving || isRejecting || isRequesting
                 ? 'Processing...'
                 : screenAction === 'approve'
-                ? 'Confirm Approval'
-                : 'Confirm Rejection'}
+                ? 'Admit'
+                : screenAction === 'reject'
+                ? 'Confirm Rejection'
+                : 'Send Request'}
             </Button>
           </DialogFooter>
         </DialogContent>

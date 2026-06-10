@@ -7,14 +7,17 @@ export type Patient = {
   sex: string;
   owner_name: string;
   owner_contact: string;
+  owner_email?: string | null;
+  owner_phone?: string | null;
   enrollment_date: string;
   trial_status: string;
-  screening_status?: 'pending_screening' | 'approved' | 'rejected' | null;
+  screening_status?: 'pending_screening' | 'approved' | 'rejected' | 'awaiting_details' | null;
   screening_notes?: string | null;
   screened_by?: string | null;
   screened_at?: string | null;
   eligibility_verified: boolean;
   consent_date: string | null;
+  consent_id?: number | null;
   digital_pulse?: string | null;
   hoof_wall_temperature?: string | null;
   coronary_band_condition?: string | null;
@@ -29,4 +32,6 @@ export type Patient = {
   enrolled_by_vet_email?: string | null;
   created_at: string;
   updated_at: string;
+  status_history?: { status: string; timestamp: string; admin: string; notes: string }[];
+  audit_log?: { action: string; user: string; timestamp: string; details?: string }[];
 };

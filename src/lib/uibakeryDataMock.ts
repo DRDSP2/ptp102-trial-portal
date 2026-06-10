@@ -28,6 +28,7 @@ const STORAGE_KEYS = {
   assessments: 'ptp102_mock_assessments',
   labResults: 'ptp102_mock_lab_results',
   investigatorQuals: 'ptp102_mock_investigator_quals',
+  informedConsents: 'ptp102_mock_informed_consents',
 };
 
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -67,14 +68,17 @@ type LocalPatient = {
   sex: string;
   owner_name: string;
   owner_contact: string;
+  owner_email: string | null;
+  owner_phone: string | null;
   enrollment_date: string;
   trial_status: string;
-  screening_status: 'pending_screening' | 'approved' | 'rejected';
+  screening_status: 'pending_screening' | 'approved' | 'rejected' | 'awaiting_details';
   screening_notes: string | null;
   screened_by: string | null;
   screened_at: string | null;
   eligibility_verified: boolean;
   consent_date: string | null;
+  consent_id: number | null;
   digital_pulse?: string | null;
   hoof_wall_temperature?: string | null;
   coronary_band_condition?: string | null;
@@ -89,20 +93,25 @@ type LocalPatient = {
   enrolled_by_vet_email?: string | null;
   created_at: string;
   updated_at: string;
+  status_history: { status: string; timestamp: string; admin: string; notes: string }[];
+  audit_log: AuditEntry[];
 };
 
 type LocalPatientParams = Partial<LocalPatient> & {
   horseName?: string;
   ownerName?: string;
   ownerContact?: string;
+  ownerEmail?: string | null;
+  ownerPhone?: string | null;
   enrollmentDate?: string;
   trialStatus?: string;
-  screeningStatus?: 'pending_screening' | 'approved' | 'rejected';
+  screeningStatus?: 'pending_screening' | 'approved' | 'rejected' | 'awaiting_details';
   screeningNotes?: string | null;
   screenedBy?: string | null;
   screenedAt?: string | null;
   eligibilityVerified?: boolean;
   consentDate?: string | null;
+  consentId?: number | null;
   digitalPulse?: string | null;
   hoofWallTemperature?: string | null;
   coronaryBandCondition?: string | null;
@@ -199,6 +208,8 @@ function createLocalPatient(params: LocalPatientParams = {}) {
     sex: params.sex ?? '',
     owner_name: params.ownerName ?? params.owner_name ?? '',
     owner_contact: params.ownerContact ?? params.owner_contact ?? '',
+    owner_email: params.ownerEmail ?? params.owner_email ?? null,
+    owner_phone: params.ownerPhone ?? params.owner_phone ?? null,
     enrollment_date: params.enrollmentDate ?? params.enrollment_date ?? now.slice(0, 10),
     trial_status: params.trialStatus ?? params.trial_status ?? 'screening',
     screening_status: params.screeningStatus ?? params.screening_status ?? 'pending_screening',
@@ -207,6 +218,7 @@ function createLocalPatient(params: LocalPatientParams = {}) {
     screened_at: params.screenedAt ?? params.screened_at ?? null,
     eligibility_verified: params.eligibilityVerified ?? params.eligibility_verified ?? false,
     consent_date: params.consentDate ?? params.consent_date ?? null,
+    consent_id: params.consentId ?? params.consent_id ?? null,
     digital_pulse: params.digitalPulse ?? params.digital_pulse ?? null,
     hoof_wall_temperature: params.hoofWallTemperature ?? params.hoof_wall_temperature ?? null,
     coronary_band_condition: params.coronaryBandCondition ?? params.coronary_band_condition ?? null,
@@ -221,6 +233,8 @@ function createLocalPatient(params: LocalPatientParams = {}) {
     enrolled_by_vet_email: params.enrolledByVetEmail ?? params.enrolled_by_vet_email ?? null,
     created_at: now,
     updated_at: now,
+    status_history: [],
+    audit_log: [],
   };
 
   patients.push(patient);
@@ -235,6 +249,7 @@ type LocalVet = {
   id: number;
   full_name: string;
   email: string;
+  phone: string | null;
   password_hash: string;
   license_number: string;
   hospital_affiliation: string;
@@ -367,6 +382,13 @@ function saveLabResults(labResults: LocalLabResult[]) {
 // ---------------------------------------------------------------------------
 // Investigator Qualifications
 // ---------------------------------------------------------------------------
+type AuditEntry = {
+  action: string;
+  user: string;
+  timestamp: string;
+  details?: string;
+};
+
 type LocalInvestigatorQual = {
   id: number;
   veterinarian_id: number;
@@ -386,8 +408,11 @@ type LocalInvestigatorQual = {
   facility_inspection_completed: boolean | null;
   facility_inspection_date: string | null;
   drug_storage_photo_url: string | null;
+  drug_storage_photo_status: 'pending' | 'approved' | 'rejected' | null;
   emergency_equipment_photo_url: string | null;
+  emergency_equipment_photo_status: 'pending' | 'approved' | 'rejected' | null;
   records_area_photo_url: string | null;
+  records_area_photo_status: 'pending' | 'approved' | 'rejected' | null;
   facility_checklist: Record<string, unknown> | null;
   investigator_agreement_signed: boolean | null;
   investigator_agreement_signed_at: string | null;
@@ -398,10 +423,45 @@ type LocalInvestigatorQual = {
   protocol_signature: string | null;
   qualification_status: string | null;
   status: 'pending' | 'approved' | 'rejected';
+  audit_log: AuditEntry[];
   created_at: string;
   updated_at: string;
   // backward compatibility: old blob format
   qualifications_data?: Record<string, unknown>;
+};
+
+type LocalInformedConsent = {
+  id: number;
+  patient_id: number;
+  vet_id: number | null;
+  vet_email: string | null;
+  vet_phone: string | null;
+  owner_name: string;
+  owner_address: string | null;
+  owner_phone: string;
+  owner_email: string;
+  owner_relationship: string | null;
+  horse_name: string;
+  horse_breed: string | null;
+  horse_age: number | null;
+  horse_weight: number | null;
+  horse_microchip: string | null;
+  section_acknowledgments: Record<string, boolean>;
+  owner_signature: string | null;
+  witness_name: string | null;
+  witness_signature: string | null;
+  investigator_signature: string | null;
+  icf_pdf_url: string | null;
+  scanned_document_url: string | null;
+  signature_method: 'digital' | 'scanned' | null;
+  signed_at: string | null;
+  status: 'pending' | 'signed' | 'approved' | 'rejected';
+  admin_notes: string | null;
+  admin_reviewed_by: string | null;
+  admin_reviewed_at: string | null;
+  audit_log: AuditEntry[];
+  created_at: string;
+  updated_at: string;
 };
 
 function migrateInvestigatorQual(qual: LocalInvestigatorQual): LocalInvestigatorQual {
@@ -431,7 +491,13 @@ function migrateInvestigatorQual(qual: LocalInvestigatorQual): LocalInvestigator
 
 function getInvestigatorQuals(): LocalInvestigatorQual[] {
   const raw = loadFromStorage<LocalInvestigatorQual[]>(STORAGE_KEYS.investigatorQuals, []);
-  return raw.map(migrateInvestigatorQual);
+  return raw.map((q) => ({
+    ...migrateInvestigatorQual(q),
+    audit_log: q.audit_log ?? [],
+    drug_storage_photo_status: q.drug_storage_photo_status ?? (q.drug_storage_photo_url ? 'pending' : null),
+    emergency_equipment_photo_status: q.emergency_equipment_photo_status ?? (q.emergency_equipment_photo_url ? 'pending' : null),
+    records_area_photo_status: q.records_area_photo_status ?? (q.records_area_photo_url ? 'pending' : null),
+  }));
 }
 
 function saveInvestigatorQuals(quals: LocalInvestigatorQual[]) {
@@ -446,6 +512,14 @@ function buildInvestigatorQualRow(qual: LocalInvestigatorQual, vet: LocalVet | u
     hospital_affiliation: vet?.hospital_affiliation ?? null,
     verification_status: vet?.verification_status ?? null,
   };
+}
+
+function getInformedConsents(): LocalInformedConsent[] {
+  return loadFromStorage<LocalInformedConsent[]>(STORAGE_KEYS.informedConsents, []);
+}
+
+function saveInformedConsents(consents: LocalInformedConsent[]) {
+  saveToStorage(STORAGE_KEYS.informedConsents, consents);
 }
 
 // ---------------------------------------------------------------------------
@@ -542,6 +616,14 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
       return;
     }
 
+    if (name === 'loadInformedConsentByPatient') {
+      const loadParams = _params as { patientId?: number } | undefined;
+      const consents = getInformedConsents().filter((c) => c.patient_id === loadParams?.patientId);
+      setData(consents as unknown[]);
+      setLoading(false);
+      return;
+    }
+
     if (name === 'loadAdminStatistics') {
       const patients = getPatients();
       setData([{
@@ -634,7 +716,9 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
     }
 
     if (name === 'loadInformedConsentByPatient') {
-      setData([]);
+      const loadParams = _params as { patientId?: number } | undefined;
+      const consents = getInformedConsents().filter((c) => c.patient_id === loadParams?.patientId);
+      setData(consents as unknown[]);
       setLoading(false);
       return;
     }
@@ -783,6 +867,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const p = params as {
             fullName?: string;
             email?: string;
+            phone?: string;
             passwordHash?: string;
             licenseNumber?: string;
             hospitalAffiliation?: string;
@@ -796,6 +881,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
           if (existing) {
             // Update existing (ON CONFLICT behaviour)
             existing.full_name = p.fullName ?? existing.full_name;
+            existing.phone = p.phone ?? existing.phone;
             existing.password_hash = p.passwordHash ?? existing.password_hash;
             existing.license_number = p.licenseNumber ?? existing.license_number;
             existing.hospital_affiliation = p.hospitalAffiliation ?? existing.hospital_affiliation;
@@ -810,6 +896,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
             id: vets.length > 0 ? Math.max(...vets.map((v) => v.id)) + 1 : 1,
             full_name: p.fullName ?? '',
             email,
+            phone: p.phone ?? null,
             password_hash: p.passwordHash ?? '',
             license_number: p.licenseNumber ?? '',
             hospital_affiliation: p.hospitalAffiliation ?? '',
@@ -942,19 +1029,43 @@ export function useMutateAction(actionName: ActionFactory | string) {
         // -------------------------------------------------------------------
         // Patient Screening
         // -------------------------------------------------------------------
-        if (name === 'approvePatientScreening' || name === 'rejectPatientScreening') {
-          const p = params as { patientId?: number; adminEmail?: string; notes?: string | null } | undefined;
+        if (name === 'approvePatientScreening' || name === 'rejectPatientScreening' || name === 'requestPatientDetails') {
+          const p = params as { patientId?: number; adminEmail?: string; notes?: string | null; messageToVet?: string | null } | undefined;
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (!patient) return [];
 
           const now = new Date().toISOString();
-          patient.screening_status = name === 'approvePatientScreening' ? 'approved' : 'rejected';
-          patient.trial_status = name === 'approvePatientScreening' ? 'enrolled' : 'withdrawn';
+          const admin = p?.adminEmail ?? LOCAL_ADMIN.email;
+          const actionName = name === 'approvePatientScreening' ? 'Admit' : name === 'rejectPatientScreening' ? 'Reject' : 'Awaiting Further Details';
+          const newStatus = name === 'approvePatientScreening' ? 'approved' : name === 'rejectPatientScreening' ? 'rejected' : 'awaiting_details';
+          const newTrialStatus = name === 'approvePatientScreening' ? 'enrolled' : name === 'rejectPatientScreening' ? 'withdrawn' : 'screening';
+
+          patient.screening_status = newStatus;
+          patient.trial_status = newTrialStatus;
           patient.screening_notes = p?.notes ?? null;
-          patient.screened_by = p?.adminEmail ?? LOCAL_ADMIN.email;
+          patient.screened_by = admin;
           patient.screened_at = now;
           patient.updated_at = now;
+
+          // Status history
+          patient.status_history = patient.status_history ?? [];
+          patient.status_history.push({
+            status: newStatus,
+            timestamp: now,
+            admin,
+            notes: p?.notes ?? '',
+          });
+
+          // Audit log
+          patient.audit_log = patient.audit_log ?? [];
+          patient.audit_log.push({
+            action: actionName,
+            user: admin,
+            timestamp: now,
+            details: p?.notes || p?.messageToVet || `Patient ${newStatus}`,
+          });
+
           savePatients(patients);
           return [patient];
         }
@@ -1239,8 +1350,54 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'createInformedConsent') {
-          console.info('[Mock] Informed consent created (stub):', params);
-          return [{ id: 1 }];
+          const p = params as Record<string, unknown> | undefined;
+          const consents = getInformedConsents();
+          const now = new Date().toISOString();
+          const newConsent: LocalInformedConsent = {
+            id: consents.length > 0 ? Math.max(...consents.map((c) => c.id)) + 1 : 1,
+            patient_id: (p?.patientId as number) ?? 0,
+            vet_id: (p?.vetId as number) ?? null,
+            vet_email: (p?.vetEmail as string) ?? null,
+            vet_phone: (p?.vetPhone as string) ?? null,
+            owner_name: (p?.ownerName as string) ?? '',
+            owner_address: (p?.ownerAddress as string) ?? null,
+            owner_phone: (p?.ownerPhone as string) ?? '',
+            owner_email: (p?.ownerEmail as string) ?? '',
+            owner_relationship: (p?.ownerRelationship as string) ?? null,
+            horse_name: (p?.horseName as string) ?? '',
+            horse_breed: (p?.horseBreed as string) ?? null,
+            horse_age: (p?.horseAge as number) ?? null,
+            horse_weight: (p?.horseWeight as number) ?? null,
+            horse_microchip: (p?.horseMicrochip as string) ?? null,
+            section_acknowledgments: (p?.sectionAcknowledgments as Record<string, boolean>) ?? {},
+            owner_signature: null,
+            witness_name: null,
+            witness_signature: null,
+            investigator_signature: null,
+            icf_pdf_url: null,
+            scanned_document_url: null,
+            signature_method: null,
+            signed_at: null,
+            status: 'pending',
+            admin_notes: null,
+            admin_reviewed_by: null,
+            admin_reviewed_at: null,
+            audit_log: [],
+            created_at: now,
+            updated_at: now,
+          };
+          consents.push(newConsent);
+          saveInformedConsents(consents);
+          // Link to patient
+          const patients = getPatients();
+          const patient = patients.find((pt) => pt.id === newConsent.patient_id);
+          if (patient) {
+            patient.consent_id = newConsent.id;
+            patient.consent_date = now;
+            patient.updated_at = now;
+            savePatients(patients);
+          }
+          return [newConsent];
         }
 
         if (name === 'createEnrollmentEligibility') {
@@ -1309,8 +1466,31 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'signInformedConsent') {
-          console.info('[Mock] Informed consent signed (stub):', params);
-          return [{ id: 1 }];
+          const p = params as Record<string, unknown> | undefined;
+          const consents = getInformedConsents();
+          const consentId = (p?.consentId as number) ?? (p?.id as number) ?? 0;
+          const consent = consents.find((c) => c.id === consentId);
+          if (!consent) return [];
+
+          const now = new Date().toISOString();
+          consent.owner_signature = (p?.ownerSignature as string) ?? consent.owner_signature;
+          consent.witness_name = (p?.witnessName as string) ?? consent.witness_name;
+          consent.witness_signature = (p?.witnessSignature as string) ?? consent.witness_signature;
+          consent.investigator_signature = (p?.investigatorSignature as string) ?? consent.investigator_signature;
+          consent.icf_pdf_url = (p?.icfPdfUrl as string) ?? consent.icf_pdf_url;
+          consent.scanned_document_url = (p?.scannedDocumentUrl as string) ?? consent.scanned_document_url;
+          consent.signature_method = (p?.signatureMethod as 'digital' | 'scanned') ?? consent.signature_method;
+          consent.signed_at = now;
+          consent.status = 'signed';
+          consent.updated_at = now;
+          consent.audit_log.push({
+            action: 'Consent Signed',
+            user: consent.vet_email || 'Unknown',
+            timestamp: now,
+            details: `Method: ${consent.signature_method}`,
+          });
+          saveInformedConsents(consents);
+          return [consent];
         }
 
         if (name === 'updateStudySettings') {

@@ -183,6 +183,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
           patientId={patientId}
           horseName={patient.horse_name}
           ownerName={patient.owner_name}
+          vetEmail={patient.enrolled_by_vet_email || undefined}
           onComplete={() => handleRefresh()}
         />
       </div>

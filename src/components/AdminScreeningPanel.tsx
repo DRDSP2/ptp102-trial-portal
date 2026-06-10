@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useMutateAction } from '@uibakery/data';
 import approvePatientScreeningAction from '@/actions/approvePatientScreening';
 import rejectPatientScreeningAction from '@/actions/rejectPatientScreening';
+import requestPatientDetailsAction from '@/actions/requestPatientDetails';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { CheckCircle2, XCircle, AlertCircle, Clock } from 'lucide-react';
 import { Patient } from '@/types/patient';
 
 type AdminScreeningPanelProps = {
@@ -19,9 +21,11 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
   const [notes, setNotes] = useState('');
   const [showApprove, setShowApprove] = useState(false);
   const [showReject, setShowReject] = useState(false);
+  const [showAwaiting, setShowAwaiting] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
   const [approvePatient, isApproving] = useMutateAction(approvePatientScreeningAction);
   const [rejectPatient, isRejecting] = useMutateAction(rejectPatientScreeningAction);
+  const [requestDetails, isRequesting] = useMutateAction(requestPatientDetailsAction);
 
   const adminEmail = localStorage.getItem('admin_email') || 'Unknown Admin';
 
@@ -59,10 +63,31 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
     }
   };
 
+  const handleAwaitingDetails = async () => {
+    if (!notes.trim()) {
+      alert('Please describe what details are missing');
+      return;
+    }
+    try {
+      await requestDetails({
+        patientId: patient.id,
+        adminEmail,
+        notes,
+        messageToVet: notes,
+      });
+      setNotes('');
+      setShowAwaiting(false);
+      onUpdate();
+    } catch (error) {
+      console.error('Failed to request details:', error);
+    }
+  };
+
   const screeningStatus = (patient as any).screening_status || 'pending_screening';
   const screenedBy = (patient as any).screened_by;
   const screenedAt = (patient as any).screened_at;
   const screeningNotes = (patient as any).screening_notes;
+  const statusHistory = (patient as any).status_history || [];
 
   const patientData = patient as any;
 
@@ -96,6 +121,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
               </div>
             )}
           </div>
+          <StatusHistory history={statusHistory} />
         </CardContent>
       </Card>
     );
@@ -121,6 +147,76 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
               </div>
             )}
           </div>
+          <StatusHistory history={statusHistory} />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (screeningStatus === 'awaiting_details') {
+    return (
+      <Card className="border-amber-200 bg-amber-50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-amber-900">
+            <Clock className="h-5 w-5" />
+            Awaiting Further Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Alert className="bg-white border-amber-300">
+            <AlertDescription className="text-sm text-amber-800">
+              This patient submission requires additional information from the veterinarian before it can be reviewed.
+            </AlertDescription>
+          </Alert>
+          <div className="space-y-2 text-sm text-amber-800">
+            <p><strong>Requested by:</strong> {screenedBy}</p>
+            {screenedAt && <p><strong>Date:</strong> {new Date(screenedAt).toLocaleString()}</p>}
+            {screeningNotes && (
+              <div>
+                <strong>Message to Vet:</strong>
+                <p className="mt-1 p-2 bg-white rounded border border-amber-200">{screeningNotes}</p>
+              </div>
+            )}
+          </div>
+          <StatusHistory history={statusHistory} />
+
+          {/* Admin can still take action */}
+          <div className="flex gap-2 pt-2">
+            <Button onClick={() => setShowApprove(true)} className="flex-1 bg-green-600 hover:bg-green-700" type="button">
+              <CheckCircle2 className="mr-2 h-4 w-4" />
+              Admit
+            </Button>
+            <Button onClick={() => setShowReject(true)} variant="destructive" className="flex-1" type="button">
+              <XCircle className="mr-2 h-4 w-4" />
+              Reject
+            </Button>
+          </div>
+
+          {showApprove && (
+            <div className="space-y-3 p-4 bg-white rounded-lg border border-green-200">
+              <h4 className="font-medium text-green-900">Admit Patient to Trial</h4>
+              <Textarea placeholder="Optional admission notes..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
+              <div className="flex gap-2">
+                <Button onClick={handleApprove} disabled={isApproving} className="bg-green-600 hover:bg-green-700" type="button">
+                  {isApproving ? 'Admitting...' : 'Confirm Admission'}
+                </Button>
+                <Button onClick={() => { setShowApprove(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
+              </div>
+            </div>
+          )}
+
+          {showReject && (
+            <div className="space-y-3 p-4 bg-white rounded-lg border border-red-200">
+              <h4 className="font-medium text-red-900">Reject Patient Enrollment</h4>
+              <Textarea placeholder="Rejection reason (required)..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
+              <div className="flex gap-2">
+                <Button onClick={handleReject} disabled={isRejecting || !notes.trim()} variant="destructive" type="button">
+                  {isRejecting ? 'Rejecting...' : 'Confirm Rejection'}
+                </Button>
+                <Button onClick={() => { setShowReject(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     );
@@ -134,12 +230,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
             <AlertCircle className="h-5 w-5" />
             Screening Required
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowDetails(!showDetails)}
-            type="button"
-          >
+          <Button variant="ghost" size="sm" onClick={() => setShowDetails(!showDetails)} type="button">
             {showDetails ? 'Hide Details' : 'Show Details'}
           </Button>
         </CardTitle>
@@ -147,8 +238,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
       <CardContent className="space-y-4">
         <Alert className="bg-white border-orange-300">
           <AlertDescription className="text-sm text-orange-800">
-            This patient is pending admin screening approval before treatment can begin.
-            Review eligibility criteria and approve or reject enrollment.
+            This patient is pending admin screening. Review all fields and attachments, then choose an action.
           </AlertDescription>
         </Alert>
 
@@ -168,6 +258,8 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
             <div className="grid grid-cols-2 gap-3">
               <DetailRow label="Owner Name" value={patientData.owner_name} />
               <DetailRow label="Contact" value={patientData.owner_contact} />
+              <DetailRow label="Owner Email" value={patientData.owner_email} />
+              <DetailRow label="Owner Phone" value={patientData.owner_phone} />
             </div>
 
             <h4 className="font-semibold text-slate-900 border-b pb-2 pt-2">Clinical Examination - Laminitis Indicators</h4>
@@ -207,53 +299,45 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
           </div>
         )}
 
-        {!showApprove && !showReject && (
-          <div className="flex gap-2">
-            <Button
-              onClick={() => setShowApprove(true)}
-              className="flex-1 bg-green-600 hover:bg-green-700"
-              type="button"
-            >
+        {!showApprove && !showReject && !showAwaiting && (
+          <div className="flex gap-2 flex-wrap">
+            <Button onClick={() => setShowApprove(true)} className="flex-1 bg-green-600 hover:bg-green-700" type="button">
               <CheckCircle2 className="mr-2 h-4 w-4" />
-              Approve for Trial
+              Admit
             </Button>
-            <Button
-              onClick={() => setShowReject(true)}
-              variant="destructive"
-              className="flex-1"
-              type="button"
-            >
+            <Button onClick={() => setShowAwaiting(true)} variant="secondary" className="flex-1 bg-amber-600 hover:bg-amber-700 text-white" type="button">
+              <Clock className="mr-2 h-4 w-4" />
+              Awaiting Details
+            </Button>
+            <Button onClick={() => setShowReject(true)} variant="destructive" className="flex-1" type="button">
               <XCircle className="mr-2 h-4 w-4" />
-              Reject Enrollment
+              Reject
             </Button>
           </div>
         )}
 
         {showApprove && (
           <div className="space-y-3 p-4 bg-white rounded-lg border border-green-200">
-            <h4 className="font-medium text-green-900">Approve Patient for Trial</h4>
-            <Textarea
-              placeholder="Optional approval notes..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={3}
-            />
+            <h4 className="font-medium text-green-900">Admit Patient to Trial</h4>
+            <Textarea placeholder="Optional admission notes..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
             <div className="flex gap-2">
-              <Button
-                onClick={handleApprove}
-                disabled={isApproving}
-                className="bg-green-600 hover:bg-green-700"
-                type="button"
-              >
-                {isApproving ? 'Approving...' : 'Confirm Approval'}
+              <Button onClick={handleApprove} disabled={isApproving} className="bg-green-600 hover:bg-green-700" type="button">
+                {isApproving ? 'Admitting...' : 'Confirm Admission'}
               </Button>
-              <Button
-                onClick={() => { setShowApprove(false); setNotes(''); }}
-                variant="outline"
-                type="button"
-              >
-                Cancel
+              <Button onClick={() => { setShowApprove(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
+            </div>
+          </div>
+        )}
+
+        {showAwaiting && (
+          <div className="space-y-3 p-4 bg-white rounded-lg border border-amber-200">
+            <h4 className="font-medium text-amber-900">Request Further Details</h4>
+            <Textarea placeholder="Describe what information or documents are missing..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
+            <div className="flex gap-2">
+              <Button onClick={handleAwaitingDetails} disabled={isRequesting || !notes.trim()} className="bg-amber-600 hover:bg-amber-700" type="button">
+                {isRequesting ? 'Sending...' : 'Send Request'}
               </Button>
+              <Button onClick={() => { setShowAwaiting(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
             </div>
           </div>
         )}
@@ -261,32 +345,36 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
         {showReject && (
           <div className="space-y-3 p-4 bg-white rounded-lg border border-red-200">
             <h4 className="font-medium text-red-900">Reject Patient Enrollment</h4>
-            <Textarea
-              placeholder="Rejection reason (required)..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              rows={3}
-            />
+            <Textarea placeholder="Rejection reason (required)..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
             <div className="flex gap-2">
-              <Button
-                onClick={handleReject}
-                disabled={isRejecting || !notes.trim()}
-                variant="destructive"
-                type="button"
-              >
+              <Button onClick={handleReject} disabled={isRejecting || !notes.trim()} variant="destructive" type="button">
                 {isRejecting ? 'Rejecting...' : 'Confirm Rejection'}
               </Button>
-              <Button
-                onClick={() => { setShowReject(false); setNotes(''); }}
-                variant="outline"
-                type="button"
-              >
-                Cancel
-              </Button>
+              <Button onClick={() => { setShowReject(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
             </div>
           </div>
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function StatusHistory({ history }: { history: { status: string; timestamp: string; admin: string; notes: string }[] }) {
+  if (!history || history.length === 0) return null;
+  return (
+    <div className="mt-4 bg-white/60 rounded-lg p-3 space-y-2">
+      <p className="text-xs font-semibold text-slate-700 uppercase">Status History</p>
+      <div className="space-y-1">
+        {history.map((entry, i) => (
+          <div key={i} className="text-xs flex justify-between items-start gap-2">
+            <div>
+              <span className="font-medium capitalize">{entry.status.replace(/_/g, ' ')}</span>
+              {entry.notes && <span className="text-slate-500 block">{entry.notes}</span>}
+            </div>
+            <span className="text-slate-500 whitespace-nowrap">{entry.admin} — {new Date(entry.timestamp).toLocaleString()}</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
