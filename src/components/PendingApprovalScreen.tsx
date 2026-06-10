@@ -87,7 +87,23 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
                 <span className="text-sm font-medium text-slate-700">Status</span>
               </div>
-              <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">Pending Review</Badge>
+              <Badge
+                className={
+                  checkStatus && checkStatus.length > 0 && (checkStatus[0] as any).verification_status === 'approved'
+                    ? 'bg-green-100 text-green-800 border-green-200'
+                    : checkStatus && checkStatus.length > 0 && (checkStatus[0] as any).verification_status === 'rejected'
+                    ? 'bg-red-100 text-red-800 border-red-200'
+                    : 'bg-yellow-100 text-yellow-800 border-yellow-200'
+                }
+              >
+                {checkStatus && checkStatus.length > 0
+                  ? (checkStatus[0] as any).verification_status === 'approved'
+                    ? 'Approved'
+                    : (checkStatus[0] as any).verification_status === 'rejected'
+                    ? 'Rejected'
+                    : 'Pending Review'
+                  : 'Pending Review'}
+              </Badge>
             </div>
           </div>
 

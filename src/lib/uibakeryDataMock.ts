@@ -602,6 +602,21 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
       return;
     }
 
+    if (name === 'checkVeterinarianAcceptance') {
+      const loadParams = _params as { email?: string } | undefined;
+      const vet = getVets().find((v) => v.email === loadParams?.email?.toLowerCase().trim());
+      setData(vet ? [{
+        id: vet.id,
+        email: vet.email,
+        full_name: vet.full_name,
+        accepted: vet.tc_accepted,
+        verification_status: vet.verification_status,
+        created_at: vet.created_at,
+      }] as unknown[] : []);
+      setLoading(false);
+      return;
+    }
+
     setData(defaultValue);
     setLoading(false);
   }, [actionName, defaultValue, paramsKey]);
@@ -638,6 +653,21 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
       const qual = getInvestigatorQuals().filter((q) => q.vet_email === loadParams?.vetEmail);
       setData(qual as unknown[]);
       return qual;
+    }
+
+    if (name === 'checkVeterinarianAcceptance') {
+      const loadParams = _params as { email?: string } | undefined;
+      const vet = getVets().find((v) => v.email === loadParams?.email?.toLowerCase().trim());
+      const result = vet ? [{
+        id: vet.id,
+        email: vet.email,
+        full_name: vet.full_name,
+        accepted: vet.tc_accepted,
+        verification_status: vet.verification_status,
+        created_at: vet.created_at,
+      }] : [];
+      setData(result as unknown[]);
+      return result;
     }
 
     console.info(`Local preview skipped data reload for ${name}.`);
