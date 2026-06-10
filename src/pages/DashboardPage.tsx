@@ -15,7 +15,10 @@ import { VeterinarianManagementPanel } from '@/components/VeterinarianManagement
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText } from 'lucide-react';
+import { ResearchHub } from '@/components/ResearchHub';
+import { VetToolsHub } from '@/components/VetToolsHub';
+import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { useAuth } from '@/context/AuthContext';
 
 export function DashboardPage() {
@@ -154,52 +157,87 @@ export function DashboardPage() {
             </TabsContent>
           </Tabs>
         ) : (
-          <Card>
-            <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div>
-                <CardTitle className="text-xl sm:text-2xl">Patient Management</CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">Manage enrolled horses and treatment protocols</p>
-              </div>
-              <Dialog open={enrollDialogOpen} onOpenChange={setEnrollDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button type="button">
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    Enroll Patient
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl">Enroll New Patient</DialogTitle>
-                  </DialogHeader>
-                  <PatientEnrollmentForm onSuccess={handleEnrollSuccess} />
-                </DialogContent>
-              </Dialog>
-            </CardHeader>
-            <CardContent className="p-3 sm:p-6">
-              <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2">
-                <Filter className="h-4 w-4 text-muted-foreground" />
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-[200px]">
-                    <SelectValue placeholder="All Statuses" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Statuses</SelectItem>
-                    <SelectItem value="pending_screening">Pending Screening</SelectItem>
-                    <SelectItem value="screening">Screening</SelectItem>
-                    <SelectItem value="enrolled">Enrolled</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    <SelectItem value="withdrawn">Withdrawn</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <PatientsList
-                key={refreshKey}
-                statusFilter={statusFilter === 'all' ? '' : statusFilter}
-                onViewDetails={handleViewDetails}
-                onPatientDeleted={handlePatientDeleted}
-              />
-            </CardContent>
-          </Card>
+          <Tabs defaultValue="patients" className="w-full">
+            <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-4">
+              <TabsTrigger value="patients">
+                <Users className="mr-2 h-4 w-4" />
+                Patients
+              </TabsTrigger>
+              <TabsTrigger value="research">
+                <BookOpen className="mr-2 h-4 w-4" />
+                Research
+              </TabsTrigger>
+              <TabsTrigger value="tools">
+                <Stethoscope className="mr-2 h-4 w-4" />
+                Vet Tools
+              </TabsTrigger>
+              <TabsTrigger value="protocol">
+                <FileText className="mr-2 h-4 w-4" />
+                Protocol
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="patients" className="mt-6">
+              <Card>
+                <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div>
+                    <CardTitle className="text-xl sm:text-2xl">Patient Management</CardTitle>
+                    <p className="text-sm text-muted-foreground mt-1">Manage enrolled horses and treatment protocols</p>
+                  </div>
+                  <Dialog open={enrollDialogOpen} onOpenChange={setEnrollDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button type="button">
+                        <UserPlus className="mr-2 h-4 w-4" />
+                        Enroll Patient
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle className="text-2xl">Enroll New Patient</DialogTitle>
+                      </DialogHeader>
+                      <PatientEnrollmentForm onSuccess={handleEnrollSuccess} />
+                    </DialogContent>
+                  </Dialog>
+                </CardHeader>
+                <CardContent className="p-3 sm:p-6">
+                  <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                    <Filter className="h-4 w-4 text-muted-foreground" />
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger className="w-[200px]">
+                        <SelectValue placeholder="All Statuses" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Statuses</SelectItem>
+                        <SelectItem value="pending_screening">Pending Screening</SelectItem>
+                        <SelectItem value="screening">Screening</SelectItem>
+                        <SelectItem value="enrolled">Enrolled</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="withdrawn">Withdrawn</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <PatientsList
+                    key={refreshKey}
+                    statusFilter={statusFilter === 'all' ? '' : statusFilter}
+                    onViewDetails={handleViewDetails}
+                    onPatientDeleted={handlePatientDeleted}
+                  />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="research" className="mt-6">
+              <ResearchHub />
+            </TabsContent>
+
+            <TabsContent value="tools" className="mt-6">
+              <VetToolsHub />
+            </TabsContent>
+
+            <TabsContent value="protocol" className="mt-6">
+              <ProtocolDocumentCenter isAdmin={false} />
+            </TabsContent>
+          </Tabs>
         )}
       </div>
     </div>
