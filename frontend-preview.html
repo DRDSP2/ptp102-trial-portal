@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PTP-102 Trial App — Frontend Preview</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',sans-serif;}</style>
+</head>
+<body class="bg-slate-100">
+
+<!-- ============================================================================
+     PTP-102 VETERINARY LAMINITIS TRIAL — FRONTEND VISUAL SCAN
+     ============================================================================ -->
+
+<div class="max-w-6xl mx-auto p-6 space-y-12">
+
+  <div class="text-center py-8">
+    <h1 class="text-3xl font-bold text-slate-900">PTP-102 Trial App — Frontend Scan</h1>
+    <p class="text-slate-500 mt-2">All screens, components, and compliance modules</p>
+  </div>
+
+  <!-- SCREEN 1: LANDING / AUTH SELECTION -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">1. Landing Page</h2>
+    <div class="rounded-xl overflow-hidden shadow-2xl border border-slate-200">
+      <!-- Hero -->
+      <div class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-[#2a3a18] px-8 py-14 text-white">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-[#6b7f3a]/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4 blur-3xl"></div>
+        <div class="relative z-10 text-center space-y-5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L9.75 14.5M15 3.104v5.714a2.25 2.25 0 01-.659 1.591L15 14.5m0-11.396c.251.023.501.05.75.082M15 3.104a24.301 24.301 0 00-4.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L15 14.5"/></svg>
+            Clinical Trial Management Platform
+          </div>
+          <h1 class="text-4xl font-bold tracking-tight">PTP-102 Laminitis Trial</h1>
+          <p class="text-lg text-slate-300 max-w-xl mx-auto">A breakthrough therapeutic solution for equine laminitis. Supporting veterinarians worldwide.</p>
+          <div class="grid grid-cols-3 gap-3 max-w-lg mx-auto pt-4">
+            <div class="bg-white/5 border border-white/10 rounded-lg p-3 text-center">
+              <svg class="w-6 h-6 text-[#a4b86b] mx-auto mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+              <p class="text-sm font-semibold">72-Hour Protocol</p>
+              <p class="text-xs text-slate-400">Two-dose administration</p>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-lg p-3 text-center">
+              <svg class="w-6 h-6 text-[#a4b86b] mx-auto mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+              <p class="text-sm font-semibold">Patents Pending</p>
+              <p class="text-xs text-slate-400">Europe, US & Australia</p>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-lg p-3 text-center">
+              <svg class="w-6 h-6 text-[#a4b86b] mx-auto mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+              <p class="text-sm font-semibold">5 mg/mL IV</p>
+              <p class="text-xs text-slate-400">500mL slow infusion</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Auth Card -->
+      <div class="bg-slate-50 p-6 flex justify-center -mt-6 relative z-20">
+        <div class="bg-white rounded-xl shadow-xl border border-slate-200 max-w-md w-full p-6 space-y-3">
+          <div class="flex items-center justify-between pb-4 border-b">
+            <div>
+              <h3 class="text-xl font-semibold text-slate-900">Select Access Type</h3>
+              <p class="text-sm text-slate-500">Choose your portal to continue</p>
+            </div>
+            <div class="w-20"><svg viewBox="0 0 260 50" class="w-full"><circle cx="25" cy="25" r="20" fill="#6b7f3a"/><text x="25" y="30" font-size="14" font-weight="800" fill="white" text-anchor="middle">BR</text><text x="55" y="28" font-size="16" font-weight="700" fill="#1a1a1a">BYROCK</text><text x="55" y="42" font-size="7" font-weight="600" fill="#6b7f3a" letter-spacing="1.5">TECHNOLOGIES LIMITED</text></svg></div>
+          </div>
+          <button class="w-full py-3 bg-[#6b7f3a] text-white rounded-lg font-medium flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/></svg>
+            Veterinarian Access
+          </button>
+          <button class="w-full py-3 border border-slate-300 text-slate-700 rounded-lg font-medium flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+            Admin Access
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: REGULATORY BANNER -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">2. Regulatory Banner (All Pages)</h2>
+    <div class="bg-amber-50 border-b border-amber-200 px-4 py-2 rounded-lg">
+      <div class="flex items-center gap-2">
+        <svg class="h-4 w-4 text-amber-700 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+        <p class="text-xs text-amber-800 font-medium">PTP-102 is an investigational new animal drug (INAD) under FDA CVM review. It has not been approved as safe or effective. All use is investigational only.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: INVESTIGATOR ONBOARDING -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">3. Investigator Onboarding Wizard (5 Steps)</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-xl font-bold">Investigator Qualification</h3>
+          <p class="text-sm text-slate-500">Complete all steps before accessing patient data</p>
+        </div>
+        <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-sm font-medium">Pending Review</span>
+      </div>
+      <div class="flex gap-2">
+        <div class="flex items-center gap-2 px-3 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg> Credentials</div>
+        <svg class="w-4 h-4 text-slate-300 self-center" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        <div class="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-500 rounded-lg text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.499 5.221 50.55 50.55 0 00-2.658.813m-15.482 0A50.55 50.55 0 0112 13.489a50.55 50.55 0 0111.364-4.87m-15.482 0a50.697 50.697 0 00-2.282 4.32"/></svg> GCP Training</div>
+        <svg class="w-4 h-4 text-slate-300 self-center" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        <div class="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-500 rounded-lg text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg> Facility</div>
+        <svg class="w-4 h-4 text-slate-300 self-center" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        <div class="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-500 rounded-lg text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/></svg> Agreement</div>
+        <svg class="w-4 h-4 text-slate-300 self-center" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        <div class="flex items-center gap-2 px-3 py-2 bg-slate-100 text-slate-500 rounded-lg text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg> Protocol</div>
+      </div>
+      <div class="border rounded-lg p-4 space-y-3">
+        <h4 class="font-semibold flex items-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg> Step 1: Professional Credentials</h4>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-sm font-medium">License Number</label><div class="mt-1 px-3 py-2 border rounded-md bg-slate-50 text-sm text-slate-400">e.g. VET-12345</div></div>
+          <div><label class="text-sm font-medium">State</label><div class="mt-1 px-3 py-2 border rounded-md bg-slate-50 text-sm text-slate-400">e.g. Kentucky</div></div>
+          <div><label class="text-sm font-medium">Years of Practice</label><div class="mt-1 px-3 py-2 border rounded-md bg-slate-50 text-sm text-slate-400">15</div></div>
+          <div><label class="text-sm font-medium">Laminitis Cases/Year</label><div class="mt-1 px-3 py-2 border rounded-md bg-slate-50 text-sm text-slate-400">40</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: VET DASHBOARD -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">4. Veterinarian Dashboard</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200">
+      <!-- Header -->
+      <div class="bg-white border-b px-6 py-3 flex items-center justify-between">
+        <svg viewBox="0 0 260 50" class="w-24"><circle cx="25" cy="25" r="20" fill="#6b7f3a"/><text x="25" y="30" font-size="14" font-weight="800" fill="white" text-anchor="middle">BR</text><text x="55" y="28" font-size="16" font-weight="700" fill="#1a1a1a">BYROCK</text></svg>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-slate-500 text-right"><div class="font-medium text-slate-900">PTP-102 Laminitis Trial</div><div>dr.jameson@equinevet.com</div></span>
+          <button class="p-2 border rounded-md"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/></svg></button>
+        </div>
+      </div>
+      <!-- Tabs -->
+      <div class="px-6 pt-4">
+        <div class="flex gap-1 bg-slate-100 p-1 rounded-lg max-w-2xl">
+          <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-white rounded-md shadow-sm text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg> Patients</button>
+          <button class="flex-1 flex items-center justify-center gap-2 py-2 text-slate-600 text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg> Research</button>
+          <button class="flex-1 flex items-center justify-center gap-2 py-2 text-slate-600 text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Vet Tools</button>
+          <button class="flex-1 flex items-center justify-center gap-2 py-2 text-slate-600 text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg> Protocol</button>
+        </div>
+      </div>
+      <!-- Content -->
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="text-xl font-bold">Patient Management</h3>
+            <p class="text-sm text-slate-500">Manage enrolled horses and treatment protocols</p>
+          </div>
+          <button class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/></svg> Enroll Patient</button>
+        </div>
+        <!-- Patient Table -->
+        <div class="border rounded-lg overflow-hidden">
+          <div class="grid grid-cols-12 bg-slate-50 px-4 py-2 text-xs font-medium text-slate-500 uppercase">
+            <div class="col-span-2">Horse</div><div class="col-span-1">ID</div><div class="col-span-1">Status</div><div class="col-span-2">Owner</div><div class="col-span-2">Enrolled</div><div class="col-span-2">Screening</div><div class="col-span-2">Actions</div>
+          </div>
+          <div class="divide-y">
+            <div class="grid grid-cols-12 px-4 py-3 items-center text-sm">
+              <div class="col-span-2 font-medium">Thunder Bay</div>
+              <div class="col-span-1 text-slate-500">LAM-0001</div>
+              <div class="col-span-1"><span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded text-xs">enrolled</span></div>
+              <div class="col-span-2 text-slate-500">Sarah Mitchell</div>
+              <div class="col-span-2 text-slate-500">2025-09-15</div>
+              <div class="col-span-2"><span class="px-2 py-0.5 bg-green-100 text-green-800 rounded text-xs">approved</span></div>
+              <div class="col-span-2"><button class="text-blue-600 text-xs font-medium">View Case</button></div>
+            </div>
+            <div class="grid grid-cols-12 px-4 py-3 items-center text-sm">
+              <div class="col-span-2 font-medium">Midnight Star</div>
+              <div class="col-span-1 text-slate-500">LAM-0002</div>
+              <div class="col-span-1"><span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded text-xs">screening</span></div>
+              <div class="col-span-2 text-slate-500">John Peterson</div>
+              <div class="col-span-2 text-slate-500">2025-09-18</div>
+              <div class="col-span-2"><span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded text-xs">pending</span></div>
+              <div class="col-span-2"><button class="text-blue-600 text-xs font-medium">View Case</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 5: CASE WORKSPACE -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">5. Case Workspace (Patient Detail)</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button class="flex items-center gap-1 text-sm text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg> Back</button>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-medium">enrolled</span>
+          <span class="flex items-center gap-1 text-sm text-slate-600"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Protocol Hour: 8 / 72</span>
+        </div>
+      </div>
+
+      <!-- Horse Header -->
+      <div class="border rounded-lg p-4">
+        <div class="flex items-start justify-between">
+          <div>
+            <h3 class="text-2xl font-bold">Thunder Bay</h3>
+            <p class="text-sm text-slate-500">LAM-0001 • Thoroughbred • 8y • Gelding</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4 mt-3 text-sm">
+          <div><p class="text-slate-400 text-xs">Owner</p><p class="font-medium">Sarah Mitchell</p></div>
+          <div><p class="text-slate-400 text-xs">Contact</p><p class="font-medium">555-0101</p></div>
+          <div><p class="text-slate-400 text-xs">Enrollment</p><p class="font-medium">2025-09-15</p></div>
+          <div><p class="text-slate-400 text-xs">Protocol Start</p><p class="font-medium">Sep 15, 2025, 08:00</p></div>
+        </div>
+      </div>
+
+      <!-- Next Dose Timer -->
+      <div class="border-2 border-blue-200 bg-blue-50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-sm font-medium flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg> Next Dose Administration</span>
+          <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded text-xs">Upcoming</span>
+        </div>
+        <div class="text-center py-2">
+          <p class="text-4xl font-mono font-bold text-blue-700">3h 47m</p>
+          <p class="text-sm text-blue-900 font-medium">until second dose</p>
+        </div>
+        <div class="flex gap-2 mt-2">
+          <div class="flex-1 p-2 bg-green-50 border border-green-200 rounded text-center text-xs"><span class="text-green-700 font-semibold">First Dose</span><p class="text-green-600">Hour 0 ✓</p></div>
+          <div class="w-4 h-px bg-slate-300 self-center"></div>
+          <div class="flex-1 p-2 bg-amber-50 border border-amber-200 rounded text-center text-xs"><span class="text-amber-700 font-semibold">Second Dose</span><p class="text-amber-600">Hour 12 ⏱</p></div>
+        </div>
+      </div>
+
+      <!-- Eligibility & ICF -->
+      <div class="grid grid-cols-2 gap-3">
+        <div class="border rounded-lg p-3 bg-white">
+          <h4 class="text-sm font-semibold mb-2 flex items-center gap-1"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Eligibility Screening</h4>
+          <div class="space-y-1 text-xs">
+            <div class="flex justify-between"><span>Acute laminitis (Obel 1-3)</span><span class="text-green-600 font-medium">Yes ✓</span></div>
+            <div class="flex justify-between"><span>Age 2-20 years</span><span class="text-green-600 font-medium">Yes ✓</span></div>
+            <div class="flex justify-between"><span>Weight &gt;200 kg</span><span class="text-green-600 font-medium">Yes ✓</span></div>
+            <div class="flex justify-between"><span>No chronic &gt;14d</span><span class="text-green-600 font-medium">No ✓</span></div>
+          </div>
+        </div>
+        <div class="border rounded-lg p-3 bg-green-50 border-green-200">
+          <h4 class="text-sm font-semibold mb-2 flex items-center gap-1"><svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Informed Consent</h4>
+          <p class="text-xs text-green-700">Owner consent recorded for Thunder Bay.</p>
+          <button class="mt-2 text-xs text-green-800 underline">Download Signed ICF PDF</button>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex gap-1 bg-slate-100 p-1 rounded-lg">
+        <button class="flex-1 flex items-center justify-center gap-1 py-2 bg-white rounded shadow-sm text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/></svg> Treatments</button>
+        <button class="flex-1 flex items-center justify-center gap-1 py-2 text-slate-600 text-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg> Notes</button>
+        <button class="flex-1 flex items-center justify-center gap-1 py-2 text-slate-600 text-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"/></svg> Videos</button>
+        <button class="flex-1 flex items-center justify-center gap-1 py-2 text-slate-600 text-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L9.75 14.5M15 3.104v5.714a2.25 2.25 0 01-.659 1.591L15 14.5m0-11.396c.251.023.501.05.75.082M15 3.104a24.301 24.301 0 00-4.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L15 14.5"/></svg> Labs</button>
+        <button class="flex-1 flex items-center justify-center gap-1 py-2 text-slate-600 text-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg> Assessments</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 6: ADVERSE EVENT REPORTER -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">6. Adverse Event Reporter (Floating Button)</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 relative">
+      <div class="absolute bottom-4 right-4">
+        <button class="px-4 py-3 bg-red-700 text-white rounded-full shadow-lg flex items-center gap-2 text-sm font-medium">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          Report Adverse Event
+        </button>
+      </div>
+      <div class="max-w-xl mx-auto space-y-4">
+        <div class="flex items-center gap-2 text-red-700 text-lg font-semibold">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+          Adverse Event Report
+        </div>
+        <div class="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-800">
+          Report any unexpected event, reaction, or worsening condition. Severe or life-threatening events must be reported within 24 hours per 21 CFR 511.1(b)(8)(ii).
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-sm font-medium">Severity *</label><div class="mt-1 px-3 py-2 border rounded-md bg-white text-sm">Severe</div></div>
+          <div><label class="text-sm font-medium">Causality *</label><div class="mt-1 px-3 py-2 border rounded-md bg-white text-sm">Probable</div></div>
+        </div>
+        <div><label class="text-sm font-medium">Event Description *</label><div class="mt-1 px-3 py-2 border rounded-md bg-white text-sm h-16 text-slate-400">Describe the event using objective clinical terminology...</div></div>
+        <button class="w-full py-2 bg-red-700 text-white rounded-lg text-sm font-medium">Submit Adverse Event Report</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 7: ADMIN COMPLIANCE DASHBOARD -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">7. Admin Compliance Dashboard</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-slate-900 rounded-lg text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+        <div><h3 class="text-xl font-bold">Regulatory Compliance Dashboard</h3><p class="text-sm text-slate-500">FDA CVM oversight center for PTP-102 INAD study</p></div>
+      </div>
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-blue-800">
+        <span class="font-semibold">INAD File:</span> INAD-PTP102-2025 | <span class="font-semibold">Protocol:</span> v1.0 | <span class="font-semibold">Sponsor:</span> Byrock Technologies Ltd.
+      </div>
+      <div class="grid grid-cols-4 gap-3">
+        <div class="bg-blue-50 p-3 rounded-lg"><div class="flex items-center gap-1 text-xs text-blue-600 mb-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg> Total Patients</div><p class="text-2xl font-bold text-blue-700">18</p></div>
+        <div class="bg-green-50 p-3 rounded-lg"><div class="flex items-center gap-1 text-xs text-green-600 mb-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Enrolled</div><p class="text-2xl font-bold text-green-700">12</p></div>
+        <div class="bg-red-50 p-3 rounded-lg"><div class="flex items-center gap-1 text-xs text-red-600 mb-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg> Total AEs</div><p class="text-2xl font-bold text-red-700">3</p></div>
+        <div class="bg-purple-50 p-3 rounded-lg"><div class="flex items-center gap-1 text-xs text-purple-600 mb-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg> Investigators</div><p class="text-2xl font-bold text-purple-700">5</p></div>
+      </div>
+      <div class="flex gap-1 bg-slate-100 p-1 rounded-lg">
+        <button class="flex-1 py-2 bg-white rounded shadow-sm text-sm font-medium">Investigators</button>
+        <button class="flex-1 py-2 text-slate-600 text-sm">AEs</button>
+        <button class="flex-1 py-2 text-slate-600 text-sm">Deviations</button>
+        <button class="flex-1 py-2 text-slate-600 text-sm">NCIE</button>
+        <button class="flex-1 py-2 text-slate-600 text-sm">FDA</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 8: VET TOOLS -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">8. Veterinary Tools Hub</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2 bg-[#6b7f3a] rounded-lg text-white"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg></div>
+        <div><h3 class="text-xl font-bold">Veterinary Tools</h3><p class="text-sm text-slate-500">Clinical calculators and reference tools</p></div>
+      </div>
+      <div class="flex gap-1 bg-slate-100 p-1 rounded-lg max-w-2xl">
+        <button class="flex-1 flex items-center justify-center gap-2 py-2 bg-white rounded shadow-sm text-sm font-medium"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Dose Calc</button>
+        <button class="flex-1 flex items-center justify-center gap-2 py-2 text-slate-600 text-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v17.25m0 0c-1.472 0-2.882.265-4.185.75M12 20.25c1.472 0 2.882.265 4.185.75M18.75 4.97A48.416 48.416 0 0012 4.5c-2.291 0-4.545.16-6.75.47m13.5 0c1.01.143 2.01.317 3 .52m-3-.52l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.988 5.988 0 01-2.031.352 5.988 5.988 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L18.75 4.971zm-16.5.52c.99-.203 1.99-.377 3-.52m0 0l2.62 10.726c.122.499-.106 1.028-.589 1.202a5.989 5.989 0 01-2.031.352 5.989 5.989 0 01-2.031-.352c-.483-.174-.711-.703-.59-1.202L5.25 4.971z"/></svg> Weight Est.</button>
+        <button class="flex-1 flex items-center justify-center gap-2 py-2 text-slate-600 text-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/></svg> Temp Conv.</button>
+        <button class="flex-1 flex items-center justify-center gap-2 py-2 text-slate-600 text-sm"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg> Protocol</button>
+      </div>
+      <div class="border rounded-lg p-4">
+        <h4 class="font-semibold flex items-center gap-2 mb-3"><svg class="w-5 h-5 text-[#6b7f3a]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> PTP-102 Dose Calculator</h4>
+        <div class="grid grid-cols-4 gap-3 mb-3">
+          <div><label class="text-xs font-medium">Concentration</label><div class="mt-1 px-3 py-2 border rounded-md font-mono text-sm">5 mg/mL</div></div>
+          <div><label class="text-xs font-medium">Total Volume</label><div class="mt-1 px-3 py-2 border rounded-md font-mono text-sm">500 mL</div></div>
+          <div><label class="text-xs font-medium">Infusion Duration</label><div class="mt-1 px-3 py-2 border rounded-md font-mono text-sm">20 min</div></div>
+          <div><label class="text-xs font-medium">Horse Weight</label><div class="mt-1 px-3 py-2 border rounded-md font-mono text-sm">525 kg</div></div>
+        </div>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="p-3 bg-[#6b7f3a]/5 border border-[#6b7f3a]/20 rounded-lg"><p class="text-xs text-slate-500 uppercase">Total Dose</p><p class="text-lg font-mono font-semibold text-[#4a5c28]">2,500 mg</p></div>
+          <div class="p-3 bg-white border rounded-lg"><p class="text-xs text-slate-500 uppercase">Infusion Rate</p><p class="font-mono font-semibold">25.0 mL/min</p></div>
+          <div class="p-3 bg-white border rounded-lg"><p class="text-xs text-slate-500 uppercase">Dose per kg</p><p class="font-mono font-semibold">4.76 mg/kg</p></div>
+          <div class="p-3 bg-white border rounded-lg"><p class="text-xs text-slate-500 uppercase">Drops/sec</p><p class="font-mono font-semibold">8.3 gtt/s</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 9: INFORMED CONSENT -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">9. Informed Consent Workflow</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 space-y-3 max-w-2xl mx-auto">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold flex items-center gap-2"><svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg> PTP-102 INVESTIGATIONAL DRUG INFORMED CONSENT</h3>
+        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">Patient: Thunder Bay</span>
+      </div>
+      <div class="space-y-2 max-h-48 overflow-y-auto pr-2 border rounded-lg p-3">
+        <div class="flex items-start gap-2"><input type="checkbox" checked class="mt-1"><div><p class="text-sm font-semibold">Nature of the Study</p><p class="text-xs text-slate-600">PTP-102 is an investigational new animal drug... It has NOT been approved by the FDA.</p></div></div>
+        <div class="flex items-start gap-2"><input type="checkbox" checked class="mt-1"><div><p class="text-sm font-semibold">Voluntary Participation</p><p class="text-xs text-slate-600">Your horse's participation is entirely voluntary...</p></div></div>
+        <div class="flex items-start gap-2"><input type="checkbox" class="mt-1"><div><p class="text-sm font-semibold">Risks</p><p class="text-xs text-slate-600">Known risks include allergic reaction, injection site reaction...</p></div></div>
+      </div>
+      <button class="w-full py-2 bg-slate-900 text-white rounded-lg text-sm font-medium">Acknowledge All & Start 12-Hour Cooling Period</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 10: PROTOCOL CENTER -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">10. Protocol Document Center</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="p-2 bg-blue-100 rounded-lg text-blue-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg></div>
+          <div><h3 class="text-xl font-bold">Protocol Document Center</h3><p class="text-sm text-slate-500">Version-controlled study protocol management</p></div>
+        </div>
+        <button class="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm flex items-center gap-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3l9 9m-9-9v12"/></svg> Upload New Version</button>
+      </div>
+      <div class="border-2 border-green-200 bg-green-50/50 rounded-lg p-4">
+        <div class="flex items-center justify-between mb-2"><div class="flex items-center gap-2"><svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span class="font-semibold">Current Protocol Version</span></div><span class="px-2 py-0.5 bg-green-100 text-green-800 rounded text-xs">Current</span></div>
+        <div class="grid grid-cols-4 gap-3">
+          <div class="p-2 bg-white border rounded"><p class="text-xs text-slate-500 uppercase">Version</p><p class="text-lg font-mono font-semibold">1.0</p></div>
+          <div class="p-2 bg-white border rounded"><p class="text-xs text-slate-500 uppercase">Effective Date</p><p class="text-lg font-mono font-semibold">Jun 3, 2026</p></div>
+          <div class="p-2 bg-white border rounded"><p class="text-xs text-slate-500 uppercase">Uploaded By</p><p class="text-lg font-semibold">system</p></div>
+          <div class="p-2 bg-white border rounded"><p class="text-xs text-slate-500 uppercase">Status</p><p class="text-lg font-semibold text-green-700">Active</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 11: RESEARCH HUB -->
+  <section>
+    <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">11. Research Hub</h2>
+    <div class="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
+      <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-900 via-slate-800 to-[#4a5c28] p-6 text-white mb-4">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div class="relative z-10">
+          <div class="flex items-center gap-2 mb-2"><svg class="w-5 h-5 text-[#a4b86b]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg><span class="px-2 py-0.5 bg-white/10 rounded text-xs">Veterinary Research Centre</span></div>
+          <h3 class="text-2xl font-bold">Research & Clinical Documentation</h3>
+          <p class="text-slate-300 text-sm max-w-xl">Access comprehensive PTP-102 research materials, clinical trial protocols, and regulatory documentation.</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2"><div class="p-2 bg-[#6b7f3a]/10 rounded-lg text-[#6b7f3a]"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L9.75 14.5M15 3.104v5.714a2.25 2.25 0 01-.659 1.591L15 14.5m0-11.396c.251.023.501.05.75.082M15 3.104a24.301 24.301 0 00-4.5 0m0 0v5.714a2.25 2.25 0 00.659 1.591L15 14.5"/></svg></div><div><h4 class="font-semibold">PTP-102 Overview</h4><span class="text-[10px] text-[#6b7f3a] border border-[#6b7f3a]/30 px-1.5 py-0.5 rounded">Flagship Product</span></div></div>
+            <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+          </div>
+          <p class="text-sm text-slate-500 mt-2">Comprehensive overview of PTP-102 formulation, dosing regimen, and development status.</p>
+        </div>
+        <div class="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-2"><div class="p-2 bg-[#6b7f3a]/10 rounded-lg text-[#6b7f3a]"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/></svg></div><div><h4 class="font-semibold">Clinical Trial Data</h4><span class="text-[10px] text-[#6b7f3a] border border-[#6b7f3a]/30 px-1.5 py-0.5 rounded">Veterinary Access</span></div></div>
+            <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+          </div>
+          <p class="text-sm text-slate-500 mt-2">Access clinical trial data, safety profiles, and efficacy summaries for veterinary review.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="text-center py-8 text-slate-400 text-sm">
+    <p>Byrock Technologies Ltd. — Redefining Equine Health</p>
+    <p class="mt-1">PTP-102 is an investigational new animal drug (INAD) under FDA CVM review.</p>
+  </div>
+
+</div>
+
+</body>
+</html>

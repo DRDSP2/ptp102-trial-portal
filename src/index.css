@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+:root {
+  --radius: 0.5rem;
+  --ds-shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --ds-shadow-small: 0px 1px 2px rgba(0, 0, 0, 0.04);
+  --ds-shadow-border-small: var(--ds-shadow-border), var(--ds-shadow-small);
+  --ds-shadow-medium: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 8px -8px rgba(0, 0, 0, 0.04);
+  --ds-shadow-border-medium: var(--ds-shadow-border), var(--ds-shadow-medium);
+  --ds-shadow-large: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.04);
+  --ds-shadow-border-large: var(--ds-shadow-border), var(--ds-shadow-large);
+  --ds-shadow-tooltip: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02), 0px 4px 8px rgba(0, 0, 0, 0.04);
+  --ds-shadow-menu: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02), 0px 4px 8px -4px rgba(0, 0, 0, 0.04),
+    0px 16px 24px -8px rgba(0, 0, 0, 0.06);
+  --ds-shadow-modal: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02), 0px 8px 16px -4px rgba(0, 0, 0, 0.04),
+    0px 24px 32px -8px rgba(0, 0, 0, 0.06);
+  --ds-shadow-fullscreen: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02),
+    0px 8px 16px -4px rgba(0, 0, 0, 0.04), 0px 24px 32px -8px rgba(0, 0, 0, 0.06);
+  --scn-background: 0 0% 100%;
+  --scn-foreground: 240 10% 3.9%;
+  --scn-muted: 240 4.8% 95.9%;
+  --scn-muted-foreground: 240 3.8% 46.1%;
+  --scn-card: 0 0% 100%;
+  --scn-card-foreground: 240 10% 3.9%;
+  --scn-popover: 0 0% 100%;
+  --scn-popover-foreground: 240 10% 3.9%;
+  --scn-border: 240 5.9% 90%;
+  --scn-input: 240 5.9% 90%;
+  --scn-primary: 240 5.9% 10%;
+  --scn-primary-foreground: 0 0% 98%;
+  --scn-secondary: 240 4.8% 95.9%;
+  --scn-secondary-foreground: 240 5.9% 10%;
+  --scn-accent: 240 4.8% 95.9%;
+  --scn-accent-foreground: 240 5.9% 10%;
+  --scn-destructive: 0 84.2% 60.2%;
+  --scn-destructive-foreground: 0 0% 98%;
+  --scn-warning: 35, 100%, 52%;
+  --scn-warning-foreground: 0 0% 9%;
+  --scn-ring: 240 5% 64.9%;
+  --scn-radius: 0.5rem;
+  --scn-chart-1: 173 58% 39%;
+  --scn-chart-2: 12 76% 61%;
+  --scn-chart-3: 197 37% 24%;
+  --scn-chart-4: 43 74% 66%;
+  --scn-chart-5: 27 87% 67%;
+  --scn-sidebar-background: 0 0% 98%;
+  --scn-sidebar-foreground: 240 5.3% 26.1%;
+  --scn-sidebar-primary: 240 5.9% 10%;
+  --scn-sidebar-primary-foreground: 0 0% 98%;
+  --scn-sidebar-accent: 240 4.8% 95.9%;
+  --scn-sidebar-accent-foreground: 240 5.9% 10%;
+  --scn-sidebar-border: 220 13% 91%;
+  --scn-sidebar-ring: 240 5% 64.9%;
+  --background: var(--scn-background);
+  --foreground: var(--scn-foreground);
+  --muted: var(--scn-muted);
+  --muted-foreground: var(--scn-muted-foreground);
+  --card: var(--scn-card);
+  --card-foreground: var(--scn-card-foreground);
+  --popover: var(--scn-popover);
+  --popover-foreground: var(--scn-popover-foreground);
+  --border: var(--scn-border);
+  --input: var(--scn-input);
+  --primary: var(--scn-primary);
+  --primary-foreground: var(--scn-primary-foreground);
+  --secondary: var(--scn-secondary);
+  --secondary-foreground: var(--scn-secondary-foreground);
+  --accent: var(--scn-accent);
+  --accent-foreground: var(--scn-accent-foreground);
+  --destructive: var(--scn-destructive);
+  --destructive-foreground: var(--scn-destructive-foreground);
+  --warning: var(--scn-warning);
+  --warning-foreground: var(--scn-warning-foreground);
+  --ring: var(--scn-ring);
+  --radius: var(--scn-radius);
+  --chart-1: var(--scn-chart-1);
+  --chart-2: var(--scn-chart-2);
+  --chart-3: var(--scn-chart-3);
+  --chart-4: var(--scn-chart-4);
+  --chart-5: var(--scn-chart-5);
+  --sidebar-background: var(--scn-sidebar-background);
+  --sidebar-foreground: var(--scn-sidebar-foreground);
+  --sidebar-primary: var(--scn-sidebar-primary);
+  --sidebar-primary-foreground: var(--scn-sidebar-primary-foreground);
+  --sidebar-accent: var(--scn-sidebar-accent);
+  --sidebar-accent-foreground: var(--scn-sidebar-accent-foreground);
+  --sidebar-border: var(--scn-sidebar-border);
+  --sidebar-ring: var(--scn-sidebar-ring);
+}
+
+.dark {
+  --scn-background: 240 10% 3.9%;
+  --scn-foreground: 0 0% 98%;
+  --scn-muted: 240 3.7% 15.9%;
+  --scn-muted-foreground: 240 5% 64.9%;
+  --scn-card: 240 10% 3.9%;
+  --scn-card-foreground: 0 0% 98%;
+  --scn-popover: 240 10% 3.9%;
+  --scn-popover-foreground: 0 0% 98%;
+  --scn-border: 240 3.7% 15.9%;
+  --scn-input: 240 3.7% 15.9%;
+  --scn-primary: 0 0% 98%;
+  --scn-primary-foreground: 240 5.9% 10%;
+  --scn-secondary: 240 3.7% 15.9%;
+  --scn-secondary-foreground: 0 0% 98%;
+  --scn-accent: 240 3.7% 15.9%;
+  --scn-accent-foreground: 0 0% 98%;
+  --scn-destructive: 0 62.8% 30.6%;
+  --scn-destructive-foreground: 0 85.7% 97.3%;
+  --scn-warning: 35, 100%, 52%;
+  --scn-warning-foreground: 0 0% 9%;
+  --scn-ring: 240 3.7% 15.9%;
+  --scn-chart-1: 220 70% 50%;
+  --scn-chart-2: 160 60% 45%;
+  --scn-chart-3: 30 80% 55%;
+  --scn-chart-4: 280 65% 60%;
+  --scn-chart-5: 340 75% 55%;
+  --scn-sidebar-background: 240 5.9% 10%;
+  --scn-sidebar-foreground: 240 4.8% 95.9%;
+  --scn-sidebar-primary: 224.3 76.3% 48%;
+  --scn-sidebar-primary-foreground: 0 0% 100%;
+  --scn-sidebar-accent: 240 3.7% 15.9%;
+  --scn-sidebar-accent-foreground: 240 4.8% 95.9%;
+  --scn-sidebar-border: 240 3.7% 15.9%;
+  --scn-sidebar-ring: 240 4.9% 83.9%;
+}

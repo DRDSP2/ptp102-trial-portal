@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+node-v20.11.1-darwin-arm64/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+
+# Testing
+coverage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
