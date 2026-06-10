@@ -13,7 +13,6 @@ function loadVeterinarians() {
         tc_accepted,
         tc_accepted_at,
         signature_text,
-        no_conflict_of_interest,
         verification_status,
         approved_at,
         approved_by,

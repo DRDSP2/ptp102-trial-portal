@@ -13,7 +13,6 @@ function simpleRegisterVet() {
         tc_accepted,
         tc_accepted_at,
         signature_text,
-        no_conflict_of_interest,
         created_at,
         updated_at
       )
@@ -26,7 +25,6 @@ function simpleRegisterVet() {
         true,
         NOW(),
         {{params.signatureText}},
-        {{params.noConflictOfInterest}},
         NOW(),
         NOW()
       )

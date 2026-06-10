@@ -26,7 +26,7 @@ type Veterinarian = {
   tc_accepted: boolean;
   tc_accepted_at: string | null;
   signature_text: string | null;
-  no_conflict_of_interest: boolean;
+  no_conflict_of_interest?: boolean;
   created_at: string;
   last_login: string | null;
 };
@@ -326,7 +326,7 @@ export function VeterinarianManagementPanel() {
                               <div>
                                 <p className="text-sm font-semibold">No Conflicts of Interest</p>
                                 <p className="text-sm text-muted-foreground">
-                                  {vet.no_conflict_of_interest ? 'Yes ✓' : 'No ✗'}
+                                  {vet.no_conflict_of_interest === true ? 'Yes ✓' : vet.no_conflict_of_interest === false ? 'No ✗' : 'Pending migration'}
                                 </p>
                               </div>
                             </div>
