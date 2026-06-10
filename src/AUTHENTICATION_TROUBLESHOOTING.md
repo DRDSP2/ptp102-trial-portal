@@ -14,16 +14,14 @@
 - All new registrations use hashed passwords
 - Password reset flow uses hashed passwords
 
-**Migration Note**: Existing plain-text passwords in database will need manual migration
+**Note**: On 4EVERLAND deployments, the mock backend stores bcrypt hashes in localStorage.
 
 ### 2. EMAIL NORMALIZATION (IMPLEMENTED)
 **Status**: ✅ FIXED
-**Solution**: Updated all SQL queries to use case-insensitive email matching
+**Solution**: Updated all queries to use case-insensitive email matching
 - All actions now use `LOWER(email) = LOWER({{params.email}})`
 - Consistent email normalization across:
   - veterinarianLogin
-  - checkEmailExists
-  - googleOAuthLogin
   - checkVeterinarianAcceptance
   - requestPasswordReset
   - All other email-based queries
@@ -45,7 +43,7 @@
 - Login checks: tc_accepted AND verification_status
 - Proper error messages without exposing sensitive info
 - Password requirements enforced: 10+ chars, upper, lower, number
-- Google OAuth users handled separately (no password)
+- No OAuth — email/password only
 
 ## REMAINING CONSIDERATIONS
 
@@ -93,7 +91,7 @@
 
 ### Login Flow ✅
 1. User enters email + password
-2. SQL query: `LOWER(email) = LOWER(input) AND tc_accepted=true AND verification_status='approved'`
+2. Query: `LOWER(email) = LOWER(input) AND tc_accepted=true AND verification_status='approved'`
 3. Returns user data including password_hash
 4. bcrypt.compare(inputPassword, storedHash)
 5. If match: login successful
@@ -101,14 +99,13 @@
 
 ### Admin Login Flow ✅
 1. Admin enters email + password
-2. SQL query: `LOWER(email) = LOWER(input)` with UPDATE to set last_login
+2. Query: `LOWER(email) = LOWER(input)` with UPDATE to set last_login
 3. Returns admin data including password_hash
 4. Check if password_hash === 'PTP102' (backward compatibility)
    - If yes: compare plain-text password directly
    - If no: use bcrypt.compare(inputPassword, storedHash)
 5. If match: login successful, persist to localStorage
-6. Google OAuth: authorized admin emails (drdsp@pm.me) auto-login
-7. Works across all browsers via localStorage persistence
+6. Works across all browsers via localStorage persistence
 
 ### Password Reset Flow ✅
 1. User requests reset → generates secure token
@@ -117,14 +114,6 @@
 4. Password hashed using bcryptjs
 5. Database updated with hashed password
 6. Token cleared
-
-### Google OAuth Flow ✅
-1. User authenticates with Google
-2. Extract email from JWT
-3. Check if user exists (case-insensitive)
-4. If exists: check tc_accepted + verification_status
-5. If approved: login successful
-6. If new: create user → redirect to terms acceptance
 
 ## TESTING CHECKLIST (UPDATED)
 
@@ -136,7 +125,6 @@
 - [x] Password strength requirements
 - [x] Consolidated login action
 - [x] Error message improvements
-- [x] Google OAuth flow
 
 ### Remaining Tests
 - [ ] Existing user password migration
@@ -156,3 +144,4 @@
 - last_login TIMESTAMPTZ (updated on successful login)
 - password_reset_token TEXT (secure random token)
 - password_reset_expires TIMESTAMPTZ (1-hour expiry)
+```

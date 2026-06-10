@@ -20,37 +20,30 @@ npm run build
 
 echo ""
 echo "✅ Step 3: Verifying build output..."
-if [ ! -f "../dist/index.html" ]; then
+if [ ! -f "dist/index.html" ]; then
     echo "❌ Build failed: dist/index.html not found"
     exit 1
 fi
 
 echo "   → dist/index.html ✓"
 
-ASSETS=$(ls ../dist/assets/ | wc -l | tr -d ' ')
+ASSETS=$(ls dist/assets/ | wc -l | tr -d ' ')
 echo "   → dist/assets/ ($ASSETS files) ✓"
-
-if [ -f "../dist/_redirects" ]; then
-    echo "   → dist/_redirects (SPA routing) ✓"
-else
-    echo "   ⚠️ dist/_redirects missing — SPA routing may not work on Cloudflare Pages"
-fi
-
-if [ -f "../dist/_headers" ]; then
-    echo "   → dist/_headers (security headers) ✓"
-else
-    echo "   ⚠️ dist/_headers missing — security headers not applied"
-fi
 
 echo ""
 echo "📊 Build Summary:"
-echo "   Bundle size: $(du -sh ../dist/ | cut -f1)"
+echo "   Bundle size: $(du -sh dist/ | cut -f1)"
 
 echo ""
-echo "🎉 Build successful! You're ready to deploy."
+echo "🎉 Build successful!"
 echo ""
 echo "Next steps:"
 echo "   1. Commit and push to GitHub"
-echo "   2. Connect Cloudflare Pages to your repo"
-echo "   3. Follow DEPLOYMENT.md for full instructions"
+echo "   2. 4EVERLAND will auto-deploy from the main branch"
+echo "   3. Check 4EVERLAND dashboard for the live URL"
+echo ""
+echo "⚠️  Important:"
+echo "   - Data persists via browser localStorage on 4EVERLAND"
+echo "   - No Google Auth — vets use email/password + T&C acceptance"
+echo "   - Admin login: drdsp@pm.me / PTP102"
 echo ""

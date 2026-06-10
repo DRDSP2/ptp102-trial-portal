@@ -2,7 +2,7 @@
 
 ## Platform: 4EVERLAND (IPFS-based, Decentralized Hosting)
 
-**Live URL:** `https://ptp102-trial-portal-3bccrlcn-drdsp2.ipfs.4everland.app/`
+**Live URL:** `https://ptp102-trial-portal-jqnya0na-drdsp2.ipfs.4everland.app/`
 
 ---
 
@@ -44,46 +44,42 @@ Verify `dist/` exists at project root with:
 
 ---
 
-## Step 3: Configure Google OAuth
-
-**This is critical.** Google OAuth will reject login requests from unknown domains.
-
-### Go to Google Cloud Console
-- Visit [console.cloud.google.com](https://console.cloud.google.com)
-- Select the project that owns the OAuth Client ID
-
-### Add Your Domain to Authorized Origins
-- Go to **APIs & Services** → **Credentials**
-- Find your OAuth 2.0 Client ID and click **Edit**
-- Under **Authorized JavaScript origins**, click **Add URI**
-- Add your live URL:
-  ```
-  https://ptp102-trial-portal-3bccrlcn-drdsp2.ipfs.4everland.app
-  ```
-- Click **Save**
-
-**Note:** If your 4EVERLAND URL changes on redeploy (hash changes), you'll need to update this. Consider using a custom domain to avoid this.
-
----
-
-## Step 4: Test the Live Site
+## Step 3: Test the Live Site
 
 Open your live URL and verify:
 
 | Test | Expected Result |
 |---|---|
 | Landing page loads | ✅ Hero section, animated logo visible |
-| Vet Login works | ✅ Google OAuth popup opens and succeeds |
-| Patient list loads | ✅ Data from UIBakery backend appears |
+| Vet registration works | ✅ Form submits, account pending approval |
+| Admin login works | ✅ `drdsp@pm.me` / `PTP102` |
+| Patient list loads | ✅ Data from localStorage appears |
 | Regulatory banner shows | ✅ Amber FDA warning banner at top |
 | Dose calculator works | ✅ Calculates infusion rates correctly |
+
+---
+
+## Authentication
+
+### Admin Login
+- **Email:** `drdsp@pm.me`
+- **Password:** `PTP102`
+
+### Vet Login
+Vets must:
+1. Register via **New Registration** on the Vet Login page
+2. Accept all Terms & Conditions (digital signature recorded)
+3. Wait for admin approval in the **Veterinarians** tab
+4. Log in with email + password after approval
+
+**No Google Auth** — The app uses email/password authentication only. Vet T&C acceptance is recorded for compliance and can be exported as a PDF report.
 
 ---
 
 ## IPFS Considerations
 
 ### URL Stability
-- The 4EVERLAND URL contains a deployment hash (`3bccrlcn`)
+- The 4EVERLAND URL contains a deployment hash
 - On each redeploy, this hash may change
 - For a stable URL, configure a **custom domain** in 4EVERLAND settings
 
@@ -98,6 +94,16 @@ Open your live URL and verify:
 
 ---
 
+## Data Persistence
+
+**Important:** The app uses `localStorage` for data persistence on 4EVERLAND because the UIBakery backend runtime is not available outside the UIBakery platform.
+
+- Data is stored per-browser
+- Clearing browser data will erase all records
+- For multi-user sync, a real backend API (e.g., Supabase) would be required
+
+---
+
 ## Troubleshooting
 
 ### Build Fails on 4EVERLAND
@@ -107,23 +113,25 @@ npm run build
 ls dist/
 ```
 
-### Google OAuth Error: "redirect_uri_mismatch"
-You forgot to add the 4EVERLAND URL to Google Cloud Console. Go back to Step 3.
-
 ### URL Changed After Redeploy
 This is normal for IPFS hosting. Either:
-- Update the URL in Google Cloud Console each time, OR
+- Use the new URL from 4EVERLAND dashboard, OR
 - Set up a custom domain in 4EVERLAND for a permanent URL
+
+### Data Disappeared After Refresh
+Data is stored in browser `localStorage`. If you:
+- Switched browsers → Data won't carry over
+- Cleared cookies/storage → Data is erased
+- Used incognito mode → Data won't persist
 
 ---
 
 ## What's Next?
 
-1. **Update Google OAuth** with the live URL (Step 3 above)
-2. **Invite veterinarians** — Send them the portal URL
-3. **Monitor access** — Check 4EVERLAND analytics for traffic
-4. **Backup data** — Your UIBakery database backs up automatically
-5. **FDA audit prep** — Export audit logs from the Compliance Dashboard
+1. **Invite veterinarians** — Send them the portal URL
+2. **Monitor access** — Check 4EVERLAND analytics for traffic
+3. **FDA audit prep** — Export audit logs from the Compliance Dashboard
+4. **Custom domain** — Configure in 4EVERLAND for a stable URL
 
 ---
 

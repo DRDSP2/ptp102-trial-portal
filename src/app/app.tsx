@@ -1,6 +1,5 @@
 import '@/index.css';
 
-import { GoogleOAuthProvider } from '@react-oauth/google';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { AuthSelectionPage } from '@/pages/AuthSelectionPage';
@@ -13,12 +12,9 @@ import { DashboardPage } from '@/pages/DashboardPage';
 import { PatientCasePage } from '@/pages/PatientCasePage';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
 
-const GOOGLE_CLIENT_ID = '632400607726-b997todqjmo3083mm5a1rjv7hnkdrae2.apps.googleusercontent.com';
-
 function App() {
   return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <AuthProvider>
+    <AuthProvider>
         <HashRouter>
           <Routes>
             <Route path="/" element={<AuthSelectionPage />} />
@@ -47,7 +43,6 @@ function App() {
           </Routes>
         </HashRouter>
       </AuthProvider>
-    </GoogleOAuthProvider>
   );
 }
 
