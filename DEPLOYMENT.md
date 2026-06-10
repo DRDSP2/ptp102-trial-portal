@@ -1,218 +1,132 @@
 # PTP-102 Trial App — Deployment Guide
 
-## Platform: Cloudflare Pages (Free, Secure, Unlimited Bandwidth)
+## Platform: 4EVERLAND (IPFS-based, Decentralized Hosting)
+
+**Live URL:** `https://ptp102-trial-portal-3bccrlcn-drdsp2.ipfs.4everland.app/`
 
 ---
 
-## Step 1: Push Code to GitHub
+## What is 4EVERLAND?
 
-### 1.1 Create a GitHub Repository
-- Go to [github.com/new](https://github.com/new)
-- Name it: `ptp102-trial-portal`
-- Make it **Private** (this contains clinical trial code)
-- Do NOT initialize with README (we already have files)
+4EVERLAND deploys your app to IPFS (InterPlanetary File System) with a traditional HTTP gateway. This means:
+- Your app is hosted on a decentralized network
+- It gets a global CDN automatically
+- The URL structure is: `https://<project>-<hash>.ipfs.4everland.app/`
 
-### 1.2 Push Your Code
+---
 
-Open terminal in your project folder and run:
+## Build & Deploy Steps
+
+### Step 1: Build Locally
 
 ```bash
-# Build first (must succeed before pushing)
 npm install
 npm run build
-
-# Verify dist/ exists
-ls dist/
-
-# Initialize git (if not already done)
-git init
-
-# Add all files
-git add .
-
-# Commit
-git commit -m "PTP-102 trial portal - ready for deployment"
-
-# Connect to GitHub (replace YOUR_USERNAME with your actual GitHub username)
-git remote add origin https://github.com/YOUR_USERNAME/ptp102-trial-portal.git
-
-# Push to main branch
-git push -u origin main
 ```
 
-**Verify:** Go to `https://github.com/YOUR_USERNAME/ptp102-trial-portal` — you should see all your files.
+Verify `dist/` exists at project root with:
+- `index.html`
+- `assets/` folder (JS/CSS bundles)
+
+### Step 2: Deploy to 4EVERLAND
+
+1. Go to [4everland.org](https://4everland.org) and log in
+2. Click **Hosting** → **New Project**
+3. Select **Deploy from GitHub**
+4. Choose the `ptp102-trial-portal` repository
+5. Build settings:
+   - **Build command:** `npm install && npm run build`
+   - **Output directory:** `dist`
+   - **Root directory:** *(leave empty)*
+6. Click **Deploy**
+
+4EVERLAND will build and deploy automatically. Each new push to `main` triggers a redeploy.
 
 ---
 
-## Step 2: Connect to Cloudflare Pages
-
-### 2.1 Sign Up / Log In
-- Go to [dash.cloudflare.com](https://dash.cloudflare.com)
-- Sign up (free) or log in
-- If you don't have a domain with Cloudflare, that's fine — Pages works with any domain later
-
-### 2.2 Create a New Pages Project
-- In the Cloudflare dashboard, click **Pages** in the left sidebar
-- Click **Create a project**
-- Select **Connect to Git**
-- Authorize Cloudflare to access your GitHub account
-- Select the `ptp102-trial-portal` repository
-- Click **Begin setup**
-
-### 2.3 Configure Build Settings
-
-Fill in these exact values:
-
-| Setting | Value |
-|---|---|
-| **Project name** | `ptp102-trial-portal` |
-| **Production branch** | `main` |
-| **Framework preset** | `None` |
-| **Build command** | `npm install && npm run build` |
-| **Build output directory** | `dist` |
-| **Root directory** | *(leave empty)* |
-
-Click **Save and Deploy**
-
-### 2.4 Wait for First Build
-- Cloudflare will build your app (takes 1–2 minutes)
-- You'll get a temporary URL like: `https://ptp102-trial-portal.pages.dev`
-
-**Do NOT share this URL yet** — we need to add your domain first.
-
----
-
-## Step 3: Add Your Custom Domain
-
-### 3.1 Add Domain to Cloudflare Pages
-- In your Pages project, go to **Custom domains**
-- Click **Set up a custom domain**
-- Enter: `trial.byrocktechnologies.com` *(or your preferred subdomain)*
-- Click **Continue**
-
-### 3.2 Add DNS Record
-- Cloudflare will show you a DNS record to add (usually a CNAME)
-- If your domain is already on Cloudflare: click **Activate domain** (Cloudflare handles it automatically)
-- If your domain is elsewhere: Log into your domain registrar and add the CNAME record shown
-
-### 3.3 Wait for SSL
-- Cloudflare will automatically issue an SSL certificate
-- This takes 1–5 minutes
-- Status will show **Active** when ready
-
----
-
-## Step 4: Configure Google OAuth for Your Domain
+## Step 3: Configure Google OAuth
 
 **This is critical.** Google OAuth will reject login requests from unknown domains.
 
-### 4.1 Go to Google Cloud Console
+### Go to Google Cloud Console
 - Visit [console.cloud.google.com](https://console.cloud.google.com)
-- Select the project that owns the OAuth Client ID: `632400607726-b997todqjmo3083mm5a1rjv7hnkdrae2`
+- Select the project that owns the OAuth Client ID
 
-### 4.2 Add Your Domain to Authorized Origins
+### Add Your Domain to Authorized Origins
 - Go to **APIs & Services** → **Credentials**
 - Find your OAuth 2.0 Client ID and click **Edit**
 - Under **Authorized JavaScript origins**, click **Add URI**
-- Add: `https://trial.byrocktechnologies.com`
-- *(Also add the Cloudflare Pages URL temporarily: `https://ptp102-trial-portal.pages.dev`)*
+- Add your live URL:
+  ```
+  https://ptp102-trial-portal-3bccrlcn-drdsp2.ipfs.4everland.app
+  ```
 - Click **Save**
 
-### 4.3 Add Redirect URIs
-- Under **Authorized redirect URIs**, add:
-  - `https://trial.byrocktechnologies.com`
-- Click **Save**
-
-**Note:** Changes take 5–10 minutes to propagate.
+**Note:** If your 4EVERLAND URL changes on redeploy (hash changes), you'll need to update this. Consider using a custom domain to avoid this.
 
 ---
 
-## Step 5: Enable Security Protection
+## Step 4: Test the Live Site
 
-### 5.1 Password-Protect the Site (Recommended for Trial Phase)
-- In Cloudflare dashboard, go to your Pages project
-- Click **Settings** → **General**
-- Scroll to **Access policy**
-- Enable **Password protection**
-- Set a password (share with approved veterinarians only)
+Open your live URL and verify:
 
-### 5.2 Enable Additional Security Headers
-These are already configured in `vercel.json` — Cloudflare will apply them automatically.
-
----
-
-## Step 6: Test Everything
-
-### 6.1 Open Your Live URL
-Go to: `https://trial.byrocktechnologies.com`
-
-### 6.2 Test These Flows
 | Test | Expected Result |
 |---|---|
 | Landing page loads | ✅ Hero section, animated logo visible |
 | Vet Login works | ✅ Google OAuth popup opens and succeeds |
 | Patient list loads | ✅ Data from UIBakery backend appears |
 | Regulatory banner shows | ✅ Amber FDA warning banner at top |
-| AE Report button visible | ✅ Red floating button on vet screens |
 | Dose calculator works | ✅ Calculates infusion rates correctly |
-
-### 6.3 Test on Mobile
-- Open the URL on your phone
-- Verify layout is responsive
 
 ---
 
-## Step 7: Optional — Connect Your ByRock Domain
+## IPFS Considerations
 
-If you want the portal linked from your main WordPress site:
+### URL Stability
+- The 4EVERLAND URL contains a deployment hash (`3bccrlcn`)
+- On each redeploy, this hash may change
+- For a stable URL, configure a **custom domain** in 4EVERLAND settings
 
-### 7.1 Add a Login Button in WordPress
-- Log into your WordPress admin
-- Add a menu item or button: **"Veterinarian Portal"**
-- Link to: `https://trial.byrocktechnologies.com`
+### SPA Routing
+- 4EVERLAND automatically serves `index.html` for unknown paths (SPA-friendly)
+- The `_redirects` file is Cloudflare-specific and has no effect here
+- No additional routing config needed
 
-### 7.2 Make It Stand Out
-Use a button style like:
-```
-🔗 Veterinarian Portal →
-Background: #6b7f3a (ByRock green)
-Text: White
-Opens in new tab
-```
+### Security Headers
+- The `_headers` file is Cloudflare-specific and has no effect on 4EVERLAND
+- Security headers must be configured in 4EVERLAND dashboard if needed
 
 ---
 
 ## Troubleshooting
 
-### Build Fails on Cloudflare
-**Check:** Does `dist/` folder exist after local build?
+### Build Fails on 4EVERLAND
+Check that `dist/` is generated locally first:
 ```bash
-cd src
 npm run build
-ls ../dist/
+ls dist/
 ```
-If empty, check the build output for errors.
 
 ### Google OAuth Error: "redirect_uri_mismatch"
-**Fix:** You forgot Step 4. Go back to Google Cloud Console and add your exact domain.
+You forgot to add the 4EVERLAND URL to Google Cloud Console. Go back to Step 3.
 
-### Page Shows 404 on Refresh
-**Fix:** SPA routing is handled by Cloudflare Pages automatically — but if you see issues, the `vercel.json` file in the repo should handle it.
-
-### Styles Look Broken (No Tailwind)
-**Fix:** This is a known Tailwind content warning. The CSS builds fine despite the warning. If styles are actually missing, check that `dist/assets/index-*.css` is generated and loaded.
+### URL Changed After Redeploy
+This is normal for IPFS hosting. Either:
+- Update the URL in Google Cloud Console each time, OR
+- Set up a custom domain in 4EVERLAND for a permanent URL
 
 ---
 
-## What's Next After Deployment?
+## What's Next?
 
-1. **Invite veterinarians** — Send them the portal URL + password
-2. **Monitor access** — Check Cloudflare analytics for traffic
-3. **Backup data** — Your UIBakery database backs up automatically
-4. **FDA audit prep** — Export audit logs from the Compliance Dashboard
+1. **Update Google OAuth** with the live URL (Step 3 above)
+2. **Invite veterinarians** — Send them the portal URL
+3. **Monitor access** — Check 4EVERLAND analytics for traffic
+4. **Backup data** — Your UIBakery database backs up automatically
+5. **FDA audit prep** — Export audit logs from the Compliance Dashboard
 
 ---
 
 ## Need Help?
 
-If anything fails at any step, tell me exactly which step and the error message — I'll fix it immediately.
+If anything fails, tell me exactly which step and the error message — I'll fix it immediately.
