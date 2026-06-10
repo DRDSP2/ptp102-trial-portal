@@ -17,6 +17,13 @@
 Open terminal in your project folder and run:
 
 ```bash
+# Build first (must succeed before pushing)
+npm install
+npm run build
+
+# Verify dist/ exists
+ls dist/
+
 # Initialize git (if not already done)
 git init
 
@@ -61,7 +68,7 @@ Fill in these exact values:
 | **Project name** | `ptp102-trial-portal` |
 | **Production branch** | `main` |
 | **Framework preset** | `None` |
-| **Build command** | `cd src && npm install && npm run build` |
+| **Build command** | `npm install && npm run build` |
 | **Build output directory** | `dist` |
 | **Root directory** | *(leave empty)* |
 

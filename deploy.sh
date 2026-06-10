@@ -10,8 +10,6 @@ if [ ! -d "src" ]; then
     exit 1
 fi
 
-cd src
-
 echo ""
 echo "📦 Step 1: Installing dependencies..."
 npm install
