@@ -4,6 +4,7 @@ import { ByRockLogo } from '@/components/ByRockLogo';
 import { HeroSection } from '@/components/HeroSection';
 import { Shield, UserPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import byrockLogo from '@/assets/byrock-logo.png';
 
 export function AuthSelectionPage() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function AuthSelectionPage() {
       {/* Top Logo Bar */}
       <div className="bg-black py-4 px-4">
         <img
-          src="/byrock-logo.png"
+          src={byrockLogo}
           alt="Byrock Technologies Limited"
           className="h-14 sm:h-16 w-auto mx-auto object-contain"
         />
