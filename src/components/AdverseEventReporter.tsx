@@ -99,7 +99,7 @@ export function AdverseEventReporter({
         <Button
           variant="destructive"
           size="sm"
-          className="fixed bottom-6 right-6 z-50 shadow-lg hover:shadow-xl transition-shadow"
+          className="fixed bottom-24 right-6 z-50 shadow-lg hover:shadow-xl transition-shadow"
           type="button"
         >
           <AlertTriangle className="h-4 w-4 mr-2" />
