@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 node-v20.11.1-darwin-arm64/
+node.tar.gz
 .pnp
 .pnp.js
 
