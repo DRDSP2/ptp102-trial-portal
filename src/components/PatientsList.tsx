@@ -9,9 +9,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Eye, Trash2, FileText, Loader2, Pencil } from 'lucide-react';
+import { Eye, Trash2, FileText, Loader2, Pencil, CheckCircle2, XCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { generatePatientTrialReport } from '@/lib/reportGenerator';
+import approvePatientScreeningAction from '@/actions/approvePatientScreening';
+import rejectPatientScreeningAction from '@/actions/rejectPatientScreening';
 
 type PatientsListProps = {
   statusFilter: string;
@@ -22,12 +24,18 @@ type PatientsListProps = {
 export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: PatientsListProps) {
   const [patients, loading, error, refresh] = useLoadAction(loadPatientsAction, [], { status: statusFilter || null });
   const [deletePatient, isDeleting] = useMutateAction(deletePatientAction);
+  const [approvePatient, isApproving] = useMutateAction(approvePatientScreeningAction);
+  const [rejectPatient, isRejecting] = useMutateAction(rejectPatientScreeningAction);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState<Patient | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [patientToEdit, setPatientToEdit] = useState<Patient | null>(null);
   const [exportingPatientId, setExportingPatientId] = useState<number | null>(null);
   const [patientIdForExport, setPatientIdForExport] = useState<number | null>(null);
+  const [screenDialogOpen, setScreenDialogOpen] = useState(false);
+  const [screenPatient, setScreenPatient] = useState<Patient | null>(null);
+  const [screenAction, setScreenAction] = useState<'approve' | 'reject' | null>(null);
+  const [screenNotes, setScreenNotes] = useState('');
   
   const [completeData, loadingComplete, completeError] = useLoadAction(
     loadCompletePatientTrialDataAction,
@@ -158,6 +166,44 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
     setPatientIdForExport(patient.id);
   };
 
+  const handleScreenClick = (patient: Patient, action: 'approve' | 'reject') => {
+    setScreenPatient(patient);
+    setScreenAction(action);
+    setScreenNotes('');
+    setScreenDialogOpen(true);
+  };
+
+  const handleScreenConfirm = async () => {
+    if (!screenPatient || !screenAction) return;
+    const adminEmail = localStorage.getItem('admin_email') || 'Unknown Admin';
+    try {
+      if (screenAction === 'approve') {
+        await approvePatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes || null });
+      } else {
+        if (!screenNotes.trim()) {
+          alert('Rejection notes are required');
+          return;
+        }
+        await rejectPatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes });
+      }
+      setScreenDialogOpen(false);
+      setScreenPatient(null);
+      setScreenAction(null);
+      setScreenNotes('');
+      refresh();
+    } catch (error) {
+      console.error('Screening action failed:', error);
+      alert(`Failed to ${screenAction} patient. Please try again.`);
+    }
+  };
+
+  const handleScreenCancel = () => {
+    setScreenDialogOpen(false);
+    setScreenPatient(null);
+    setScreenAction(null);
+    setScreenNotes('');
+  };
+
   if (loading) {
     return <div className="text-center py-8 text-muted-foreground">Loading patients...</div>;
   }
@@ -248,15 +294,41 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                       )}
                     </Button>
                     {isAdmin && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => handleDeleteClick(patient)} 
-                        type="button"
-                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <>
+                        {(patient as any).screening_status === 'pending_screening' && (
+                          <>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleScreenClick(patient, 'approve')}
+                              type="button"
+                              className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                              disabled={isApproving || isRejecting}
+                            >
+                              <CheckCircle2 className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleScreenClick(patient, 'reject')}
+                              type="button"
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              disabled={isApproving || isRejecting}
+                            >
+                              <XCircle className="h-4 w-4" />
+                            </Button>
+                          </>
+                        )}
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => handleDeleteClick(patient)} 
+                          type="button"
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </>
                     )}
                   </div>
                 </TableCell>
@@ -277,6 +349,50 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
           {patientToEdit && (
             <PatientEnrollmentForm patient={patientToEdit} onSuccess={handleEditSuccess} />
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={screenDialogOpen} onOpenChange={setScreenDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {screenAction === 'approve' ? 'Approve Patient for Trial' : 'Reject Patient Enrollment'}
+            </DialogTitle>
+            <DialogDescription>
+              {screenAction === 'approve'
+                ? `Approve ${screenPatient?.horse_name} for the PTP-102 laminitis trial.`
+                : `Reject ${screenPatient?.horse_name} from the PTP-102 laminitis trial.`}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3">
+            <label className="text-sm font-medium">
+              {screenAction === 'approve' ? 'Approval Notes (optional)' : 'Rejection Reason (required)'}
+            </label>
+            <textarea
+              className="w-full min-h-[80px] px-3 py-2 border rounded-md text-sm"
+              placeholder={screenAction === 'approve' ? 'Optional notes...' : 'Reason for rejection...'}
+              value={screenNotes}
+              onChange={(e) => setScreenNotes(e.target.value)}
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={handleScreenCancel} type="button">
+              Cancel
+            </Button>
+            <Button
+              variant={screenAction === 'approve' ? 'default' : 'destructive'}
+              onClick={handleScreenConfirm}
+              type="button"
+              disabled={isApproving || isRejecting || (screenAction === 'reject' && !screenNotes.trim())}
+              className={screenAction === 'approve' ? 'bg-green-600 hover:bg-green-700' : ''}
+            >
+              {isApproving || isRejecting
+                ? 'Processing...'
+                : screenAction === 'approve'
+                ? 'Confirm Approval'
+                : 'Confirm Rejection'}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
