@@ -15,10 +15,15 @@ import { VeterinarianManagementPanel } from '@/components/VeterinarianManagement
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck } from 'lucide-react';
 import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
 import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
+import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
+import { AdverseEventReporter } from '@/components/AdverseEventReporter';
+import { InvestigatorOnboardingWizard } from '@/components/InvestigatorOnboardingWizard';
+import { useLoadAction } from '@uibakery/data';
+import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
 import { useAuth } from '@/context/AuthContext';
 
 export function DashboardPage() {
@@ -27,6 +32,7 @@ export function DashboardPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [enrollDialogOpen, setEnrollDialogOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [qualData, qualLoading] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail: auth.email || '' });
 
   const handleEnrollSuccess = () => {
     setEnrollDialogOpen(false);
@@ -79,7 +85,7 @@ export function DashboardPage() {
       <div className="container mx-auto p-6 max-w-7xl">
         {isAdmin ? (
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-4">
+            <TabsList className="grid w-full max-w-3xl grid-cols-2 sm:grid-cols-5">
               <TabsTrigger value="overview">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Overview
@@ -95,6 +101,10 @@ export function DashboardPage() {
               <TabsTrigger value="trials">
                 <Database className="mr-2 h-4 w-4" />
                 Trials Data
+              </TabsTrigger>
+              <TabsTrigger value="compliance">
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                Compliance
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="mt-6 space-y-6">
@@ -155,10 +165,23 @@ export function DashboardPage() {
             <TabsContent value="trials" className="mt-6">
               <MasterTrialsTable adminEmail={userEmail} />
             </TabsContent>
+            <TabsContent value="compliance" className="mt-6">
+              <AdminComplianceDashboard />
+            </TabsContent>
           </Tabs>
+        ) : qualLoading ? (
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center text-muted-foreground">Loading qualification status...</div>
+            </CardContent>
+          </Card>
+        ) : !qualData || qualData.length === 0 ? (
+          <InvestigatorOnboardingWizard vetEmail={auth.email || ''} />
         ) : (
-          <Tabs defaultValue="patients" className="w-full">
-            <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-4">
+          <>
+            <AdverseEventReporter vetEmail={auth.email || ''} vetName={auth.email?.split('@')[0] || 'Vet'} />
+            <Tabs defaultValue="patients" className="w-full">
+              <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-4">
               <TabsTrigger value="patients">
                 <Users className="mr-2 h-4 w-4" />
                 Patients
@@ -238,6 +261,7 @@ export function DashboardPage() {
               <ProtocolDocumentCenter isAdmin={false} />
             </TabsContent>
           </Tabs>
+          </>
         )}
       </div>
     </div>

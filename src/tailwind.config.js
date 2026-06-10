@@ -1,5 +1,13 @@
 module.exports = {
-  ...{
+  content: [
+    './index.html',
+    './main.tsx',
+    './app/**/*.{ts,tsx}',
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './lib/**/*.{ts,tsx}',
+    './context/**/*.{ts,tsx}',
+  ],
   darkMode: ['selector'],
   theme: {
     container: {
@@ -214,6 +222,5 @@ module.exports = {
       },
     },
   },
-},
   plugins: [require('tailwindcss-animate')],
 };
