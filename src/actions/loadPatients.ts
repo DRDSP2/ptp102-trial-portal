@@ -9,7 +9,8 @@ function loadPatients() {
         screening_status,
         screening_notes,
         screened_by,
-        screened_at
+        screened_at,
+        enrolled_by_vet_email
       FROM patients
       WHERE
         COALESCE({{params.status}}, '') = ''

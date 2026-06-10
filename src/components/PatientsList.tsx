@@ -14,6 +14,8 @@ import { useAuth } from '@/context/AuthContext';
 import { generatePatientTrialReport } from '@/lib/reportGenerator';
 import approvePatientScreeningAction from '@/actions/approvePatientScreening';
 import rejectPatientScreeningAction from '@/actions/rejectPatientScreening';
+import sendEmailNotificationAction from '@/actions/sendEmailNotification';
+import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 
 type PatientsListProps = {
   statusFilter: string;
@@ -26,6 +28,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
   const [deletePatient, isDeleting] = useMutateAction(deletePatientAction);
   const [approvePatient, isApproving] = useMutateAction(approvePatientScreeningAction);
   const [rejectPatient, isRejecting] = useMutateAction(rejectPatientScreeningAction);
+  const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState<Patient | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -179,12 +182,38 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
     try {
       if (screenAction === 'approve') {
         await approvePatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes || null });
+        if (screenPatient.enrolled_by_vet_email) {
+          sendNotification(
+            sendEmail,
+            NotificationType.VET_APPROVED,
+            `✅ Patient Approved: ${screenPatient.horse_name}`,
+            {
+              'Horse Name': screenPatient.horse_name,
+              'Breed': screenPatient.breed,
+              'Status': 'Approved for PTP-102 trial',
+              'Screening Notes': screenNotes || 'No notes provided',
+            }
+          ).catch(err => console.error('Email notification failed:', err));
+        }
       } else {
         if (!screenNotes.trim()) {
           alert('Rejection notes are required');
           return;
         }
         await rejectPatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes });
+        if (screenPatient.enrolled_by_vet_email) {
+          sendNotification(
+            sendEmail,
+            NotificationType.VET_REJECTED,
+            `❌ Patient Rejected: ${screenPatient.horse_name}`,
+            {
+              'Horse Name': screenPatient.horse_name,
+              'Breed': screenPatient.breed,
+              'Status': 'Rejected from PTP-102 trial',
+              'Reason': screenNotes,
+            }
+          ).catch(err => console.error('Email notification failed:', err));
+        }
       }
       setScreenDialogOpen(false);
       setScreenPatient(null);

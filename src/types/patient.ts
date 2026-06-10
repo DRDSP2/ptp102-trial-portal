@@ -26,6 +26,7 @@ export type Patient = {
   enrollment_temperature?: number | null;
   body_condition_score?: number | null;
   profile_picture_url?: string | null;
+  enrolled_by_vet_email?: string | null;
   created_at: string;
   updated_at: string;
 };

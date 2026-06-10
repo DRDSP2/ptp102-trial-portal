@@ -11,7 +11,7 @@ function createPatient() {
         digital_pulse, hoof_wall_temperature, coronary_band_condition,
         hoof_tester_response, stance, gait,
         enrollment_heart_rate, enrollment_respiratory_rate, enrollment_temperature,
-        body_condition_score, profile_picture_url
+        body_condition_score, profile_picture_url, enrolled_by_vet_email
       )
       VALUES (
         {{params.horseName}},
@@ -35,7 +35,8 @@ function createPatient() {
         {{params.enrollmentRespiratoryRate}}::int,
         {{params.enrollmentTemperature}}::numeric,
         {{params.bodyConditionScore}}::numeric,
-        {{params.profilePictureUrl}}
+        {{params.profilePictureUrl}},
+        {{params.enrolledByVetEmail}}
       )
       RETURNING *;
     `,

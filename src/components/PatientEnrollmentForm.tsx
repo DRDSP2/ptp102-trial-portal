@@ -6,6 +6,7 @@ import { useMutateAction } from '@uibakery/data';
 import createPatientAction from '@/actions/createPatient';
 import updatePatientAction from '@/actions/updatePatient';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
+import { useAuth } from '@/context/AuthContext';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { Patient } from '@/types/patient';
 import { Button } from '@/components/ui/button';
@@ -129,6 +130,8 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
     form.setValue('profilePictureUrl', '');
   };
 
+  const auth = useAuth();
+
   const onSubmit = async (values: z.infer<typeof patientSchema>) => {
     setSubmitError(null);
     try {
@@ -155,6 +158,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
         enrollmentTemperature: values.enrollmentTemperature ? parseFloat(values.enrollmentTemperature) : null,
         bodyConditionScore: values.bodyConditionScore ? parseFloat(values.bodyConditionScore) : null,
         profilePictureUrl: values.profilePictureUrl || null,
+        enrolledByVetEmail: auth.email || null,
       };
 
       if (isEditMode && patient) {
