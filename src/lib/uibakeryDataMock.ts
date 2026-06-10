@@ -774,9 +774,10 @@ export function useMutateAction(actionName: ActionFactory | string) {
         // Approve / Reject Veterinarian
         // -------------------------------------------------------------------
         if (name === 'approveVeterinarian' || name === 'rejectVeterinarian') {
-          const p = params as { vetId?: number } | undefined;
+          const p = params as { id?: number; vetId?: number } | undefined;
           const vets = getVets();
-          const vet = vets.find((v) => v.id === p?.vetId);
+          const targetId = p?.id ?? p?.vetId;
+          const vet = vets.find((v) => v.id === targetId);
           if (vet) {
             vet.verification_status = name === 'approveVeterinarian' ? 'approved' : 'rejected';
             vet.updated_at = new Date().toISOString();

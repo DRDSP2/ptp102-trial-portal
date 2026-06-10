@@ -11,8 +11,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { CheckCircle, XCircle, Trash2, Eye, Mail, FileDown } from 'lucide-react';
+import { CheckCircle, XCircle, Trash2, Eye, Mail, FileDown, FileText, Download } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -62,7 +63,8 @@ export function VeterinarianManagementPanel() {
         ).catch(err => console.error('Email notification failed (non-critical):', err));
       }
       
-      refreshVets();
+      await refreshVets();
+      alert('Veterinarian approved successfully.');
     } catch (error) {
       console.error('Failed to approve veterinarian:', error);
       alert('Failed to approve veterinarian. Please try again.');
@@ -90,7 +92,8 @@ export function VeterinarianManagementPanel() {
           ).catch(err => console.error('Email notification failed (non-critical):', err));
         }
         
-        refreshVets();
+        await refreshVets();
+        alert('Veterinarian rejected.');
       } catch (error) {
         console.error('Failed to reject veterinarian:', error);
         alert('Failed to reject veterinarian. Please try again.');
@@ -108,6 +111,192 @@ export function VeterinarianManagementPanel() {
         console.error('Failed to delete veterinarian:', error);
         alert('Failed to delete veterinarian. Please try again.');
       }
+    }
+  };
+
+  const handleExportVetContract = (vet: Veterinarian) => {
+    try {
+      const doc = new jsPDF('portrait', 'mm', 'a4');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      let y = 20;
+
+      // Helper to add wrapped text
+      const addWrapped = (text: string, x: number, yPos: number, maxWidth: number, fontSize = 10) => {
+        doc.setFontSize(fontSize);
+        const lines = doc.splitTextToSize(text, maxWidth);
+        doc.text(lines, x, yPos);
+        return yPos + lines.length * fontSize * 0.45;
+      };
+
+      // HEADER
+      doc.setFillColor(107, 127, 58);
+      doc.rect(0, 0, pageWidth, 35, 'F');
+      doc.setFontSize(20);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Byrock Technologies Ltd.', margin, 15);
+      doc.setFontSize(11);
+      doc.text('PTP-102 Laminitis Trial — Investigational New Animal Drug (INAD)', margin, 23);
+      doc.text('FDA CVM Review Pending', margin, 29);
+
+      y = 45;
+      doc.setTextColor(40, 40, 40);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('VETERINARIAN TERMS & CONDITIONS', margin, y);
+      doc.text('ACCEPTANCE AGREEMENT', margin, y + 7);
+      doc.setFont('helvetica', 'normal');
+
+      y = 62;
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Document ID: PTP102-TC-${vet.id}-${timestamp}`, margin, y);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, margin, y + 4);
+      doc.text(`Veterinarian ID: VET-${String(vet.id).padStart(4, '0')}`, margin, y + 8);
+
+      // SECTION: Party Details
+      y = 82;
+      doc.setFontSize(12);
+      doc.setTextColor(107, 127, 58);
+      doc.setFont('helvetica', 'bold');
+      doc.text('1. PARTY IDENTIFICATION', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+
+      const details = [
+        ['Full Name:', vet.full_name],
+        ['Email Address:', vet.email],
+        ['Veterinary License:', vet.license_number],
+        ['Hospital / Clinic:', vet.hospital_affiliation],
+        ['Registration Date:', vet.created_at ? new Date(vet.created_at).toLocaleString() : 'N/A'],
+        ['Account Status:', vet.verification_status.toUpperCase()],
+      ];
+
+      y = 90;
+      details.forEach(([label, value]) => {
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text(label, margin, y);
+        doc.setFont('helvetica', 'normal');
+        doc.text(String(value), margin + 50, y);
+        y += 6;
+      });
+
+      // SECTION: Declarations
+      y += 6;
+      doc.setFontSize(12);
+      doc.setTextColor(107, 127, 58);
+      doc.setFont('helvetica', 'bold');
+      doc.text('2. DECLARATIONS & ACKNOWLEDGMENTS', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+
+      y += 8;
+      const declarations = [
+        {
+          label: 'Investigational Status Acknowledged',
+          value: vet.tc_accepted ? 'YES — Confirmed' : 'NO',
+          detail: 'The undersigned acknowledges that PTP-102 (methylated tirilazad) is an investigational new animal drug (INAD) under FDA CVM review and has not received marketing approval.',
+        },
+        {
+          label: 'Treatment Risks Accepted',
+          value: vet.tc_accepted ? 'YES — Confirmed' : 'NO',
+          detail: 'The undersigned accepts all known and unknown risks associated with the administration of PTP-102 to equine subjects enrolled in this clinical trial.',
+        },
+        {
+          label: 'Liability Acknowledged',
+          value: vet.tc_accepted ? 'YES — Confirmed' : 'NO',
+          detail: 'The undersigned acknowledges liability limitations as set forth in the trial protocol and agrees to indemnify Byrock Technologies Ltd. to the extent permitted by applicable law.',
+        },
+        {
+          label: 'No Conflicts of Interest',
+          value: vet.no_conflict_of_interest === true ? 'YES — Confirmed' : vet.no_conflict_of_interest === false ? 'NO — Declared' : 'Pending migration',
+          detail: 'The undersigned confirms that they have no financial, professional, or personal conflicts of interest that could influence the outcome of this clinical trial.',
+        },
+      ];
+
+      declarations.forEach((decl, idx) => {
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${idx + 1}. ${decl.label}`, margin, y);
+        y += 5;
+        doc.setTextColor(107, 127, 58);
+        doc.text(`   Status: ${decl.value}`, margin, y);
+        doc.setTextColor(40, 40, 40);
+        y += 5;
+        y = addWrapped(decl.detail, margin + 4, y, pageWidth - margin * 2 - 4, 9);
+        y += 4;
+      });
+
+      // SECTION: Digital Signature
+      y += 4;
+      doc.setFontSize(12);
+      doc.setTextColor(107, 127, 58);
+      doc.setFont('helvetica', 'bold');
+      doc.text('3. DIGITAL SIGNATURE & TIMESTAMP', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+
+      y += 8;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Digital Signature:', margin, y);
+      doc.setFont('helvetica', 'italic');
+      doc.setTextColor(80, 80, 80);
+      doc.text(`"${vet.signature_text || 'Not provided'}"`, margin, y + 5);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+
+      y += 14;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Terms & Conditions Accepted At:', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(vet.tc_accepted_at ? new Date(vet.tc_accepted_at).toLocaleString() : 'N/A', margin + 70, y);
+
+      y += 6;
+      doc.setFont('helvetica', 'bold');
+      doc.text('Last Updated:', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.text(vet.created_at ? new Date(vet.created_at).toLocaleString() : 'N/A', margin + 70, y);
+
+      // SECTION: Legal Boilerplate
+      y += 16;
+      doc.setFontSize(12);
+      doc.setTextColor(107, 127, 58);
+      doc.setFont('helvetica', 'bold');
+      doc.text('4. LEGAL CERTIFICATION', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+
+      y += 8;
+      const legalText =
+        'This document constitutes a legally binding record of the undersigned veterinarian\'s acceptance of the Terms and Conditions governing participation in the PTP-102 Laminitis Clinical Trial. The digital signature and timestamp recorded herein serve as equivalent evidence of assent as a handwritten signature under applicable electronic transactions legislation. Byrock Technologies Ltd. retains this document for regulatory compliance, audit, and FDA CVM inspection purposes. Any dispute arising from this agreement shall be governed by the laws of Ireland and subject to the exclusive jurisdiction of the Irish courts. This agreement may not be modified except in writing signed by both parties.';
+      y = addWrapped(legalText, margin, y, pageWidth - margin * 2, 9);
+
+      // Footer on every page
+      const pageCount = doc.internal.pages.length - 1;
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(120, 120, 120);
+        doc.text(
+          `Page ${i} of ${pageCount} | Document ID: PTP102-TC-${vet.id}-${timestamp} | PTP-102 is an investigational new animal drug (INAD) under FDA CVM review.`,
+          margin,
+          doc.internal.pageSize.height - 10
+        );
+        doc.text(
+          'Byrock Technologies Ltd. — Confidential & Proprietary — For Regulatory Compliance Use Only',
+          margin,
+          doc.internal.pageSize.height - 6
+        );
+      }
+
+      doc.save(`PTP102_Vet_Contract_${vet.full_name.replace(/\s+/g, '_')}_${timestamp}.pdf`);
+    } catch (err) {
+      console.error('Contract PDF export failed:', err);
+      alert('Failed to export contract PDF. Please try again.');
     }
   };
 
@@ -327,6 +516,24 @@ export function VeterinarianManagementPanel() {
                                 <p className="text-sm font-semibold">No Conflicts of Interest</p>
                                 <p className="text-sm text-muted-foreground">
                                   {vet.no_conflict_of_interest === true ? 'Yes ✓' : vet.no_conflict_of_interest === false ? 'No ✗' : 'Pending migration'}
+                                </p>
+                              </div>
+
+                              <Separator />
+
+                              <div className="pt-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleExportVetContract(vet)}
+                                  type="button"
+                                  className="w-full gap-2"
+                                >
+                                  <FileText className="h-4 w-4" />
+                                  Download Legal Contract (PDF)
+                                </Button>
+                                <p className="text-xs text-muted-foreground mt-2 text-center">
+                                  This PDF serves as the legal record of T&C acceptance for regulatory compliance.
                                 </p>
                               </div>
                             </div>
