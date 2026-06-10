@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLoadAction, useMutateAction } from '@uibakery/data';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,6 +22,10 @@ import {
   Upload,
   Shield,
   Clock,
+  BookOpen,
+  XCircle,
+  Award,
+  CheckCircle,
 } from 'lucide-react';
 
 const AGREEMENT_TEXT = `I, the undersigned veterinarian, agree to serve as a qualified investigator for the PTP-102 Laminitis Pilot Study. I will:
@@ -41,32 +45,418 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
   const [step, setStep] = useState(1);
   const qualification = qualData && qualData.length > 0 ? qualData[0] : null;
 
+  // GCP Training Module State
+  const [gcpMode, setGcpMode] = useState<'training' | 'upload' | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
+  const [quizScore, setQuizScore] = useState(0);
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizPassed, setQuizPassed] = useState(false);
+  const [secondsRemaining, setSecondsRemaining] = useState(15 * 60);
+  const [timerActive, setTimerActive] = useState(false);
+  const [uploadedFileName, setUploadedFileName] = useState('');
+  const [externalFileName, setExternalFileName] = useState('');
+
+  const totalSlides = 8;
+  const PASSING_SCORE = 80;
+
+  const quizData = [
+    {
+      q: 'What is the primary purpose of Good Clinical Practice (GCP)?',
+      options: [
+        'To reduce the cost of clinical trials',
+        'To ensure trial data are credible and subject rights are protected',
+        'To speed up regulatory approval timelines',
+        'To eliminate the need for monitoring visits',
+      ],
+      correct: 1,
+    },
+    {
+      q: 'Under VICH GL9, who is personally accountable for all trial-related veterinary decisions?',
+      options: [
+        'The sponsor',
+        'The regulatory authority',
+        'The investigator (veterinarian)',
+        'The study monitor',
+      ],
+      correct: 2,
+    },
+    {
+      q: 'How soon must a Serious Adverse Event (SAE) be reported to the sponsor?',
+      options: [
+        'Within 7 days',
+        'Within 72 hours',
+        'Within 24 hours of awareness',
+        'At the next scheduled monitoring visit',
+      ],
+      correct: 2,
+    },
+    {
+      q: 'What must be documented when a source document entry is corrected?',
+      options: [
+        'Nothing — corrections are not allowed',
+        'A single line through the error, the correction, reason for change, initials, and date',
+        'White-out or correction fluid to maintain a clean record',
+        'Only the corrected value with the investigator\'s signature',
+      ],
+      correct: 1,
+    },
+    {
+      q: 'For how long must trial records be retained after study completion?',
+      options: [
+        '1 year',
+        '2 years after NADA approval or 5 years after study completion, whichever is longer',
+        '10 years from the first subject enrolled',
+        'Until the sponsor requests their return',
+      ],
+      correct: 1,
+    },
+    {
+      q: 'An animal owner has the right to:',
+      options: [
+        'Request access to other subjects\' data',
+        'Modify their animal\'s treatment plan independently',
+        'Withdraw their animal from the trial at any time without penalty',
+        'Receive financial compensation for any adverse event',
+      ],
+      correct: 2,
+    },
+    {
+      q: 'Which of the following is NOT acceptable for investigational product storage?',
+      options: [
+        'Storing at the temperature specified in the protocol',
+        'Maintaining temperature logs',
+        'Storing PTP-102 alongside commercially available drugs in the same refrigerator',
+        'Following the sponsor\'s specific storage instructions',
+      ],
+      correct: 2,
+    },
+    {
+      q: 'What is required before enrolling an animal in the PTP-102 trial?',
+      options: [
+        'A signed and dated informed consent form from the animal owner',
+        'A payment processing form from the owner',
+        'A guarantee of therapeutic success from the investigator',
+        'A separate insurance policy for the animal',
+      ],
+      correct: 0,
+    },
+    {
+      q: 'A protocol deviation must be:',
+      options: [
+        'Ignored if it doesn\'t affect the primary endpoint',
+        'Documented and reported per the protocol requirements',
+        'Corrected retroactively without notation',
+        'Reported only if discovered by the monitor',
+      ],
+      correct: 1,
+    },
+    {
+      q: 'Drug accountability records for PTP-102 must include all EXCEPT:',
+      options: [
+        'Batch/lot number and quantity received',
+        'Subject ID, dose, date, and person dispensing',
+        'The owner\'s credit card information for billing',
+        'Remaining balance, returns, and any discrepancies',
+      ],
+      correct: 2,
+    },
+  ];
+
+  // Timer effect
+  useEffect(() => {
+    if (!timerActive) return;
+    const interval = setInterval(() => {
+      setSecondsRemaining((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          submitQuiz();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timerActive]);
+
+  const startTraining = () => {
+    setGcpMode('training');
+    setCurrentSlide(0);
+    setQuizAnswers({});
+    setQuizSubmitted(false);
+    setQuizPassed(false);
+    setQuizScore(0);
+    setSecondsRemaining(15 * 60);
+    setTimerActive(false);
+    setUploadedFileName('');
+  };
+
+  const startUpload = () => {
+    setGcpMode('upload');
+    setUploadedFileName('');
+    setExternalFileName('');
+  };
+
+  const changeSlide = (dir: number) => {
+    setCurrentSlide((prev) => {
+      const next = prev + dir;
+      return Math.max(0, Math.min(totalSlides - 1, next));
+    });
+  };
+
+  const startQuiz = () => {
+    setTimerActive(true);
+  };
+
+  const selectAnswer = (qIdx: number, aIdx: number) => {
+    setQuizAnswers((prev) => ({ ...prev, [qIdx]: aIdx }));
+  };
+
+  const submitQuiz = () => {
+    setTimerActive(false);
+    let correct = 0;
+    quizData.forEach((q, i) => {
+      if (quizAnswers[i] === q.correct) correct++;
+    });
+    const score = Math.round((correct / quizData.length) * 100);
+    const passed = score >= PASSING_SCORE;
+    setQuizScore(score);
+    setQuizSubmitted(true);
+    setQuizPassed(passed);
+    if (passed) {
+      updateForm('gcpQuizScore', String(score));
+      updateForm('gcpTrainingCompleted', true);
+    }
+  };
+
+  const retakeQuiz = () => {
+    setQuizAnswers({});
+    setQuizSubmitted(false);
+    setQuizPassed(false);
+    setQuizScore(0);
+    setSecondsRemaining(15 * 60);
+    setTimerActive(true);
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setUploadedFileName(file.name);
+      updateForm('gcpTrainingCompleted', true);
+    }
+  };
+
+  const handleExternalUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setExternalFileName(file.name);
+      updateForm('gcpTrainingCompleted', true);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const s = (seconds % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  };
+
+  const slides = [
+    {
+      title: '1. Introduction to GCP',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p><strong>Good Clinical Practice (GCP)</strong> is an international ethical and scientific quality standard for designing, conducting, recording, and reporting trials that involve the participation of animal subjects.</p>
+          <p>GCP ensures that:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>The rights, safety, and well-being of trial subjects are protected</li>
+            <li>Clinical trial data are credible and accurate</li>
+            <li>The study is conducted in accordance with the approved protocol</li>
+          </ul>
+          <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-800">
+            <strong>Key Point:</strong> VICH GL9 provides a harmonized approach to GCP for veterinary clinical trials, accepted across the US, EU, Japan, and other regions.
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '2. Roles & Responsibilities',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p>The <strong>Sponsor</strong> is responsible for initiating, managing, and financing the clinical trial. They must ensure proper monitoring and quality assurance.</p>
+          <p>The <strong>Investigator</strong> (you) is responsible for:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Conducting the trial according to the signed protocol</li>
+            <li>Obtaining informed consent from animal owners</li>
+            <li>Maintaining accurate source documents and case report forms</li>
+            <li>Reporting adverse events promptly to the sponsor</li>
+            <li>Ensuring trial site staff are trained and qualified</li>
+          </ul>
+          <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-800">
+            <strong>Key Point:</strong> The investigator is personally accountable for all trial-related medical (veterinary) decisions and documentation.
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '3. Informed Consent from Animal Owners',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p>Before enrolling any animal in the PTP-102 trial, you must obtain <strong>informed consent</strong> from the animal&apos;s owner or authorized agent.</p>
+          <p>The consent process must include:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>A clear explanation of the investigational nature of PTP-102</li>
+            <li>Potential risks and benefits of participation</li>
+            <li>Alternative treatments available</li>
+            <li>Right to withdraw the animal at any time without penalty</li>
+            <li>Confidentiality protections for owner and animal data</li>
+          </ul>
+          <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-800">
+            <strong>Key Point:</strong> Consent must be documented with a signed and dated consent form. A copy must be provided to the owner and retained in the study file.
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '4. Protocol Compliance',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p>The <strong>clinical trial protocol</strong> is the core document that describes the objectives, design, methodology, and organization of the study.</p>
+          <p>As an investigator, you must:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Follow the protocol precisely — do not deviate without documented approval</li>
+            <li>Enroll only subjects that meet all inclusion and exclusion criteria</li>
+            <li>Administer treatments at specified intervals and doses</li>
+            <li>Collect data at all required timepoints</li>
+          </ul>
+          <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-800">
+            <strong>Key Point:</strong> Any protocol deviation must be documented immediately. Significant deviations that affect subject safety or data integrity must be reported to the sponsor within 24 hours.
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '5. Data Integrity & Source Documents',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p><strong>Source documents</strong> are original records that contain observations, clinical findings, and data collected during the trial. These include:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Veterinary medical records and examination notes</li>
+            <li>Laboratory test results (serum chemistry, CBC, etc.)</li>
+            <li>Imaging reports (radiographs, MRI, etc.)</li>
+            <li>Dispensing logs and drug accountability records</li>
+            <li>Owner communication logs</li>
+          </ul>
+          <p>All entries in case report forms (CRFs) must be traceable to source documents. Never:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Backdate entries or use correction fluid</li>
+            <li>Leave mandatory fields blank</li>
+            <li>Alter data without documenting the reason and initialing the change</li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      title: '6. Adverse Event Reporting',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p>An <strong>Adverse Event (AE)</strong> is any untoward medical occurrence in a clinical trial subject administered an investigational product, regardless of causal relationship.</p>
+          <p>Reporting requirements:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li><strong>Serious AEs (SAEs):</strong> Report to sponsor within <strong>24 hours</strong> of awareness. SAEs include death, life-threatening events, hospitalization, persistent disability, or congenital anomaly.</li>
+            <li><strong>Non-serious AEs:</strong> Report per the protocol schedule (typically at each visit).</li>
+            <li>Follow up on all AEs until resolution or stabilization.</li>
+          </ul>
+          <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-800">
+            <strong>Key Point:</strong> For PTP-102, any signs of worsening laminitis, injection site reaction, or unexpected systemic effects must be reported immediately as an AE.
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: '7. Investigational Product Handling',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p>PTP-102 is an <strong>investigational new animal drug (INAD)</strong> and must be handled with strict controls:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Store at the temperature specified in the protocol and labeling</li>
+            <li>Maintain accurate inventory logs: receipt, dispensing, return, and disposal</li>
+            <li>Only dispense to enrolled trial subjects per the protocol</li>
+            <li>Return all unused product and empty containers to the sponsor or dispose per instructions</li>
+          </ul>
+          <p><strong>Drug accountability</strong> records must include:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Product batch/lot number, quantity received, and date</li>
+            <li>Subject ID, dose administered, date, and person dispensing</li>
+            <li>Remaining balance, returns, and reasons for any discrepancies</li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      title: '8. Monitoring, Audits & Record Retention',
+      content: (
+        <div className="space-y-3 text-sm text-slate-600 leading-relaxed">
+          <p>The sponsor will conduct <strong>monitoring visits</strong> to verify that:</p>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>The trial is conducted per the protocol, GCP, and regulatory requirements</li>
+            <li>Data recorded in CRFs matches source documents</li>
+            <li>Investigational product is properly stored and accounted for</li>
+            <li>All AEs are reported and documented</li>
+          </ul>
+          <p>Regulatory authorities (e.g., FDA CVM) may also conduct inspections at any time.</p>
+          <div className="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-800">
+            <strong>Key Point:</strong> All trial records must be retained for at least <strong>2 years after NADA approval</strong> or <strong>5 years after study completion</strong>, whichever is longer. This includes all source documents, CRFs, consent forms, and correspondence.
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   const [form, setForm] = useState({
-    licenseNumber: qualification?.license_number || '',
-    licenseState: qualification?.license_state || '',
-    yearsExperience: qualification?.years_experience || '',
-    laminitisCaseVolume: qualification?.laminitis_case_volume_per_year || '',
-    priorTrialExperience: qualification?.prior_clinical_trial_experience || false,
-    priorTrialsCount: qualification?.prior_trials_count || '0',
-    gcpTrainingCompleted: qualification?.gcp_training_completed || false,
-    gcpQuizScore: qualification?.gcp_quiz_score || '',
-    facilityInspectionCompleted: qualification?.facility_inspection_completed || false,
-    investigatorAgreementSigned: qualification?.investigator_agreement_signed || false,
-    protocolSigned: qualification?.protocol_signed || false,
+    licenseNumber: '',
+    licenseState: '',
+    yearsExperience: '',
+    laminitisCaseVolume: '',
+    priorTrialExperience: false,
+    priorTrialsCount: '0',
+    gcpTrainingCompleted: false,
+    gcpQuizScore: '',
+    facilityInspectionCompleted: false,
+    investigatorAgreementSigned: false,
+    protocolSigned: false,
     agreementAcknowledged: false,
     protocolAcknowledged: false,
   });
+
+  useEffect(() => {
+    if (!qualification) return;
+    setForm({
+      licenseNumber: qualification.license_number || '',
+      licenseState: qualification.license_state || '',
+      yearsExperience: qualification.years_experience != null ? String(qualification.years_experience) : '',
+      laminitisCaseVolume: qualification.laminitis_case_volume_per_year != null ? String(qualification.laminitis_case_volume_per_year) : '',
+      priorTrialExperience: qualification.prior_clinical_trial_experience || false,
+      priorTrialsCount: qualification.prior_trials_count != null ? String(qualification.prior_trials_count) : '0',
+      gcpTrainingCompleted: qualification.gcp_training_completed || false,
+      gcpQuizScore: qualification.gcp_quiz_score != null ? String(qualification.gcp_quiz_score) : '',
+      facilityInspectionCompleted: qualification.facility_inspection_completed || false,
+      investigatorAgreementSigned: qualification.investigator_agreement_signed || false,
+      protocolSigned: qualification.protocol_signed || false,
+      agreementAcknowledged: qualification.investigator_agreement_signed || false,
+      protocolAcknowledged: qualification.protocol_signed || false,
+    });
+  }, [qualification]);
 
   const updateForm = (field: string, value: any) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSave = async () => {
-    const vetId = qualification?.veterinarian_id;
-    if (!vetId) return;
+    if (!vetEmail) return;
 
     await saveQual({
-      veterinarianId: vetId,
+      vetEmail,
+      veterinarianId: qualification?.veterinarian_id ?? 0,
       licenseNumber: form.licenseNumber,
       licenseState: form.licenseState,
       yearsExperience: parseInt(form.yearsExperience) || 0,
@@ -201,31 +591,200 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
               </h3>
               <Alert className="bg-blue-50 border-blue-200">
                 <AlertDescription className="text-sm text-blue-800">
-                  Good Clinical Practice (GCP) training is required per VICH GL9. 
+                  Good Clinical Practice (GCP) training is required per VICH GL9.
                   Upload your certificate or complete the in-app training module.
                 </AlertDescription>
               </Alert>
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Checkbox checked={form.gcpTrainingCompleted} onCheckedChange={(v) => updateForm('gcpTrainingCompleted', !!v)} />
-                  <Label className="font-normal">I have completed GCP training for this study</Label>
+
+              {!gcpMode && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <Card className="cursor-pointer hover:shadow-md transition-shadow border-2 border-transparent hover:border-blue-300" onClick={startTraining}>
+                    <CardContent className="p-6 text-center space-y-3">
+                      <BookOpen className="h-10 w-10 mx-auto text-blue-600" />
+                      <h4 className="font-semibold text-lg">Complete Training Module</h4>
+                      <p className="text-sm text-slate-500">
+                        8 interactive GCP slides + 10-question quiz (15 min timer). Pass with 80% to earn a certificate.
+                      </p>
+                      <Button type="button">Start Training</Button>
+                    </CardContent>
+                  </Card>
+                  <Card className="cursor-pointer hover:shadow-md transition-shadow border-2 border-transparent hover:border-blue-300" onClick={startUpload}>
+                    <CardContent className="p-6 text-center space-y-3">
+                      <Upload className="h-10 w-10 mx-auto text-emerald-600" />
+                      <h4 className="font-semibold text-lg">Upload Existing Certificate</h4>
+                      <p className="text-sm text-slate-500">
+                        Already have a GCP certificate from another provider? Upload it here for verification.
+                      </p>
+                      <Button variant="outline" type="button">Upload Certificate</Button>
+                    </CardContent>
+                  </Card>
                 </div>
-                {form.gcpTrainingCompleted && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pl-6">
+              )}
+
+              {gcpMode === 'training' && (
+                <Card className="border">
+                  <CardContent className="p-6 space-y-6">
+                    {/* Slide Progress */}
                     <div className="space-y-2">
-                      <Label>Training Quiz Score (%)</Label>
-                      <Input type="number" value={form.gcpQuizScore} onChange={(e) => updateForm('gcpQuizScore', e.target.value)} placeholder="e.g. 85" />
+                      <div className="flex justify-between text-xs font-medium text-slate-500">
+                        <span>Progress</span>
+                        <span>{currentSlide + 1} / {totalSlides}</span>
+                      </div>
+                      <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                        <div
+                          className="bg-blue-600 h-2 rounded-full transition-all"
+                          style={{ width: `${((currentSlide + 1) / totalSlides) * 100}%` }}
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label>Certificate Upload</Label>
-                      <Button variant="outline" className="w-full" type="button">
-                        <Upload className="h-4 w-4 mr-2" />
-                        Upload Certificate
+
+                    {/* Slide Content */}
+                    {currentSlide < totalSlides && !quizSubmitted && (
+                      <div className="space-y-4">
+                        <h4 className="text-lg font-semibold text-slate-800">{slides[currentSlide].title}</h4>
+                        <div>{slides[currentSlide].content}</div>
+                      </div>
+                    )}
+
+                    {/* Quiz */}
+                    {currentSlide === totalSlides - 1 && !quizSubmitted && (
+                      <div className="space-y-4 pt-4 border-t">
+                        {!timerActive && Object.keys(quizAnswers).length === 0 && (
+                          <div className="text-center space-y-3">
+                            <h4 className="font-semibold text-lg">GCP Knowledge Assessment</h4>
+                            <p className="text-sm text-slate-500">10 questions · 15 minutes · 80% required to pass</p>
+                            <Button type="button" onClick={startQuiz}>Start Quiz</Button>
+                          </div>
+                        )}
+                        {timerActive && (
+                          <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                              <Badge variant={secondsRemaining < 120 ? 'destructive' : 'secondary'}>
+                                <Clock className="h-3 w-3 mr-1" />
+                                {formatTime(secondsRemaining)}
+                              </Badge>
+                              <span className="text-xs text-slate-500">{Object.keys(quizAnswers).length} / {quizData.length} answered</span>
+                            </div>
+                            {quizData.map((q, qi) => (
+                              <div key={qi} className="space-y-2">
+                                <p className="text-sm font-medium text-slate-800">{qi + 1}. {q.q}</p>
+                                <div className="space-y-1">
+                                  {q.options.map((opt, ai) => (
+                                    <label key={ai} className={`flex items-center gap-2 p-2 rounded-md cursor-pointer text-sm border transition-colors ${quizAnswers[qi] === ai ? 'bg-blue-50 border-blue-300' : 'border-transparent hover:bg-slate-50'}`}>
+                                      <input type="radio" name={`q-${qi}`} className="accent-blue-600" checked={quizAnswers[qi] === ai} onChange={() => selectAnswer(qi, ai)} />
+                                      <span>{opt}</span>
+                                    </label>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                            <Button type="button" className="w-full" onClick={submitQuiz} disabled={Object.keys(quizAnswers).length < quizData.length}>
+                              Submit Quiz
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Quiz Results */}
+                    {quizSubmitted && (
+                      <div className="text-center space-y-4 pt-4 border-t">
+                        {quizPassed ? (
+                          <>
+                            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                              <CheckCircle className="h-8 w-8" />
+                            </div>
+                            <h4 className="text-xl font-bold text-emerald-700">Congratulations!</h4>
+                            <p className="text-slate-600">You passed the GCP Knowledge Assessment with a score of <strong>{quizScore}%</strong>.</p>
+                            <Card className="bg-slate-50 border border-slate-200 max-w-md mx-auto">
+                              <CardContent className="p-6 text-center space-y-2">
+                                <Award className="h-10 w-10 mx-auto text-amber-500" />
+                                <h5 className="font-bold text-lg">Certificate of Completion</h5>
+                                <p className="text-sm text-slate-600">Good Clinical Practice (VICH GL9)</p>
+                                <p className="text-xs text-slate-500">PTP-102 Veterinary Laminitis Trial</p>
+                                <p className="text-xs text-slate-400">Score: {quizScore}%</p>
+                              </CardContent>
+                            </Card>
+                            <div className="space-y-2">
+                              <p className="text-sm text-slate-500">Optionally upload a formal certificate file:</p>
+                              <div className="flex items-center gap-2 justify-center">
+                                <input type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" id="training-cert-upload" onChange={handleFileUpload} />
+                                <Button type="button" variant="outline" onClick={() => document.getElementById('training-cert-upload')?.click()}>
+                                  <Upload className="h-4 w-4 mr-2" />
+                                  {uploadedFileName || 'Upload Certificate'}
+                                </Button>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto">
+                              <XCircle className="h-8 w-8" />
+                            </div>
+                            <h4 className="text-xl font-bold text-red-700">Not Quite</h4>
+                            <p className="text-slate-600">You scored <strong>{quizScore}%</strong>. You need 80% to pass.</p>
+                            <Button type="button" variant="outline" onClick={retakeQuiz}>Retake Quiz</Button>
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Navigation */}
+                    {!quizSubmitted && (
+                      <div className="flex justify-between pt-4 border-t">
+                        <Button type="button" variant="outline" onClick={() => changeSlide(-1)} disabled={currentSlide === 0}>
+                          <ChevronLeft className="h-4 w-4 mr-1" />
+                          Previous
+                        </Button>
+                        <Button type="button" onClick={() => changeSlide(1)} disabled={currentSlide === totalSlides - 1 || (currentSlide === totalSlides - 1 && !timerActive)}>
+                          Next
+                          <ChevronRight className="h-4 w-4 ml-1" />
+                        </Button>
+                      </div>
+                    )}
+
+                    {/* Back to options */}
+                    <div className="text-center pt-2">
+                      <Button type="button" variant="ghost" size="sm" onClick={() => setGcpMode(null)}>
+                        Back to Options
                       </Button>
                     </div>
-                  </div>
-                )}
-              </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {gcpMode === 'upload' && (
+                <Card className="border">
+                  <CardContent className="p-6 space-y-4">
+                    <div className="text-center space-y-2">
+                      <Upload className="h-10 w-10 mx-auto text-emerald-600" />
+                      <h4 className="font-semibold text-lg">Upload External GCP Certificate</h4>
+                      <p className="text-sm text-slate-500">Accepted formats: PDF, PNG, JPG. Max 10MB.</p>
+                    </div>
+                    <div className="flex items-center gap-2 justify-center">
+                      <input type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" id="external-cert-upload" onChange={handleExternalUpload} />
+                      <Button type="button" variant="outline" onClick={() => document.getElementById('external-cert-upload')?.click()}>
+                        <Upload className="h-4 w-4 mr-2" />
+                        {externalFileName || 'Choose File'}
+                      </Button>
+                    </div>
+                    {externalFileName && (
+                      <div className="text-center space-y-2">
+                        <Badge variant="outline" className="text-emerald-600 border-emerald-200 bg-emerald-50">
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          {externalFileName} uploaded
+                        </Badge>
+                        <p className="text-xs text-slate-500">GCP training marked as completed.</p>
+                      </div>
+                    )}
+                    <div className="text-center pt-2">
+                      <Button type="button" variant="ghost" size="sm" onClick={() => setGcpMode(null)}>
+                        Back to Options
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           )}
 

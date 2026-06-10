@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutateAction, useLoadAction } from '@uibakery/data';
 import loadVeterinariansAction from '@/actions/loadVeterinarians';
+import loadAllInvestigatorQualificationsAction from '@/actions/loadAllInvestigatorQualifications';
 import approveVeterinarianAction from '@/actions/approveVeterinarian';
 import rejectVeterinarianAction from '@/actions/rejectVeterinarian';
 import deleteVeterinarianAction from '@/actions/deleteVeterinarian';
+import approveInvestigatorQualificationAction from '@/actions/approveInvestigatorQualification';
+import rejectInvestigatorQualificationAction from '@/actions/rejectInvestigatorQualification';
 import updateVetVerificationStatusAction from '@/actions/updateVetVerificationStatus';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
@@ -13,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { CheckCircle, XCircle, Trash2, Eye, Mail, FileDown, FileText, Download } from 'lucide-react';
+import { CheckCircle, XCircle, Trash2, Eye, Mail, FileDown, FileText, Download, GraduationCap, Award, Shield, User } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -32,15 +35,66 @@ type Veterinarian = {
   last_login: string | null;
 };
 
+type InvestigatorQualification = {
+  id: number;
+  veterinarian_id: number;
+  vet_email: string;
+  full_name: string | null;
+  email: string | null;
+  hospital_affiliation: string | null;
+  license_number: string | null;
+  license_state: string | null;
+  years_experience: number | null;
+  laminitis_case_volume_per_year: number | null;
+  prior_clinical_trial_experience: boolean | null;
+  prior_trials_count: number | null;
+  gcp_training_completed: boolean | null;
+  gcp_certificate_url: string | null;
+  gcp_completion_date: string | null;
+  gcp_expiry_date: string | null;
+  gcp_quiz_score: number | null;
+  facility_inspection_completed: boolean | null;
+  facility_inspection_date: string | null;
+  investigator_agreement_signed: boolean | null;
+  investigator_agreement_signed_at: string | null;
+  investigator_agreement_signature: string | null;
+  protocol_signed: boolean | null;
+  protocol_signed_at: string | null;
+  protocol_signed_version: string | null;
+  protocol_signature: string | null;
+  qualification_status: string | null;
+  status: 'pending' | 'approved' | 'rejected';
+  created_at: string;
+  updated_at: string;
+};
+
 export function VeterinarianManagementPanel() {
   const [vets, loadingVets, errorVets, refreshVets] = useLoadAction(loadVeterinariansAction, [], {});
+  const [allQuals, loadingQuals] = useLoadAction(loadAllInvestigatorQualificationsAction, [], {});
   const [approveVet] = useMutateAction(approveVeterinarianAction);
   const [rejectVet] = useMutateAction(rejectVeterinarianAction);
   const [deleteVet] = useMutateAction(deleteVeterinarianAction);
+  const [approveQual] = useMutateAction(approveInvestigatorQualificationAction);
+  const [rejectQual] = useMutateAction(rejectInvestigatorQualificationAction);
   const [updateVetStatus] = useMutateAction(updateVetVerificationStatusAction);
   const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [selectedVet, setSelectedVet] = useState<Veterinarian | null>(null);
+  const [selectedQual, setSelectedQual] = useState<InvestigatorQualification | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const qualsList: InvestigatorQualification[] = allQuals || [];
+
+  const getQualForVet = (vet: Veterinarian): InvestigatorQualification | null => {
+    return qualsList.find((q) => q.vet_email === vet.email || q.veterinarian_id === vet.id) || null;
+  };
+
+  useEffect(() => {
+    if (selectedVet) {
+      setSelectedQual(getQualForVet(selectedVet));
+    } else {
+      setSelectedQual(null);
+    }
+  }, [selectedVet, qualsList]);
 
   const handleApprove = async (id: number) => {
     try {
@@ -360,6 +414,337 @@ export function VeterinarianManagementPanel() {
     }
   };
 
+  const handleExportFullRegistrationPacket = (vet: Veterinarian, qual: InvestigatorQualification | null) => {
+    try {
+      const doc = new jsPDF('portrait', 'mm', 'a4');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      let y = 20;
+
+      const addWrapped = (text: string, x: number, yPos: number, maxWidth: number, fontSize = 10) => {
+        doc.setFontSize(fontSize);
+        const lines = doc.splitTextToSize(text, maxWidth);
+        doc.text(lines, x, yPos);
+        return yPos + lines.length * fontSize * 0.45;
+      };
+
+      const addSection = (title: string, rows: [string, string][], yPos: number) => {
+        doc.setFontSize(12);
+        doc.setTextColor(107, 127, 58);
+        doc.setFont('helvetica', 'bold');
+        doc.text(title, margin, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(40, 40, 40);
+        let cy = yPos + 6;
+        rows.forEach(([label, value]) => {
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'bold');
+          doc.text(label, margin, cy);
+          doc.setFont('helvetica', 'normal');
+          doc.text(String(value || 'N/A'), margin + 55, cy);
+          cy += 5;
+        });
+        return cy + 3;
+      };
+
+      // HEADER
+      doc.setFillColor(107, 127, 58);
+      doc.rect(0, 0, pageWidth, 35, 'F');
+      doc.setFontSize(20);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Byrock Technologies Ltd.', margin, 15);
+      doc.setFontSize(11);
+      doc.text('PTP-102 Laminitis Trial — Investigational New Animal Drug (INAD)', margin, 23);
+      doc.text('FDA CVM Review Pending', margin, 29);
+
+      y = 45;
+      doc.setTextColor(40, 40, 40);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('FULL VETERINARIAN REGISTRATION PACKET', margin, y);
+      doc.setFont('helvetica', 'normal');
+
+      y = 55;
+      doc.setFontSize(8);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Document ID: PTP102-REG-${vet.id}-${timestamp}`, margin, y);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, margin, y + 4);
+
+      y = 65;
+
+      // SECTION 1: Profile
+      y = addSection('1. VETERINARIAN PROFILE', [
+        ['Full Name:', vet.full_name],
+        ['Email:', vet.email],
+        ['License Number:', vet.license_number],
+        ['Hospital / Clinic:', vet.hospital_affiliation],
+        ['Account Status:', vet.verification_status.toUpperCase()],
+        ['Registered:', vet.created_at ? new Date(vet.created_at).toLocaleString() : 'N/A'],
+        ['T&C Accepted:', vet.tc_accepted_at ? new Date(vet.tc_accepted_at).toLocaleString() : 'N/A'],
+        ['Digital Signature:', vet.signature_text || 'N/A'],
+        ['No Conflict of Interest:', vet.no_conflict_of_interest === true ? 'Yes' : vet.no_conflict_of_interest === false ? 'No' : 'Pending'],
+      ], y);
+
+      // SECTION 2: Qualification
+      if (qual) {
+        y = addSection('2. INVESTIGATOR QUALIFICATION', [
+          ['License State:', qual.license_state || 'N/A'],
+          ['Years Experience:', qual.years_experience != null ? String(qual.years_experience) : 'N/A'],
+          ['Laminitis Cases/Year:', qual.laminitis_case_volume_per_year != null ? String(qual.laminitis_case_volume_per_year) : 'N/A'],
+          ['Prior Trial Experience:', qual.prior_clinical_trial_experience ? 'Yes' : 'No'],
+          ['Prior Trials Count:', qual.prior_trials_count != null ? String(qual.prior_trials_count) : 'N/A'],
+          ['Qualification Status:', qual.qualification_status?.toUpperCase() || 'N/A'],
+          ['Submitted:', qual.created_at ? new Date(qual.created_at).toLocaleString() : 'N/A'],
+          ['Last Updated:', qual.updated_at ? new Date(qual.updated_at).toLocaleString() : 'N/A'],
+        ], y);
+
+        y = addSection('3. GCP TRAINING', [
+          ['GCP Training Completed:', qual.gcp_training_completed ? 'Yes' : 'No'],
+          ['Quiz Score:', qual.gcp_quiz_score != null ? `${qual.gcp_quiz_score}%` : 'N/A'],
+          ['Completion Date:', qual.gcp_completion_date ? new Date(qual.gcp_completion_date).toLocaleDateString() : 'N/A'],
+          ['Expiry Date:', qual.gcp_expiry_date ? new Date(qual.gcp_expiry_date).toLocaleDateString() : 'N/A'],
+        ], y);
+
+        y = addSection('4. FACILITY & AGREEMENTS', [
+          ['Facility Inspection:', qual.facility_inspection_completed ? 'Completed' : 'Pending'],
+          ['Inspection Date:', qual.facility_inspection_date ? new Date(qual.facility_inspection_date).toLocaleDateString() : 'N/A'],
+          ['Investigator Agreement Signed:', qual.investigator_agreement_signed ? 'Yes' : 'No'],
+          ['Agreement Signed At:', qual.investigator_agreement_signed_at ? new Date(qual.investigator_agreement_signed_at).toLocaleString() : 'N/A'],
+          ['Protocol Signed:', qual.protocol_signed ? 'Yes' : 'No'],
+          ['Protocol Signed At:', qual.protocol_signed_at ? new Date(qual.protocol_signed_at).toLocaleString() : 'N/A'],
+          ['Protocol Version:', qual.protocol_signed_version || 'N/A'],
+        ], y);
+      } else {
+        y += 4;
+        doc.setFontSize(10);
+        doc.setTextColor(150, 150, 150);
+        y = addWrapped('No investigator qualification data on file for this veterinarian.', margin, y, pageWidth - margin * 2, 10);
+        doc.setTextColor(40, 40, 40);
+      }
+
+      // Footer
+      const pageCount = doc.internal.pages.length - 1;
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(120, 120, 120);
+        doc.text(
+          `Page ${i} of ${pageCount} | Document ID: PTP102-REG-${vet.id}-${timestamp} | PTP-102 is an investigational new animal drug (INAD) under FDA CVM review.`,
+          margin,
+          doc.internal.pageSize.height - 10
+        );
+        doc.text(
+          'Byrock Technologies Ltd. — Confidential & Proprietary — For Regulatory Compliance Use Only',
+          margin,
+          doc.internal.pageSize.height - 6
+        );
+      }
+
+      doc.save(`PTP102_Full_Registration_${vet.full_name.replace(/\s+/g, '_')}_${timestamp}.pdf`);
+    } catch (err) {
+      console.error('Registration packet PDF export failed:', err);
+      alert('Failed to export registration packet. Please try again.');
+    }
+  };
+
+  const handleExportGCPRecord = (vet: Veterinarian, qual: InvestigatorQualification | null) => {
+    try {
+      const doc = new jsPDF('portrait', 'mm', 'a4');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const margin = 20;
+      let y = 20;
+
+      const addWrapped = (text: string, x: number, yPos: number, maxWidth: number, fontSize = 10) => {
+        doc.setFontSize(fontSize);
+        const lines = doc.splitTextToSize(text, maxWidth);
+        doc.text(lines, x, yPos);
+        return yPos + lines.length * fontSize * 0.45;
+      };
+
+      // HEADER
+      doc.setFillColor(37, 99, 235);
+      doc.rect(0, 0, pageWidth, 35, 'F');
+      doc.setFontSize(20);
+      doc.setTextColor(255, 255, 255);
+      doc.text('Byrock Technologies Ltd.', margin, 15);
+      doc.setFontSize(11);
+      doc.text('PTP-102 Laminitis Trial — GCP Training Record', margin, 23);
+      doc.text('VICH GL9 Good Clinical Practice', margin, 29);
+
+      y = 45;
+      doc.setTextColor(40, 40, 40);
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('GCP TRAINING RECORD', margin, y);
+      doc.setFont('helvetica', 'normal');
+
+      y = 55;
+      doc.setFontSize(8);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Document ID: PTP102-GCP-${vet.id}-${timestamp}`, margin, y);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, margin, y + 4);
+
+      y = 65;
+
+      // Vet identity
+      doc.setFontSize(12);
+      doc.setTextColor(37, 99, 235);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Veterinarian', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+      y += 6;
+      const identity = [
+        ['Name:', vet.full_name],
+        ['Email:', vet.email],
+        ['License:', vet.license_number],
+        ['Hospital:', vet.hospital_affiliation],
+      ];
+      identity.forEach(([label, value]) => {
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text(label, margin, y);
+        doc.setFont('helvetica', 'normal');
+        doc.text(String(value || 'N/A'), margin + 40, y);
+        y += 5;
+      });
+
+      y += 6;
+      doc.setFontSize(12);
+      doc.setTextColor(37, 99, 235);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Training Details', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+      y += 6;
+
+      if (qual && qual.gcp_training_completed) {
+        const details = [
+          ['Training Completed:', 'Yes'],
+          ['Quiz Score:', qual.gcp_quiz_score != null ? `${qual.gcp_quiz_score}%` : 'N/A'],
+          ['Passing Threshold:', '80%'],
+          ['Result:', qual.gcp_quiz_score != null && qual.gcp_quiz_score >= 80 ? 'PASSED' : 'N/A'],
+          ['Completion Date:', qual.gcp_completion_date ? new Date(qual.gcp_completion_date).toLocaleDateString() : 'N/A'],
+          ['Expiry Date:', qual.gcp_expiry_date ? new Date(qual.gcp_expiry_date).toLocaleDateString() : 'N/A'],
+          ['Certificate URL:', qual.gcp_certificate_url || 'N/A'],
+        ];
+        details.forEach(([label, value]) => {
+          doc.setFontSize(10);
+          doc.setFont('helvetica', 'bold');
+          doc.text(label, margin, y);
+          doc.setFont('helvetica', 'normal');
+          doc.text(String(value || 'N/A'), margin + 50, y);
+          y += 5;
+        });
+      } else {
+        doc.setFontSize(10);
+        doc.setTextColor(150, 150, 150);
+        y = addWrapped('No GCP training record on file. The veterinarian has not yet completed or uploaded GCP training.', margin, y, pageWidth - margin * 2, 10);
+        doc.setTextColor(40, 40, 40);
+      }
+
+      y += 8;
+      doc.setFontSize(12);
+      doc.setTextColor(37, 99, 235);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Regulatory Certification', margin, y);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+      y += 6;
+      const certText = 'This document certifies that the named veterinarian has completed Good Clinical Practice (GCP) training in accordance with VICH GL9 for the PTP-102 Laminitis Clinical Trial. This record is maintained for regulatory compliance, audit, and FDA CVM inspection purposes. Byrock Technologies Ltd. retains the original training records and certificates for the duration required by applicable law (minimum 2 years post-NADA approval or 5 years post-study completion, whichever is longer).';
+      y = addWrapped(certText, margin, y, pageWidth - margin * 2, 9);
+
+      // Footer
+      const pageCount = doc.internal.pages.length - 1;
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(120, 120, 120);
+        doc.text(
+          `Page ${i} of ${pageCount} | Document ID: PTP102-GCP-${vet.id}-${timestamp} | PTP-102 is an investigational new animal drug (INAD) under FDA CVM review.`,
+          margin,
+          doc.internal.pageSize.height - 10
+        );
+        doc.text(
+          'Byrock Technologies Ltd. — Confidential & Proprietary — For Regulatory Compliance Use Only',
+          margin,
+          doc.internal.pageSize.height - 6
+        );
+      }
+
+      doc.save(`PTP102_GCP_Record_${vet.full_name.replace(/\s+/g, '_')}_${timestamp}.pdf`);
+    } catch (err) {
+      console.error('GCP record PDF export failed:', err);
+      alert('Failed to export GCP training record. Please try again.');
+    }
+  };
+
+  const handleExportAllVetsRegistration = (vets: Veterinarian[], quals: InvestigatorQualification[]) => {
+    try {
+      const doc = new jsPDF('landscape', 'mm', 'a4');
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+
+      doc.setFontSize(18);
+      doc.setTextColor(40, 40, 40);
+      doc.text('PTP-102 Laminitis Trial', 14, 15);
+      doc.setFontSize(12);
+      doc.text('Complete Veterinarian Registration & Qualification Report', 14, 22);
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 28);
+      doc.text('Byrock Technologies Ltd. — INAD-PTP102-2025', 14, 33);
+
+      autoTable(doc, {
+        startY: 38,
+        head: [['Name', 'Email', 'License', 'Hospital', 'Status', 'T&C', 'GCP', 'Quiz', 'Facility', 'Agreement', 'Protocol', 'Qual Status']],
+        body: vets.map((v) => {
+          const q = quals.find((q) => q.vet_email === v.email || q.veterinarian_id === v.id);
+          return [
+            v.full_name,
+            v.email,
+            v.license_number,
+            v.hospital_affiliation,
+            v.verification_status,
+            v.tc_accepted ? 'Yes' : 'No',
+            q?.gcp_training_completed ? 'Yes' : 'No',
+            q?.gcp_quiz_score != null ? `${q.gcp_quiz_score}%` : 'N/A',
+            q?.facility_inspection_completed ? 'Yes' : 'No',
+            q?.investigator_agreement_signed ? 'Yes' : 'No',
+            q?.protocol_signed ? 'Yes' : 'No',
+            q?.qualification_status || 'N/A',
+          ];
+        }),
+        headStyles: {
+          fillColor: [107, 127, 58],
+          textColor: [255, 255, 255],
+          fontSize: 8,
+        },
+        bodyStyles: { fontSize: 7 },
+        alternateRowStyles: { fillColor: [245, 245, 245] },
+        margin: { top: 38 },
+      });
+
+      const pageCount = doc.internal.pages.length - 1;
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(7);
+        doc.setTextColor(120, 120, 120);
+        doc.text(
+          `Page ${i} of ${pageCount} | PTP-102 is an investigational new animal drug (INAD) under FDA CVM review. This report is for regulatory compliance purposes only.`,
+          14,
+          doc.internal.pageSize.height - 10
+        );
+      }
+
+      doc.save(`PTP102_All_Vets_Registration_${timestamp}.pdf`);
+    } catch (err) {
+      console.error('All vets PDF export failed:', err);
+      alert('Failed to export all vets registration. Please try again.');
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
       approved: 'default',
@@ -397,18 +782,29 @@ export function VeterinarianManagementPanel() {
         <div>
           <CardTitle className="text-2xl">Veterinarian Management</CardTitle>
           <p className="text-sm text-muted-foreground mt-1">
-            Approve, reject, or manage veterinarian accounts
+            Approve, reject, or manage veterinarian accounts. Full registration packets and GCP records are available for download.
           </p>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => handleExportTCReport(vetsList)}
-          type="button"
-        >
-          <FileDown className="mr-2 h-4 w-4" />
-          Export T&C Report
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleExportAllVetsRegistration(vetsList, qualsList)}
+            type="button"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            Export All Registrations
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleExportTCReport(vetsList)}
+            type="button"
+          >
+            <FileDown className="mr-2 h-4 w-4" />
+            Export T&C Report
+          </Button>
+        </div>
       </CardHeader>
       <CardContent className="p-3 sm:p-6">
         <div className="rounded-md border overflow-x-auto">
@@ -463,65 +859,140 @@ export function VeterinarianManagementPanel() {
                               <Eye className="h-4 w-4" />
                             </Button>
                           </DialogTrigger>
-                          <DialogContent>
+                          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                             <DialogHeader>
-                              <DialogTitle>Veterinarian Details</DialogTitle>
+                              <DialogTitle className="flex items-center gap-2">
+                                <Shield className="h-5 w-5" />
+                                Veterinarian Details — Full Access
+                              </DialogTitle>
+                              <DialogDescription>
+                                Complete registration profile, qualification data, and GCP training record.
+                              </DialogDescription>
                             </DialogHeader>
-                            <div className="space-y-3">
-                              <div>
-                                <p className="text-sm font-semibold">Name</p>
-                                <p className="text-sm text-muted-foreground">{vet.full_name}</p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">Email</p>
-                                <p className="text-sm text-muted-foreground">{vet.email}</p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">License Number</p>
-                                <p className="text-sm text-muted-foreground">{vet.license_number}</p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">Hospital Affiliation</p>
-                                <p className="text-sm text-muted-foreground">{vet.hospital_affiliation}</p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">Status</p>
-                                <p className="text-sm">{getStatusBadge(vet.verification_status)}</p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">Registered</p>
-                                <p className="text-sm text-muted-foreground">
-                                  {new Date(vet.created_at).toLocaleString()}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">Last Login</p>
-                                <p className="text-sm text-muted-foreground">
-                                  {vet.last_login ? new Date(vet.last_login).toLocaleString() : 'Never'}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">T&C Accepted</p>
-                                <p className="text-sm text-muted-foreground">
-                                  {vet.tc_accepted_at ? new Date(vet.tc_accepted_at).toLocaleString() : 'N/A'}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">Digital Signature</p>
-                                <p className="text-sm text-muted-foreground italic">
-                                  {vet.signature_text || 'N/A'}
-                                </p>
-                              </div>
-                              <div>
-                                <p className="text-sm font-semibold">No Conflicts of Interest</p>
-                                <p className="text-sm text-muted-foreground">
-                                  {vet.no_conflict_of_interest === true ? 'Yes ✓' : vet.no_conflict_of_interest === false ? 'No ✗' : 'Pending migration'}
-                                </p>
+
+                            {/* PROFILE SECTION */}
+                            <div className="space-y-4">
+                              <div className="bg-slate-50 rounded-lg p-4 space-y-3">
+                                <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                                  <User className="h-4 w-4" /> Profile
+                                </h4>
+                                <div className="grid grid-cols-2 gap-3 text-sm">
+                                  <div><span className="font-semibold">Name:</span> {vet.full_name}</div>
+                                  <div><span className="font-semibold">Email:</span> {vet.email}</div>
+                                  <div><span className="font-semibold">License:</span> {vet.license_number}</div>
+                                  <div><span className="font-semibold">Hospital:</span> {vet.hospital_affiliation}</div>
+                                  <div><span className="font-semibold">Status:</span> {getStatusBadge(vet.verification_status)}</div>
+                                  <div><span className="font-semibold">Registered:</span> {new Date(vet.created_at).toLocaleString()}</div>
+                                  <div><span className="font-semibold">T&C Accepted:</span> {vet.tc_accepted_at ? new Date(vet.tc_accepted_at).toLocaleString() : 'N/A'}</div>
+                                  <div><span className="font-semibold">No Conflict:</span> {vet.no_conflict_of_interest === true ? 'Yes' : vet.no_conflict_of_interest === false ? 'No' : 'Pending'}</div>
+                                </div>
+                                <div className="text-sm">
+                                  <span className="font-semibold">Digital Signature:</span>{' '}
+                                  <span className="italic text-muted-foreground">{vet.signature_text || 'N/A'}</span>
+                                </div>
                               </div>
 
-                              <Separator />
+                              {/* QUALIFICATION SECTION */}
+                              {selectedQual ? (
+                                <div className="bg-slate-50 rounded-lg p-4 space-y-3">
+                                  <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                                    <GraduationCap className="h-4 w-4" /> Investigator Qualification
+                                  </h4>
+                                  <div className="grid grid-cols-2 gap-3 text-sm">
+                                    <div><span className="font-semibold">License State:</span> {selectedQual.license_state || 'N/A'}</div>
+                                    <div><span className="font-semibold">Years Exp:</span> {selectedQual.years_experience != null ? selectedQual.years_experience : 'N/A'}</div>
+                                    <div><span className="font-semibold">Laminitis Cases/yr:</span> {selectedQual.laminitis_case_volume_per_year != null ? selectedQual.laminitis_case_volume_per_year : 'N/A'}</div>
+                                    <div><span className="font-semibold">Prior Trials:</span> {selectedQual.prior_clinical_trial_experience ? 'Yes' : 'No'} ({selectedQual.prior_trials_count ?? 0})</div>
+                                    <div><span className="font-semibold">Qual Status:</span> {selectedQual.qualification_status || 'N/A'}</div>
+                                    <div><span className="font-semibold">Submitted:</span> {selectedQual.created_at ? new Date(selectedQual.created_at).toLocaleString() : 'N/A'}</div>
+                                  </div>
 
-                              <div className="pt-2">
+                                  <Separator />
+
+                                  <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wide flex items-center gap-2">
+                                    <Award className="h-4 w-4" /> GCP Training
+                                  </h4>
+                                  <div className="grid grid-cols-2 gap-3 text-sm">
+                                    <div><span className="font-semibold">Completed:</span> {selectedQual.gcp_training_completed ? 'Yes' : 'No'}</div>
+                                    <div><span className="font-semibold">Quiz Score:</span> {selectedQual.gcp_quiz_score != null ? `${selectedQual.gcp_quiz_score}%` : 'N/A'}</div>
+                                    <div><span className="font-semibold">Facility:</span> {selectedQual.facility_inspection_completed ? 'Completed' : 'Pending'}</div>
+                                    <div><span className="font-semibold">Agreement:</span> {selectedQual.investigator_agreement_signed ? 'Signed' : 'Pending'}</div>
+                                    <div><span className="font-semibold">Protocol:</span> {selectedQual.protocol_signed ? 'Signed' : 'Pending'}</div>
+                                    <div><span className="font-semibold">Protocol Ver:</span> {selectedQual.protocol_signed_version || 'N/A'}</div>
+                                  </div>
+
+                                  {/* Admin Qualification Actions */}
+                                  <div className="flex items-center gap-2 pt-2">
+                                    {selectedQual.status !== 'approved' && (
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="text-green-600 border-green-200 hover:bg-green-50"
+                                        onClick={async () => {
+                                          try {
+                                            await approveQual({ veterinarianId: vet.id, vetEmail: vet.email });
+                                            alert('Investigator qualification approved.');
+                                          } catch (e) {
+                                            alert('Failed to approve qualification.');
+                                          }
+                                        }}
+                                        type="button"
+                                      >
+                                        <CheckCircle className="h-3 w-3 mr-1" />
+                                        Approve Qualification
+                                      </Button>
+                                    )}
+                                    {selectedQual.status !== 'rejected' && (
+                                      <Button
+                                        size="sm"
+                                        variant="outline"
+                                        className="text-red-600 border-red-200 hover:bg-red-50"
+                                        onClick={async () => {
+                                          if (window.confirm('Reject this investigator qualification?')) {
+                                            try {
+                                              await rejectQual({ veterinarianId: vet.id, vetEmail: vet.email });
+                                              alert('Investigator qualification rejected.');
+                                            } catch (e) {
+                                              alert('Failed to reject qualification.');
+                                            }
+                                          }
+                                        }}
+                                        type="button"
+                                      >
+                                        <XCircle className="h-3 w-3 mr-1" />
+                                        Reject Qualification
+                                      </Button>
+                                    )}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="bg-slate-50 rounded-lg p-4 text-sm text-muted-foreground">
+                                  No investigator qualification data on file for this veterinarian.
+                                </div>
+                              )}
+
+                              {/* PDF DOWNLOADS */}
+                              <div className="space-y-2 pt-2">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleExportFullRegistrationPacket(vet, selectedQual)}
+                                  type="button"
+                                  className="w-full gap-2"
+                                >
+                                  <Download className="h-4 w-4" />
+                                  Download Full Registration Packet (PDF)
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => handleExportGCPRecord(vet, selectedQual)}
+                                  type="button"
+                                  className="w-full gap-2"
+                                >
+                                  <GraduationCap className="h-4 w-4" />
+                                  Download GCP Training Record (PDF)
+                                </Button>
                                 <Button
                                   variant="outline"
                                   size="sm"
@@ -532,8 +1003,8 @@ export function VeterinarianManagementPanel() {
                                   <FileText className="h-4 w-4" />
                                   Download Legal Contract (PDF)
                                 </Button>
-                                <p className="text-xs text-muted-foreground mt-2 text-center">
-                                  This PDF serves as the legal record of T&C acceptance for regulatory compliance.
+                                <p className="text-xs text-muted-foreground text-center">
+                                  Admin has full access to all veterinarian records for regulatory compliance.
                                 </p>
                               </div>
                             </div>

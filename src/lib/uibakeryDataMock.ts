@@ -369,19 +369,83 @@ function saveLabResults(labResults: LocalLabResult[]) {
 // ---------------------------------------------------------------------------
 type LocalInvestigatorQual = {
   id: number;
+  veterinarian_id: number;
   vet_email: string;
-  qualifications_data: Record<string, unknown>;
+  license_number: string | null;
+  license_state: string | null;
+  years_experience: number | null;
+  laminitis_case_volume_per_year: number | null;
+  prior_clinical_trial_experience: boolean | null;
+  prior_trials_count: number | null;
+  cv_upload_url: string | null;
+  gcp_training_completed: boolean | null;
+  gcp_certificate_url: string | null;
+  gcp_completion_date: string | null;
+  gcp_expiry_date: string | null;
+  gcp_quiz_score: number | null;
+  facility_inspection_completed: boolean | null;
+  facility_inspection_date: string | null;
+  drug_storage_photo_url: string | null;
+  emergency_equipment_photo_url: string | null;
+  records_area_photo_url: string | null;
+  facility_checklist: Record<string, unknown> | null;
+  investigator_agreement_signed: boolean | null;
+  investigator_agreement_signed_at: string | null;
+  investigator_agreement_signature: string | null;
+  protocol_signed: boolean | null;
+  protocol_signed_at: string | null;
+  protocol_signed_version: string | null;
+  protocol_signature: string | null;
+  qualification_status: string | null;
   status: 'pending' | 'approved' | 'rejected';
   created_at: string;
   updated_at: string;
+  // backward compatibility: old blob format
+  qualifications_data?: Record<string, unknown>;
 };
 
+function migrateInvestigatorQual(qual: LocalInvestigatorQual): LocalInvestigatorQual {
+  if (!qual.qualifications_data || Object.keys(qual.qualifications_data).length === 0) return qual;
+  const blob = qual.qualifications_data;
+  return {
+    ...qual,
+    license_number: qual.license_number ?? (blob.license_number as string | null) ?? (blob.licenseNumber as string | null) ?? null,
+    license_state: qual.license_state ?? (blob.license_state as string | null) ?? (blob.licenseState as string | null) ?? null,
+    years_experience: qual.years_experience ?? (blob.years_experience as number | null) ?? (blob.yearsExperience as number | null) ?? null,
+    laminitis_case_volume_per_year: qual.laminitis_case_volume_per_year ?? (blob.laminitis_case_volume_per_year as number | null) ?? (blob.laminitisCaseVolume as number | null) ?? null,
+    prior_clinical_trial_experience: qual.prior_clinical_trial_experience ?? (blob.prior_clinical_trial_experience as boolean | null) ?? (blob.priorTrialExperience as boolean | null) ?? null,
+    prior_trials_count: qual.prior_trials_count ?? (blob.prior_trials_count as number | null) ?? (blob.priorTrialsCount as number | null) ?? null,
+    gcp_training_completed: qual.gcp_training_completed ?? (blob.gcp_training_completed as boolean | null) ?? (blob.gcpTrainingCompleted as boolean | null) ?? null,
+    gcp_quiz_score: qual.gcp_quiz_score ?? (blob.gcp_quiz_score as number | null) ?? (blob.gcpQuizScore as number | null) ?? null,
+    facility_inspection_completed: qual.facility_inspection_completed ?? (blob.facility_inspection_completed as boolean | null) ?? (blob.facilityInspectionCompleted as boolean | null) ?? null,
+    investigator_agreement_signed: qual.investigator_agreement_signed ?? (blob.investigator_agreement_signed as boolean | null) ?? (blob.investigatorAgreementSigned as boolean | null) ?? null,
+    investigator_agreement_signed_at: qual.investigator_agreement_signed_at ?? (blob.investigator_agreement_signed_at as string | null) ?? (blob.investigatorAgreementSignedAt as string | null) ?? null,
+    investigator_agreement_signature: qual.investigator_agreement_signature ?? (blob.investigator_agreement_signature as string | null) ?? (blob.investigatorAgreementSignature as string | null) ?? null,
+    protocol_signed: qual.protocol_signed ?? (blob.protocol_signed as boolean | null) ?? (blob.protocolSigned as boolean | null) ?? null,
+    protocol_signed_at: qual.protocol_signed_at ?? (blob.protocol_signed_at as string | null) ?? (blob.protocolSignedAt as string | null) ?? null,
+    protocol_signed_version: qual.protocol_signed_version ?? (blob.protocol_signed_version as string | null) ?? (blob.protocolSignedVersion as string | null) ?? null,
+    protocol_signature: qual.protocol_signature ?? (blob.protocol_signature as string | null) ?? (blob.protocolSignature as string | null) ?? null,
+    qualification_status: qual.qualification_status ?? (blob.qualification_status as string | null) ?? (blob.qualificationStatus as string | null) ?? null,
+  };
+}
+
 function getInvestigatorQuals(): LocalInvestigatorQual[] {
-  return loadFromStorage<LocalInvestigatorQual[]>(STORAGE_KEYS.investigatorQuals, []);
+  const raw = loadFromStorage<LocalInvestigatorQual[]>(STORAGE_KEYS.investigatorQuals, []);
+  return raw.map(migrateInvestigatorQual);
 }
 
 function saveInvestigatorQuals(quals: LocalInvestigatorQual[]) {
   saveToStorage(STORAGE_KEYS.investigatorQuals, quals);
+}
+
+function buildInvestigatorQualRow(qual: LocalInvestigatorQual, vet: LocalVet | undefined) {
+  return {
+    ...qual,
+    full_name: vet?.full_name ?? null,
+    email: vet?.email ?? qual.vet_email ?? null,
+    hospital_affiliation: vet?.hospital_affiliation ?? null,
+    verification_status: vet?.verification_status ?? null,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -461,14 +525,19 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
 
     if (name === 'loadInvestigatorQualification') {
       const loadParams = _params as { vetEmail?: string } | undefined;
-      const qual = getInvestigatorQuals().filter((q) => q.vet_email === loadParams?.vetEmail);
-      setData(qual as unknown[]);
+      const vets = getVets();
+      const quals = getInvestigatorQuals();
+      const qual = quals.find((q) => q.vet_email === loadParams?.vetEmail);
+      const vet = qual ? vets.find((v) => v.id === qual.veterinarian_id) : undefined;
+      setData(qual ? [buildInvestigatorQualRow(qual, vet)] as unknown[] : []);
       setLoading(false);
       return;
     }
 
     if (name === 'loadAllInvestigatorQualifications') {
-      setData(getInvestigatorQuals() as unknown[]);
+      const vets = getVets();
+      const quals = getInvestigatorQuals();
+      setData(quals.map((q) => buildInvestigatorQualRow(q, vets.find((v) => v.id === q.veterinarian_id))) as unknown[]);
       setLoading(false);
       return;
     }
@@ -650,9 +719,13 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
 
     if (name === 'loadInvestigatorQualification') {
       const loadParams = _params as { vetEmail?: string } | undefined;
-      const qual = getInvestigatorQuals().filter((q) => q.vet_email === loadParams?.vetEmail);
-      setData(qual as unknown[]);
-      return qual;
+      const vets = getVets();
+      const quals = getInvestigatorQuals();
+      const qual = quals.find((q) => q.vet_email === loadParams?.vetEmail);
+      const vet = qual ? vets.find((v) => v.id === qual.veterinarian_id) : undefined;
+      const result = qual ? [buildInvestigatorQualRow(qual, vet)] : [];
+      setData(result as unknown[]);
+      return result;
     }
 
     if (name === 'checkVeterinarianAcceptance') {
@@ -1047,38 +1120,107 @@ export function useMutateAction(actionName: ActionFactory | string) {
         // Investigator Qualifications
         // -------------------------------------------------------------------
         if (name === 'saveInvestigatorQualification') {
-          const p = params as { vetEmail?: string; qualificationsData?: Record<string, unknown> } | undefined;
+          const p = params as Record<string, unknown> | undefined;
           const quals = getInvestigatorQuals();
-          const existingIndex = quals.findIndex((q) => q.vet_email === p?.vetEmail);
+          const vetEmail = (p?.vetEmail as string) || (p?.email as string) || '';
+          const veterinarianId = (p?.veterinarianId as number) || (p?.veterinarian_id as number) || 0;
+          const vets = getVets();
+          const vet = vetEmail ? vets.find((v) => v.email === vetEmail) : vets.find((v) => v.id === veterinarianId);
+          const targetEmail = vet?.email ?? vetEmail;
+          const targetVetId = vet?.id ?? veterinarianId;
+          const existingIndex = quals.findIndex((q) => q.vet_email === targetEmail);
           const now = new Date().toISOString();
+
+          const fields = {
+            license_number: (p?.licenseNumber as string | null) ?? (p?.license_number as string | null) ?? null,
+            license_state: (p?.licenseState as string | null) ?? (p?.license_state as string | null) ?? null,
+            years_experience: (p?.yearsExperience as number | null) ?? (p?.years_experience as number | null) ?? null,
+            laminitis_case_volume_per_year: (p?.laminitisCaseVolume as number | null) ?? (p?.laminitis_case_volume_per_year as number | null) ?? null,
+            prior_clinical_trial_experience: (p?.priorTrialExperience as boolean | null) ?? (p?.prior_clinical_trial_experience as boolean | null) ?? null,
+            prior_trials_count: (p?.priorTrialsCount as number | null) ?? (p?.prior_trials_count as number | null) ?? null,
+            cv_upload_url: (p?.cvUploadUrl as string | null) ?? (p?.cv_upload_url as string | null) ?? null,
+            gcp_training_completed: (p?.gcpTrainingCompleted as boolean | null) ?? (p?.gcp_training_completed as boolean | null) ?? null,
+            gcp_certificate_url: (p?.gcpCertificateUrl as string | null) ?? (p?.gcp_certificate_url as string | null) ?? null,
+            gcp_completion_date: (p?.gcpCompletionDate as string | null) ?? (p?.gcp_completion_date as string | null) ?? null,
+            gcp_expiry_date: (p?.gcpExpiryDate as string | null) ?? (p?.gcp_expiry_date as string | null) ?? null,
+            gcp_quiz_score: (p?.gcpQuizScore as number | null) ?? (p?.gcp_quiz_score as number | null) ?? null,
+            facility_inspection_completed: (p?.facilityInspectionCompleted as boolean | null) ?? (p?.facility_inspection_completed as boolean | null) ?? null,
+            facility_inspection_date: (p?.facilityInspectionDate as string | null) ?? (p?.facility_inspection_date as string | null) ?? null,
+            drug_storage_photo_url: (p?.drugStoragePhotoUrl as string | null) ?? (p?.drug_storage_photo_url as string | null) ?? null,
+            emergency_equipment_photo_url: (p?.emergencyEquipmentPhotoUrl as string | null) ?? (p?.emergency_equipment_photo_url as string | null) ?? null,
+            records_area_photo_url: (p?.recordsAreaPhotoUrl as string | null) ?? (p?.records_area_photo_url as string | null) ?? null,
+            facility_checklist: (p?.facilityChecklist as Record<string, unknown> | null) ?? (p?.facility_checklist as Record<string, unknown> | null) ?? null,
+            investigator_agreement_signed: (p?.investigatorAgreementSigned as boolean | null) ?? (p?.investigator_agreement_signed as boolean | null) ?? null,
+            investigator_agreement_signed_at: (p?.investigatorAgreementSignedAt as string | null) ?? (p?.investigator_agreement_signed_at as string | null) ?? null,
+            investigator_agreement_signature: (p?.investigatorAgreementSignature as string | null) ?? (p?.investigator_agreement_signature as string | null) ?? null,
+            protocol_signed: (p?.protocolSigned as boolean | null) ?? (p?.protocol_signed as boolean | null) ?? null,
+            protocol_signed_at: (p?.protocolSignedAt as string | null) ?? (p?.protocol_signed_at as string | null) ?? null,
+            protocol_signed_version: (p?.protocolSignedVersion as string | null) ?? (p?.protocol_signed_version as string | null) ?? null,
+            protocol_signature: (p?.protocolSignature as string | null) ?? (p?.protocol_signature as string | null) ?? null,
+            qualification_status: (p?.qualificationStatus as string | null) ?? (p?.qualification_status as string | null) ?? null,
+          };
+
           if (existingIndex >= 0) {
-            quals[existingIndex].qualifications_data = p?.qualificationsData ?? {};
-            quals[existingIndex].updated_at = now;
+            quals[existingIndex] = {
+              ...quals[existingIndex],
+              ...fields,
+              veterinarian_id: targetVetId || quals[existingIndex].veterinarian_id,
+              vet_email: targetEmail || quals[existingIndex].vet_email,
+              updated_at: now,
+              qualifications_data: { ...(quals[existingIndex].qualifications_data ?? {}), ...(p ?? {}) },
+            };
             saveInvestigatorQuals(quals);
-            return [quals[existingIndex]];
+            return [buildInvestigatorQualRow(quals[existingIndex], vet)];
           }
           const newQual: LocalInvestigatorQual = {
             id: quals.length > 0 ? Math.max(...quals.map((q) => q.id)) + 1 : 1,
-            vet_email: p?.vetEmail ?? '',
-            qualifications_data: p?.qualificationsData ?? {},
+            veterinarian_id: targetVetId,
+            vet_email: targetEmail,
             status: 'pending',
             created_at: now,
             updated_at: now,
+            ...fields,
+            qualifications_data: p ?? {},
           };
           quals.push(newQual);
           saveInvestigatorQuals(quals);
-          return [newQual];
+          return [buildInvestigatorQualRow(newQual, vet)];
         }
 
         if (name === 'approveInvestigatorQualification') {
-          const p = params as { vetEmail?: string } | undefined;
+          const p = params as { vetEmail?: string; veterinarianId?: number } | undefined;
           const quals = getInvestigatorQuals();
-          const qual = quals.find((q) => q.vet_email === p?.vetEmail);
+          const qual = p?.vetEmail
+            ? quals.find((q) => q.vet_email === p.vetEmail)
+            : p?.veterinarianId
+            ? quals.find((q) => q.veterinarian_id === p.veterinarianId)
+            : undefined;
           if (qual) {
             qual.status = 'approved';
+            qual.qualification_status = 'approved';
             qual.updated_at = new Date().toISOString();
             saveInvestigatorQuals(quals);
-            return [qual];
+            const vet = getVets().find((v) => v.id === qual.veterinarian_id);
+            return [buildInvestigatorQualRow(qual, vet)];
+          }
+          return [];
+        }
+
+        if (name === 'rejectInvestigatorQualification') {
+          const p = params as { vetEmail?: string; veterinarianId?: number } | undefined;
+          const quals = getInvestigatorQuals();
+          const qual = p?.vetEmail
+            ? quals.find((q) => q.vet_email === p.vetEmail)
+            : p?.veterinarianId
+            ? quals.find((q) => q.veterinarian_id === p.veterinarianId)
+            : undefined;
+          if (qual) {
+            qual.status = 'rejected';
+            qual.qualification_status = 'rejected';
+            qual.updated_at = new Date().toISOString();
+            saveInvestigatorQuals(quals);
+            const vet = getVets().find((v) => v.id === qual.veterinarian_id);
+            return [buildInvestigatorQualRow(qual, vet)];
           }
           return [];
         }
