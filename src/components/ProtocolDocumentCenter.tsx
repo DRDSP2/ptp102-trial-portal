@@ -138,11 +138,19 @@ export function ProtocolDocumentCenter({ isAdmin }: { isAdmin: boolean }) {
               <p className="text-sm text-slate-600">{currentVersion.description}</p>
             )}
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" type="button">
+              <Button variant="outline" size="sm" type="button" onClick={() => currentVersion.pdf_url && window.open(currentVersion.pdf_url, '_blank')} disabled={!currentVersion.pdf_url}>
                 <FileText className="h-4 w-4 mr-2" />
                 View PDF
               </Button>
-              <Button variant="outline" size="sm" type="button">
+              <Button variant="outline" size="sm" type="button" onClick={() => {
+                if (!currentVersion.pdf_url) return;
+                const link = document.createElement('a');
+                link.href = currentVersion.pdf_url;
+                link.download = `PTP102-Protocol-v${currentVersion.version_number}.pdf`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              }} disabled={!currentVersion.pdf_url}>
                 <DownloadIcon className="h-4 w-4 mr-2" />
                 Download
               </Button>
@@ -172,7 +180,7 @@ export function ProtocolDocumentCenter({ isAdmin }: { isAdmin: boolean }) {
                   </div>
                   <div className="flex items-center gap-2">
                     {v.is_current && <Badge className="bg-green-100 text-green-800">Current</Badge>}
-                    <Button variant="ghost" size="sm" type="button">
+                    <Button variant="ghost" size="sm" type="button" onClick={() => v.pdf_url && window.open(v.pdf_url, '_blank')} disabled={!v.pdf_url} title={v.pdf_url ? 'View protocol PDF' : 'No PDF available'}>
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>

@@ -20,7 +20,7 @@ import { AddLabResultForm } from '@/components/AddLabResultForm';
 import { AddAssessmentForm } from '@/components/AddAssessmentForm';
 import { ObelScoreChart } from '@/components/ObelScoreChart';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare, FileVideo } from 'lucide-react';
+import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare, FileVideo, Lock, Unlock } from 'lucide-react';
 import { VideoUploadManager } from '@/components/VideoUploadManager';
 
 type CaseWorkspaceProps = {
@@ -88,6 +88,28 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
             >
               {screeningStatus === 'pending_screening' ? 'Pending Screening' : screeningStatus === 'approved' ? 'Screening Approved' : 'Screening Rejected'}
             </Badge>
+            {isAdmin && (
+              <Badge
+                variant="outline"
+                className={(patient as any).data_lock_status === 'frozen' ? 'bg-red-100 text-red-800 border-red-300 cursor-pointer' : (patient as any).data_lock_status === 'locked' ? 'bg-amber-100 text-amber-800 border-amber-300 cursor-pointer' : 'bg-green-100 text-green-800 border-green-300 cursor-pointer'}
+                onClick={() => {
+                  const current = (patient as any).data_lock_status || 'open';
+                  const next = current === 'open' ? 'locked' : current === 'locked' ? 'frozen' : 'open';
+                  (patient as any).data_lock_status = next;
+                  handleRefresh();
+                }}
+                title="Click to cycle lock status (Admin only)"
+              >
+                {(patient as any).data_lock_status === 'frozen' ? <Lock className="h-3 w-3 mr-1" /> : (patient as any).data_lock_status === 'locked' ? <Lock className="h-3 w-3 mr-1" /> : <Unlock className="h-3 w-3 mr-1" />}
+                {(patient as any).data_lock_status === 'frozen' ? 'Frozen' : (patient as any).data_lock_status === 'locked' ? 'Locked' : 'Open'}
+              </Badge>
+            )}
+            {!isAdmin && (patient as any).data_lock_status && (patient as any).data_lock_status !== 'open' && (
+              <Badge variant="outline" className={(patient as any).data_lock_status === 'frozen' ? 'bg-red-100 text-red-800 border-red-300' : 'bg-amber-100 text-amber-800 border-amber-300'}>
+                <Lock className="h-3 w-3 mr-1" />
+                {(patient as any).data_lock_status === 'frozen' ? 'Frozen' : 'Locked'}
+              </Badge>
+            )}
             {protocolStartTime && (
               <div className="flex items-center gap-2 text-sm">
                 <Clock className="h-4 w-4 text-muted-foreground" />
@@ -152,6 +174,23 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
           </div>
         </CardContent>
       </Card>
+
+      {(patient as any).data_lock_status === 'frozen' && (
+        <Alert className="bg-red-50 border-red-200">
+          <Lock className="h-4 w-4 text-red-600" />
+          <AlertDescription className="text-red-800 font-medium">
+            This patient record is <strong>FROZEN</strong>. No further edits are permitted. This record is ready for FDA submission.
+          </AlertDescription>
+        </Alert>
+      )}
+      {(patient as any).data_lock_status === 'locked' && (
+        <Alert className="bg-amber-50 border-amber-200">
+          <Lock className="h-4 w-4 text-amber-600" />
+          <AlertDescription className="text-amber-800 font-medium">
+            This patient record is <strong>LOCKED</strong>. Contact an admin to unlock if changes are required.
+          </AlertDescription>
+        </Alert>
+      )}
 
       {isAdmin && (
         <AdminScreeningPanel patient={patient} onUpdate={handleRefresh} />

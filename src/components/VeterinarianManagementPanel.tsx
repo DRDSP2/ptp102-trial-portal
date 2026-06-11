@@ -960,16 +960,15 @@ export function VeterinarianManagementPanel() {
                                               <Button size="sm" variant="outline" className="flex-1 text-[10px] h-7" type="button" onClick={async () => {
                                                 try {
                                                   await approveQual({ veterinarianId: vet.id, vetEmail: vet.email });
-                                                  // Update photo status via update action would go here; for now reload
-                                                  alert(`${photo.label} photo approved.`);
+                                                  alert(`Investigator qualification approved.`);
                                                 } catch (e) { alert('Failed.'); }
-                                              }}>Approve</Button>
+                                              }}>Approve Qual</Button>
                                               <Button size="sm" variant="outline" className="flex-1 text-[10px] h-7 text-red-600" type="button" onClick={async () => {
                                                 try {
                                                   await rejectQual({ veterinarianId: vet.id, vetEmail: vet.email });
-                                                  alert(`${photo.label} photo rejected.`);
+                                                  alert(`Investigator qualification rejected.`);
                                                 } catch (e) { alert('Failed.'); }
-                                              }}>Reject</Button>
+                                              }}>Reject Qual</Button>
                                             </div>
                                           </>
                                         ) : (

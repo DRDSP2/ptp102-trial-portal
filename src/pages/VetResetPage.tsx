@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PasswordResetRequestScreen } from '@/components/PasswordResetRequestScreen';
 import { PasswordResetScreen } from '@/components/PasswordResetScreen';
@@ -13,13 +13,13 @@ export function VetResetPage() {
   const handleResetRequested = (requestEmail: string, token: string) => {
     setEmail(requestEmail);
     setResetToken(token);
-    navigate('/vet/reset');
   };
 
-  if (auth.role === 'vet' && auth.termsAccepted) {
-    navigate('/dashboard');
-    return null;
-  }
+  useEffect(() => {
+    if (auth.role === 'vet' && auth.termsAccepted) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [auth.role, auth.termsAccepted, navigate]);
 
   return resetToken ? (
     <PasswordResetScreen resetToken={resetToken} onSuccess={() => navigate('/vet/login')} />

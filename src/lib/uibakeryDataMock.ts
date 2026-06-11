@@ -29,6 +29,7 @@ const STORAGE_KEYS = {
   labResults: 'ptp102_mock_lab_results',
   investigatorQuals: 'ptp102_mock_investigator_quals',
   informedConsents: 'ptp102_mock_informed_consents',
+  shipments: 'ptp102_mock_shipments',
 };
 
 function loadFromStorage<T>(key: string, fallback: T): T {
@@ -528,6 +529,46 @@ function saveInformedConsents(consents: LocalInformedConsent[]) {
 }
 
 // ---------------------------------------------------------------------------
+// Shipments (NCIE)
+// ---------------------------------------------------------------------------
+type LocalShipment = {
+  id: number;
+  shipment_date: string;
+  quantity_vials: number;
+  quantity_ml_total: number | null;
+  batch_lot_number: string;
+  expiration_date: string | null;
+  shipped_to_site_id: number | null;
+  shipped_to_investigator: string | null;
+  shipped_to_veterinarian_id: number | null;
+  shipped_to_veterinarian_email: string | null;
+  shipped_to_veterinarian_name: string | null;
+  shipment_status: string;
+  carrier: string | null;
+  expected_delivery_date: string | null;
+  delivered_date: string | null;
+  receiving_signature: string | null;
+  received_at: string | null;
+  condition_on_receipt: string | null;
+  storage_temperature_celsius: number | null;
+  received_by_clinic_name: string | null;
+  received_by_clinic_date: string | null;
+  bottles_received_at_clinic: number | null;
+  shipment_notes: string | null;
+  tracking_number: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+function getShipments(): LocalShipment[] {
+  return loadFromStorage<LocalShipment[]>(STORAGE_KEYS.shipments, []);
+}
+
+function saveShipments(shipments: LocalShipment[]) {
+  saveToStorage(STORAGE_KEYS.shipments, shipments);
+}
+
+// ---------------------------------------------------------------------------
 // Case Data Builder
 // ---------------------------------------------------------------------------
 function buildLocalCaseData(patient: LocalPatient) {
@@ -741,7 +782,21 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
     }
 
     if (name === 'loadNCIEShipments') {
-      setData([]);
+      const allShipments = getShipments();
+      setData(allShipments as unknown[]);
+      setLoading(false);
+      return;
+    }
+
+    if (name === 'loadNCIEShipmentsByVet') {
+      const loadParams = _params as { vetEmail?: string } | undefined;
+      const vetEmail = loadParams?.vetEmail?.toLowerCase().trim() || '';
+      const allShipments = getShipments();
+      const filtered = allShipments.filter((s) =>
+        (s.shipped_to_veterinarian_email && s.shipped_to_veterinarian_email.toLowerCase().trim() === vetEmail) ||
+        (s.shipped_to_investigator && s.shipped_to_investigator.toLowerCase().trim() === vetEmail)
+      );
+      setData(filtered as unknown[]);
       setLoading(false);
       return;
     }
@@ -1522,8 +1577,67 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'createNCIEShipment') {
-          console.info('[Mock] NCIE shipment created (stub):', params);
-          return [{ id: 1 }];
+          const p = params as Record<string, unknown> | undefined;
+          const shipments = getShipments();
+          const now = new Date().toISOString();
+          const newShipment: LocalShipment = {
+            id: shipments.length > 0 ? Math.max(...shipments.map((s) => s.id)) + 1 : 1,
+            shipment_date: (p?.shipmentDate as string) ?? now,
+            quantity_vials: (p?.quantityVials as number) ?? 0,
+            quantity_ml_total: (p?.quantityMlTotal as number) ?? null,
+            batch_lot_number: (p?.batchLotNumber as string) ?? '',
+            expiration_date: (p?.expirationDate as string) ?? null,
+            shipped_to_site_id: (p?.shippedToSiteId as number) ?? null,
+            shipped_to_investigator: (p?.shippedToInvestigator as string) ?? null,
+            shipped_to_veterinarian_id: (p?.shippedToVeterinarianId as number) ?? null,
+            shipped_to_veterinarian_email: (p?.shippedToVeterinarianEmail as string) ?? null,
+            shipped_to_veterinarian_name: (p?.shippedToVeterinarianName as string) ?? null,
+            shipment_status: (p?.shipmentStatus as string) ?? 'pending_dispatch',
+            carrier: (p?.carrier as string) ?? null,
+            expected_delivery_date: (p?.expectedDeliveryDate as string) ?? null,
+            delivered_date: (p?.deliveredDate as string) ?? null,
+            receiving_signature: (p?.receivingSignature as string) ?? null,
+            received_at: (p?.receivedAt as string) ?? null,
+            condition_on_receipt: (p?.conditionOnReceipt as string) ?? null,
+            storage_temperature_celsius: (p?.storageTemperatureCelsius as number) ?? null,
+            received_by_clinic_name: (p?.receivedByClinicName as string) ?? null,
+            received_by_clinic_date: (p?.receivedByClinicDate as string) ?? null,
+            bottles_received_at_clinic: (p?.bottlesReceivedAtClinic as number) ?? null,
+            shipment_notes: (p?.shipmentNotes as string) ?? null,
+            tracking_number: (p?.trackingNumber as string) ?? null,
+            created_at: now,
+            updated_at: now,
+          };
+          shipments.push(newShipment);
+          saveShipments(shipments);
+          return [newShipment];
+        }
+
+        if (name === 'updateNCIEShipment') {
+          const p = params as Record<string, unknown> | undefined;
+          const shipments = getShipments();
+          const idx = shipments.findIndex((s) => s.id === Number(p?.shipmentId));
+          if (idx === -1) return [];
+          const now = new Date().toISOString();
+          shipments[idx] = {
+            ...shipments[idx],
+            shipment_status: (p?.shipmentStatus as string) ?? shipments[idx].shipment_status,
+            received_at: (p?.receivedAt as string) ?? shipments[idx].received_at,
+            receiving_signature: (p?.receivingSignature as string) ?? shipments[idx].receiving_signature,
+            condition_on_receipt: (p?.conditionOnReceipt as string) ?? shipments[idx].condition_on_receipt,
+            storage_temperature_celsius: (p?.storageTemperatureCelsius as number) ?? shipments[idx].storage_temperature_celsius,
+            received_by_clinic_name: (p?.receivedByClinicName as string) ?? shipments[idx].received_by_clinic_name,
+            received_by_clinic_date: (p?.receivedByClinicDate as string) ?? shipments[idx].received_by_clinic_date,
+            bottles_received_at_clinic: (p?.bottlesReceivedAtClinic as number) ?? shipments[idx].bottles_received_at_clinic,
+            shipment_notes: (p?.shipmentNotes as string) ?? shipments[idx].shipment_notes,
+            delivered_date: (p?.deliveredDate as string) ?? shipments[idx].delivered_date,
+            carrier: (p?.carrier as string) ?? shipments[idx].carrier,
+            expected_delivery_date: (p?.expectedDeliveryDate as string) ?? shipments[idx].expected_delivery_date,
+            tracking_number: (p?.trackingNumber as string) ?? shipments[idx].tracking_number,
+            updated_at: now,
+          };
+          saveShipments(shipments);
+          return [shipments[idx]];
         }
 
         if (name === 'acceptTermsAndConditions') {

@@ -191,15 +191,38 @@ export function AdminComplianceDashboard() {
             </CardHeader>
             <CardContent>
               {shipLoading ? <p className="text-sm text-slate-500">Loading...</p> : (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {shipments?.map((ship: any) => (
-                    <div key={ship.id} className="p-3 border rounded-lg">
-                      <div className="flex items-center justify-between">
-                        <p className="text-sm font-medium">Batch {ship.batch_lot_number}</p>
-                        <p className="text-xs text-slate-500">{ship.quantity_vials} vials</p>
+                    <div key={ship.id} className="p-4 border rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm font-medium">Batch/Lot {ship.batch_lot_number}</p>
+                          <Badge variant="outline">{ship.quantity_vials} vials</Badge>
+                        </div>
+                        <Badge className={
+                          ship.shipment_status === 'received_by_clinic' ? 'bg-green-100 text-green-800' :
+                          ship.shipment_status === 'delivered' ? 'bg-blue-100 text-blue-800' :
+                          ship.shipment_status === 'in_transit' ? 'bg-amber-100 text-amber-800' :
+                          'bg-slate-100 text-slate-700'
+                        }>{ship.shipment_status?.replace(/_/g, ' ')}</Badge>
                       </div>
-                      <p className="text-xs text-slate-600">Shipped to: {ship.shipped_to_investigator || ship.site_name || 'Unknown'}</p>
-                      <p className="text-xs text-slate-400">Date: {new Date(ship.shipment_date).toLocaleDateString()}</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600">
+                        <p><span className="font-semibold">Vet:</span> {ship.shipped_to_veterinarian_name || ship.shipped_to_investigator || 'Unknown'}</p>
+                        <p><span className="font-semibold">Email:</span> {ship.shipped_to_veterinarian_email || '—'}</p>
+                        <p><span className="font-semibold">Tracking:</span> {ship.tracking_number || '—'}</p>
+                        <p><span className="font-semibold">Carrier:</span> {ship.carrier || '—'}</p>
+                        <p><span className="font-semibold">Shipped:</span> {ship.shipment_date ? new Date(ship.shipment_date).toLocaleDateString() : '—'}</p>
+                        <p><span className="font-semibold">Expected:</span> {ship.expected_delivery_date ? new Date(ship.expected_delivery_date).toLocaleDateString() : '—'}</p>
+                        {ship.received_by_clinic_date && (
+                          <>
+                            <p><span className="font-semibold">Received:</span> {new Date(ship.received_by_clinic_date).toLocaleDateString()}</p>
+                            <p><span className="font-semibold">By:</span> {ship.received_by_clinic_name}</p>
+                          </>
+                        )}
+                        {ship.bottles_received_at_clinic && (
+                          <p className="sm:col-span-2"><span className="font-semibold">Bottles Confirmed:</span> {ship.bottles_received_at_clinic}</p>
+                        )}
+                      </div>
                     </div>
                   )) || <p className="text-sm text-slate-500">No shipments logged.</p>}
                 </div>

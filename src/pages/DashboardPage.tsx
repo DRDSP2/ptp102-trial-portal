@@ -20,6 +20,7 @@ import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
 import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
+import { VetShipmentPanel } from '@/components/VetShipmentPanel';
 import { AdverseEventReporter } from '@/components/AdverseEventReporter';
 import { TrialOperationsHub } from '@/components/TrialOperationsHub';
 import { InvestigatorOnboardingWizard } from '@/components/InvestigatorOnboardingWizard';
@@ -173,7 +174,8 @@ export function DashboardPage() {
             <TabsContent value="compliance" className="mt-6">
               <AdminComplianceDashboard />
             </TabsContent>
-            <TabsContent value="supply" className="mt-6">
+            <TabsContent value="supply" className="mt-6 space-y-6">
+              <VetShipmentPanel vetEmail={auth.email || ''} />
               <TrialOperationsHub />
             </TabsContent>
           </Tabs>
