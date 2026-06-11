@@ -411,8 +411,12 @@ type LocalInvestigatorQual = {
   drug_storage_photo_status: 'pending' | 'approved' | 'rejected' | null;
   emergency_equipment_photo_url: string | null;
   emergency_equipment_photo_status: 'pending' | 'approved' | 'rejected' | null;
-  records_area_photo_url: string | null;
-  records_area_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  housing_photo_url: string | null;
+  housing_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  feed_photo_url: string | null;
+  feed_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  housing_comments: string | null;
+  feed_comments: string | null;
   facility_checklist: Record<string, unknown> | null;
   investigator_agreement_signed: boolean | null;
   investigator_agreement_signed_at: string | null;
@@ -496,7 +500,8 @@ function getInvestigatorQuals(): LocalInvestigatorQual[] {
     audit_log: q.audit_log ?? [],
     drug_storage_photo_status: q.drug_storage_photo_status ?? (q.drug_storage_photo_url ? 'pending' : null),
     emergency_equipment_photo_status: q.emergency_equipment_photo_status ?? (q.emergency_equipment_photo_url ? 'pending' : null),
-    records_area_photo_status: q.records_area_photo_status ?? (q.records_area_photo_url ? 'pending' : null),
+    housing_photo_status: q.housing_photo_status ?? (q.housing_photo_url ? 'pending' : null),
+    feed_photo_status: q.feed_photo_status ?? (q.feed_photo_url ? 'pending' : null),
   }));
 }
 
@@ -1259,7 +1264,10 @@ export function useMutateAction(actionName: ActionFactory | string) {
             facility_inspection_date: (p?.facilityInspectionDate as string | null) ?? (p?.facility_inspection_date as string | null) ?? null,
             drug_storage_photo_url: (p?.drugStoragePhotoUrl as string | null) ?? (p?.drug_storage_photo_url as string | null) ?? null,
             emergency_equipment_photo_url: (p?.emergencyEquipmentPhotoUrl as string | null) ?? (p?.emergency_equipment_photo_url as string | null) ?? null,
-            records_area_photo_url: (p?.recordsAreaPhotoUrl as string | null) ?? (p?.records_area_photo_url as string | null) ?? null,
+            housing_photo_url: (p?.housingPhotoUrl as string | null) ?? (p?.housing_photo_url as string | null) ?? null,
+            feed_photo_url: (p?.feedPhotoUrl as string | null) ?? (p?.feed_photo_url as string | null) ?? null,
+            housing_comments: (p?.housingComments as string | null) ?? (p?.housing_comments as string | null) ?? null,
+            feed_comments: (p?.feedComments as string | null) ?? (p?.feed_comments as string | null) ?? null,
             facility_checklist: (p?.facilityChecklist as Record<string, unknown> | null) ?? (p?.facility_checklist as Record<string, unknown> | null) ?? null,
             investigator_agreement_signed: (p?.investigatorAgreementSigned as boolean | null) ?? (p?.investigator_agreement_signed as boolean | null) ?? null,
             investigator_agreement_signed_at: (p?.investigatorAgreementSignedAt as string | null) ?? (p?.investigator_agreement_signed_at as string | null) ?? null,

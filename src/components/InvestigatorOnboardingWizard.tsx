@@ -62,10 +62,14 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
   // Facility photo uploads
   const [drugStoragePhoto, setDrugStoragePhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
   const [emergencyPhoto, setEmergencyPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
-  const [recordsPhoto, setRecordsPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
+  const [housingPhoto, setHousingPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
+  const [feedPhoto, setFeedPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
   const [showDrugUploader, setShowDrugUploader] = useState(false);
   const [showEmergencyUploader, setShowEmergencyUploader] = useState(false);
-  const [showRecordsUploader, setShowRecordsUploader] = useState(false);
+  const [showHousingUploader, setShowHousingUploader] = useState(false);
+  const [showFeedUploader, setShowFeedUploader] = useState(false);
+  const [housingComments, setHousingComments] = useState('');
+  const [feedComments, setFeedComments] = useState('');
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   const totalSlides = 8;
@@ -463,8 +467,17 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
     if (qualification.emergency_equipment_photo_url) {
       setEmergencyPhoto({ cdnUrl: qualification.emergency_equipment_photo_url, name: 'Emergency Equipment' });
     }
-    if (qualification.records_area_photo_url) {
-      setRecordsPhoto({ cdnUrl: qualification.records_area_photo_url, name: 'Records Area' });
+    if (qualification.housing_photo_url) {
+      setHousingPhoto({ cdnUrl: qualification.housing_photo_url, name: 'Equine Housing' });
+    }
+    if (qualification.feed_photo_url) {
+      setFeedPhoto({ cdnUrl: qualification.feed_photo_url, name: 'Feed Storage' });
+    }
+    if (qualification.housing_comments) {
+      setHousingComments(qualification.housing_comments);
+    }
+    if (qualification.feed_comments) {
+      setFeedComments(qualification.feed_comments);
     }
   }, [qualification]);
 
@@ -496,7 +509,10 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
       protocolSignature: form.protocolSigned ? `${vetEmail}-protocol` : null,
       drugStoragePhotoUrl: drugStoragePhoto?.cdnUrl ?? null,
       emergencyEquipmentPhotoUrl: emergencyPhoto?.cdnUrl ?? null,
-      recordsAreaPhotoUrl: recordsPhoto?.cdnUrl ?? null,
+      housingPhotoUrl: housingPhoto?.cdnUrl ?? null,
+      feedPhotoUrl: feedPhoto?.cdnUrl ?? null,
+      housingComments: housingComments || null,
+      feedComments: feedComments || null,
       qualificationStatus: form.investigatorAgreementSigned && form.protocolSigned ? 'pending_review' : 'pending_submission',
     });
   };
@@ -820,32 +836,90 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
               </h3>
               <Alert className="bg-blue-50 border-blue-200">
                 <AlertDescription className="text-sm text-blue-800">
-                  Confirm your facility meets the study requirements. Upload photos of each area (JPEG/PNG, max 10MB). Photos await administrative approval.
+                  Confirm your facility meets the study requirements. Upload photos of each area (<strong>JPEG/PNG, max 10MB</strong>). Photos await administrative approval.
                 </AlertDescription>
               </Alert>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <Checkbox
-                    checked={form.facilityInspectionCompleted}
-                    onCheckedChange={(v) => updateForm('facilityInspectionCompleted', !!v)}
-                  />
-                  <Label className="font-normal">Facility inspection completed and meets study requirements</Label>
+
+              {/* Laminitis-specific callout */}
+              <Alert className="bg-emerald-50 border-emerald-200">
+                <AlertDescription className="text-sm text-emerald-800">
+                  <strong>Laminitis-specific requirements:</strong> Feed management and housing conditions directly affect laminitis progression and recovery. Uncontrolled carbohydrate intake or inadequate stall support can confound PTP-102 efficacy data. All trial horses must be housed on appropriate footing with diet managed per protocol Section 4.2.
+                </AlertDescription>
+              </Alert>
+
+              {uploadError && (
+                <Alert className="bg-red-50 border-red-200">
+                  <AlertDescription className="text-sm text-red-800">{uploadError}</AlertDescription>
+                </Alert>
+              )}
+
+              {/* Completion Toggle */}
+              <div className="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
+                <Checkbox
+                  checked={form.facilityInspectionCompleted}
+                  onCheckedChange={(v) => updateForm('facilityInspectionCompleted', !!v)}
+                  id="facility-complete"
+                />
+                <Label htmlFor="facility-complete" className="font-medium text-sm cursor-pointer">
+                  Facility inspection completed and meets study requirements
+                </Label>
+              </div>
+
+              {/* Summary Bar */}
+              {[drugStoragePhoto, emergencyPhoto, housingPhoto, feedPhoto].filter(Boolean).length > 0 && (
+                <div className="flex items-center justify-between p-3 bg-emerald-50 border border-emerald-200 rounded-lg">
+                  <span className="text-sm font-medium text-emerald-800">
+                    <CheckCircle className="h-4 w-4 inline mr-1" />
+                    {[drugStoragePhoto, emergencyPhoto, housingPhoto, feedPhoto].filter(Boolean).length === 4 ? 'All required areas documented' : 'Uploads in progress'}
+                  </span>
+                  <span className="text-xs text-emerald-700">
+                    {[drugStoragePhoto, emergencyPhoto, housingPhoto, feedPhoto].filter(Boolean).length} of 4 areas uploaded
+                  </span>
                 </div>
+              )}
 
-                {uploadError && (
-                  <Alert className="bg-red-50 border-red-200">
-                    <AlertDescription className="text-sm text-red-800">{uploadError}</AlertDescription>
-                  </Alert>
-                )}
+              {/* Facility Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                  {/* Drug Storage */}
-                  <div className="border rounded-lg p-3 text-center space-y-2">
-                    <p className="text-sm font-medium">Drug Storage Area</p>
-                    <p className="text-xs text-slate-500">Refrigerated, secure, locked</p>
+                {/* 1. Drug Storage Area */}
+                <div className={`border rounded-xl overflow-hidden transition-all ${drugStoragePhoto ? 'border-emerald-400 shadow-sm' : 'border-slate-200'}`}>
+                  <div className="p-5 pb-0">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M6 16h.01M6 12h12M12 8h6M12 16h6"/></svg>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold">Drug Storage Area</span>
+                          <Badge variant="outline" className="text-[10px] bg-red-50 text-red-700 border-red-200">Required</Badge>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                      Refrigerated (2-8°C), secure, locked. Separate storage for investigational product vs. standard therapeutics.
+                    </p>
+                    <div className="mt-3 space-y-1.5">
+                      {[
+                        'Dedicated refrigerator with temperature log',
+                        'Lockable cabinet or restricted-access room',
+                        'Temperature monitoring with alarm system',
+                      ].map((item) => (
+                        <div key={item} className="flex items-start gap-2 text-xs text-slate-500">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="p-5 pt-3">
                     {drugStoragePhoto ? (
                       <div className="space-y-2">
-                        <img src={drugStoragePhoto.cdnUrl} alt="Drug Storage" className="w-full h-24 object-cover rounded-md border" />
+                        <div className="flex items-center gap-2 p-2 bg-emerald-50 border border-emerald-200 rounded-md text-xs text-emerald-700">
+                          <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                          Uploaded — Awaiting admin approval
+                        </div>
+                        <img src={drugStoragePhoto.cdnUrl} alt="Drug Storage" className="w-full h-32 object-cover rounded-lg border" />
+                        <p className="text-xs text-emerald-600 font-medium">{drugStoragePhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowDrugUploader(true)}>Replace</Button>
                           <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setDrugStoragePhoto(null); setShowDrugUploader(false); }}>Remove</Button>
@@ -876,20 +950,56 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
                         <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowDrugUploader(false)}>Cancel</Button>
                       </div>
                     ) : (
-                      <Button variant="outline" size="sm" className="w-full" type="button" onClick={() => setShowDrugUploader(true)}>
-                        <Upload className="h-3 w-3 mr-1" />
-                        Upload Photo
-                      </Button>
+                      <div
+                        className="border-2 border-dashed border-slate-200 rounded-lg p-5 text-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 transition-colors"
+                        onClick={() => setShowDrugUploader(true)}
+                      >
+                        <Upload className="h-5 w-5 mx-auto text-slate-400 mb-1" />
+                        <p className="text-xs text-slate-500">Upload photo of drug storage area</p>
+                      </div>
                     )}
                   </div>
+                </div>
 
-                  {/* Emergency Equipment */}
-                  <div className="border rounded-lg p-3 text-center space-y-2">
-                    <p className="text-sm font-medium">Emergency Equipment</p>
-                    <p className="text-xs text-slate-500">Crash kit, oxygen, defibrillator</p>
+                {/* 2. Emergency Equipment */}
+                <div className={`border rounded-xl overflow-hidden transition-all ${emergencyPhoto ? 'border-emerald-400 shadow-sm' : 'border-slate-200'}`}>
+                  <div className="p-5 pb-0">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold">Emergency Equipment</span>
+                          <Badge variant="outline" className="text-[10px] bg-red-50 text-red-700 border-red-200">Required</Badge>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                      Crash kit, oxygen supply, large-animal defibrillator. Equine-specific emergency response capability within 3 minutes.
+                    </p>
+                    <div className="mt-3 space-y-1.5">
+                      {[
+                        'Equine crash kit stocked and accessible',
+                        'IV catheterization supplies & fluid therapy',
+                        'Emergency drug box with labeled contents',
+                      ].map((item) => (
+                        <div key={item} className="flex items-start gap-2 text-xs text-slate-500">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="p-5 pt-3">
                     {emergencyPhoto ? (
                       <div className="space-y-2">
-                        <img src={emergencyPhoto.cdnUrl} alt="Emergency Equipment" className="w-full h-24 object-cover rounded-md border" />
+                        <div className="flex items-center gap-2 p-2 bg-emerald-50 border border-emerald-200 rounded-md text-xs text-emerald-700">
+                          <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                          Uploaded — Awaiting admin approval
+                        </div>
+                        <img src={emergencyPhoto.cdnUrl} alt="Emergency Equipment" className="w-full h-32 object-cover rounded-lg border" />
+                        <p className="text-xs text-emerald-600 font-medium">{emergencyPhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowEmergencyUploader(true)}>Replace</Button>
                           <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setEmergencyPhoto(null); setShowEmergencyUploader(false); }}>Remove</Button>
@@ -920,26 +1030,63 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
                         <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowEmergencyUploader(false)}>Cancel</Button>
                       </div>
                     ) : (
-                      <Button variant="outline" size="sm" className="w-full" type="button" onClick={() => setShowEmergencyUploader(true)}>
-                        <Upload className="h-3 w-3 mr-1" />
-                        Upload Photo
-                      </Button>
+                      <div
+                        className="border-2 border-dashed border-slate-200 rounded-lg p-5 text-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 transition-colors"
+                        onClick={() => setShowEmergencyUploader(true)}
+                      >
+                        <Upload className="h-5 w-5 mx-auto text-slate-400 mb-1" />
+                        <p className="text-xs text-slate-500">Upload photo of emergency equipment</p>
+                      </div>
                     )}
                   </div>
+                </div>
 
-                  {/* Records Area */}
-                  <div className="border rounded-lg p-3 text-center space-y-2">
-                    <p className="text-sm font-medium">Records Area</p>
-                    <p className="text-xs text-slate-500">Secure filing, fire-safe</p>
-                    {recordsPhoto ? (
-                      <div className="space-y-2">
-                        <img src={recordsPhoto.cdnUrl} alt="Records Area" className="w-full h-24 object-cover rounded-md border" />
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowRecordsUploader(true)}>Replace</Button>
-                          <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setRecordsPhoto(null); setShowRecordsUploader(false); }}>Remove</Button>
+                {/* 3. Equine Housing / Stall Area */}
+                <div className={`border rounded-xl overflow-hidden transition-all ${housingPhoto ? 'border-emerald-400 shadow-sm' : 'border-slate-200'}`}>
+                  <div className="p-5 pb-0">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M5 21V7l8-4 8 4v14M9 21v-6h6v6"/></svg>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold">Equine Housing / Stall Area</span>
+                          <Badge variant="outline" className="text-[10px] bg-red-50 text-red-700 border-red-200">Required</Badge>
                         </div>
                       </div>
-                    ) : showRecordsUploader ? (
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                      Padded, slip-resistant flooring. Minimum 12'x12' stall with deep bedding. Capability for stall rest with hand-walking per protocol.
+                    </p>
+                    <div className="mt-3 space-y-1.5">
+                      {[
+                        'Deep, dry bedding (shavings/straw, min 6 inches)',
+                        'Non-slip, cushioned flooring (mats / padded surface)',
+                        'Adequate ventilation & climate control',
+                        'Individual stall with safe, solid walls',
+                      ].map((item) => (
+                        <div key={item} className="flex items-start gap-2 text-xs text-slate-500">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="p-5 pt-3 space-y-3">
+                    {housingPhoto ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 p-2 bg-emerald-50 border border-emerald-200 rounded-md text-xs text-emerald-700">
+                          <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                          Uploaded — Awaiting admin approval
+                        </div>
+                        <img src={housingPhoto.cdnUrl} alt="Equine Housing" className="w-full h-32 object-cover rounded-lg border" />
+                        <p className="text-xs text-emerald-600 font-medium">{housingPhoto.name}</p>
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowHousingUploader(true)}>Replace</Button>
+                          <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setHousingPhoto(null); setShowHousingUploader(false); }}>Remove</Button>
+                        </div>
+                      </div>
+                    ) : showHousingUploader ? (
                       <div className="space-y-2">
                         <FileUploaderRegular
                           pubkey="65522fb5ee7036edf97b"
@@ -957,20 +1104,123 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
                               return;
                             }
                             setUploadError(null);
-                            setRecordsPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
-                            setShowRecordsUploader(false);
+                            setHousingPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setShowHousingUploader(false);
                           }}
                         />
-                        <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowRecordsUploader(false)}>Cancel</Button>
+                        <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowHousingUploader(false)}>Cancel</Button>
                       </div>
                     ) : (
-                      <Button variant="outline" size="sm" className="w-full" type="button" onClick={() => setShowRecordsUploader(true)}>
-                        <Upload className="h-3 w-3 mr-1" />
-                        Upload Photo
-                      </Button>
+                      <div
+                        className="border-2 border-dashed border-slate-200 rounded-lg p-5 text-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 transition-colors"
+                        onClick={() => setShowHousingUploader(true)}
+                      >
+                        <Upload className="h-5 w-5 mx-auto text-slate-400 mb-1" />
+                        <p className="text-xs text-slate-500">Upload photo of stall / housing area</p>
+                      </div>
                     )}
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium">Stall dimensions & flooring type</Label>
+                      <textarea
+                        className="w-full px-3 py-2 border rounded-md text-xs min-h-[60px] resize-y focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-400"
+                        placeholder="e.g. 12'x14' box stall, 2-inch rubber mats over concrete, deep shavings bedding"
+                        value={housingComments}
+                        onChange={(e) => setHousingComments(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </div>
+
+                {/* 4. Feed Storage & Diet Control */}
+                <div className={`border rounded-xl overflow-hidden transition-all ${feedPhoto ? 'border-emerald-400 shadow-sm' : 'border-slate-200'}`}>
+                  <div className="p-5 pb-0">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold">Feed Storage & Diet Control</span>
+                          <Badge variant="outline" className="text-[10px] bg-red-50 text-red-700 border-red-200">Required</Badge>
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                      Locked, dry, rodent-proof feed storage. Low-NSC hay & controlled grain. Ability to weigh and record individual feed rations per protocol.
+                    </p>
+                    <div className="mt-3 space-y-1.5">
+                      {[
+                        'Secure, locked feed room or bin',
+                        'Low-NSC hay verified (<10% ESC + starch)',
+                        'Feed scale for weighing individual rations',
+                        'Separate feeding per horse (no shared feeders)',
+                      ].map((item) => (
+                        <div key={item} className="flex items-start gap-2 text-xs text-slate-500">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="p-5 pt-3 space-y-3">
+                    {feedPhoto ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 p-2 bg-emerald-50 border border-emerald-200 rounded-md text-xs text-emerald-700">
+                          <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
+                          Uploaded — Awaiting admin approval
+                        </div>
+                        <img src={feedPhoto.cdnUrl} alt="Feed Storage" className="w-full h-32 object-cover rounded-lg border" />
+                        <p className="text-xs text-emerald-600 font-medium">{feedPhoto.name}</p>
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowFeedUploader(true)}>Replace</Button>
+                          <Button variant="destructive" size="sm" className="flex-1" type="button" onClick={() => { setFeedPhoto(null); setShowFeedUploader(false); }}>Remove</Button>
+                        </div>
+                      </div>
+                    ) : showFeedUploader ? (
+                      <div className="space-y-2">
+                        <FileUploaderRegular
+                          pubkey="65522fb5ee7036edf97b"
+                          classNameUploader="uc-light uc-purple"
+                          sourceList="local, camera"
+                          imgOnly={true}
+                          multiple={false}
+                          onFileUploadSuccess={(fileInfo: any) => {
+                            if (fileInfo.size > 10 * 1024 * 1024) {
+                              setUploadError('File exceeds 10MB limit.');
+                              return;
+                            }
+                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
+                              setUploadError('Only JPEG and PNG images are accepted.');
+                              return;
+                            }
+                            setUploadError(null);
+                            setFeedPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setShowFeedUploader(false);
+                          }}
+                        />
+                        <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowFeedUploader(false)}>Cancel</Button>
+                      </div>
+                    ) : (
+                      <div
+                        className="border-2 border-dashed border-slate-200 rounded-lg p-5 text-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 transition-colors"
+                        onClick={() => setShowFeedUploader(true)}
+                      >
+                        <Upload className="h-5 w-5 mx-auto text-slate-400 mb-1" />
+                        <p className="text-xs text-slate-500">Upload photo of feed storage area</p>
+                      </div>
+                    )}
+                    <div className="space-y-1.5">
+                      <Label className="text-xs font-medium">Current hay type & NSC analysis (if available)</Label>
+                      <textarea
+                        className="w-full px-3 py-2 border rounded-md text-xs min-h-[60px] resize-y focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-400"
+                        placeholder="e.g. Timothy hay, NSC 8.2%, sourced from XYZ Farm, batch tested Nov 2026"
+                        value={feedComments}
+                        onChange={(e) => setFeedComments(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           )}

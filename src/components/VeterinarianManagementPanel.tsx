@@ -55,6 +55,17 @@ type InvestigatorQualification = {
   gcp_quiz_score: number | null;
   facility_inspection_completed: boolean | null;
   facility_inspection_date: string | null;
+  drug_storage_photo_url: string | null;
+  drug_storage_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  emergency_equipment_photo_url: string | null;
+  emergency_equipment_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  housing_photo_url: string | null;
+  housing_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  feed_photo_url: string | null;
+  feed_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  housing_comments: string | null;
+  feed_comments: string | null;
+  facility_checklist: Record<string, unknown> | null;
   investigator_agreement_signed: boolean | null;
   investigator_agreement_signed_at: string | null;
   investigator_agreement_signature: string | null;
@@ -926,11 +937,12 @@ export function VeterinarianManagementPanel() {
                                   <h4 className="text-sm font-bold text-slate-800 uppercase tracking-wide flex items-center gap-2">
                                     <Building2 className="h-4 w-4" /> Facility Photos
                                   </h4>
-                                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {[
                                       { label: 'Drug Storage', url: selectedQual.drug_storage_photo_url, status: selectedQual.drug_storage_photo_status, key: 'drug_storage' },
                                       { label: 'Emergency Equipment', url: selectedQual.emergency_equipment_photo_url, status: selectedQual.emergency_equipment_photo_status, key: 'emergency' },
-                                      { label: 'Records Area', url: selectedQual.records_area_photo_url, status: selectedQual.records_area_photo_status, key: 'records' },
+                                      { label: 'Equine Housing / Stall', url: selectedQual.housing_photo_url, status: selectedQual.housing_photo_status, key: 'housing' },
+                                      { label: 'Feed Storage & Diet', url: selectedQual.feed_photo_url, status: selectedQual.feed_photo_status, key: 'feed' },
                                     ].map((photo) => (
                                       <div key={photo.key} className="border rounded-lg p-2 space-y-2">
                                         <div className="flex items-center justify-between">
@@ -966,6 +978,24 @@ export function VeterinarianManagementPanel() {
                                       </div>
                                     ))}
                                   </div>
+
+                                  {/* Facility Comments */}
+                                  {(selectedQual.housing_comments || selectedQual.feed_comments) && (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                      {selectedQual.housing_comments && (
+                                        <div className="bg-slate-50 border rounded-lg p-3">
+                                          <span className="text-xs font-semibold text-slate-700">Housing Comments</span>
+                                          <p className="text-xs text-slate-600 mt-1">{selectedQual.housing_comments}</p>
+                                        </div>
+                                      )}
+                                      {selectedQual.feed_comments && (
+                                        <div className="bg-slate-50 border rounded-lg p-3">
+                                          <span className="text-xs font-semibold text-slate-700">Feed Comments</span>
+                                          <p className="text-xs text-slate-600 mt-1">{selectedQual.feed_comments}</p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
 
                                   {/* Admin Qualification Actions */}
                                   <div className="flex items-center gap-2 pt-2">
