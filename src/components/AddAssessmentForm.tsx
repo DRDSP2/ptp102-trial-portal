@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ObelGradeReference, type ObelGradeValue } from '@/components/ObelGradeReference';
 
 const assessmentSchema = z.object({
   assessmentDatetime: z.string().min(1, 'Date and time required'),
@@ -35,7 +36,7 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
     resolver: zodResolver(assessmentSchema),
     defaultValues: {
       assessmentDatetime: new Date().toISOString().slice(0, 16),
-      obelGrade: '',
+      obelGrade: '2',
       painScore: '',
       mobilityScore: '',
       digitalPulseScore: '',
@@ -88,32 +89,24 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
           )}
         />
 
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="obelGrade"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Obel Grade (Lameness)</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select grade" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="0">0 - No lameness</SelectItem>
-                    <SelectItem value="1">1 - Shifts weight, walks normally</SelectItem>
-                    <SelectItem value="2">2 - Walks willingly, obvious lameness</SelectItem>
-                    <SelectItem value="3">3 - Moves reluctantly, prefers lying</SelectItem>
-                    <SelectItem value="4">4 - Refuses to move</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={form.control}
+          name="obelGrade"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="sr-only">Obel Grade (Lameness)</FormLabel>
+              <FormControl>
+                <ObelGradeReference
+                  value={field.value}
+                  onChange={(value: ObelGradeValue) => field.onChange(value)}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
+        <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="painScore"
