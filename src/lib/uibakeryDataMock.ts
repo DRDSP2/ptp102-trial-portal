@@ -1,5 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { verifyPassword } from '@/utils/passwordHash';
+import {
+  type AuditLogEntry,
+  type AuditPayload,
+  type AuditAction,
+  type AuditEntityType,
+  STUDY_ID,
+  STUDY_TITLE,
+  SPONSOR_NAME,
+} from '@/lib/auditTypes';
+import { buildStatisticalXml, buildFullXml, generateDefineXml, type XmlExportPatient } from '@/lib/xmlExport';
+import { buildSubmissionPackage, type ExportFile } from '@/lib/submissionPackage';
 
 // =============================================================================
 // UIBAKERY DATA MOCK — Enhanced for 4EVERLAND Deployment
@@ -30,7 +41,14 @@ const STORAGE_KEYS = {
   investigatorQuals: 'ptp102_mock_investigator_quals',
   informedConsents: 'ptp102_mock_informed_consents',
   shipments: 'ptp102_mock_shipments',
+  auditLogs: 'ptp102_mock_audit_logs',
 };
+
+// Demo / test account credentials and case seeding
+const DEMO_VET_EMAIL = 'phyto2002@gmail.com';
+const DEMO_VET_PASSWORD_HASH = '$2a$10$xzmjTA6IZKO115IAD67/3ezpl31KZ9JvjS.whfHLohGgOwiTla1vG';
+const DEMO_PATIENT_NAME = 'Midnight Thunder';
+const DEMO_PROTOCOL_START = new Date('2025-11-15T08:00:00.000Z');
 
 function loadFromStorage<T>(key: string, fallback: T): T {
   if (typeof window === 'undefined') return fallback;
@@ -45,6 +63,113 @@ function loadFromStorage<T>(key: string, fallback: T): T {
 function saveToStorage<T>(key: string, value: T) {
   if (typeof window === 'undefined') return;
   window.localStorage.setItem(key, JSON.stringify(value));
+}
+
+// ---------------------------------------------------------------------------
+// Audit Log
+// ---------------------------------------------------------------------------
+function getAuditLogs(): AuditLogEntry[] {
+  return loadFromStorage<AuditLogEntry[]>(STORAGE_KEYS.auditLogs, []);
+}
+
+function saveAuditLogs(logs: AuditLogEntry[]) {
+  saveToStorage(STORAGE_KEYS.auditLogs, logs);
+}
+
+async function computeAuditHash(entry: Omit<AuditLogEntry, 'clientHash' | 'previousHash'>, previousHash: string): Promise<string> {
+  if (typeof window === 'undefined') return '';
+  const payload = JSON.stringify({
+    id: entry.id,
+    sequenceNumber: entry.sequenceNumber,
+    timestamp: entry.timestamp,
+    userId: entry.userId,
+    userEmail: entry.userEmail,
+    userRole: entry.userRole,
+    action: entry.action,
+    entityType: entry.entityType,
+    entityId: entry.entityId,
+    patientId: entry.patientId,
+    studyId: entry.studyId,
+    fieldName: entry.fieldName,
+    oldValue: entry.oldValue,
+    newValue: entry.newValue,
+    reasonForChange: entry.reasonForChange,
+    ipAddress: entry.ipAddress,
+    userAgent: entry.userAgent,
+    sessionId: entry.sessionId,
+    previousHash,
+  });
+  const encoder = new TextEncoder();
+  const data = encoder.encode(payload);
+  const digest = await window.crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function getCurrentUserForAudit(): { userId: string; userEmail: string; userRole: 'admin' | 'vet' | 'unknown' } {
+  if (typeof window === 'undefined') {
+    return { userId: 'unknown', userEmail: 'unknown', userRole: 'unknown' };
+  }
+  const adminEmail = window.localStorage.getItem('admin_email');
+  const vetEmail = window.localStorage.getItem('veterinarian_email');
+  const authRaw = window.localStorage.getItem('laminitis_auth_state');
+  let auth: { role?: string; email?: string } | null = null;
+  try {
+    auth = authRaw ? JSON.parse(authRaw) : null;
+  } catch {
+    auth = null;
+  }
+  const email = auth?.email ?? adminEmail ?? vetEmail ?? 'unknown';
+  const role = (auth?.role as 'admin' | 'vet' | 'unknown') ?? (adminEmail ? 'admin' : vetEmail ? 'vet' : 'unknown');
+  return { userId: email, userEmail: email, userRole: role };
+}
+
+async function recordAudit(payload: AuditPayload): Promise<AuditLogEntry> {
+  const logs = getAuditLogs();
+  const nextId = logs.length > 0 ? Math.max(...logs.map((l) => l.id)) + 1 : 1;
+  const nextSequence = logs.length > 0 ? Math.max(...logs.map((l) => l.sequenceNumber)) + 1 : 1;
+  const previousHash = logs.length > 0 ? logs[logs.length - 1].clientHash : 'genesis';
+  const user = getCurrentUserForAudit();
+
+  const entryWithoutHashes: Omit<AuditLogEntry, 'clientHash' | 'previousHash'> = {
+    id: nextId,
+    sequenceNumber: nextSequence,
+    timestamp: payload.timestamp ?? new Date().toISOString(),
+    userId: payload.userId ?? user.userId,
+    userEmail: payload.userEmail ?? user.userEmail,
+    userRole: payload.userRole ?? user.userRole,
+    action: payload.action,
+    entityType: payload.entityType,
+    entityId: payload.entityId ?? null,
+    patientId: payload.patientId ?? null,
+    studyId: payload.studyId ?? STUDY_ID,
+    fieldName: payload.fieldName ?? null,
+    oldValue: payload.oldValue ?? null,
+    newValue: payload.newValue ?? null,
+    reasonForChange: payload.reasonForChange ?? null,
+    ipAddress: payload.ipAddress ?? null,
+    userAgent: payload.userAgent ?? (typeof navigator !== 'undefined' ? navigator.userAgent : null),
+    sessionId: payload.sessionId ?? null,
+  };
+
+  const clientHash = await computeAuditHash(entryWithoutHashes, previousHash);
+  const entry: AuditLogEntry = { ...entryWithoutHashes, clientHash, previousHash };
+  logs.push(entry);
+  saveAuditLogs(logs);
+  return entry;
+}
+
+function verifyAuditChain(logs: AuditLogEntry[]): { valid: boolean; firstInvalidIndex: number } {
+  for (let i = 0; i < logs.length; i++) {
+    const entry = logs[i];
+    const expectedPrevious = i === 0 ? 'genesis' : logs[i - 1].clientHash;
+    if (entry.previousHash !== expectedPrevious) {
+      return { valid: false, firstInvalidIndex: i };
+    }
+    // Full hash verification requires async computeAuditHash; synchronous check covers linkage.
+  }
+  return { valid: true, firstInvalidIndex: -1 };
 }
 
 // ---------------------------------------------------------------------------
@@ -182,13 +307,14 @@ function seedPatients(): LocalPatient[] {
 }
 
 function getPatients(): LocalPatient[] {
-  const stored = loadFromStorage<LocalPatient[]>(STORAGE_KEYS.patients, []);
+  let stored = loadFromStorage<LocalPatient[]>(STORAGE_KEYS.patients, []);
   if (stored.length === 0) {
     const seeded = seedPatients();
     saveToStorage(STORAGE_KEYS.patients, seeded);
-    return seeded;
+    stored = seeded;
   }
-  return stored;
+  ensureDemoData();
+  return loadFromStorage<LocalPatient[]>(STORAGE_KEYS.patients, stored);
 }
 
 function savePatients(patients: LocalPatient[]) {
@@ -264,6 +390,7 @@ type LocalVet = {
 };
 
 function getVets(): LocalVet[] {
+  ensureDemoData();
   return loadFromStorage<LocalVet[]>(STORAGE_KEYS.vets, []);
 }
 
@@ -288,6 +415,7 @@ type LocalNote = {
 };
 
 function getNotes(): LocalNote[] {
+  ensureDemoData();
   return loadFromStorage<LocalNote[]>(STORAGE_KEYS.notes, []);
 }
 
@@ -310,6 +438,7 @@ type LocalTreatment = {
 };
 
 function getTreatments(): LocalTreatment[] {
+  ensureDemoData();
   return loadFromStorage<LocalTreatment[]>(STORAGE_KEYS.treatments, []);
 }
 
@@ -338,6 +467,7 @@ type LocalAssessment = {
 };
 
 function getAssessments(): LocalAssessment[] {
+  ensureDemoData();
   return loadFromStorage<LocalAssessment[]>(STORAGE_KEYS.assessments, []);
 }
 
@@ -373,11 +503,329 @@ type LocalLabResult = {
 };
 
 function getLabResults(): LocalLabResult[] {
+  ensureDemoData();
   return loadFromStorage<LocalLabResult[]>(STORAGE_KEYS.labResults, []);
 }
 
 function saveLabResults(labResults: LocalLabResult[]) {
   saveToStorage(STORAGE_KEYS.labResults, labResults);
+}
+
+// ---------------------------------------------------------------------------
+// Demo / Test Data Seeding
+// ---------------------------------------------------------------------------
+function ensureDemoData() {
+  if (typeof window === 'undefined') return;
+
+  const now = new Date().toISOString();
+
+  // Ensure demo veterinarian account exists and is approved
+  const vets = loadFromStorage<LocalVet[]>(STORAGE_KEYS.vets, []);
+  let demoVet = vets.find((v) => v.email.toLowerCase() === DEMO_VET_EMAIL);
+  if (!demoVet) {
+    const nextVetId = vets.length > 0 ? Math.max(...vets.map((v) => v.id)) + 1 : 1;
+    demoVet = {
+      id: nextVetId,
+      full_name: 'Dr. Sarah Phyto',
+      email: DEMO_VET_EMAIL,
+      phone: '555-0199',
+      password_hash: DEMO_VET_PASSWORD_HASH,
+      license_number: 'VET-48291-CA',
+      hospital_affiliation: 'Equine Recovery Center, Davis CA',
+      tc_accepted: true,
+      tc_accepted_at: now,
+      signature_text: 'S. Phyto DVM',
+      verification_status: 'approved',
+      created_at: now,
+      updated_at: now,
+    };
+    vets.push(demoVet);
+    saveToStorage(STORAGE_KEYS.vets, vets);
+  }
+
+  // Ensure demo enrolled patient exists for this vet
+  const patients = loadFromStorage<LocalPatient[]>(STORAGE_KEYS.patients, []);
+  let demoPatient = patients.find(
+    (p) => p.enrolled_by_vet_email?.toLowerCase() === DEMO_VET_EMAIL && p.horse_name === DEMO_PATIENT_NAME
+  );
+  if (!demoPatient) {
+    const protocolStart = DEMO_PROTOCOL_START.toISOString();
+    const screeningTime = new Date(DEMO_PROTOCOL_START.getTime() - 12 * 60 * 60 * 1000).toISOString();
+    const nextPatientId = patients.length > 0 ? Math.max(...patients.map((p) => p.id)) + 1 : 1;
+    demoPatient = {
+      id: nextPatientId,
+      horse_name: DEMO_PATIENT_NAME,
+      age: 9,
+      breed: 'Thoroughbred',
+      weight: 485,
+      sex: 'Gelding',
+      owner_name: 'Margaret Holloway',
+      owner_contact: '555-0182',
+      owner_email: 'm.holloway@example.com',
+      owner_phone: '555-0182',
+      enrollment_date: screeningTime.slice(0, 10),
+      trial_status: 'enrolled',
+      screening_status: 'approved',
+      screening_notes:
+        'Acute laminitis episode, Obel grade 3 at presentation. Owner consent obtained. Eligible for PTP-102 protocol.',
+      screened_by: demoVet.full_name,
+      screened_at: screeningTime,
+      eligibility_verified: true,
+      consent_date: screeningTime.slice(0, 10),
+      consent_id: nextPatientId + 10000,
+      digital_pulse: 'Bounding',
+      hoof_wall_temperature: 'Warm',
+      coronary_band_condition: 'Mild swelling',
+      hoof_tester_response: 'Positive forefeet',
+      stance: 'Camped out',
+      gait: 'Reluctant',
+      enrollment_heart_rate: 52,
+      enrollment_respiratory_rate: 22,
+      enrollment_temperature: 38.4,
+      body_condition_score: 5,
+      profile_picture_url: null,
+      enrolled_by_vet_email: DEMO_VET_EMAIL,
+      created_at: screeningTime,
+      updated_at: protocolStart,
+      status_history: [
+        {
+          status: 'screening',
+          timestamp: screeningTime,
+          admin: 'system',
+          notes: 'Demo case created for vet portal preview.',
+        },
+        {
+          status: 'enrolled',
+          timestamp: protocolStart,
+          admin: 'system',
+          notes: 'First PTP-102 dose administered; 72-hour protocol clock started.',
+        },
+      ],
+      audit_log: [],
+    };
+    patients.push(demoPatient);
+    saveToStorage(STORAGE_KEYS.patients, patients);
+  }
+
+  const patientId = demoPatient.id;
+  const vetName = demoVet.full_name;
+  const protocolStartTime = new Date(demoPatient.updated_at).getTime();
+
+  // Ensure demo treatments (Hour 0 and Hour 12)
+  const treatments = loadFromStorage<LocalTreatment[]>(STORAGE_KEYS.treatments, []);
+  if (!treatments.some((t) => t.patient_id === patientId)) {
+    const nextTreatmentId = treatments.length > 0 ? Math.max(...treatments.map((t) => t.id)) + 1 : 1;
+    treatments.push(
+      {
+        id: nextTreatmentId,
+        patient_id: patientId,
+        administration_datetime: new Date(protocolStartTime).toISOString(),
+        dosage_mg: 2500,
+        route: 'IV - Jugular',
+        protocol_hour: 0,
+        veterinarian_name: vetName,
+        total_volume_ml: 500,
+      },
+      {
+        id: nextTreatmentId + 1,
+        patient_id: patientId,
+        administration_datetime: new Date(protocolStartTime + 12 * 60 * 60 * 1000).toISOString(),
+        dosage_mg: 2500,
+        route: 'IV - Jugular',
+        protocol_hour: 12,
+        veterinarian_name: vetName,
+        total_volume_ml: 500,
+      }
+    );
+    saveToStorage(STORAGE_KEYS.treatments, treatments);
+  }
+
+  // Ensure demo assessments showing Obel 3 -> 2 -> 1 recovery
+  const assessments = loadFromStorage<LocalAssessment[]>(STORAGE_KEYS.assessments, []);
+  if (!assessments.some((a) => a.patient_id === patientId)) {
+    const nextAssessmentId = assessments.length > 0 ? Math.max(...assessments.map((a) => a.id)) + 1 : 1;
+    assessments.push(
+      {
+        id: nextAssessmentId,
+        patient_id: patientId,
+        assessment_datetime: new Date(protocolStartTime - 30 * 60 * 1000).toISOString(),
+        obel_grade: 3,
+        pain_score: 8,
+        mobility_score: 2,
+        digital_pulse_score: 3,
+        hoof_temperature: 'Warm',
+        heart_rate: 52,
+        respiratory_rate: 22,
+        temperature: 38.4,
+        clinical_notes:
+          'Baseline presentation: acute forelimb laminitis, Obel grade 3. Horse reluctant to move, weight shifting, bounding digital pulses, warm coronary bands. PTP-102 infusion initiated after consent.',
+        veterinarian_name: vetName,
+        protocol_hour: 0,
+      },
+      {
+        id: nextAssessmentId + 1,
+        patient_id: patientId,
+        assessment_datetime: new Date(protocolStartTime + 12 * 60 * 60 * 1000 + 15 * 60 * 1000).toISOString(),
+        obel_grade: 2,
+        pain_score: 5,
+        mobility_score: 4,
+        digital_pulse_score: 2,
+        hoof_temperature: 'Mildly warm',
+        heart_rate: 44,
+        respiratory_rate: 18,
+        temperature: 38.2,
+        clinical_notes:
+          '12-hour reassessment: marked improvement. Horse walking more willingly, digital pulses less bounding, hoof temperature cooling. Second PTP-102 dose tolerated well.',
+        veterinarian_name: vetName,
+        protocol_hour: 12,
+      },
+      {
+        id: nextAssessmentId + 2,
+        patient_id: patientId,
+        assessment_datetime: new Date(protocolStartTime + 36 * 60 * 60 * 1000).toISOString(),
+        obel_grade: 1,
+        pain_score: 2,
+        mobility_score: 7,
+        digital_pulse_score: 1,
+        hoof_temperature: 'Cool',
+        heart_rate: 38,
+        respiratory_rate: 14,
+        temperature: 38.0,
+        clinical_notes:
+          '36-hour reassessment: dramatic recovery. Obel grade 1, walking with only mild stiffness on firm ground, digital pulses soft, hooves cool. Owner reports horse is comfortable and eating well. Continue supportive care and monitoring.',
+        veterinarian_name: vetName,
+        protocol_hour: 36,
+      }
+    );
+    saveToStorage(STORAGE_KEYS.assessments, assessments);
+  }
+
+  // Ensure demo clinical notes (including a video note)
+  const notes = loadFromStorage<LocalNote[]>(STORAGE_KEYS.notes, []);
+  if (!notes.some((n) => n.patient_id === patientId)) {
+    const nextNoteId = notes.length > 0 ? Math.max(...notes.map((n) => n.id)) + 1 : 1;
+    notes.push(
+      {
+        id: nextNoteId,
+        patient_id: patientId,
+        veterinarian_name: vetName,
+        note_type: 'observation',
+        note_content:
+          'Owner Margaret Holloway reports acute onset forelimb lameness this morning after a grain-bin escape. Horse otherwise healthy with no prior laminitis episodes. Informed consent signed for PTP-102 protocol.',
+        protocol_hour: 0,
+        video_url: null,
+        video_file_name: null,
+        video_uploaded_at: null,
+        created_at: new Date(protocolStartTime).toISOString(),
+      },
+      {
+        id: nextNoteId + 1,
+        patient_id: patientId,
+        veterinarian_name: vetName,
+        note_type: 'video',
+        note_content:
+          '36-hour gait assessment video: horse walks briskly on soft surface, only mildly short-strided on concrete. Reference matches Obel grade 1 footage.',
+        protocol_hour: 36,
+        video_url: '/videos/video-grade1.mp4',
+        video_file_name: 'midnight_thunder_36h_grade1.mp4',
+        video_uploaded_at: new Date(protocolStartTime + 36 * 60 * 60 * 1000).toISOString(),
+        created_at: new Date(protocolStartTime + 36 * 60 * 60 * 1000).toISOString(),
+      }
+    );
+    saveToStorage(STORAGE_KEYS.notes, notes);
+  }
+
+  // Ensure demo lab results (baseline + 36h)
+  const labResults = loadFromStorage<LocalLabResult[]>(STORAGE_KEYS.labResults, []);
+  if (!labResults.some((l) => l.patient_id === patientId)) {
+    const nextLabId = labResults.length > 0 ? Math.max(...labResults.map((l) => l.id)) + 1 : 1;
+    labResults.push(
+      {
+        id: nextLabId,
+        patient_id: patientId,
+        test_datetime: new Date(protocolStartTime - 60 * 60 * 1000).toISOString(),
+        protocol_hour: 0,
+        wbc: 12.5,
+        rbc: 7.2,
+        hemoglobin: 13.8,
+        hematocrit: 42,
+        platelets: 180,
+        glucose: 98,
+        creatinine: 1.1,
+        bun: 18,
+        alt: 28,
+        ast: 32,
+        alkaline_phosphatase: 120,
+        total_protein: 68,
+        albumin: 32,
+        serum_amyloid_a: 45,
+        fibrinogen: 4.5,
+        lactate: 1.8,
+        additional_notes:
+          'Baseline inflammatory markers mildly elevated (SAA, fibrinogen) consistent with acute laminitis. Values within acceptable enrollment limits.',
+      },
+      {
+        id: nextLabId + 1,
+        patient_id: patientId,
+        test_datetime: new Date(protocolStartTime + 36 * 60 * 60 * 1000).toISOString(),
+        protocol_hour: 36,
+        wbc: 8.2,
+        rbc: 7.4,
+        hemoglobin: 14.1,
+        hematocrit: 43,
+        platelets: 195,
+        glucose: 88,
+        creatinine: 1.0,
+        bun: 16,
+        alt: 26,
+        ast: 30,
+        alkaline_phosphatase: 110,
+        total_protein: 66,
+        albumin: 33,
+        serum_amyloid_a: 8,
+        fibrinogen: 3.1,
+        lactate: 1.2,
+        additional_notes:
+          '36-hour follow-up: SAA and fibrinogen normalized, supporting clinical impression of rapid inflammatory resolution. Hematocrit and chemistry panels stable.',
+      }
+    );
+    saveToStorage(STORAGE_KEYS.labResults, labResults);
+  }
+
+  // Ensure demo NCIE shipment assigned to the demo vet
+  const shipments = loadFromStorage<LocalShipment[]>(STORAGE_KEYS.shipments, []);
+  if (!shipments.some((s) => s.shipped_to_veterinarian_email?.toLowerCase() === DEMO_VET_EMAIL)) {
+    const nextShipmentId = shipments.length > 0 ? Math.max(...shipments.map((s) => s.id)) + 1 : 1;
+    shipments.push({
+      id: nextShipmentId,
+      shipment_date: '2025-11-13T10:00:00.000Z',
+      quantity_vials: 10,
+      quantity_ml_total: 5000,
+      batch_lot_number: 'PTP102-2025-DEMO-001',
+      expiration_date: '2026-05-13',
+      shipped_to_site_id: null,
+      shipped_to_investigator: null,
+      shipped_to_veterinarian_id: demoVet.id,
+      shipped_to_veterinarian_email: DEMO_VET_EMAIL,
+      shipped_to_veterinarian_name: demoVet.full_name,
+      shipment_status: 'delivered',
+      carrier: 'ColdChain Equine Logistics',
+      expected_delivery_date: '2025-11-14',
+      delivered_date: '2025-11-14',
+      receiving_signature: null,
+      received_at: '2025-11-14T09:30:00.000Z',
+      condition_on_receipt: 'Excellent - cold chain maintained',
+      storage_temperature_celsius: 4,
+      received_by_clinic_name: 'Equine Recovery Center',
+      received_by_clinic_date: '2025-11-14',
+      bottles_received_at_clinic: 10,
+      shipment_notes: 'Demo shipment for PTP-102 protocol lot used in the Midnight Thunder case.',
+      tracking_number: 'CCEL-999888777',
+      created_at: now,
+      updated_at: now,
+    });
+    saveToStorage(STORAGE_KEYS.shipments, shipments);
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -561,6 +1009,7 @@ type LocalShipment = {
 };
 
 function getShipments(): LocalShipment[] {
+  ensureDemoData();
   return loadFromStorage<LocalShipment[]>(STORAGE_KEYS.shipments, []);
 }
 
@@ -708,7 +1157,44 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
     }
 
     if (name === 'loadAuditLogs') {
-      setData([]);
+      const loadParams = _params as {
+        startDate?: string | null;
+        endDate?: string | null;
+        userEmail?: string | null;
+        subjectId?: string | null;
+        action?: string | null;
+        entityType?: string | null;
+      } | undefined;
+      let logs = getAuditLogs();
+      if (loadParams?.startDate) {
+        const start = new Date(loadParams.startDate).getTime();
+        logs = logs.filter((l) => new Date(l.timestamp).getTime() >= start);
+      }
+      if (loadParams?.endDate) {
+        const end = new Date(loadParams.endDate).getTime();
+        logs = logs.filter((l) => new Date(l.timestamp).getTime() <= end);
+      }
+      if (loadParams?.userEmail) {
+        const email = loadParams.userEmail.toLowerCase().trim();
+        logs = logs.filter((l) => l.userEmail.toLowerCase().trim() === email);
+      }
+      if (loadParams?.subjectId) {
+        const subject = loadParams.subjectId.toLowerCase().trim();
+        logs = logs.filter(
+          (l) =>
+            l.entityId?.toString() === subject ||
+            l.patientId?.toString() === subject ||
+            (l.newValue && l.newValue.toLowerCase().includes(subject))
+        );
+      }
+      if (loadParams?.action) {
+        logs = logs.filter((l) => l.action === loadParams.action);
+      }
+      if (loadParams?.entityType) {
+        logs = logs.filter((l) => l.entityType === loadParams.entityType);
+      }
+      const chain = verifyAuditChain(logs);
+      setData(logs.map((l, i) => ({ ...l, chainValid: chain.valid && i < chain.firstInvalidIndex })) as unknown[]);
       setLoading(false);
       return;
     }
@@ -832,7 +1318,7 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
 
     setData(defaultValue);
     setLoading(false);
-  }, [actionName, defaultValue, paramsKey]);
+  }, [actionName, paramsKey]);
 
   const refresh = useCallback(async () => {
     const name = getActionName(actionName);
@@ -890,7 +1376,7 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
     console.info(`Local preview skipped data reload for ${name}.`);
     setData(defaultValue);
     return defaultValue;
-  }, [actionName, defaultValue, paramsKey]);
+  }, [actionName, paramsKey]);
 
   return [data, loading, error, refresh] as const;
 }
@@ -914,7 +1400,17 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const loginParams = params as { email?: string; password?: string } | undefined;
           const email = loginParams?.email?.toLowerCase().trim();
           const password = loginParams?.password ?? '';
-          if (email === LOCAL_ADMIN.email && password === LOCAL_ADMIN.password_hash) {
+          const success = email === LOCAL_ADMIN.email && password === LOCAL_ADMIN.password_hash;
+          if (success) {
+            await recordAudit({
+              action: 'LOGIN',
+              entityType: 'admin',
+              entityId: LOCAL_ADMIN.id,
+              userId: email ?? 'unknown',
+              userEmail: email ?? 'unknown',
+              userRole: 'admin',
+              newValue: JSON.stringify({ action: 'admin_login', email }),
+            });
             return [LOCAL_ADMIN];
           }
           throw new Error('Invalid admin credentials');
@@ -969,6 +1465,15 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           vets.push(newVet);
           saveVets(vets);
+          await recordAudit({
+            action: 'REGISTER',
+            entityType: 'veterinarian',
+            entityId: newVet.id,
+            userId: newVet.email,
+            userEmail: newVet.email,
+            userRole: 'vet',
+            newValue: JSON.stringify({ full_name: newVet.full_name, email: newVet.email, license_number: newVet.license_number }),
+          });
           return [newVet];
         }
 
@@ -992,6 +1497,15 @@ export function useMutateAction(actionName: ActionFactory | string) {
           }
           if (!passwordValid) throw new Error('Invalid email or password');
           if (vet.verification_status !== 'approved') throw new Error('Account pending approval');
+          await recordAudit({
+            action: 'LOGIN',
+            entityType: 'veterinarian',
+            entityId: vet.id,
+            userId: vet.email,
+            userEmail: vet.email,
+            userRole: 'vet',
+            newValue: JSON.stringify({ action: 'vet_login', email: vet.email, verification_status: vet.verification_status }),
+          });
           return [vet];
         }
 
@@ -1012,9 +1526,19 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const vets = getVets();
           const vet = vets.find((v) => v.email === p?.email?.toLowerCase().trim());
           if (vet && p?.status) {
+            const oldStatus = vet.verification_status;
             vet.verification_status = p.status as LocalVet['verification_status'];
             vet.updated_at = new Date().toISOString();
             saveVets(vets);
+            await recordAudit({
+              action: 'UPDATE',
+              entityType: 'veterinarian',
+              entityId: vet.id,
+              userId: getCurrentUserForAudit().userEmail,
+              fieldName: 'verification_status',
+              oldValue: oldStatus,
+              newValue: vet.verification_status,
+            });
             return [vet];
           }
           return [];
@@ -1029,9 +1553,19 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const targetId = p?.id ?? p?.vetId;
           const vet = vets.find((v) => v.id === targetId);
           if (vet) {
-            vet.verification_status = name === 'approveVeterinarian' ? 'approved' : 'rejected';
+            const oldStatus = vet.verification_status;
+            const newStatus = name === 'approveVeterinarian' ? 'approved' : 'rejected';
+            vet.verification_status = newStatus;
             vet.updated_at = new Date().toISOString();
             saveVets(vets);
+            await recordAudit({
+              action: name === 'approveVeterinarian' ? 'APPROVE' : 'REJECT',
+              entityType: 'veterinarian',
+              entityId: vet.id,
+              fieldName: 'verification_status',
+              oldValue: oldStatus,
+              newValue: newStatus,
+            });
             return [vet];
           }
           return [];
@@ -1041,7 +1575,20 @@ export function useMutateAction(actionName: ActionFactory | string) {
         // Patients
         // -------------------------------------------------------------------
         if (name === 'createPatient') {
-          return [createLocalPatient(params as LocalPatientParams)];
+          const newPatient = createLocalPatient(params as LocalPatientParams);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'patient',
+            entityId: newPatient.id,
+            patientId: newPatient.id,
+            newValue: JSON.stringify({
+              horse_name: newPatient.horse_name,
+              owner_name: newPatient.owner_name,
+              trial_status: newPatient.trial_status,
+              enrolled_by_vet_email: newPatient.enrolled_by_vet_email,
+            }),
+          });
+          return [newPatient];
         }
 
         if (name === 'deletePatient') {
@@ -1056,6 +1603,13 @@ export function useMutateAction(actionName: ActionFactory | string) {
             saveTreatments(getTreatments().filter((t) => t.patient_id !== p?.patientId));
             saveAssessments(getAssessments().filter((a) => a.patient_id !== p?.patientId));
             saveLabResults(getLabResults().filter((l) => l.patient_id !== p?.patientId));
+            await recordAudit({
+              action: 'DELETE',
+              entityType: 'patient',
+              entityId: p?.patientId ?? null,
+              patientId: p?.patientId ?? null,
+              oldValue: JSON.stringify(removed[0]),
+            });
             return removed;
           }
           return [];
@@ -1066,8 +1620,19 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (patient) {
+            const oldPatient = JSON.parse(JSON.stringify(patient));
             Object.assign(patient, p, { updated_at: new Date().toISOString() });
             savePatients(patients);
+            const changedFields = Object.entries(p || {}).filter(([k, v]) => k !== 'patientId' && oldPatient[k] !== v);
+            await recordAudit({
+              action: 'UPDATE',
+              entityType: 'patient',
+              entityId: patient.id,
+              patientId: patient.id,
+              newValue: JSON.stringify(Object.fromEntries(changedFields)),
+              oldValue: JSON.stringify(oldPatient),
+              reasonForChange: (p as any)?.reasonForChange ?? null,
+            });
             return [patient];
           }
           return [];
@@ -1078,9 +1643,45 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (patient && p?.flagName) {
+            const oldValue = (patient as any)[p.flagName];
             (patient as any)[p.flagName] = p.flagValue;
             patient.updated_at = new Date().toISOString();
             savePatients(patients);
+            await recordAudit({
+              action: 'UPDATE',
+              entityType: 'patient',
+              entityId: patient.id,
+              patientId: patient.id,
+              fieldName: p.flagName,
+              oldValue: JSON.stringify(oldValue),
+              newValue: JSON.stringify(p.flagValue),
+              reasonForChange: (p as any)?.reasonForChange ?? null,
+            });
+            return [patient];
+          }
+          return [];
+        }
+
+        if (name === 'updateDataLockStatus') {
+          const p = params as { patientId?: number; dataLockStatus?: string; reasonForChange?: string } | undefined;
+          const patients = getPatients();
+          const patient = patients.find((pt) => pt.id === p?.patientId);
+          if (patient) {
+            const oldValue = (patient as any).data_lock_status ?? 'open';
+            const newValue = p?.dataLockStatus ?? 'open';
+            (patient as any).data_lock_status = newValue;
+            patient.updated_at = new Date().toISOString();
+            savePatients(patients);
+            await recordAudit({
+              action: newValue === 'frozen' ? 'FREEZE' : newValue === 'locked' ? 'LOCK' : 'UNLOCK',
+              entityType: 'patient',
+              entityId: patient.id,
+              patientId: patient.id,
+              fieldName: 'data_lock_status',
+              oldValue,
+              newValue,
+              reasonForChange: p?.reasonForChange ?? null,
+            });
             return [patient];
           }
           return [];
@@ -1090,7 +1691,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
         // Patient Screening
         // -------------------------------------------------------------------
         if (name === 'approvePatientScreening' || name === 'rejectPatientScreening' || name === 'requestPatientDetails') {
-          const p = params as { patientId?: number; adminEmail?: string; notes?: string | null; messageToVet?: string | null } | undefined;
+          const p = params as { patientId?: number; adminEmail?: string; notes?: string | null; messageToVet?: string | null; reasonForChange?: string | null } | undefined;
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (!patient) return [];
@@ -1100,6 +1701,8 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const actionName = name === 'approvePatientScreening' ? 'Admit' : name === 'rejectPatientScreening' ? 'Reject' : 'Awaiting Further Details';
           const newStatus = name === 'approvePatientScreening' ? 'approved' : name === 'rejectPatientScreening' ? 'rejected' : 'awaiting_details';
           const newTrialStatus = name === 'approvePatientScreening' ? 'enrolled' : name === 'rejectPatientScreening' ? 'withdrawn' : 'screening';
+          const oldStatus = patient.screening_status;
+          const oldTrialStatus = patient.trial_status;
 
           patient.screening_status = newStatus;
           patient.trial_status = newTrialStatus;
@@ -1127,6 +1730,16 @@ export function useMutateAction(actionName: ActionFactory | string) {
           });
 
           savePatients(patients);
+          await recordAudit({
+            action: name === 'approvePatientScreening' ? 'APPROVE' : name === 'rejectPatientScreening' ? 'REJECT' : 'UPDATE',
+            entityType: 'patient',
+            entityId: patient.id,
+            patientId: patient.id,
+            fieldName: 'screening_status',
+            oldValue: JSON.stringify({ screening_status: oldStatus, trial_status: oldTrialStatus }),
+            newValue: JSON.stringify({ screening_status: newStatus, trial_status: newTrialStatus, notes: p?.notes }),
+            reasonForChange: p?.reasonForChange ?? p?.notes ?? null,
+          });
           return [patient];
         }
 
@@ -1159,6 +1772,13 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           notes.push(newNote);
           saveNotes(notes);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'clinical_note',
+            entityId: newNote.id,
+            patientId: newNote.patient_id,
+            newValue: JSON.stringify({ note_type: newNote.note_type, note_content: newNote.note_content, protocol_hour: newNote.protocol_hour }),
+          });
           return [newNote];
         }
 
@@ -1188,6 +1808,19 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           treatments.push(newTreatment);
           saveTreatments(treatments);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'treatment',
+            entityId: newTreatment.id,
+            patientId: newTreatment.patient_id,
+            newValue: JSON.stringify({
+              dosage_mg: newTreatment.dosage_mg,
+              route: newTreatment.route,
+              protocol_hour: newTreatment.protocol_hour,
+              administration_datetime: newTreatment.administration_datetime,
+              total_volume_ml: newTreatment.total_volume_ml,
+            }),
+          });
           return [newTreatment];
         }
 
@@ -1229,6 +1862,18 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           assessments.push(newAssessment);
           saveAssessments(assessments);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'clinical_assessment',
+            entityId: newAssessment.id,
+            patientId: newAssessment.patient_id,
+            newValue: JSON.stringify({
+              obel_grade: newAssessment.obel_grade,
+              pain_score: newAssessment.pain_score,
+              protocol_hour: newAssessment.protocol_hour,
+              assessment_datetime: newAssessment.assessment_datetime,
+            }),
+          });
           return [newAssessment];
         }
 
@@ -1284,6 +1929,19 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           labResults.push(newResult);
           saveLabResults(labResults);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'lab_result',
+            entityId: newResult.id,
+            patientId: newResult.patient_id,
+            newValue: JSON.stringify({
+              protocol_hour: newResult.protocol_hour,
+              wbc: newResult.wbc,
+              serum_amyloid_a: newResult.serum_amyloid_a,
+              fibrinogen: newResult.fibrinogen,
+              test_datetime: newResult.test_datetime,
+            }),
+          });
           return [newResult];
         }
 
@@ -1335,6 +1993,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
 
           if (existingIndex >= 0) {
+            const oldQual = JSON.parse(JSON.stringify(quals[existingIndex]));
             quals[existingIndex] = {
               ...quals[existingIndex],
               ...fields,
@@ -1344,6 +2003,15 @@ export function useMutateAction(actionName: ActionFactory | string) {
               qualifications_data: { ...(quals[existingIndex].qualifications_data ?? {}), ...(p ?? {}) },
             };
             saveInvestigatorQuals(quals);
+            await recordAudit({
+              action: 'UPDATE',
+              entityType: 'investigator_qualification',
+              entityId: quals[existingIndex].id,
+              userId: targetEmail,
+              userEmail: targetEmail,
+              oldValue: JSON.stringify(oldQual),
+              newValue: JSON.stringify(fields),
+            });
             return [buildInvestigatorQualRow(quals[existingIndex], vet)];
           }
           const newQual: LocalInvestigatorQual = {
@@ -1358,6 +2026,14 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           quals.push(newQual);
           saveInvestigatorQuals(quals);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'investigator_qualification',
+            entityId: newQual.id,
+            userId: targetEmail,
+            userEmail: targetEmail,
+            newValue: JSON.stringify({ vet_email: newQual.vet_email, qualification_status: newQual.qualification_status }),
+          });
           return [buildInvestigatorQualRow(newQual, vet)];
         }
 
@@ -1370,11 +2046,20 @@ export function useMutateAction(actionName: ActionFactory | string) {
             ? quals.find((q) => q.veterinarian_id === p.veterinarianId)
             : undefined;
           if (qual) {
+            const oldStatus = qual.status;
             qual.status = 'approved';
             qual.qualification_status = 'approved';
             qual.updated_at = new Date().toISOString();
             saveInvestigatorQuals(quals);
             const vet = getVets().find((v) => v.id === qual.veterinarian_id);
+            await recordAudit({
+              action: 'APPROVE',
+              entityType: 'investigator_qualification',
+              entityId: qual.id,
+              fieldName: 'qualification_status',
+              oldValue: oldStatus,
+              newValue: 'approved',
+            });
             return [buildInvestigatorQualRow(qual, vet)];
           }
           return [];
@@ -1389,11 +2074,20 @@ export function useMutateAction(actionName: ActionFactory | string) {
             ? quals.find((q) => q.veterinarian_id === p.veterinarianId)
             : undefined;
           if (qual) {
+            const oldStatus = qual.status;
             qual.status = 'rejected';
             qual.qualification_status = 'rejected';
             qual.updated_at = new Date().toISOString();
             saveInvestigatorQuals(quals);
             const vet = getVets().find((v) => v.id === qual.veterinarian_id);
+            await recordAudit({
+              action: 'REJECT',
+              entityType: 'investigator_qualification',
+              entityId: qual.id,
+              fieldName: 'qualification_status',
+              oldValue: oldStatus,
+              newValue: 'rejected',
+            });
             return [buildInvestigatorQualRow(qual, vet)];
           }
           return [];
@@ -1408,7 +2102,15 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'createAdverseEvent') {
+          const p = params as Record<string, unknown> | undefined;
           console.info('[Mock] Adverse event created (stub):', params);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'adverse_event',
+            entityId: 1,
+            patientId: (p?.patientId as number) ?? null,
+            newValue: JSON.stringify(p),
+          });
           return [{ id: 1 }];
         }
 
@@ -1460,6 +2162,13 @@ export function useMutateAction(actionName: ActionFactory | string) {
             patient.updated_at = now;
             savePatients(patients);
           }
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'informed_consent',
+            entityId: newConsent.id,
+            patientId: newConsent.patient_id,
+            newValue: JSON.stringify({ patient_id: newConsent.patient_id, owner_name: newConsent.owner_name, status: newConsent.status }),
+          });
           return [newConsent];
         }
 
@@ -1484,23 +2193,45 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'createProtocolVersion') {
+          const p = params as Record<string, unknown> | undefined;
           console.info('[Mock] Protocol version created (stub):', params);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'protocol_version',
+            entityId: 1,
+            newValue: JSON.stringify({ version: p?.versionNumber, uploadedBy: p?.uploadedBy }),
+          });
           return [{ id: 1 }];
         }
 
         if (name === 'createProtocolDeviation') {
+          const p = params as Record<string, unknown> | undefined;
           console.info('[Mock] Protocol deviation created (stub):', params);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'system',
+            entityId: 1,
+            newValue: JSON.stringify(p),
+          });
           return [{ id: 1 }];
         }
 
         if (name === 'createFDAcorrespondence') {
+          const p = params as Record<string, unknown> | undefined;
           console.info('[Mock] FDA correspondence created (stub):', params);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'system',
+            entityId: 1,
+            newValue: JSON.stringify(p),
+          });
           return [{ id: 1 }];
         }
 
         if (name === 'createAuditLog') {
-          console.info('[Mock] Audit log created (stub):', params);
-          return [{ id: 1 }];
+          const p = params as AuditPayload | undefined;
+          const entry = await recordAudit(p ?? { action: 'SYSTEM', entityType: 'system' });
+          return [entry];
         }
 
         if (name === 'createGoogleOAuthVet') {
@@ -1514,7 +2245,18 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'updatePassword') {
+          const p = params as Record<string, unknown> | undefined;
           console.info('[Mock] Password updated (stub):', params);
+          await recordAudit({
+            action: 'UPDATE',
+            entityType: 'veterinarian',
+            entityId: null,
+            userId: (p?.email as string) ?? 'unknown',
+            userEmail: (p?.email as string) ?? 'unknown',
+            fieldName: 'password_hash',
+            oldValue: null,
+            newValue: '[REDACTED]',
+          });
           return [{ success: true }];
         }
 
@@ -1553,11 +2295,28 @@ export function useMutateAction(actionName: ActionFactory | string) {
             details: `Method: ${consent.signature_method}`,
           });
           saveInformedConsents(consents);
+          await recordAudit({
+            action: 'UPDATE',
+            entityType: 'informed_consent',
+            entityId: consent.id,
+            patientId: consent.patient_id,
+            fieldName: 'status',
+            oldValue: 'pending',
+            newValue: 'signed',
+          });
           return [consent];
         }
 
         if (name === 'updateStudySettings') {
+          const p = params as Record<string, unknown> | undefined;
           console.info('[Mock] Study settings updated (stub):', params);
+          await recordAudit({
+            action: 'UPDATE',
+            entityType: 'system',
+            entityId: 1,
+            fieldName: 'study_settings',
+            newValue: JSON.stringify(p),
+          });
           return [{ id: 1 }];
         }
 
@@ -1610,6 +2369,16 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           shipments.push(newShipment);
           saveShipments(shipments);
+          await recordAudit({
+            action: 'CREATE',
+            entityType: 'shipment',
+            entityId: newShipment.id,
+            newValue: JSON.stringify({
+              batch_lot_number: newShipment.batch_lot_number,
+              shipped_to_veterinarian_email: newShipment.shipped_to_veterinarian_email,
+              shipment_status: newShipment.shipment_status,
+            }),
+          });
           return [newShipment];
         }
 
@@ -1619,6 +2388,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const idx = shipments.findIndex((s) => s.id === Number(p?.shipmentId));
           if (idx === -1) return [];
           const now = new Date().toISOString();
+          const oldShipment = JSON.parse(JSON.stringify(shipments[idx]));
           shipments[idx] = {
             ...shipments[idx],
             shipment_status: (p?.shipmentStatus as string) ?? shipments[idx].shipment_status,
@@ -1637,6 +2407,14 @@ export function useMutateAction(actionName: ActionFactory | string) {
             updated_at: now,
           };
           saveShipments(shipments);
+          await recordAudit({
+            action: 'UPDATE',
+            entityType: 'shipment',
+            entityId: shipments[idx].id,
+            fieldName: 'shipment_status',
+            oldValue: JSON.stringify(oldShipment),
+            newValue: JSON.stringify(shipments[idx]),
+          });
           return [shipments[idx]];
         }
 
@@ -1654,11 +2432,180 @@ export function useMutateAction(actionName: ActionFactory | string) {
           return getVets();
         }
 
+        if (name === 'exportStudyXml' || name === 'exportStudyFullXml') {
+          const p = params as { exportedBy?: string } | undefined;
+          const exportedBy = p?.exportedBy ?? getCurrentUserForAudit().userEmail;
+          const exportedAt = new Date().toISOString();
+          const patients = getPatients();
+          const notes = getNotes();
+          const treatments = getTreatments();
+          const assessments = getAssessments();
+          const labResults = getLabResults();
+
+          const exportPatients: XmlExportPatient[] = patients.map((patient) => {
+            const patientNotes = notes.filter((n) => n.patient_id === patient.id);
+            const patientTreatments = treatments.filter((t) => t.patient_id === patient.id);
+            const patientAssessments = assessments.filter((a) => a.patient_id === patient.id);
+            const patientLabs = labResults.filter((l) => l.patient_id === patient.id);
+            const latestAssessment = [...patientAssessments].sort(
+              (a, b) => new Date(b.assessment_datetime).getTime() - new Date(a.assessment_datetime).getTime()
+            )[0];
+            const vet = getVets().find((v) => v.email === patient.enrolled_by_vet_email);
+
+            return {
+              ...patient,
+              unique_id: `PTP-102-${String(patient.id).padStart(3, '0')}`,
+              veterinarian_name: vet?.full_name ?? patient.enrolled_by_vet_email ?? null,
+              veterinarian_email: patient.enrolled_by_vet_email ?? null,
+              laminitis_grade: latestAssessment?.obel_grade ?? null,
+              treatment_count: patientTreatments.length,
+              assessment_count: patientAssessments.length,
+              lab_count: patientLabs.length,
+              note_count: patientNotes.length,
+              treatments: patientTreatments,
+              assessments: patientAssessments,
+              lab_results: patientLabs,
+              clinical_notes: patientNotes,
+            };
+          });
+
+          const meta = {
+            studyId: STUDY_ID,
+            studyTitle: STUDY_TITLE,
+            sponsorName: SPONSOR_NAME,
+            protocolVersion: '1.0',
+            exportedAt,
+            exportedBy,
+          };
+
+          const isFull = name === 'exportStudyFullXml';
+          const xmlString = isFull
+            ? buildFullXml(meta, exportPatients, getAuditLogs())
+            : buildStatisticalXml(meta, exportPatients);
+
+          const filename = `${STUDY_ID}_${isFull ? 'full' : 'statistical'}_${exportedAt.replace(/[-:]/g, '').split('.')[0].replace('T', '_')}.xml`;
+          const defineFilename = `${STUDY_ID}_${isFull ? 'full' : 'statistical'}_define_${exportedAt.replace(/[-:]/g, '').split('.')[0].replace('T', '_')}.xml`;
+          const defineXml = generateDefineXml(STUDY_ID, exportedAt, exportedBy);
+
+          await recordAudit({
+            action: 'EXPORT',
+            entityType: 'study_export',
+            entityId: null,
+            patientId: null,
+            studyId: STUDY_ID,
+            fieldName: isFull ? 'full_xml' : 'statistical_xml',
+            oldValue: null,
+            newValue: JSON.stringify({ filename, defineFilename, exportedBy, exportedAt, mode: isFull ? 'full' : 'statistical' }),
+            reasonForChange: null,
+          });
+
+          return [{ xmlString, filename, defineXml, defineFilename }];
+        }
+
+        if (name === 'exportSubmissionPackage') {
+          const p = params as { exportedBy?: string } | undefined;
+          const exportedBy = p?.exportedBy ?? getCurrentUserForAudit().userEmail;
+          const exportedAt = new Date().toISOString();
+          const patients = getPatients();
+          const notes = getNotes();
+          const treatments = getTreatments();
+          const assessments = getAssessments();
+          const labResults = getLabResults();
+
+          const exportPatients: XmlExportPatient[] = patients.map((patient) => {
+            const patientNotes = notes.filter((n) => n.patient_id === patient.id);
+            const patientTreatments = treatments.filter((t) => t.patient_id === patient.id);
+            const patientAssessments = assessments.filter((a) => a.patient_id === patient.id);
+            const patientLabs = labResults.filter((l) => l.patient_id === patient.id);
+            const latestAssessment = [...patientAssessments].sort(
+              (a, b) => new Date(b.assessment_datetime).getTime() - new Date(a.assessment_datetime).getTime()
+            )[0];
+            const vet = getVets().find((v) => v.email === patient.enrolled_by_vet_email);
+
+            return {
+              ...patient,
+              unique_id: `PTP-102-${String(patient.id).padStart(3, '0')}`,
+              veterinarian_name: vet?.full_name ?? patient.enrolled_by_vet_email ?? null,
+              veterinarian_email: patient.enrolled_by_vet_email ?? null,
+              laminitis_grade: latestAssessment?.obel_grade ?? null,
+              treatment_count: patientTreatments.length,
+              assessment_count: patientAssessments.length,
+              lab_count: patientLabs.length,
+              note_count: patientNotes.length,
+              treatments: patientTreatments,
+              assessments: patientAssessments,
+              lab_results: patientLabs,
+              clinical_notes: patientNotes,
+            };
+          });
+
+          const meta = {
+            studyId: STUDY_ID,
+            studyTitle: STUDY_TITLE,
+            sponsorName: SPONSOR_NAME,
+            protocolVersion: '1.0',
+            exportedAt,
+            exportedBy,
+          };
+
+          const statisticalXml = buildStatisticalXml(meta, exportPatients);
+          const fullXml = buildFullXml(meta, exportPatients, getAuditLogs());
+          const defineXml = generateDefineXml(STUDY_ID, exportedAt, exportedBy);
+
+          const files: ExportFile[] = [
+            {
+              content: statisticalXml,
+              fileType: 'dataset_statistical',
+              ext: 'xml',
+              description: 'Per-subject raw numerical data without audit metadata for statistical analysis',
+            },
+            {
+              content: fullXml,
+              fileType: 'dataset_fda_audit',
+              ext: 'xml',
+              description: 'Raw clinical data plus complete immutable audit trail for regulatory audit',
+            },
+            {
+              content: defineXml,
+              fileType: 'define',
+              ext: 'xml',
+              description: 'Data dictionary / README file defining all variables, codelists, units, and sources',
+            },
+          ];
+
+          const pkg = await buildSubmissionPackage(STUDY_ID, files, exportedAt);
+
+          await recordAudit({
+            action: 'EXPORT_SUBMISSION_PACKAGE',
+            entityType: 'study_export',
+            entityId: null,
+            patientId: null,
+            studyId: STUDY_ID,
+            fieldName: 'submission_package',
+            oldValue: null,
+            newValue: JSON.stringify({
+              filenames: pkg.files.map((f) => f.filename),
+              exportedBy,
+              exportedAt,
+            }),
+            reasonForChange: null,
+          });
+
+          return [{ ...pkg, exportedAt, exportedBy }];
+        }
+
         if (name === 'testRegistration') {
           return [{ success: true }];
         }
 
         console.warn(`[Mock] Unhandled mutation: ${name}. Returning empty array.`);
+        await recordAudit({
+          action: 'SYSTEM',
+          entityType: 'system',
+          entityId: null,
+          fieldName: 'unhandled_mutation',
+          newValue: JSON.stringify({ actionName: name, params }),
+        });
         return [];
       } catch (err) {
         console.error(`[Mock] Mutation error for ${getActionName(actionName)}:`, err);

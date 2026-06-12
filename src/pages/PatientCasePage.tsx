@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CaseWorkspace } from '@/components/CaseWorkspace';
-import { ByRockLogo } from '@/components/ByRockLogo';
+import { ByrockLogo } from '@/components/ByrockLogo';
 import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
 import { RegulatoryBanner } from '@/components/RegulatoryBanner';
 import { AdverseEventReporter } from '@/components/AdverseEventReporter';
@@ -40,7 +40,7 @@ export function PatientCasePage() {
       <header className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="container mx-auto max-w-7xl flex items-center justify-between gap-4">
           <div className="flex items-center gap-4">
-            <ByRockLogo className="h-10 w-auto" />
+            <ByrockLogo variant="icon" height={32} />
             <div>
               <p className="text-sm font-medium text-slate-900">PTP-102 Laminitis Trial</p>
               <p className="text-xs text-slate-500">{auth.email}</p>

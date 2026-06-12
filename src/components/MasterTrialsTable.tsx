@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useLoadAction, useMutateAction } from '@uibakery/data';
 import loadAllTrialsDataAction from '@/actions/loadAllTrialsData';
 import updatePatientFlagAction from '@/actions/updatePatientFlag';
+import exportSubmissionPackageAction from '@/actions/exportSubmissionPackage';
+import { downloadSubmissionPackage } from '@/lib/submissionPackage';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -10,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Download, Flag, Filter, FileText, Loader2 } from 'lucide-react';
+import { Download, Flag, Filter, FileText, Loader2, FileJson } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -52,11 +54,13 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
   const [flagDialogOpen, setFlagDialogOpen] = useState(false);
   const [flagReason, setFlagReason] = useState('');
   const [isExporting, setIsExporting] = useState(false);
+  const [isExportingPackage, setIsExportingPackage] = useState(false);
   const [regulatoryTrials, loadingRegulatory, , loadRegulatoryData] = useLoadAction(
     loadAllTrialsDataAction,
     [],
     { vetEmail: null, isFlagged: null }
   );
+  const [exportSubmissionPackage] = useMutateAction(exportSubmissionPackageAction);
 
   const handleFlagClick = (trial: TrialData) => {
     setSelectedTrial(trial);
@@ -80,6 +84,22 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
       refresh();
     } catch (err) {
       console.error('Failed to update flag:', err);
+    }
+  };
+
+  const handleExportPackage = async () => {
+    if (!trials || trials.length === 0) return;
+    setIsExportingPackage(true);
+    try {
+      const [result] = await exportSubmissionPackage({ exportedBy: adminEmail });
+      if (result?.files) {
+        downloadSubmissionPackage(result);
+      }
+    } catch (err) {
+      console.error('Failed to export submission package:', err);
+      alert('Failed to export submission package. Please try again.');
+    } finally {
+      setIsExportingPackage(false);
     }
   };
 
@@ -318,6 +338,19 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
                 <FileText className="mr-2 h-4 w-4" />
               )}
               Export PDF Report
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleExportPackage}
+              disabled={data.length === 0 || isExportingPackage}
+            >
+              {isExportingPackage ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <FileJson className="mr-2 h-4 w-4" />
+              )}
+              Download CVM Submission Package
             </Button>
           </div>
         </CardHeader>

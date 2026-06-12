@@ -194,7 +194,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
     const adminEmail = localStorage.getItem('admin_email') || 'Unknown Admin';
     try {
       if (screenAction === 'approve') {
-        await approvePatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes || null });
+        await approvePatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes || null, reasonForChange: screenNotes || null });
         if (screenPatient.enrolled_by_vet_email) {
           sendNotification(
             sendEmail,
@@ -213,7 +213,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
           alert('Rejection notes are required');
           return;
         }
-        await rejectPatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes });
+        await rejectPatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes, reasonForChange: screenNotes });
         if (screenPatient.enrolled_by_vet_email) {
           sendNotification(
             sendEmail,
@@ -232,7 +232,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
           alert('Please describe what details are missing');
           return;
         }
-        await requestDetails({ patientId: screenPatient.id, adminEmail, notes: screenNotes, messageToVet: screenNotes });
+        await requestDetails({ patientId: screenPatient.id, adminEmail, notes: screenNotes, messageToVet: screenNotes, reasonForChange: screenNotes });
         if (screenPatient.enrolled_by_vet_email) {
           sendNotification(
             sendEmail,

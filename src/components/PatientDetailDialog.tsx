@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Upload, X } from 'lucide-react';
+import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
 import { FileUploaderRegular } from '@uploadcare/react-uploader';
 import '@uploadcare/react-uploader/core.css';
 
@@ -45,11 +46,15 @@ type PatientDetailDialogProps = {
   onUpdate: () => void;
 };
 
+const CRITICAL_PATIENT_FIELDS = ['trialStatus', 'eligibilityVerified', 'consentDate', 'horseName', 'ownerName'];
+
 export function PatientDetailDialog({ patient, open, onClose, onUpdate }: PatientDetailDialogProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [updatePatient, isSubmitting] = useMutateAction(updatePatientAction);
   const [uploadedImage, setUploadedImage] = useState<UploadcareFileInfo | null>(null);
   const [showUploader, setShowUploader] = useState(false);
+  const [reasonDialogOpen, setReasonDialogOpen] = useState(false);
+  const [pendingValues, setPendingValues] = useState<z.infer<typeof updatePatientSchema> | null>(null);
 
   const form = useForm<z.infer<typeof updatePatientSchema>>({
     resolver: zodResolver(updatePatientSchema),
@@ -91,7 +96,26 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
 
   if (!patient) return null;
 
-  const onSubmit = async (values: z.infer<typeof updatePatientSchema>) => {
+  const hasCriticalFieldChanges = (values: z.infer<typeof updatePatientSchema>) => {
+    if (!patient) return false;
+    const original: Record<string, string | boolean | null | undefined> = {
+      trialStatus: patient.trial_status,
+      eligibilityVerified: patient.eligibility_verified,
+      consentDate: patient.consent_date,
+      horseName: patient.horse_name,
+      ownerName: patient.owner_name,
+    };
+    const next: Record<string, string | boolean | null | undefined> = {
+      trialStatus: values.trialStatus,
+      eligibilityVerified: values.eligibilityVerified === 'true',
+      consentDate: values.consentDate || null,
+      horseName: values.horseName,
+      ownerName: values.ownerName,
+    };
+    return CRITICAL_PATIENT_FIELDS.some((field) => original[field] !== next[field]);
+  };
+
+  const doUpdate = async (values: z.infer<typeof updatePatientSchema>, reasonForChange?: string) => {
     try {
       await updatePatient({
         patientId: patient.id,
@@ -106,12 +130,22 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
         eligibilityVerified: values.eligibilityVerified === 'true',
         consentDate: values.consentDate || null,
         profilePictureUrl: values.profilePictureUrl || null,
+        reasonForChange: reasonForChange || null,
       });
       setIsEditing(false);
       onUpdate();
     } catch (error) {
       console.error('Failed to update patient:', error);
     }
+  };
+
+  const onSubmit = async (values: z.infer<typeof updatePatientSchema>) => {
+    if (hasCriticalFieldChanges(values)) {
+      setPendingValues(values);
+      setReasonDialogOpen(true);
+      return;
+    }
+    await doUpdate(values);
   };
 
   const handleClose = () => {
@@ -450,6 +484,19 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
             </form>
           </Form>
         )}
+        <ReasonForChangeDialog
+          open={reasonDialogOpen}
+          onOpenChange={setReasonDialogOpen}
+          title="Critical Field Change"
+          description="You are changing one or more regulatory-critical fields (status, eligibility, consent date, horse name, or owner name). A reason is required."
+          onConfirm={(reason) => {
+            if (pendingValues) {
+              doUpdate(pendingValues, reason);
+              setPendingValues(null);
+            }
+          }}
+          onCancel={() => setPendingValues(null)}
+        />
       </DialogContent>
     </Dialog>
   );

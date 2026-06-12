@@ -14,7 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AlertTriangle, CheckCircle2, Check, X } from 'lucide-react';
-import { ByRockLogo } from '@/components/ByRockLogo';
+import { ByrockLogo } from '@/components/ByrockLogo';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const termsSchema = z.object({
@@ -150,7 +150,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                 <p className="text-slate-300 text-sm mt-1">Investigational Drug Use Agreement</p>
               </div>
             </div>
-            <ByRockLogo className="h-12 w-auto" />
+            <ByrockLogo variant="full" height={48} className="invert brightness-200" />
           </div>
         </CardHeader>
 

@@ -4,7 +4,7 @@ import checkVeterinarianAcceptanceAction from '@/actions/checkVeterinarianAccept
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ByRockLogo } from '@/components/ByRockLogo';
+import { ByrockLogo } from '@/components/ByrockLogo';
 import { Clock, Mail, CheckCircle2, XCircle } from 'lucide-react';
 
 type PendingApprovalScreenProps = {
@@ -56,7 +56,7 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
                 <p className="text-slate-300 text-sm mt-1">PTP-102 Trial Access</p>
               </div>
             </div>
-            <ByRockLogo className="h-12 w-auto" />
+            <ByrockLogo variant="full" height={60} className="invert brightness-200" />
           </div>
         </CardHeader>
 

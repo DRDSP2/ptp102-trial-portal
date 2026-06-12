@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
 import { CheckCircle, XCircle, Trash2, Eye, Mail, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -92,6 +93,8 @@ export function VeterinarianManagementPanel() {
   const [selectedVet, setSelectedVet] = useState<Veterinarian | null>(null);
   const [selectedQual, setSelectedQual] = useState<InvestigatorQualification | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [reasonDialogOpen, setReasonDialogOpen] = useState(false);
+  const [pendingVetAction, setPendingVetAction] = useState<{ id: number; action: 'approve' | 'reject' } | null>(null);
 
   const qualsList: InvestigatorQualification[] = allQuals || [];
 
@@ -108,42 +111,40 @@ export function VeterinarianManagementPanel() {
   }, [selectedVet, qualsList]);
 
   const handleApprove = async (id: number) => {
-    try {
-      const vet = vets.find((v: Veterinarian) => v.id === id);
-      const result = await approveVet({ id });
-      
-      console.log('Veterinarian approved:', result);
-      
-      if (vet) {
-        sendNotification(
-          sendEmail,
-          NotificationType.VET_APPROVED,
-          `✅ Vet Approved: ${vet.full_name}`,
-          {
-            'Veterinarian': vet.full_name,
-            'Email': vet.email,
-            'Hospital': vet.hospital_affiliation,
-            'License': vet.license_number,
-          }
-        ).catch(err => console.error('Email notification failed (non-critical):', err));
-      }
-      
-      await refreshVets();
-      alert('Veterinarian approved successfully.');
-    } catch (error) {
-      console.error('Failed to approve veterinarian:', error);
-      alert('Failed to approve veterinarian. Please try again.');
-    }
+    setPendingVetAction({ id, action: 'approve' });
+    setReasonDialogOpen(true);
   };
 
   const handleReject = async (id: number) => {
-    if (window.confirm('Are you sure you want to reject this veterinarian? This action cannot be undone.')) {
-      try {
-        const vet = vets.find((v: Veterinarian) => v.id === id);
-        const result = await rejectVet({ id });
-        
+    setPendingVetAction({ id, action: 'reject' });
+    setReasonDialogOpen(true);
+  };
+
+  const executeVetAction = async (reason: string) => {
+    if (!pendingVetAction) return;
+    const { id, action } = pendingVetAction;
+    const vet = vets.find((v: Veterinarian) => v.id === id);
+    try {
+      if (action === 'approve') {
+        const result = await approveVet({ id, reasonForChange: reason });
+        console.log('Veterinarian approved:', result);
+        if (vet) {
+          sendNotification(
+            sendEmail,
+            NotificationType.VET_APPROVED,
+            `✅ Vet Approved: ${vet.full_name}`,
+            {
+              'Veterinarian': vet.full_name,
+              'Email': vet.email,
+              'Hospital': vet.hospital_affiliation,
+              'License': vet.license_number,
+            }
+          ).catch(err => console.error('Email notification failed (non-critical):', err));
+        }
+        alert('Veterinarian approved successfully.');
+      } else {
+        const result = await rejectVet({ id, reasonForChange: reason });
         console.log('Veterinarian rejected:', result);
-        
         if (vet) {
           sendNotification(
             sendEmail,
@@ -156,13 +157,14 @@ export function VeterinarianManagementPanel() {
             }
           ).catch(err => console.error('Email notification failed (non-critical):', err));
         }
-        
-        await refreshVets();
         alert('Veterinarian rejected.');
-      } catch (error) {
-        console.error('Failed to reject veterinarian:', error);
-        alert('Failed to reject veterinarian. Please try again.');
       }
+      await refreshVets();
+    } catch (error) {
+      console.error(`Failed to ${action} veterinarian:`, error);
+      alert(`Failed to ${action} veterinarian. Please try again.`);
+    } finally {
+      setPendingVetAction(null);
     }
   };
 
@@ -1127,6 +1129,13 @@ export function VeterinarianManagementPanel() {
           </Table>
         </div>
       </CardContent>
+      <ReasonForChangeDialog
+        open={reasonDialogOpen}
+        onOpenChange={setReasonDialogOpen}
+        title={pendingVetAction?.action === 'approve' ? 'Approve Veterinarian' : 'Reject Veterinarian'}
+        description={`Please provide a reason for ${pendingVetAction?.action === 'approve' ? 'approving' : 'rejecting'} this veterinarian. This will be recorded in the audit trail.`}
+        onConfirm={executeVetAction}
+      />
     </Card>
   );
 }

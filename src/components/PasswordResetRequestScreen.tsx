@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ByRockLogo } from '@/components/ByRockLogo';
+import { ByrockLogo } from '@/components/ByrockLogo';
 import { KeyRound, ArrowLeft } from 'lucide-react';
 
 const resetRequestSchema = z.object({
@@ -74,7 +74,7 @@ export function PasswordResetRequestScreen({ onBackToLogin, onResetRequested }: 
                 <p className="text-slate-300 text-sm mt-1">Request password reset</p>
               </div>
             </div>
-            <ByRockLogo className="h-12 w-auto" />
+            <ByrockLogo variant="full" height={60} className="invert brightness-200" />
           </div>
         </CardHeader>
 

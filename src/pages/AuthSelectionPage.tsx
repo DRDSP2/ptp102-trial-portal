@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ByRockLogo } from '@/components/ByRockLogo';
+import { ByrockLogo } from '@/components/ByrockLogo';
 import { HeroSection } from '@/components/HeroSection';
 import { Shield, UserPlus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import byrockLogo from '@/assets/byrock-logo.png';
 
 export function AuthSelectionPage() {
   const navigate = useNavigate();
@@ -12,12 +11,8 @@ export function AuthSelectionPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Top Logo Bar */}
-      <div className="bg-black py-4 px-4">
-        <img
-          src={byrockLogo}
-          alt="Byrock Technologies Limited"
-          className="h-14 sm:h-16 w-auto mx-auto object-contain"
-        />
+      <div className="bg-black py-4 px-4 flex justify-center">
+        <ByrockLogo variant="full" height={60} className="invert brightness-200" />
       </div>
 
       {/* Hero Section */}
@@ -32,7 +27,7 @@ export function AuthSelectionPage() {
                 <CardTitle className="text-xl">PTP-102 Trial Portal</CardTitle>
                 <p className="text-slate-300 text-sm mt-1">Select access type to continue</p>
               </div>
-              <ByRockLogo className="h-12 w-auto" />
+              <ByrockLogo variant="icon" height={32} className="invert brightness-200" />
             </div>
           </CardHeader>
           <CardContent className="p-6 space-y-4">

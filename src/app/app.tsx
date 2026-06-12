@@ -10,6 +10,7 @@ import { AdminLoginPage } from '@/pages/AdminLoginPage';
 import { PendingApprovalPage } from '@/pages/PendingApprovalPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { PatientCasePage } from '@/pages/PatientCasePage';
+import { AuditLogPage } from '@/pages/AuditLogPage';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
 
 function App() {
@@ -36,6 +37,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PatientCasePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/audit-log"
+              element={
+                <ProtectedRoute>
+                  <AuditLogPage />
                 </ProtectedRoute>
               }
             />

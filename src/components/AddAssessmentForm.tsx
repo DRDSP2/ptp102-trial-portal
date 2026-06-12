@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutateAction } from '@uibakery/data';
 import addClinicalAssessmentAction from '@/actions/addClinicalAssessment';
-import createAuditLogAction from '@/actions/createAuditLog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -32,7 +31,6 @@ type AddAssessmentFormProps = {
 
 export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAssessmentFormProps) {
   const [addAssessment, isSubmitting] = useMutateAction(addClinicalAssessmentAction);
-  const [logAudit] = useMutateAction(createAuditLogAction);
 
   const form = useForm<z.infer<typeof assessmentSchema>>({
     resolver: zodResolver(assessmentSchema),
@@ -67,26 +65,6 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
         clinicalNotes: values.clinicalNotes || null,
         veterinarianName: localStorage.getItem('veterinarian_email') || 'Unknown',
       });
-      const userEmail = localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'unknown';
-      try {
-        await logAudit({
-          userId: userEmail,
-          userEmail,
-          userRole: localStorage.getItem('admin_email') ? 'admin' : 'vet',
-          action: 'CREATE',
-          entityType: 'clinical_assessment',
-          entityId: patientId,
-          fieldName: null,
-          oldValue: null,
-          newValue: JSON.stringify({ obelGrade: values.obelGrade, painScore: values.painScore, protocolHour }),
-          reasonForChange: null,
-          ipAddress: null,
-          userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
-          sessionId: null,
-        });
-      } catch (e) {
-        console.error('Audit log failed (non-blocking):', e);
-      }
       form.reset();
       onSuccess();
     } catch (error) {

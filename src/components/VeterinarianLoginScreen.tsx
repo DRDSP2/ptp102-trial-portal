@@ -9,7 +9,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { ByRockLogo } from '@/components/ByRockLogo';
+import { ByrockLogo } from '@/components/ByrockLogo';
 import { UserPlus, LogIn, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
@@ -99,7 +99,7 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
                 <p className="text-slate-300 text-sm mt-1">PTP-102 Trial Access</p>
               </div>
             </div>
-            <ByRockLogo className="h-12 w-auto" />
+            <ByrockLogo variant="full" height={60} className="invert brightness-200" />
           </div>
         </CardHeader>
 

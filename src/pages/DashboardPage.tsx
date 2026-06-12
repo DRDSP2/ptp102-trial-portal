@@ -8,16 +8,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { PatientsList } from '@/components/PatientsList';
 import { PatientEnrollmentForm } from '@/components/PatientEnrollmentForm';
-import { ByRockLogo } from '@/components/ByRockLogo';
+import { ByrockLogo } from '@/components/ByrockLogo';
 import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
 import { RegulatoryBanner } from '@/components/RegulatoryBanner';
 import { VeterinarianManagementPanel } from '@/components/VeterinarianManagementPanel';
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck, Package } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText } from 'lucide-react';
 import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
+import { AuditLogViewer } from '@/components/AuditLogViewer';
 import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
 import { VetShipmentPanel } from '@/components/VetShipmentPanel';
@@ -64,7 +65,7 @@ export function DashboardPage() {
       <header className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="container mx-auto max-w-7xl flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <ByRockLogo className="h-10 w-auto" />
+            <ByrockLogo variant="icon" height={32} />
             <div>
               <p className="text-sm font-medium text-slate-900">PTP-102 Laminitis Trial</p>
               <p className="text-xs text-slate-500">{userEmail}</p>
@@ -87,7 +88,7 @@ export function DashboardPage() {
       <div className="container mx-auto p-6 max-w-7xl">
         {isAdmin ? (
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full max-w-3xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+            <TabsList className="grid w-full max-w-4xl grid-cols-2 sm:grid-cols-4 lg:grid-cols-7">
               <TabsTrigger value="overview">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Overview
@@ -111,6 +112,10 @@ export function DashboardPage() {
               <TabsTrigger value="supply">
                 <Package className="mr-2 h-4 w-4" />
                 Supply
+              </TabsTrigger>
+              <TabsTrigger value="audit">
+                <ScrollText className="mr-2 h-4 w-4" />
+                Audit
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="mt-6 space-y-6">
@@ -276,6 +281,9 @@ export function DashboardPage() {
             </TabsContent>
             <TabsContent value="supply" className="mt-6">
               <TrialOperationsHub />
+            </TabsContent>
+            <TabsContent value="audit" className="mt-6">
+              <AuditLogViewer />
             </TabsContent>
           </Tabs>
           </>

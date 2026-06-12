@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useLoadAction, useMutateAction } from '@uibakery/data';
 import loadPatientCaseDataAction from '@/actions/loadPatientCaseData';
 import debugClinicalNotesAction from '@/actions/debugClinicalNotes';
+import updateDataLockStatusAction from '@/actions/updateDataLockStatus';
+import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -31,6 +33,9 @@ type CaseWorkspaceProps = {
 export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   const [caseData, loading, error, refresh] = useLoadAction(loadPatientCaseDataAction, [], { patientId });
   const [debugNotes] = useMutateAction(debugClinicalNotesAction);
+  const [updateDataLockStatus] = useMutateAction(updateDataLockStatusAction);
+  const [lockDialogOpen, setLockDialogOpen] = useState(false);
+  const [pendingLockStatus, setPendingLockStatus] = useState<string | null>(null);
 
   const handleRefresh = async () => {
     console.log('=== REFRESHING DATA ===');
@@ -89,20 +94,38 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               {screeningStatus === 'pending_screening' ? 'Pending Screening' : screeningStatus === 'approved' ? 'Screening Approved' : 'Screening Rejected'}
             </Badge>
             {isAdmin && (
-              <Badge
-                variant="outline"
-                className={(patient as any).data_lock_status === 'frozen' ? 'bg-red-100 text-red-800 border-red-300 cursor-pointer' : (patient as any).data_lock_status === 'locked' ? 'bg-amber-100 text-amber-800 border-amber-300 cursor-pointer' : 'bg-green-100 text-green-800 border-green-300 cursor-pointer'}
-                onClick={() => {
-                  const current = (patient as any).data_lock_status || 'open';
-                  const next = current === 'open' ? 'locked' : current === 'locked' ? 'frozen' : 'open';
-                  (patient as any).data_lock_status = next;
-                  handleRefresh();
-                }}
-                title="Click to cycle lock status (Admin only)"
-              >
-                {(patient as any).data_lock_status === 'frozen' ? <Lock className="h-3 w-3 mr-1" /> : (patient as any).data_lock_status === 'locked' ? <Lock className="h-3 w-3 mr-1" /> : <Unlock className="h-3 w-3 mr-1" />}
-                {(patient as any).data_lock_status === 'frozen' ? 'Frozen' : (patient as any).data_lock_status === 'locked' ? 'Locked' : 'Open'}
-              </Badge>
+              <>
+                <Badge
+                  variant="outline"
+                  className={(patient as any).data_lock_status === 'frozen' ? 'bg-red-100 text-red-800 border-red-300 cursor-pointer' : (patient as any).data_lock_status === 'locked' ? 'bg-amber-100 text-amber-800 border-amber-300 cursor-pointer' : 'bg-green-100 text-green-800 border-green-300 cursor-pointer'}
+                  onClick={() => {
+                    const current = (patient as any).data_lock_status || 'open';
+                    const next = current === 'open' ? 'locked' : current === 'locked' ? 'frozen' : 'open';
+                    setPendingLockStatus(next);
+                    setLockDialogOpen(true);
+                  }}
+                  title="Click to cycle lock status (Admin only)"
+                >
+                  {(patient as any).data_lock_status === 'frozen' ? <Lock className="h-3 w-3 mr-1" /> : (patient as any).data_lock_status === 'locked' ? <Lock className="h-3 w-3 mr-1" /> : <Unlock className="h-3 w-3 mr-1" />}
+                  {(patient as any).data_lock_status === 'frozen' ? 'Frozen' : (patient as any).data_lock_status === 'locked' ? 'Locked' : 'Open'}
+                </Badge>
+                <ReasonForChangeDialog
+                  open={lockDialogOpen}
+                  onOpenChange={setLockDialogOpen}
+                  title={`Change data lock status to ${pendingLockStatus ?? ''}`}
+                  description={`You are about to set this record to "${pendingLockStatus}". This is a regulatory-critical action and requires a reason.`}
+                  onConfirm={async (reason) => {
+                    if (!pendingLockStatus) return;
+                    await updateDataLockStatus({
+                      patientId,
+                      dataLockStatus: pendingLockStatus,
+                      reasonForChange: reason,
+                    });
+                    setPendingLockStatus(null);
+                    await refresh();
+                  }}
+                />
+              </>
             )}
             {!isAdmin && (patient as any).data_lock_status && (patient as any).data_lock_status !== 'open' && (
               <Badge variant="outline" className={(patient as any).data_lock_status === 'frozen' ? 'bg-red-100 text-red-800 border-red-300' : 'bg-amber-100 text-amber-800 border-amber-300'}>
