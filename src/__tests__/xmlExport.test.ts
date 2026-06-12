@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { buildStatisticalXml, buildFullXml, generateDefineXml } from '@/lib/xmlExport';
+import { buildStatisticalXml, buildFullXml, generateDefineXml, sanitizeXmlTag } from '@/lib/xmlExport';
 
 describe('XML export builders', () => {
   const meta = {
@@ -29,14 +29,67 @@ describe('XML export builders', () => {
       veterinarian_name: 'Dr. Test',
       veterinarian_email: 'vet@test.com',
       laminitis_grade: 1,
-      treatment_count: 2,
-      assessment_count: 3,
-      lab_count: 2,
+      treatment_count: 1,
+      assessment_count: 1,
+      lab_count: 1,
       note_count: 1,
-      treatments: [],
-      assessments: [],
-      lab_results: [],
-      clinical_notes: [],
+      treatments: [
+        {
+          id: 101,
+          patient_id: 1,
+          administration_datetime: '2025-11-14T08:00:00.000Z',
+          dosage_mg: 500,
+          route: 'IV infusion',
+          protocol_hour: 0,
+          total_volume_ml: 500,
+          veterinarian_name: 'Dr. Test',
+          batch_number: 'BATCH-001',
+          immediate_reactions: '',
+          notes: 'First dose',
+        },
+      ],
+      assessments: [
+        {
+          id: 201,
+          patient_id: 1,
+          assessment_datetime: '2025-11-14T08:00:00.000Z',
+          protocol_hour: 0,
+          obel_grade: 1,
+          pain_score: 2,
+          mobility_score: 1,
+          digital_pulse_score: 1,
+          hoof_temperature: 'Warm',
+          heart_rate: 40,
+          respiratory_rate: 16,
+          temperature: 37.5,
+          clinical_notes: 'Baseline',
+          veterinarian_name: 'Dr. Test',
+        },
+      ],
+      lab_results: [
+        {
+          id: 301,
+          patient_id: 1,
+          test_datetime: '2025-11-14T08:00:00.000Z',
+          protocol_hour: 0,
+          wbc: 6.5,
+          rbc: 7.2,
+          glucose: 85,
+        },
+      ],
+      clinical_notes: [
+        {
+          id: 401,
+          patient_id: 1,
+          note_type: 'observation',
+          note_content: 'Horse calm',
+          protocol_hour: 0,
+          video_url: '',
+          video_file_name: '',
+          video_uploaded_at: '',
+          created_at: '2025-11-14T08:00:00.000Z',
+        },
+      ],
     },
   ];
 
@@ -73,20 +126,39 @@ describe('XML export builders', () => {
     const xml = buildStatisticalXml(meta, patients as any);
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
     expect(xml).toContain('<ptp102:clinicalStudy');
-    expect(xml).toContain('<studyId>PTP-102</studyId>');
-    expect(xml).toContain('<subjectId>PTP-102-001</subjectId>');
-    expect(xml).toContain('<horseName>Midnight Thunder</horseName>');
-    expect(xml).not.toContain('<auditTrail');
+    expect(xml).toContain('<study_id>PTP-102</study_id>');
+    expect(xml).toContain('<dataset name="subjects"');
+    expect(xml).toContain('name="subject_id"');
+    expect(xml).toContain('PTP-102-001');
+    expect(xml).toContain('name="horse_name"');
+    expect(xml).toContain('Midnight Thunder');
+    expect(xml).not.toContain('<dataset name="audit_trail"');
   });
 
-  it('builds a valid full XML with audit trail and field metadata', () => {
+  it('includes every individual treatment, assessment, lab, and note record in statistical XML', () => {
+    const xml = buildStatisticalXml(meta, patients as any);
+    expect(xml).toContain('<dataset name="treatments" records="1">');
+    expect(xml).toContain('<dataset name="assessments" records="1">');
+    expect(xml).toContain('<dataset name="lab_results" records="1">');
+    expect(xml).toContain('<dataset name="clinical_notes" records="1">');
+    expect(xml).toContain('name="dosage_mg"');
+    expect(xml).toContain('>500</field>');
+    expect(xml).toContain('name="obel_grade"');
+    expect(xml).toContain('name="wbc"');
+    expect(xml).toContain('name="note_content"');
+    expect(xml).toContain('Horse calm');
+  });
+
+  it('builds a valid full XML with audit trail dataset', () => {
     const xml = buildFullXml(meta, patients as any, auditLogs);
-    expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
     expect(xml).toContain('<ptp102:clinicalStudy');
-    expect(xml).toContain('<auditTrail');
-    expect(xml).toContain('<auditEvent>');
-    expect(xml).toContain('<clientHash>abc123</clientHash>');
-    expect(xml).toContain('<demographics>');
+    expect(xml).toContain('<dataset name="audit_trail"');
+    expect(xml).toContain('name="action"');
+    expect(xml).toContain('CREATE');
+    expect(xml).toContain('name="client_hash"');
+    expect(xml).toContain('abc123');
+    expect(xml).toContain('name="previous_hash"');
+    expect(xml).toContain('genesis');
   });
 
   it('escapes XML special characters in values', () => {
@@ -99,6 +171,25 @@ describe('XML export builders', () => {
     const xml = buildStatisticalXml(meta, patientsWithSpecialChars as any);
     expect(xml).toContain('Test &lt;horse&gt; &amp; &quot;friend&quot;');
     expect(xml).not.toContain('Test <horse>');
+  });
+
+  describe('XML naming constraints', () => {
+    it('sanitizes invalid characters and truncates to 32 chars', () => {
+      expect(sanitizeXmlTag('horse body-weight (kg)')).toBe('horse_body_weight_kg');
+      expect(sanitizeXmlTag('123starts-with-number')).toBe('_123starts_with_number');
+      expect(sanitizeXmlTag('a'.repeat(40)).length).toBe(32);
+    });
+
+    it('uses only alphanumeric and underscore characters in field names', () => {
+      const xml = buildStatisticalXml(meta, patients as any);
+      const nameMatches = xml.match(/name="([^"]+)"/g) || [];
+      expect(nameMatches.length).toBeGreaterThan(0);
+      for (const match of nameMatches) {
+        const name = match.replace(/name="([^"]+)"/, '$1');
+        expect(name).toMatch(/^[a-zA-Z_][a-zA-Z0-9_]*$/);
+        expect(name.length).toBeLessThanOrEqual(32);
+      }
+    });
   });
 
   describe('define.xml generation', () => {

@@ -63,18 +63,18 @@ export function AdminLoginScreen({ onSuccess, onBackToVet }: AdminLoginScreenPro
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+      <div className="mb-6">
+        <ByrockLogo variant="full" height={60} />
+      </div>
       <Card className="max-w-md w-full shadow-xl">
         <CardHeader className="bg-slate-900 text-white rounded-t-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Shield className="h-8 w-8 text-blue-400" />
-              <div>
-                <CardTitle className="text-2xl">Admin Access</CardTitle>
-                <p className="text-slate-300 text-sm mt-1">PTP-102 Trial Management</p>
-              </div>
+          <div className="flex items-center gap-3">
+            <Shield className="h-8 w-8 text-blue-400" />
+            <div>
+              <CardTitle className="text-2xl">Admin Access</CardTitle>
+              <p className="text-slate-300 text-sm mt-1">PTP-102 Trial Management</p>
             </div>
-            <ByrockLogo variant="full" height={60} className="invert brightness-200" />
           </div>
         </CardHeader>
 

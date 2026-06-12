@@ -12,22 +12,25 @@ export function AuthSelectionPage() {
     <div className="min-h-screen bg-slate-50">
       {/* Top Logo Bar */}
       <div className="bg-black py-4 px-4 flex justify-center">
-        <ByrockLogo variant="full" height={60} className="invert brightness-200" />
+        <ByrockLogo variant="icon" height={32} />
       </div>
 
       {/* Hero Section */}
       <HeroSection />
 
       {/* Access Selection Card */}
-      <div className="px-4 py-8 -mt-4 relative z-10">
-        <Card className="max-w-md mx-auto shadow-xl border border-slate-200">
+      <div className="px-4 py-8 -mt-4 relative z-10 flex flex-col items-center">
+        <div className="mb-4">
+          <ByrockLogo variant="full" height={60} />
+        </div>
+        <Card className="max-w-md mx-auto shadow-xl border border-slate-200 w-full">
           <CardHeader className="bg-slate-900 text-white rounded-t-lg">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-xl">PTP-102 Trial Portal</CardTitle>
                 <p className="text-slate-300 text-sm mt-1">Select access type to continue</p>
               </div>
-              <ByrockLogo variant="icon" height={32} className="invert brightness-200" />
+              <ByrockLogo variant="icon" height={32} />
             </div>
           </CardHeader>
           <CardContent className="p-6 space-y-4">

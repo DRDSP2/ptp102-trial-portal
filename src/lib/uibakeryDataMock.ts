@@ -385,6 +385,7 @@ type LocalVet = {
   signature_text: string;
   verification_status: 'pending' | 'approved' | 'rejected';
   no_conflict_of_interest?: boolean;
+  consent_printed_at?: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -1428,6 +1429,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
             licenseNumber?: string;
             hospitalAffiliation?: string;
             signatureText?: string;
+            consentPrintedAt?: string | null;
           };
           const email = p?.email?.toLowerCase().trim();
           if (!email) throw new Error('Email is required');
@@ -1442,6 +1444,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
             existing.license_number = p.licenseNumber ?? existing.license_number;
             existing.hospital_affiliation = p.hospitalAffiliation ?? existing.hospital_affiliation;
             existing.signature_text = p.signatureText ?? existing.signature_text;
+            existing.consent_printed_at = p.consentPrintedAt ?? existing.consent_printed_at;
             existing.verification_status = 'pending';
             existing.updated_at = new Date().toISOString();
             saveVets(vets);
@@ -1459,6 +1462,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
             tc_accepted: true,
             tc_accepted_at: new Date().toISOString(),
             signature_text: p.signatureText ?? '',
+            consent_printed_at: p.consentPrintedAt ?? null,
             verification_status: 'pending',
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),

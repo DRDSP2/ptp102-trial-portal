@@ -66,50 +66,141 @@ function escapeXml(value: unknown): string {
     .replace(/'/g, '&apos;');
 }
 
+function toSnakeCase(name: string): string {
+  return name.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`).replace(/^_/, '');
+}
+
+export function sanitizeXmlTag(name: string): string {
+  let sanitized = toSnakeCase(name)
+    .replace(/[^a-zA-Z0-9_]/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_+|_+$/g, '')
+    .slice(0, 32);
+  if (/^[0-9]/.test(sanitized)) {
+    sanitized = `_${sanitized}`;
+  }
+  return sanitized;
+}
+
+function inferFieldType(value: unknown): string {
+  if (typeof value === 'number') return 'num';
+  if (typeof value === 'boolean') return 'char';
+  if (value === null || value === undefined) return 'char';
+  const str = String(value);
+  if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2})?/.test(str)) return 'date';
+  return 'char';
+}
+
 function xmlTag(name: string, value: unknown, attrs: Record<string, string> = {}): string {
+  const tag = sanitizeXmlTag(name);
   const attrString = Object.entries(attrs)
-    .map(([k, v]) => `${k}="${escapeXml(v)}"`)
+    .map(([k, v]) => `${sanitizeXmlTag(k)}="${escapeXml(v)}"`)
     .join(' ');
-  const open = attrString ? `<${name} ${attrString}>` : `<${name}>`;
-  return `${open}${escapeXml(value)}</${name}>`;
+  const open = attrString ? `<${tag} ${attrString}>` : `<${tag}>`;
+  return `${open}${escapeXml(value)}</${tag}>`;
 }
 
 function buildStudyHeader(meta: StudyMetadata): string {
   return [
-    xmlTag('studyId', meta.studyId),
-    xmlTag('studyTitle', meta.studyTitle),
-    xmlTag('sponsorName', meta.sponsorName),
-    xmlTag('protocolVersion', meta.protocolVersion),
-    xmlTag('exportedAt', meta.exportedAt),
-    xmlTag('exportedBy', meta.exportedBy),
+    xmlTag('study_id', meta.studyId),
+    xmlTag('study_title', meta.studyTitle),
+    xmlTag('sponsor_name', meta.sponsorName),
+    xmlTag('protocol_version', meta.protocolVersion),
+    xmlTag('exported_at', meta.exportedAt),
+    xmlTag('exported_by', meta.exportedBy),
   ].join('\n      ');
 }
 
-export function buildStatisticalXml(meta: StudyMetadata, patients: XmlExportPatient[]): string {
-  const patientNodes = patients
-    .map((p) => {
-      return `    <subject>
-      ${xmlTag('subjectId', p.unique_id)}
-      ${xmlTag('horseName', p.horse_name)}
-      ${xmlTag('ageYears', p.age)}
-      ${xmlTag('breed', p.breed)}
-      ${xmlTag('sex', p.sex)}
-      ${xmlTag('weightKg', p.weight)}
-      ${xmlTag('enrollmentDate', p.enrollment_date)}
-      ${xmlTag('consentDate', p.consent_date)}
-      ${xmlTag('trialStatus', p.trial_status)}
-      ${xmlTag('screeningStatus', p.screening_status)}
-      ${xmlTag('eligibilityVerified', p.eligibility_verified)}
-      ${xmlTag('veterinarianName', p.veterinarian_name)}
-      ${xmlTag('veterinarianEmail', p.veterinarian_email)}
-      ${xmlTag('latestLaminitisGrade', p.laminitis_grade)}
-      ${xmlTag('treatmentCount', p.treatment_count ?? 0)}
-      ${xmlTag('assessmentCount', p.assessment_count ?? 0)}
-      ${xmlTag('labCount', p.lab_count ?? 0)}
-      ${xmlTag('noteCount', p.note_count ?? 0)}
-    </subject>`;
+function serializeFlatDataset(name: string, records: Record<string, unknown>[]): string {
+  const datasetName = sanitizeXmlTag(name);
+  if (records.length === 0) {
+    return `  <dataset name="${datasetName}" records="0" />`;
+  }
+
+  const recordNodes = records
+    .map((record) => {
+      const fieldNodes = Object.entries(record)
+        .map(([key, value]) => {
+          const fieldName = sanitizeXmlTag(key);
+          const fieldType = inferFieldType(value);
+          return `      <field name="${escapeXml(fieldName)}" type="${fieldType}">${escapeXml(value)}</field>`;
+        })
+        .join('\n');
+      return `    <record>\n${fieldNodes}\n    </record>`;
     })
     .join('\n');
+
+  return `  <dataset name="${datasetName}" records="${records.length}">\n${recordNodes}\n  </dataset>`;
+}
+
+function buildSubjectRecord(p: XmlExportPatient): Record<string, unknown> {
+  return {
+    subject_id: p.unique_id,
+    horse_name: p.horse_name,
+    age_years: p.age,
+    breed: p.breed,
+    sex: p.sex,
+    weight_kg: p.weight,
+    owner_name: p.owner_name,
+    enrollment_date: p.enrollment_date,
+    consent_date: p.consent_date,
+    trial_status: p.trial_status,
+    screening_status: p.screening_status,
+    eligibility_verified: p.eligibility_verified,
+    veterinarian_name: p.veterinarian_name,
+    veterinarian_email: p.veterinarian_email,
+    latest_laminitis_grade: p.laminitis_grade,
+    treatment_count: p.treatment_count ?? 0,
+    assessment_count: p.assessment_count ?? 0,
+    lab_count: p.lab_count ?? 0,
+    note_count: p.note_count ?? 0,
+  };
+}
+
+function buildAuditRecord(log: AuditLogEntry): Record<string, unknown> {
+  return {
+    id: log.id,
+    sequence_number: log.sequenceNumber,
+    timestamp: log.timestamp,
+    user_id: log.userId,
+    user_email: log.userEmail,
+    user_role: log.userRole,
+    action: log.action,
+    entity_type: log.entityType,
+    entity_id: log.entityId,
+    patient_id: log.patientId,
+    study_id: log.studyId,
+    field_name: log.fieldName,
+    old_value: log.oldValue,
+    new_value: log.newValue,
+    reason_for_change: log.reasonForChange,
+    client_hash: log.clientHash,
+    previous_hash: log.previousHash,
+  };
+}
+
+export function buildStatisticalXml(meta: StudyMetadata, patients: XmlExportPatient[]): string {
+  const subjectRecords = patients.map(buildSubjectRecord);
+  const treatmentRecords = patients.flatMap((p) =>
+    (p.treatments || []).map((t) => ({ subject_id: p.unique_id, ...t }))
+  );
+  const assessmentRecords = patients.flatMap((p) =>
+    (p.assessments || []).map((a) => ({ subject_id: p.unique_id, ...a }))
+  );
+  const labRecords = patients.flatMap((p) =>
+    (p.lab_results || []).map((l) => ({ subject_id: p.unique_id, ...l }))
+  );
+  const noteRecords = patients.flatMap((p) =>
+    (p.clinical_notes || []).map((n) => ({ subject_id: p.unique_id, ...n }))
+  );
+
+  const datasets = [
+    serializeFlatDataset('subjects', subjectRecords),
+    serializeFlatDataset('treatments', treatmentRecords),
+    serializeFlatDataset('assessments', assessmentRecords),
+    serializeFlatDataset('lab_results', labRecords),
+    serializeFlatDataset('clinical_notes', noteRecords),
+  ].join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <ptp102:clinicalStudy xmlns:ptp102="https://byrock.com/ptp102/schema/v1"
@@ -118,81 +209,36 @@ export function buildStatisticalXml(meta: StudyMetadata, patients: XmlExportPati
   <studyHeader>
     ${buildStudyHeader(meta)}
   </studyHeader>
-  <subjects count="${patients.length}">
-${patientNodes}
-  </subjects>
+  <datasets>
+${datasets}
+  </datasets>
 </ptp102:clinicalStudy>`;
 }
 
-function serializeObject(obj: any, tagName: string, indent = '    '): string {
-  if (obj === null || obj === undefined) {
-    return `${indent}<${tagName} xsi:nil="true"/>`;
-  }
-  if (typeof obj !== 'object' || Array.isArray(obj)) {
-    return `${indent}${xmlTag(tagName, Array.isArray(obj) ? JSON.stringify(obj) : obj)}`;
-  }
-  const childTags = Object.entries(obj)
-    .map(([key, value]) => serializeObject(value, key, `${indent}  `))
-    .join('\n');
-  return `${indent}<${tagName}>\n${childTags}\n${indent}</${tagName}>`;
-}
-
 export function buildFullXml(meta: StudyMetadata, patients: XmlExportPatient[], auditLogs: AuditLogEntry[]): string {
-  const patientNodes = patients
-    .map((p) => {
-      const treatments = (p.treatments || [])
-        .map((t) => serializeObject(t, 'treatment', '        '))
-        .join('\n');
-      const assessments = (p.assessments || [])
-        .map((a) => serializeObject(a, 'assessment', '        '))
-        .join('\n');
-      const labs = (p.lab_results || [])
-        .map((l) => serializeObject(l, 'labResult', '        '))
-        .join('\n');
-      const notes = (p.clinical_notes || [])
-        .map((n) => serializeObject(n, 'clinicalNote', '        '))
-        .join('\n');
+  const subjectRecords = patients.map(buildSubjectRecord);
+  const treatmentRecords = patients.flatMap((p) =>
+    (p.treatments || []).map((t) => ({ subject_id: p.unique_id, ...t }))
+  );
+  const assessmentRecords = patients.flatMap((p) =>
+    (p.assessments || []).map((a) => ({ subject_id: p.unique_id, ...a }))
+  );
+  const labRecords = patients.flatMap((p) =>
+    (p.lab_results || []).map((l) => ({ subject_id: p.unique_id, ...l }))
+  );
+  const noteRecords = patients.flatMap((p) =>
+    (p.clinical_notes || []).map((n) => ({ subject_id: p.unique_id, ...n }))
+  );
+  const auditRecords = auditLogs.map(buildAuditRecord);
 
-      return `    <subject>
-      ${xmlTag('subjectId', p.unique_id)}
-      ${serializeObject({ ...p, treatments: undefined, assessments: undefined, lab_results: undefined, clinical_notes: undefined }, 'demographics', '      ')}
-      <treatments count="${p.treatments?.length ?? 0}">
-${treatments}
-      </treatments>
-      <assessments count="${p.assessments?.length ?? 0}">
-${assessments}
-      </assessments>
-      <labResults count="${p.lab_results?.length ?? 0}">
-${labs}
-      </labResults>
-      <clinicalNotes count="${p.clinical_notes?.length ?? 0}">
-${notes}
-      </clinicalNotes>
-    </subject>`;
-    })
-    .join('\n');
-
-  const auditNodes = auditLogs
-    .map((log) => {
-      return `    <auditEvent>
-      ${xmlTag('sequenceNumber', log.sequenceNumber)}
-      ${xmlTag('timestamp', log.timestamp)}
-      ${xmlTag('userId', log.userId)}
-      ${xmlTag('userRole', log.userRole)}
-      ${xmlTag('action', log.action)}
-      ${xmlTag('entityType', log.entityType)}
-      ${xmlTag('entityId', log.entityId)}
-      ${xmlTag('patientId', log.patientId)}
-      ${xmlTag('studyId', log.studyId)}
-      ${xmlTag('fieldName', log.fieldName)}
-      ${xmlTag('oldValue', log.oldValue)}
-      ${xmlTag('newValue', log.newValue)}
-      ${xmlTag('reasonForChange', log.reasonForChange)}
-      ${xmlTag('clientHash', log.clientHash)}
-      ${xmlTag('previousHash', log.previousHash)}
-    </auditEvent>`;
-    })
-    .join('\n');
+  const datasets = [
+    serializeFlatDataset('subjects', subjectRecords),
+    serializeFlatDataset('treatments', treatmentRecords),
+    serializeFlatDataset('assessments', assessmentRecords),
+    serializeFlatDataset('lab_results', labRecords),
+    serializeFlatDataset('clinical_notes', noteRecords),
+    serializeFlatDataset('audit_trail', auditRecords),
+  ].join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <ptp102:clinicalStudy xmlns:ptp102="https://byrock.com/ptp102/schema/v1"
@@ -201,12 +247,9 @@ ${notes}
   <studyHeader>
     ${buildStudyHeader(meta)}
   </studyHeader>
-  <subjects count="${patients.length}">
-${patientNodes}
-  </subjects>
-  <auditTrail count="${auditLogs.length}" hashAlgorithm="SHA-256">
-${auditNodes}
-  </auditTrail>
+  <datasets>
+${datasets}
+  </datasets>
 </ptp102:clinicalStudy>`;
 }
 

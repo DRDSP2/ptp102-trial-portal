@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -13,8 +13,9 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { AlertTriangle, CheckCircle2, Check, X } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Check, X, Printer } from 'lucide-react';
 import { ByrockLogo } from '@/components/ByrockLogo';
+import { PrintConsent } from '@/components/PrintConsent';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const termsSchema = z.object({
@@ -51,6 +52,8 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
   const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [error, setError] = useState<string | null>(null);
   const [showValidationSummary, setShowValidationSummary] = useState(false);
+  const [consentPrintedAt, setConsentPrintedAt] = useState<string | null>(null);
+  const printedAtRef = useRef<string | null>(null);
 
   const form = useForm<z.infer<typeof termsSchema>>({
     resolver: zodResolver(termsSchema),
@@ -95,6 +98,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
         licenseNumber: values.licenseNumber,
         hospitalAffiliation: values.hospitalAffiliation,
         signatureText: values.signatureText,
+        consentPrintedAt: printedAtRef.current ?? consentPrintedAt,
       });
 
       console.log('Registration result:', result);
@@ -139,18 +143,22 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
   const hasErrors = Object.keys(formErrors).length > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
-      <Card className="max-w-4xl w-full shadow-xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+      <div className="hidden print:block w-full max-w-4xl">
+        <PrintConsent values={form.getValues()} printedAt={consentPrintedAt} />
+      </div>
+      <div className="print:hidden w-full flex flex-col items-center">
+        <div className="mb-6">
+          <ByrockLogo variant="full" height={48} />
+        </div>
+        <Card className="max-w-4xl w-full shadow-xl">
         <CardHeader className="bg-slate-900 text-white rounded-t-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <AlertTriangle className="h-8 w-8 text-yellow-400" />
-              <div>
-                <CardTitle className="text-2xl">PTP-102 Laminitis Trial - Terms & Conditions</CardTitle>
-                <p className="text-slate-300 text-sm mt-1">Investigational Drug Use Agreement</p>
-              </div>
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="h-8 w-8 text-yellow-400" />
+            <div>
+              <CardTitle className="text-2xl">PTP-102 Laminitis Trial - Terms & Conditions</CardTitle>
+              <p className="text-slate-300 text-sm mt-1">Investigational Drug Use Agreement</p>
             </div>
-            <ByrockLogo variant="full" height={48} className="invert brightness-200" />
           </div>
         </CardHeader>
 
@@ -521,14 +529,31 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     Back to Login
                   </Button>
                 )}
-                <Button type="submit" size="lg" disabled={isSubmitting} className="min-w-[200px]">
-                  {isSubmitting ? 'Processing...' : 'Accept Terms & Continue'}
-                </Button>
+                <div className="flex gap-3">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    onClick={() => {
+                      const now = new Date().toISOString();
+                      printedAtRef.current = now;
+                      setConsentPrintedAt(now);
+                      setTimeout(() => window.print(), 50);
+                    }}
+                  >
+                    <Printer className="mr-2 h-4 w-4" />
+                    Print / Save as PDF
+                  </Button>
+                  <Button type="submit" size="lg" disabled={isSubmitting} className="min-w-[200px]">
+                    {isSubmitting ? 'Processing...' : 'Accept Terms & Continue'}
+                  </Button>
+                </div>
               </div>
             </form>
           </Form>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }

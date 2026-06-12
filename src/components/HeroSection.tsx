@@ -22,7 +22,7 @@ export function HeroSection() {
       <div className="relative z-10 px-6 py-12 sm:py-16">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <div className="flex justify-center mb-4">
-            <ByrockLogo variant="full" className="h-16 sm:h-20 invert brightness-200" animated />
+            <ByrockLogo variant="icon" className="h-16 sm:h-20" animated />
           </div>
 
           <Badge className="bg-white/10 text-white border-white/20 hover:bg-white/20 px-4 py-1">
