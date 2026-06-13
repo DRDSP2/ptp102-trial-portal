@@ -40,7 +40,7 @@ const AGREEMENT_TEXT = `I, the undersigned veterinarian, agree to serve as a qua
 (f) not represent PTP-102 as safe or effective;
 (g) ensure all horse owners sign informed consent before enrollment.`;
 
-export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEmail: string; onSubmitted?: () => void }) {
+export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEmail: string | null; onSubmitted?: () => void }) {
   const [qualData, qualLoading] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail });
   const [saveQual, isSaving] = useMutateAction(saveInvestigatorQualificationAction);
 

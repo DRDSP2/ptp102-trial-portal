@@ -47,6 +47,19 @@ const AUDIT_ACTIONS: AuditAction[] = [
   'REJECT',
   'REGISTER',
   'SUBMIT',
+  'MARK_TIMELINE_COMPLETE',
+  'DOSE_ADMINISTERED',
+  'MONITORING_CHECKPOINT',
+  'GENERATE',
+  'SEND',
+  'SIGN',
+  'UPLOAD',
+  'REPLACE',
+  'VERIFY',
+  'DISPENSE',
+  'SHIPMENT_DISPATCH',
+  'SHIPMENT_RECEIVE',
+  'INVENTORY_ADJUST',
   'SYSTEM',
 ];
 
@@ -63,7 +76,10 @@ const ENTITY_TYPES: AuditEntityType[] = [
   'shipment',
   'protocol_version',
   'adverse_event',
+  'protocol_deviation',
+  'consent_document',
   'study_export',
+  'inventory',
   'system',
 ];
 

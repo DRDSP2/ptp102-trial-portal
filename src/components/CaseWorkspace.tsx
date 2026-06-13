@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLoadAction, useMutateAction } from '@uibakery/data';
 import loadPatientCaseDataAction from '@/actions/loadPatientCaseData';
+import type { Patient } from '@/types/patient';
 import debugClinicalNotesAction from '@/actions/debugClinicalNotes';
 import updateDataLockStatusAction from '@/actions/updateDataLockStatus';
+import markTimelineStepCompleteAction from '@/actions/markTimelineStepComplete';
 import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { TreatmentTimeline } from '@/components/TreatmentTimeline';
+import { AdverseEventReporter } from '@/components/AdverseEventReporter';
 import { QuickAddNote } from '@/components/QuickAddNote';
 import { ProtocolInfoCard } from '@/components/ProtocolInfoCard';
 import { MonitoringChecklist } from '@/components/MonitoringChecklist';
@@ -34,7 +37,9 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   const [caseData, loading, error, refresh] = useLoadAction(loadPatientCaseDataAction, [], { patientId });
   const [debugNotes] = useMutateAction(debugClinicalNotesAction);
   const [updateDataLockStatus] = useMutateAction(updateDataLockStatusAction);
+  const [markTimelineStepComplete] = useMutateAction(markTimelineStepCompleteAction);
   const [lockDialogOpen, setLockDialogOpen] = useState(false);
+  const [adverseEventOpen, setAdverseEventOpen] = useState(false);
   const [pendingLockStatus, setPendingLockStatus] = useState<string | null>(null);
 
   const handleRefresh = async () => {
@@ -44,6 +49,19 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
     await refresh();
     console.log('=== DATA REFRESHED ===');
   };
+
+  const maybePatient = caseData?.[0];
+  const completedTimelineSteps = useMemo(() => {
+    const steps = new Set<string>(maybePatient?.completed_timeline_steps || []);
+    const treatments = maybePatient?.treatments || [];
+    if (treatments.some((t: any) => t.protocol_hour !== null && Math.abs(t.protocol_hour - 0) <= 1)) {
+      steps.add('dose1');
+    }
+    if (treatments.some((t: any) => t.protocol_hour !== null && Math.abs(t.protocol_hour - 12) <= 1)) {
+      steps.add('dose2');
+    }
+    return Array.from(steps);
+  }, [maybePatient?.treatments, maybePatient?.completed_timeline_steps]);
 
   if (loading) {
     return (
@@ -237,14 +255,14 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <EnrollmentEligibilityScreen
           patientId={patientId}
+          locked={(patient as any).data_lock_status === 'locked'}
           onComplete={(eligible) => {
             if (eligible) handleRefresh();
           }}
         />
         <InformedConsentWorkflow
           patientId={patientId}
-          horseName={patient.horse_name}
-          ownerName={patient.owner_name}
+          patient={patient as Patient}
           vetEmail={patient.enrolled_by_vet_email || undefined}
           onComplete={() => handleRefresh()}
         />
@@ -302,7 +320,17 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               <CardTitle className="text-lg sm:text-xl">72-Hour Protocol Timeline</CardTitle>
             </CardHeader>
             <CardContent className="p-3 sm:p-6">
-              <TreatmentTimeline treatments={patient.treatments || []} protocolStartTime={protocolStartTime} />
+              <TreatmentTimeline
+                patientId={String(patientId)}
+                horseName={patient.horse_name}
+                firstDoseAt={protocolStartTime?.toISOString() ?? null}
+                completedSteps={completedTimelineSteps}
+                onMarkComplete={async (stepId, timestamp) => {
+                  await markTimelineStepComplete({ patientId, stepId, timestamp });
+                  await handleRefresh();
+                }}
+                onReportAdverseEvent={() => setAdverseEventOpen(true)}
+              />
             </CardContent>
           </Card>
         </div>
@@ -318,6 +346,15 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
           <QuickAddNote patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
         </div>
       </div>
+
+      <AdverseEventReporter
+        patientId={patientId}
+        horseName={patient.horse_name}
+        vetEmail={localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'unknown'}
+        vetName={localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'Unknown'}
+        open={adverseEventOpen}
+        onOpenChange={setAdverseEventOpen}
+      />
 
       <Tabs defaultValue="treatments" className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
@@ -362,7 +399,21 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                   </AlertDescription>
                 </Alert>
               ) : (
-                <AddTreatmentForm patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
+                <AddTreatmentForm
+                  patientId={patientId}
+                  protocolHour={(() => {
+                    if (!protocolStartTime) return null;
+                    const schedule = [0, 12];
+                    for (const hour of schedule) {
+                      const hasDose = patient.treatments?.some(
+                        (t: any) => t.protocol_hour !== null && Math.abs(t.protocol_hour - hour) <= 1
+                      );
+                      if (!hasDose) return hour;
+                    }
+                    return null;
+                  })()}
+                  onSuccess={handleRefresh}
+                />
               )}
               <Separator className="my-6" />
               <div className="space-y-4">

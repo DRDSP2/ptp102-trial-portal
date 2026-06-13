@@ -40,6 +40,19 @@ export type XmlExportPatient = {
   clinical_notes?: any[];
 };
 
+export type ProtocolDeviation = {
+  id: number;
+  patient_id: number;
+  deviation_type: string;
+  deviation_date: string;
+  description: string | null;
+  explanation: string | null;
+  impact_assessment: string | null;
+  corrective_action: string | null;
+  preventive_action: string | null;
+  created_at?: string;
+};
+
 export type VariableMeta = {
   name: string; // max 32 chars
   label: string;
@@ -179,7 +192,22 @@ function buildAuditRecord(log: AuditLogEntry): Record<string, unknown> {
   };
 }
 
-export function buildStatisticalXml(meta: StudyMetadata, patients: XmlExportPatient[]): string {
+function buildProtocolDeviationRecords(
+  deviations: ProtocolDeviation[],
+  patientUniqueIdById: Map<number, string>
+): Record<string, unknown>[] {
+  return deviations.map((d) => ({
+    subject_id: patientUniqueIdById.get(d.patient_id) ?? String(d.patient_id),
+    ...d,
+  }));
+}
+
+export function buildStatisticalXml(
+  meta: StudyMetadata,
+  patients: XmlExportPatient[],
+  protocolDeviations: ProtocolDeviation[] = []
+): string {
+  const patientUniqueIdById = new Map(patients.map((p) => [p.id, p.unique_id]));
   const subjectRecords = patients.map(buildSubjectRecord);
   const treatmentRecords = patients.flatMap((p) =>
     (p.treatments || []).map((t) => ({ subject_id: p.unique_id, ...t }))
@@ -193,6 +221,7 @@ export function buildStatisticalXml(meta: StudyMetadata, patients: XmlExportPati
   const noteRecords = patients.flatMap((p) =>
     (p.clinical_notes || []).map((n) => ({ subject_id: p.unique_id, ...n }))
   );
+  const deviationRecords = buildProtocolDeviationRecords(protocolDeviations, patientUniqueIdById);
 
   const datasets = [
     serializeFlatDataset('subjects', subjectRecords),
@@ -200,6 +229,7 @@ export function buildStatisticalXml(meta: StudyMetadata, patients: XmlExportPati
     serializeFlatDataset('assessments', assessmentRecords),
     serializeFlatDataset('lab_results', labRecords),
     serializeFlatDataset('clinical_notes', noteRecords),
+    serializeFlatDataset('protocol_deviations', deviationRecords),
   ].join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -215,7 +245,13 @@ ${datasets}
 </ptp102:clinicalStudy>`;
 }
 
-export function buildFullXml(meta: StudyMetadata, patients: XmlExportPatient[], auditLogs: AuditLogEntry[]): string {
+export function buildFullXml(
+  meta: StudyMetadata,
+  patients: XmlExportPatient[],
+  auditLogs: AuditLogEntry[],
+  protocolDeviations: ProtocolDeviation[] = []
+): string {
+  const patientUniqueIdById = new Map(patients.map((p) => [p.id, p.unique_id]));
   const subjectRecords = patients.map(buildSubjectRecord);
   const treatmentRecords = patients.flatMap((p) =>
     (p.treatments || []).map((t) => ({ subject_id: p.unique_id, ...t }))
@@ -230,6 +266,7 @@ export function buildFullXml(meta: StudyMetadata, patients: XmlExportPatient[], 
     (p.clinical_notes || []).map((n) => ({ subject_id: p.unique_id, ...n }))
   );
   const auditRecords = auditLogs.map(buildAuditRecord);
+  const deviationRecords = buildProtocolDeviationRecords(protocolDeviations, patientUniqueIdById);
 
   const datasets = [
     serializeFlatDataset('subjects', subjectRecords),
@@ -237,6 +274,7 @@ export function buildFullXml(meta: StudyMetadata, patients: XmlExportPatient[], 
     serializeFlatDataset('assessments', assessmentRecords),
     serializeFlatDataset('lab_results', labRecords),
     serializeFlatDataset('clinical_notes', noteRecords),
+    serializeFlatDataset('protocol_deviations', deviationRecords),
     serializeFlatDataset('audit_trail', auditRecords),
   ].join('\n');
 
@@ -311,6 +349,11 @@ const COMMON_CODE_LISTS: Record<string, { value: string; label: string }[]> = {
     { value: 'admin', label: 'Administrator' },
     { value: 'vet', label: 'Veterinarian' },
     { value: 'unknown', label: 'Unknown' },
+  ],
+  impact_assessment: [
+    { value: 'Minor', label: 'Minor' },
+    { value: 'Major', label: 'Major' },
+    { value: 'Critical', label: 'Critical' },
   ],
   audit_action: [
     { value: 'CREATE', label: 'Create' },
@@ -429,6 +472,23 @@ const DATASET_SCHEMA: DatasetMeta[] = [
       { name: 'video_url', label: 'Video file URL', type: 'char', length: 500, source: 'Video upload manager' },
       { name: 'video_file_name', label: 'Video file name', type: 'char', length: 200, source: 'Video upload manager' },
       { name: 'video_uploaded_at', label: 'Video upload timestamp', type: 'date', source: 'Video upload manager' },
+      { name: 'created_at', label: 'Record creation timestamp', type: 'date', source: 'EDC system' },
+    ],
+  },
+  {
+    name: 'protocol_deviations',
+    label: 'Protocol Deviations',
+    variables: [
+      { name: 'id', label: 'Protocol deviation record identifier', type: 'num', source: 'EDC auto-number' },
+      { name: 'subject_id', label: 'Study subject identifier', type: 'char', length: 16, source: 'EDC system' },
+      { name: 'patient_id', label: 'Subject internal identifier', type: 'num', source: 'EDC system' },
+      { name: 'deviation_type', label: 'Deviation type', type: 'char', length: 100, source: 'Eligibility workflow' },
+      { name: 'deviation_date', label: 'Deviation date', type: 'date', source: 'Eligibility workflow' },
+      { name: 'description', label: 'Deviation description', type: 'char', length: 500, source: 'Eligibility workflow' },
+      { name: 'explanation', label: 'Deviation explanation / justification', type: 'char', length: 4000, source: 'Eligibility workflow' },
+      { name: 'impact_assessment', label: 'Impact assessment', type: 'char', length: 20, source: 'Eligibility workflow', codeList: COMMON_CODE_LISTS.impact_assessment },
+      { name: 'corrective_action', label: 'Corrective action', type: 'char', length: 2000, source: 'Eligibility workflow' },
+      { name: 'preventive_action', label: 'Preventive action', type: 'char', length: 2000, source: 'Eligibility workflow' },
       { name: 'created_at', label: 'Record creation timestamp', type: 'date', source: 'EDC system' },
     ],
   },

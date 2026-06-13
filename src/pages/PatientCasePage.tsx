@@ -4,7 +4,6 @@ import { CaseWorkspace } from '@/components/CaseWorkspace';
 import { ByrockLogo } from '@/components/ByrockLogo';
 import { WhatsAppChatButton } from '@/components/WhatsAppChatButton';
 import { RegulatoryBanner } from '@/components/RegulatoryBanner';
-import { AdverseEventReporter } from '@/components/AdverseEventReporter';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Shield, LogOut, ArrowLeft } from 'lucide-react';
@@ -66,11 +65,6 @@ export function PatientCasePage() {
       <div className="container mx-auto p-6 max-w-7xl">
         <CaseWorkspace patientId={numericPatientId} onBack={handleBack} />
       </div>
-      <AdverseEventReporter
-        patientId={numericPatientId}
-        vetEmail={auth.email || ''}
-        vetName={auth.email?.split('@')[0] || 'Vet'}
-      />
     </div>
   );
 }

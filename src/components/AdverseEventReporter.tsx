@@ -26,14 +26,23 @@ export function AdverseEventReporter({
   horseName,
   vetEmail,
   vetName,
+  open: controlledOpen,
+  onOpenChange,
 }: {
   patientId?: number;
   horseName?: string;
-  vetEmail: string;
-  vetName: string;
+  vetEmail: string | null;
+  vetName: string | null;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const [createAE, isSubmitting] = useMutateAction(createAdverseEventAction);
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = controlledOpen ?? internalOpen;
+  const setOpen = (value: boolean) => {
+    setInternalOpen(value);
+    onOpenChange?.(value);
+  };
   const [submitted, setSubmitted] = useState(false);
 
   const [form, setForm] = useState({

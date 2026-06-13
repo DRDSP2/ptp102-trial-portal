@@ -161,6 +161,29 @@ describe('XML export builders', () => {
     expect(xml).toContain('genesis');
   });
 
+  it('includes protocol deviations in both statistical and full XML', () => {
+    const deviations = [
+      {
+        id: 1,
+        patient_id: 1,
+        deviation_type: 'Eligibility Exception',
+        deviation_date: '2025-11-14',
+        description: 'Failed inclusion/exclusion criteria',
+        explanation: 'Acute flare outside standard window; sponsor approved.',
+        impact_assessment: 'Major',
+        corrective_action: null,
+        preventive_action: null,
+        created_at: '2025-11-14T08:00:00.000Z',
+      },
+    ];
+    const statistical = buildStatisticalXml(meta, patients as any, deviations as any);
+    const full = buildFullXml(meta, patients as any, auditLogs, deviations as any);
+    expect(statistical).toContain('<dataset name="protocol_deviations"');
+    expect(full).toContain('<dataset name="protocol_deviations"');
+    expect(statistical).toContain('Eligibility Exception');
+    expect(statistical).toContain('Major');
+  });
+
   it('escapes XML special characters in values', () => {
     const patientsWithSpecialChars = [
       {
@@ -233,6 +256,7 @@ describe('XML export builders', () => {
       expect(define).toContain('ItemGroupOID="IG.assessments"');
       expect(define).toContain('ItemGroupOID="IG.lab_results"');
       expect(define).toContain('ItemGroupOID="IG.clinical_notes"');
+      expect(define).toContain('ItemGroupOID="IG.protocol_deviations"');
       expect(define).toContain('ItemGroupOID="IG.audit_trail"');
     });
 

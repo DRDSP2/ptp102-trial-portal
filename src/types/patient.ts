@@ -1,5 +1,6 @@
 export type Patient = {
   id: number;
+  unique_id?: string;
   horse_name: string;
   age: number;
   breed: string;
@@ -9,6 +10,9 @@ export type Patient = {
   owner_contact: string;
   owner_email?: string | null;
   owner_phone?: string | null;
+  owner_address?: string | null;
+  owner_relationship?: string | null;
+  horse_microchip?: string | null;
   enrollment_date: string;
   trial_status: string;
   screening_status?: 'pending_screening' | 'approved' | 'rejected' | 'awaiting_details' | null;
@@ -16,6 +20,7 @@ export type Patient = {
   screened_by?: string | null;
   screened_at?: string | null;
   eligibility_verified: boolean;
+  protocol_start_time?: string | null;
   consent_date: string | null;
   consent_id?: number | null;
   digital_pulse?: string | null;
@@ -30,6 +35,7 @@ export type Patient = {
   body_condition_score?: number | null;
   profile_picture_url?: string | null;
   enrolled_by_vet_email?: string | null;
+  completed_timeline_steps?: string[];
   created_at: string;
   updated_at: string;
   status_history?: { status: string; timestamp: string; admin: string; notes: string }[];

@@ -158,7 +158,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
         enrollmentTemperature: values.enrollmentTemperature ? parseFloat(values.enrollmentTemperature) : null,
         bodyConditionScore: values.bodyConditionScore ? parseFloat(values.bodyConditionScore) : null,
         profilePictureUrl: values.profilePictureUrl || null,
-        enrolledByVetEmail: auth.email || null,
+        enrolledByVetEmail: auth.email ?? null,
       };
 
       if (isEditMode && patient) {

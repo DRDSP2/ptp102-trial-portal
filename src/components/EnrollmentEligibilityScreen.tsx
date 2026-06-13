@@ -1,18 +1,19 @@
-import { useState } from 'react';
-import { useMutateAction } from '@uibakery/data';
+import { useState, useEffect } from 'react';
+import { useLoadAction, useMutateAction } from '@uibakery/data';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import createEnrollmentEligibilityAction from '@/actions/createEnrollmentEligibility';
+import loadEnrollmentEligibilityAction from '@/actions/loadEnrollmentEligibility';
 import {
   ClipboardCheck,
   CheckCircle2,
   XCircle,
   AlertTriangle,
   ShieldCheck,
+  Lock,
 } from 'lucide-react';
 
 const INCLUSION_CRITERIA = [
@@ -32,25 +33,87 @@ const EXCLUSION_CRITERIA = [
   { key: 'exclusionOwnerDeclinedConsent', label: 'Owner declined consent' },
 ];
 
+type EligibilityRow = {
+  patient_id: number;
+  inclusion_diagnosed_acute_laminitis: boolean | null;
+  inclusion_obel_grade_1_to_3: boolean | null;
+  inclusion_age_2_to_20: boolean | null;
+  inclusion_weight_over_200kg: boolean | null;
+  inclusion_owner_consent: boolean | null;
+  inclusion_no_prior_investigational_drug_30d: boolean | null;
+  exclusion_chronic_laminitis_over_14d: boolean | null;
+  exclusion_pregnant_or_lactating: boolean | null;
+  exclusion_concurrent_systemic_disease: boolean | null;
+  exclusion_prior_investigational_drug_30d: boolean | null;
+  exclusion_owner_declined_consent: boolean | null;
+  eligibility_determination: 'eligible' | 'ineligible' | 'requires_deviation';
+  ineligible_reason: string | null;
+  deviation_justification: string | null;
+  screened_by: string | null;
+  screened_at: string | null;
+};
+
+function mapRowToState(row: EligibilityRow | undefined) {
+  if (!row) return null;
+  return {
+    inclusions: {
+      inclusionDiagnosedAcuteLaminitis: row.inclusion_diagnosed_acute_laminitis,
+      inclusionObelGrade1To3: row.inclusion_obel_grade_1_to_3,
+      inclusionAge2To20: row.inclusion_age_2_to_20,
+      inclusionWeightOver200kg: row.inclusion_weight_over_200kg,
+      inclusionOwnerConsent: row.inclusion_owner_consent,
+      inclusionNoPriorInvestigationalDrug30d: row.inclusion_no_prior_investigational_drug_30d,
+    },
+    exclusions: {
+      exclusionChronicLaminitisOver14d: row.exclusion_chronic_laminitis_over_14d,
+      exclusionPregnantOrLactating: row.exclusion_pregnant_or_lactating,
+      exclusionConcurrentSystemicDisease: row.exclusion_concurrent_systemic_disease,
+      exclusionPriorInvestigationalDrug30d: row.exclusion_prior_investigational_drug_30d,
+      exclusionOwnerDeclinedConsent: row.exclusion_owner_declined_consent,
+    },
+    deviationJustification: row.deviation_justification ?? '',
+  };
+}
+
 export function EnrollmentEligibilityScreen({
   patientId,
   onComplete,
+  locked = false,
 }: {
   patientId: number;
   onComplete: (eligible: boolean) => void;
+  locked?: boolean;
 }) {
   const [saveEligibility, isSaving] = useMutateAction(createEnrollmentEligibilityAction);
+  const [existingRows, eligibilityLoading] = useLoadAction(loadEnrollmentEligibilityAction, [], { patientId });
 
   const [inclusions, setInclusions] = useState<Record<string, boolean | null>>({});
   const [exclusions, setExclusions] = useState<Record<string, boolean | null>>({});
   const [deviationJustification, setDeviationJustification] = useState('');
   const [showDeviation, setShowDeviation] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
+
+  // Load persisted eligibility state so the screen is not write-only.
+  useEffect(() => {
+    if (eligibilityLoading) return;
+    const row = (existingRows?.[0] as EligibilityRow | undefined);
+    const state = mapRowToState(row);
+    if (state) {
+      setInclusions(state.inclusions);
+      setExclusions(state.exclusions);
+      setDeviationJustification(state.deviationJustification);
+      setShowDeviation(!!state.deviationJustification);
+      setLastSavedAt(row?.screened_at ?? null);
+    }
+  }, [existingRows, eligibilityLoading]);
 
   const setInclusion = (key: string, value: boolean) => {
+    if (locked) return;
     setInclusions((prev) => ({ ...prev, [key]: value }));
   };
 
   const setExclusion = (key: string, value: boolean) => {
+    if (locked) return;
     setExclusions((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -59,8 +122,19 @@ export function EnrollmentEligibilityScreen({
   const isEligible = allInclusionsChecked && allExclusionsNo;
   const isIneligible = INCLUSION_CRITERIA.some((c) => inclusions[c.key] === false) || EXCLUSION_CRITERIA.some((c) => exclusions[c.key] === true);
 
+  const canSubmit =
+    !locked &&
+    !isSaving &&
+    Object.keys(inclusions).length >= INCLUSION_CRITERIA.length &&
+    Object.keys(exclusions).length >= EXCLUSION_CRITERIA.length;
+
   const handleSubmit = async () => {
-    const determination = isEligible ? 'eligible' : showDeviation && deviationJustification ? 'requires_deviation' : 'ineligible';
+    if (!canSubmit) return;
+    const determination = isEligible
+      ? 'eligible'
+      : showDeviation && deviationJustification
+      ? 'requires_deviation'
+      : 'ineligible';
     await saveEligibility({
       patientId,
       inclusionDiagnosedAcuteLaminitis: inclusions.inclusionDiagnosedAcuteLaminitis,
@@ -79,7 +153,8 @@ export function EnrollmentEligibilityScreen({
       deviationJustification: determination === 'requires_deviation' ? deviationJustification : null,
       screenedBy: typeof window !== 'undefined' ? localStorage.getItem('veterinarian_email') || 'unknown' : 'unknown',
     });
-    onComplete(isEligible || (determination === 'requires_deviation'));
+    setLastSavedAt(new Date().toISOString());
+    onComplete(isEligible || determination === 'requires_deviation');
   };
 
   return (
@@ -88,6 +163,12 @@ export function EnrollmentEligibilityScreen({
         <CardTitle className="flex items-center gap-2 text-lg">
           <ClipboardCheck className="h-5 w-5 text-blue-600" />
           Eligibility Screening
+          {locked && (
+            <Badge variant="outline" className="ml-2 bg-red-50 text-red-700 border-red-200">
+              <Lock className="h-3 w-3 mr-1" />
+              Locked
+            </Badge>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
@@ -98,6 +179,15 @@ export function EnrollmentEligibilityScreen({
             If criteria are not met, a protocol deviation justification is required.
           </AlertDescription>
         </Alert>
+
+        {lastSavedAt && (
+          <div className="flex items-center justify-between text-xs text-slate-500 bg-slate-50 p-2 rounded">
+            <span>
+              Last saved: {new Date(lastSavedAt).toLocaleString()}
+            </span>
+            <Badge variant="secondary">Saved</Badge>
+          </div>
+        )}
 
         {/* Inclusion Criteria */}
         <div>
@@ -112,18 +202,20 @@ export function EnrollmentEligibilityScreen({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setInclusion(c.key, true)}
+                    disabled={locked}
                     className={`px-3 py-1 text-xs rounded-md font-medium transition-colors ${
                       inclusions[c.key] === true ? 'bg-green-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-green-50'
-                    }`}
+                    } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
                   >
                     Yes
                   </button>
                   <button
                     onClick={() => setInclusion(c.key, false)}
+                    disabled={locked}
                     className={`px-3 py-1 text-xs rounded-md font-medium transition-colors ${
                       inclusions[c.key] === false ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-red-50'
-                    }`}
+                    } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
                   >
                     No
@@ -147,18 +239,20 @@ export function EnrollmentEligibilityScreen({
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setExclusion(c.key, true)}
+                    disabled={locked}
                     className={`px-3 py-1 text-xs rounded-md font-medium transition-colors ${
                       exclusions[c.key] === true ? 'bg-red-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-red-50'
-                    }`}
+                    } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
                   >
                     Yes
                   </button>
                   <button
                     onClick={() => setExclusion(c.key, false)}
+                    disabled={locked}
                     className={`px-3 py-1 text-xs rounded-md font-medium transition-colors ${
                       exclusions[c.key] === false ? 'bg-green-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-green-50'
-                    }`}
+                    } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
                   >
                     No
@@ -184,7 +278,7 @@ export function EnrollmentEligibilityScreen({
             <AlertTriangle className="h-4 w-4 text-red-600" />
             <AlertDescription className="text-red-800">
               This horse does not meet protocol eligibility criteria. 
-              <button onClick={() => setShowDeviation(true)} className="underline font-semibold ml-1" type="button">
+              <button onClick={() => setShowDeviation(true)} className="underline font-semibold ml-1" type="button" disabled={locked}>
                 Request protocol deviation
               </button>
             </AlertDescription>
@@ -203,8 +297,9 @@ export function EnrollmentEligibilityScreen({
               <label className="text-sm font-medium">Deviation Justification</label>
               <textarea
                 value={deviationJustification}
-                onChange={(e) => setDeviationJustification(e.target.value)}
-                className="w-full px-3 py-2 border rounded-md text-sm"
+                onChange={(e) => !locked && setDeviationJustification(e.target.value)}
+                disabled={locked}
+                className="w-full px-3 py-2 border rounded-md text-sm disabled:bg-slate-100 disabled:text-slate-500"
                 rows={3}
                 placeholder="Explain why this horse should be enrolled despite not meeting standard criteria..."
               />
@@ -216,11 +311,19 @@ export function EnrollmentEligibilityScreen({
 
         <Button
           onClick={handleSubmit}
-          disabled={isSaving || Object.keys(inclusions).length < INCLUSION_CRITERIA.length || Object.keys(exclusions).length < EXCLUSION_CRITERIA.length}
+          disabled={!canSubmit}
           className="w-full"
           type="button"
         >
-          {isSaving ? 'Saving...' : isEligible ? 'Confirm Eligibility & Proceed' : showDeviation ? 'Submit with Deviation Justification' : 'Record Eligibility Determination'}
+          {isSaving
+            ? 'Saving...'
+            : isEligible
+            ? 'Confirm Eligibility & Proceed'
+            : showDeviation
+            ? 'Submit with Deviation Justification'
+            : lastSavedAt
+            ? 'Update Eligibility Determination'
+            : 'Record Eligibility Determination'}
         </Button>
       </CardContent>
     </Card>

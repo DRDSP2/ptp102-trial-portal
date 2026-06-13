@@ -32,8 +32,8 @@ export function useAuditedMutateAction<T extends any[], R>(
 
       try {
         const userEmail =
-          auth.email || localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'unknown';
-        const userRole = (auth.role as 'admin' | 'vet' | 'unknown') || 'unknown';
+          auth.email ?? localStorage.getItem('veterinarian_email') ?? localStorage.getItem('admin_email') ?? 'unknown';
+        const userRole = (auth.role as 'admin' | 'vet' | 'unknown') ?? 'unknown';
 
         await logAudit({
           userId: userEmail,

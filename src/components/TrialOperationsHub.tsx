@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 export function TrialOperationsHub() {
   const auth = useAuth();
   const isAdmin = auth.role === 'admin';
-  const userEmail = auth.email || 'unknown';
+  const userEmail = auth.email ?? 'unknown';
 
   const {
     ops,

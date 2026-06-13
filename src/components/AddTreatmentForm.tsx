@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutateAction } from '@uibakery/data';
+import { useLoadAction, useMutateAction } from '@uibakery/data';
 import addTreatmentAction from '@/actions/addTreatment';
+import loadSupplyShipmentsByVetAction from '@/actions/loadSupplyShipmentsByVet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -31,6 +32,13 @@ type AddTreatmentFormProps = {
 
 export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTreatmentFormProps) {
   const [addTreatment, isSubmitting] = useMutateAction(addTreatmentAction);
+  const vetEmail = typeof window !== 'undefined' ? localStorage.getItem('veterinarian_email') || '' : '';
+  const [shipments] = useLoadAction(loadSupplyShipmentsByVetAction, [], { vetEmail });
+  const activeShipments = ((shipments as any[]) ?? []).filter(
+    (s) =>
+      ['received', 'in_use', 'low'].includes(s.shipment_status) &&
+      s.remaining_quantity > 0
+  );
 
   const form = useForm<z.infer<typeof treatmentSchema>>({
     resolver: zodResolver(treatmentSchema),
@@ -138,19 +146,61 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="batchNumber"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Batch Number</FormLabel>
-                <FormControl>
-                  <Input placeholder="PTP102-2025-001" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {activeShipments.length > 0 ? (
+            <FormField
+              control={form.control}
+              name="batchNumber"
+              render={({ field }) => {
+                const selected = activeShipments.find((s) => s.batch_lot_number === field.value);
+                return (
+                  <FormItem>
+                    <FormLabel>Batch Number</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select an active batch" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {activeShipments.map((s) => (
+                          <SelectItem key={s.id} value={s.batch_lot_number}>
+                            {s.batch_lot_number} ({s.remaining_quantity.toFixed(1)} remaining)
+                          </SelectItem>
+                        ))}
+                        <SelectItem value="__manual__">Other / manual entry</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {selected && selected.remaining_quantity <= selected.low_threshold && (
+                      <p className="text-xs text-amber-600">Low stock on this batch.</p>
+                    )}
+                    {field.value === '__manual__' && (
+                      <Input
+                        className="mt-2"
+                        placeholder="Enter batch number"
+                        value={field.value === '__manual__' ? '' : field.value}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
+                    )}
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          ) : (
+            <FormField
+              control={form.control}
+              name="batchNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Batch Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="PTP102-2025-001" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           <FormField
             control={form.control}

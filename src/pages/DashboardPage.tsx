@@ -21,7 +21,7 @@ import { VetToolsHub } from '@/components/VetToolsHub';
 import { AuditLogViewer } from '@/components/AuditLogViewer';
 import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
-import { VetShipmentPanel } from '@/components/VetShipmentPanel';
+import { AdminSupplyPanel } from '@/components/AdminSupplyPanel';
 import { AdverseEventReporter } from '@/components/AdverseEventReporter';
 import { TrialOperationsHub } from '@/components/TrialOperationsHub';
 import { InvestigatorOnboardingWizard } from '@/components/InvestigatorOnboardingWizard';
@@ -35,7 +35,7 @@ export function DashboardPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [enrollDialogOpen, setEnrollDialogOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [qualData, qualLoading, , refreshQual] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail: auth.email || '' });
+  const [qualData, qualLoading, , refreshQual] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail: auth.email ?? null });
 
   const handleEnrollSuccess = () => {
     setEnrollDialogOpen(false);
@@ -55,7 +55,7 @@ export function DashboardPage() {
     navigate('/');
   };
 
-  const userEmail = auth.email || 'Unknown';
+  const userEmail = auth.email ?? 'Unknown';
   const isAdmin = auth.role === 'admin';
 
   return (
@@ -180,8 +180,7 @@ export function DashboardPage() {
               <AdminComplianceDashboard />
             </TabsContent>
             <TabsContent value="supply" className="mt-6 space-y-6">
-              <VetShipmentPanel vetEmail={auth.email || ''} />
-              <TrialOperationsHub />
+              <AdminSupplyPanel />
             </TabsContent>
           </Tabs>
         ) : qualLoading ? (
@@ -191,10 +190,10 @@ export function DashboardPage() {
             </CardContent>
           </Card>
         ) : !qualData || qualData.length === 0 ? (
-          <InvestigatorOnboardingWizard vetEmail={auth.email || ''} onSubmitted={refreshQual} />
+          <InvestigatorOnboardingWizard vetEmail={auth.email} onSubmitted={refreshQual} />
         ) : (
           <>
-            <AdverseEventReporter vetEmail={auth.email || ''} vetName={auth.email?.split('@')[0] || 'Vet'} />
+            <AdverseEventReporter vetEmail={auth.email} vetName={auth.email?.split('@')[0] ?? 'Vet'} />
             <Tabs defaultValue="patients" className="w-full">
               <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
               <TabsTrigger value="patients">
