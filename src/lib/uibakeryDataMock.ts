@@ -1261,20 +1261,34 @@ async function decrementInventoryForTreatment(
 // ---------------------------------------------------------------------------
 // Case Data Builder
 // ---------------------------------------------------------------------------
+const CASE_DATA_LIMIT = 100;
+
 function buildLocalCaseData(patient: LocalPatient) {
-  const notes = getNotes().filter((n) => n.patient_id === patient.id);
-  const treatments = getTreatments().filter((t) => t.patient_id === patient.id);
-  const assessments = getAssessments().filter((a) => a.patient_id === patient.id);
-  const labResults = getLabResults().filter((l) => l.patient_id === patient.id);
+  const notes = getNotes()
+    .filter((n) => n.patient_id === patient.id)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, CASE_DATA_LIMIT);
+  const treatments = getTreatments()
+    .filter((t) => t.patient_id === patient.id)
+    .sort((a, b) => new Date(a.administration_datetime).getTime() - new Date(b.administration_datetime).getTime())
+    .slice(0, CASE_DATA_LIMIT);
+  const assessments = getAssessments()
+    .filter((a) => a.patient_id === patient.id)
+    .sort((a, b) => new Date(a.assessment_datetime).getTime() - new Date(b.assessment_datetime).getTime())
+    .slice(0, CASE_DATA_LIMIT);
+  const labResults = getLabResults()
+    .filter((l) => l.patient_id === patient.id)
+    .sort((a, b) => new Date(b.test_datetime).getTime() - new Date(a.test_datetime).getTime())
+    .slice(0, CASE_DATA_LIMIT);
 
   return {
     ...patient,
     unique_id: `PTP-102-${String(patient.id).padStart(3, '0')}`,
     protocol_start_time: patient.protocol_start_time ?? null,
-    treatments: treatments.sort((a, b) => new Date(a.administration_datetime).getTime() - new Date(b.administration_datetime).getTime()),
-    clinical_notes: notes.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()),
-    assessments: assessments.sort((a, b) => new Date(a.assessment_datetime).getTime() - new Date(b.assessment_datetime).getTime()),
-    lab_results: labResults.sort((a, b) => new Date(b.test_datetime).getTime() - new Date(a.test_datetime).getTime()),
+    treatments,
+    clinical_notes: notes,
+    assessments,
+    lab_results: labResults,
   };
 }
 

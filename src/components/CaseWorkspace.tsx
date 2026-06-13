@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useLoadAction, useMutateAction } from '@uibakery/data';
 import loadPatientCaseDataAction from '@/actions/loadPatientCaseData';
 import type { Patient } from '@/types/patient';
@@ -42,13 +42,13 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   const [adverseEventOpen, setAdverseEventOpen] = useState(false);
   const [pendingLockStatus, setPendingLockStatus] = useState<string | null>(null);
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     console.log('=== REFRESHING DATA ===');
     const debug = await debugNotes({ patientId });
     console.log('DEBUG: Clinical notes from database:', debug);
     await refresh();
     console.log('=== DATA REFRESHED ===');
-  };
+  }, [debugNotes, patientId, refresh]);
 
   const maybePatient = caseData?.[0];
   const completedTimelineSteps = useMemo(() => {
@@ -62,6 +62,23 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
     }
     return Array.from(steps);
   }, [maybePatient?.treatments, maybePatient?.completed_timeline_steps]);
+
+  const protocolStartTime = maybePatient?.protocol_start_time ? new Date(maybePatient.protocol_start_time) : null;
+  const currentProtocolHour = useMemo(
+    () => (protocolStartTime ? Math.floor((Date.now() - protocolStartTime.getTime()) / (1000 * 60 * 60)) : null),
+    [protocolStartTime]
+  );
+
+  const handleMarkComplete = useCallback(async (stepId: string, timestamp: string) => {
+    await markTimelineStepComplete({ patientId, stepId, timestamp });
+    await handleRefresh();
+  }, [markTimelineStepComplete, patientId, handleRefresh]);
+
+  const handleReportAdverseEvent = useCallback(() => setAdverseEventOpen(true), []);
+  const handleEligibilityComplete = useCallback((eligible: boolean) => {
+    if (eligible) handleRefresh();
+  }, [handleRefresh]);
+  const handleConsentComplete = useCallback(() => handleRefresh(), [handleRefresh]);
 
   if (loading) {
     return (
@@ -80,8 +97,6 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   }
 
   const patient = caseData[0];
-  const protocolStartTime = patient.protocol_start_time ? new Date(patient.protocol_start_time) : null;
-  const currentProtocolHour = protocolStartTime ? Math.floor((Date.now() - protocolStartTime.getTime()) / (1000 * 60 * 60)) : null;
   const isAdmin = !!localStorage.getItem('admin_email');
   const screeningStatus = (patient as any).screening_status || 'pending_screening';
   const needsScreening = screeningStatus === 'pending_screening';
@@ -256,15 +271,13 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
         <EnrollmentEligibilityScreen
           patientId={patientId}
           locked={(patient as any).data_lock_status === 'locked'}
-          onComplete={(eligible) => {
-            if (eligible) handleRefresh();
-          }}
+          onComplete={handleEligibilityComplete}
         />
         <InformedConsentWorkflow
           patientId={patientId}
           patient={patient as Patient}
           vetEmail={patient.enrolled_by_vet_email || undefined}
-          onComplete={() => handleRefresh()}
+          onComplete={handleConsentComplete}
         />
       </div>
 
@@ -321,15 +334,12 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
             </CardHeader>
             <CardContent className="p-3 sm:p-6">
               <TreatmentTimeline
-                patientId={String(patientId)}
+                patientId={patientId}
                 horseName={patient.horse_name}
                 firstDoseAt={protocolStartTime?.toISOString() ?? null}
                 completedSteps={completedTimelineSteps}
-                onMarkComplete={async (stepId, timestamp) => {
-                  await markTimelineStepComplete({ patientId, stepId, timestamp });
-                  await handleRefresh();
-                }}
-                onReportAdverseEvent={() => setAdverseEventOpen(true)}
+                onMarkComplete={handleMarkComplete}
+                onReportAdverseEvent={handleReportAdverseEvent}
               />
             </CardContent>
           </Card>

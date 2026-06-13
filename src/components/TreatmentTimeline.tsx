@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
+import { useProtocolClock } from '@/hooks/useProtocolClock';
 import { Clock, CheckCircle2, AlertCircle, Syringe, Activity, Calendar, Timer, ChevronRight } from 'lucide-react';
 import { format, addHours, differenceInSeconds, isPast, isFuture, isWithinInterval } from 'date-fns';
 
@@ -21,7 +22,7 @@ const PROTOCOL_STEPS: TimelineStep[] = [
 ];
 
 interface TreatmentTimelineProps {
-  patientId: string;
+  patientId: number;
   horseName: string;
   firstDoseAt: string | null;
   completedSteps: string[];
@@ -29,7 +30,7 @@ interface TreatmentTimelineProps {
   onReportAdverseEvent: () => void;
 }
 
-export const TreatmentTimeline: React.FC<TreatmentTimelineProps> = ({
+const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
   patientId,
   horseName,
   firstDoseAt,
@@ -37,12 +38,8 @@ export const TreatmentTimeline: React.FC<TreatmentTimelineProps> = ({
   onMarkComplete,
   onReportAdverseEvent,
 }) => {
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
+  const nowMs = useProtocolClock();
+  const now = useMemo(() => new Date(nowMs), [nowMs]);
 
   const stepsWithStatus = useMemo(() => {
     if (!firstDoseAt) {
@@ -252,3 +249,5 @@ export const TreatmentTimeline: React.FC<TreatmentTimelineProps> = ({
     </div>
   );
 };
+
+export const TreatmentTimeline = React.memo(TreatmentTimelineImpl);

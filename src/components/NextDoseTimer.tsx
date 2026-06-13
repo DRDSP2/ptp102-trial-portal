@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { useProtocolClock } from '@/hooks/useProtocolClock';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
 import { AddTreatmentForm } from './AddTreatmentForm';
 import {
   Timer,
@@ -145,23 +147,26 @@ function formatDuration(ms: number): string {
   return `${seconds}s`;
 }
 
-export function NextDoseTimer({ protocolStartTime, treatments, patientId, onSuccess }: NextDoseTimerProps) {
-  const [now, setNow] = useState(Date.now());
+function NextDoseTimerImpl({ protocolStartTime, treatments, patientId, onSuccess }: NextDoseTimerProps) {
+  const now = useProtocolClock();
   const [showAdminForm, setShowAdminForm] = useState(false);
+  const handleTreatmentSuccess = useCallback(() => {
+    setShowAdminForm(false);
+    onSuccess();
+  }, [onSuccess]);
 
-  useEffect(() => {
-    const interval = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const doseInfo = getNextDoseInfo(protocolStartTime, treatments);
+  const doseInfo = useMemo(
+    () => getNextDoseInfo(protocolStartTime, treatments),
+    [protocolStartTime, treatments]
+  );
 
   // Re-compute time until with current timestamp for display
-  let displayTimeUntil = doseInfo.timeUntilMs;
-  if (protocolStartTime && doseInfo.nextDoseHour !== null) {
-    const scheduledTimeMs = protocolStartTime.getTime() + doseInfo.nextDoseHour * 60 * 60 * 1000;
-    displayTimeUntil = scheduledTimeMs - now;
-  }
+  const displayTimeUntil = useMemo(() => {
+    if (protocolStartTime && doseInfo.nextDoseHour !== null) {
+      return protocolStartTime.getTime() + doseInfo.nextDoseHour * 60 * 60 * 1000 - now;
+    }
+    return doseInfo.timeUntilMs;
+  }, [protocolStartTime, doseInfo.nextDoseHour, doseInfo.timeUntilMs, now]);
 
   const statusConfig = {
     'not-started': {
@@ -239,10 +244,7 @@ export function NextDoseTimer({ protocolStartTime, treatments, patientId, onSucc
                   <AddTreatmentForm
                     patientId={patientId}
                     protocolHour={0}
-                    onSuccess={() => {
-                      setShowAdminForm(false);
-                      onSuccess();
-                    }}
+                    onSuccess={handleTreatmentSuccess}
                   />
                 </DialogContent>
               </Dialog>
@@ -377,6 +379,8 @@ export function NextDoseTimer({ protocolStartTime, treatments, patientId, onSucc
     </Card>
   );
 }
+
+export const NextDoseTimer = React.memo(NextDoseTimerImpl);
 
 function CircleOutline({ className }: { className?: string }) {
   return (
