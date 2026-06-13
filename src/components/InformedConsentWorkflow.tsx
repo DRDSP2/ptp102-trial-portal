@@ -8,15 +8,13 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+
 import createInformedConsentAction from '@/actions/createInformedConsent';
 import signInformedConsentAction from '@/actions/signInformedConsent';
 import loadInformedConsentByPatientAction from '@/actions/loadInformedConsentByPatient';
 import uploadConsentDocumentAction from '@/actions/uploadConsentDocument';
 import verifyInformedConsentAction from '@/actions/verifyInformedConsent';
-import recordConsentSentAction from '@/actions/recordConsentSent';
 import createAuditLogAction from '@/actions/createAuditLog';
 import jsPDF from 'jspdf';
 import { STUDY_ID } from '@/lib/auditTypes';
@@ -30,21 +28,9 @@ import {
   PenTool,
   Download,
   ShieldAlert,
-  Upload,
-  X,
-  Send,
   Lock,
   Eye,
 } from 'lucide-react';
-
-type UploadcareFileInfo = {
-  uuid: string;
-  name: string;
-  size: number;
-  cdnUrl: string;
-  isImage: boolean;
-  mimeType: string;
-};
 
 type ConsentDocument = {
   id: number;
@@ -173,7 +159,6 @@ export function InformedConsentWorkflow({
   const [signConsent, signing] = useMutateAction(signInformedConsentAction);
   const [uploadConsentDocument, uploadingDoc] = useMutateAction(uploadConsentDocumentAction);
   const [verifyConsent, verifying] = useMutateAction(verifyInformedConsentAction);
-  const [recordSent, sending] = useMutateAction(recordConsentSentAction);
   const [createAuditLog] = useMutateAction(createAuditLogAction);
   const [existingConsents] = useLoadAction(loadInformedConsentByPatientAction, [], { patientId });
 
@@ -196,10 +181,11 @@ export function InformedConsentWorkflow({
   const [witnessSignature, setWitnessSignature] = useState('');
   const [investigatorSignature, setInvestigatorSignature] = useState('');
 
-  const [signatureMethod, setSignatureMethod] = useState<'digital' | 'scanned'>('digital');
-  const [scannedDoc, setScannedDoc] = useState<UploadcareFileInfo | null>(null);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const [sendStatus, setSendStatus] = useState<'idle' | 'sent'>('idle');
+  const [digitalSignOpen, setDigitalSignOpen] = useState(false);
+  const [attestations, setAttestations] = useState<Record<number, boolean>>({});
+  const [typedSignature, setTypedSignature] = useState('');
+  const [ownerPrintedName, setOwnerPrintedName] = useState(patient.owner_name || '');
+  const [scannedFile, setScannedFile] = useState<{ dataUrl: string; name: string; size: number } | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const isDrawing = useRef(false);
@@ -330,10 +316,10 @@ export function InformedConsentWorkflow({
   };
 
   useEffect(() => {
-    if (step === 'signing' && signatureMethod === 'digital') {
+    if (digitalSignOpen) {
       setTimeout(initCanvas, 0);
     }
-  }, [step, signatureMethod]);
+  }, [digitalSignOpen]);
 
   const handleBeginICF = async () => {
     if (!canGenerate) return;
@@ -365,6 +351,7 @@ export function InformedConsentWorkflow({
   const buildConsentPdf = (signed = false) => {
     const doc = new jsPDF('portrait', 'mm', 'a4');
     const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
     const margin = 20;
     let y = 20;
 
@@ -373,6 +360,13 @@ export function InformedConsentWorkflow({
       const lines = doc.splitTextToSize(text, maxWidth);
       doc.text(lines, x, yPos);
       return yPos + lines.length * fontSize * 0.45;
+    };
+
+    const checkPageBreak = (needed = 30) => {
+      if (y + needed > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
     };
 
     // Header
@@ -407,7 +401,7 @@ export function InformedConsentWorkflow({
     doc.setFontSize(11);
     doc.setTextColor(107, 127, 58);
     doc.setFont('helvetica', 'bold');
-    doc.text('1. PATIENT & OWNER INFORMATION', margin, y);
+    doc.text('PATIENT & OWNER INFORMATION', margin, y);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(40, 40, 40);
     y += 6;
@@ -433,11 +427,12 @@ export function InformedConsentWorkflow({
     });
 
     // Contact Info
+    checkPageBreak();
     y += 4;
     doc.setFontSize(11);
     doc.setTextColor(107, 127, 58);
     doc.setFont('helvetica', 'bold');
-    doc.text('2. CONTACT INFORMATION', margin, y);
+    doc.text('CONTACT INFORMATION', margin, y);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(40, 40, 40);
     y += 6;
@@ -457,22 +452,24 @@ export function InformedConsentWorkflow({
     });
 
     // Dose schedule
+    checkPageBreak();
     y += 4;
     doc.setFontSize(11);
     doc.setTextColor(107, 127, 58);
     doc.setFont('helvetica', 'bold');
-    doc.text('3. DOSE SCHEDULE & MONITORING', margin, y);
+    doc.text('DOSE SCHEDULE & MONITORING', margin, y);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(40, 40, 40);
     y += 6;
     y = addWrapped(DOSE_SCHEDULE_TEXT, margin, y, pageWidth - margin * 2, 9);
 
     // Cooling-off
+    checkPageBreak();
     y += 4;
     doc.setFontSize(11);
     doc.setTextColor(107, 127, 58);
     doc.setFont('helvetica', 'bold');
-    doc.text('4. COOLING-OFF PERIOD', margin, y);
+    doc.text('COOLING-OFF PERIOD', margin, y);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(40, 40, 40);
     y += 6;
@@ -484,79 +481,97 @@ export function InformedConsentWorkflow({
       9
     );
 
-    // Acknowledgments
-    y += 4;
-    doc.setFontSize(11);
-    doc.setTextColor(107, 127, 58);
-    doc.setFont('helvetica', 'bold');
-    doc.text('5. SECTION ACKNOWLEDGMENTS', margin, y);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(40, 40, 40);
-    y += 6;
+    // ICF Sections 1-9
     ICF_SECTIONS.forEach((section, i) => {
-      const acked = sectionAcks[i] ? 'YES' : 'NO';
-      const displayText = i === 7
-        ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drdsp@pm.me`
-        : section.text;
-      doc.setFontSize(8);
-      doc.setFont('helvetica', 'bold');
-      doc.text(`${i + 1}. ${section.title} [Acknowledged: ${acked}]`, margin, y);
+      checkPageBreak(40);
       y += 4;
+      doc.setFontSize(11);
+      doc.setTextColor(107, 127, 58);
+      doc.setFont('helvetica', 'bold');
+      doc.text(`SECTION ${i + 1} — ${section.title.toUpperCase()}`, margin, y);
       doc.setFont('helvetica', 'normal');
-      y = addWrapped(displayText, margin + 4, y, pageWidth - margin * 2 - 4, 8);
-      y += 2;
+      doc.setTextColor(40, 40, 40);
+      y += 6;
+
+      const displayText =
+        i === 7
+          ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drdsp@pm.me`
+          : section.text;
+      y = addWrapped(displayText, margin, y, pageWidth - margin * 2, 9);
     });
 
-    // Signatures
-    y += 4;
-    doc.setFontSize(11);
+    // Section 10 — Consent to Participate
+    checkPageBreak(140);
+    y += 6;
+    doc.setFontSize(12);
     doc.setTextColor(107, 127, 58);
     doc.setFont('helvetica', 'bold');
-    doc.text('6. SIGNATURES', margin, y);
+    doc.text('SECTION 10 — CONSENT TO PARTICIPATE', margin, y);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(40, 40, 40);
+    y += 10;
+
+    const attestations = [
+      'I have read and understood this form.',
+      `I have had at least ${COOLING_OFF_HOURS} hours to consider this consent.`,
+      `I voluntarily agree for my horse, ${patient.horse_name}, to participate in the PTP-102 trial.`,
+      'I understand my horse may receive the investigational drug or a placebo/control.',
+      'I may withdraw my horse at any time without penalty.',
+    ];
+    doc.setFontSize(10);
+    attestations.forEach((text) => {
+      const box = signed ? '☑' : '☐';
+      doc.text(`${box} ${text}`, margin, y);
+      y += 7;
+    });
+
     y += 6;
 
-    if (signed && ownerSignatureDataUrl) {
+    const signatureDate = signed ? new Date().toLocaleString() : '_______________';
+
+    const drawSignatureLine = (label: string, value: string, yPos: number) => {
       doc.setFontSize(9);
       doc.setFont('helvetica', 'bold');
-      doc.text('Owner Signature:', margin, y);
-      y += 4;
-      try {
-        doc.addImage(ownerSignatureDataUrl, 'PNG', margin, y, 60, 20);
-      } catch {
-        doc.text('[Signature image unavailable]', margin, y);
-      }
-      y += 24;
-    } else {
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'bold');
-      doc.text('Owner Signature:', margin, y);
+      doc.text(label, margin, yPos);
       doc.setFont('helvetica', 'normal');
-      doc.text('________________________________________', margin + 40, y);
-      y += 6;
+      doc.text(value, margin + 55, yPos);
+      return yPos + 8;
+    };
+
+    // Owner signature
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Owner Signature:', margin, y);
+    if (signed && ownerSignatureDataUrl) {
+      try {
+        doc.addImage(ownerSignatureDataUrl, 'PNG', margin + 45, y - 4, 60, 18);
+      } catch {
+        doc.setFont('helvetica', 'normal');
+        doc.text('_____________________________', margin + 45, y);
+      }
+      y += 16;
+    } else if (signed && typedSignature) {
+      doc.setFont('helvetica', 'normal');
+      doc.text(typedSignature, margin + 45, y);
+      y += 8;
+    } else {
+      doc.setFont('helvetica', 'normal');
+      doc.text('________________________________________', margin + 45, y);
+      y += 8;
     }
 
-    const sigRows = [
-      ['Witness Name:', witnessName || 'N/A'],
-      ['Witness Signature:', witnessSignature || 'N/A'],
-      ['Investigator Signature:', investigatorSignature || 'N/A'],
-      ['Signature Method:', signed ? 'Digital (in-portal e-signature)' : 'Pending'],
-      ['Signed At:', signed ? new Date().toLocaleString() : 'Pending'],
-    ];
-    sigRows.forEach(([label, value]) => {
-      doc.setFontSize(9);
-      doc.setFont('helvetica', 'bold');
-      doc.text(label, margin, y);
-      doc.setFont('helvetica', 'normal');
-      doc.text(String(value), margin + 50, y);
-      y += 5;
-    });
+    y = drawSignatureLine('Owner Printed Name:', signed ? ownerPrintedName || patient.owner_name : '________________________________________', y);
+    y = drawSignatureLine('Date:', signatureDate, y);
 
-    // Acknowledgment statement
-    y += 6;
-    const ackStatement = 'I, the undersigned owner or authorized agent, acknowledge that I have read and understood the informed consent document for the PTP-102 Laminitis Clinical Trial. I understand that PTP-102 is an investigational new animal drug (INAD) under FDA CVM review and has not received marketing approval. I voluntarily consent to my horse\'s participation in this study and understand the risks, benefits, and alternatives described herein. I understand that I may withdraw my horse from the study at any time without penalty.';
-    y = addWrapped(ackStatement, margin, y, pageWidth - margin * 2, 9);
+    y += 4;
+    y = drawSignatureLine('Witness Signature (optional):', signed && witnessSignature ? witnessSignature : '_________________________', y);
+    y = drawSignatureLine('Witness Printed Name:', signed && witnessName ? witnessName : '_________________________', y);
+    y = drawSignatureLine('Date:', signed && witnessName ? signatureDate : '_______________', y);
+
+    y += 4;
+    y = drawSignatureLine('Veterinarian/PI Signature:', signed && investigatorSignature ? investigatorSignature : '_________________________', y);
+    y = drawSignatureLine('Vet Printed Name & License:', signed && investigatorSignature ? investigatorSignature : '_________________________', y);
+    y = drawSignatureLine('Date:', signed && investigatorSignature ? signatureDate : '_______________', y);
 
     // Footer
     const pageCount = doc.internal.pages.length - 1;
@@ -567,12 +582,12 @@ export function InformedConsentWorkflow({
       doc.text(
         `Page ${i} of ${pageCount} | Patient: ${patient.horse_name} | ${STUDY_ID} is an investigational new animal drug (INAD) under FDA CVM review.`,
         margin,
-        doc.internal.pageSize.height - 10
+        pageHeight - 10
       );
       doc.text(
         'Byrock Technologies Ltd. — Confidential & Proprietary — For Regulatory Compliance Use Only',
         margin,
-        doc.internal.pageSize.height - 6
+        pageHeight - 6
       );
     }
 
@@ -595,14 +610,102 @@ export function InformedConsentWorkflow({
     });
   };
 
-  const handleSendToOwner = async () => {
-    if (!consent || !canGenerate) return;
-    await recordSent({ consentId: consent.id, sentTo: ownerEmail || patient.owner_email || 'owner' });
-    setSendStatus('sent');
+  const allAttestationsChecked = [0, 1, 2, 3, 4].every((i) => attestations[i]);
+
+  const handlePrintBlankPdf = () => {
+    const doc = buildConsentPdf(false);
+    const blobUrl = doc.output('bloburl');
+    const printWindow = window.open(blobUrl);
+    if (printWindow) {
+      printWindow.print();
+    }
   };
 
-  const handleUploadScanned = async () => {
-    if (!consent || !scannedDoc) return;
+  const handleScannedFileChange = (file: File | null) => {
+    if (!file) {
+      setScannedFile(null);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setScannedFile({
+        dataUrl: reader.result as string,
+        name: file.name,
+        size: file.size,
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleConfirmDigitalSign = async () => {
+    if (!consent || !canSign) return;
+    if (!allAttestationsChecked) {
+      alert('Please check all 5 attestations before signing.');
+      return;
+    }
+    const signatureValue = ownerSignatureDataUrl || typedSignature.trim();
+    if (!signatureValue) {
+      alert('Please draw your signature or type your full name.');
+      return;
+    }
+
+    const signedAt = new Date().toISOString();
+    const doc = buildConsentPdf(true);
+    const fileName = `${STUDY_ID}_signed_ICF_${patient.horse_name.replace(/\s+/g, '_')}_${patientId}.pdf`;
+    const signedPdfUrl = doc.output('datauristring');
+
+    await uploadConsentDocument({
+      consentId: consent.id,
+      patientId,
+      caseId: patient.unique_id || `PTP-102-${String(patientId).padStart(3, '0')}`,
+      studyId: STUDY_ID,
+      protocolVersion: '1.0',
+      documentType: 'signed_pdf',
+      fileUrl: signedPdfUrl,
+      fileName,
+      fileSize: signedPdfUrl.length,
+      uploadedBy: userEmail,
+      version: 0,
+      previousVersionId: null,
+    });
+
+    await signConsent({
+      consentId: consent.id,
+      ownerSignature: signatureValue,
+      witnessName: witnessName || null,
+      witnessSignature: witnessSignature || null,
+      investigatorSignature: investigatorSignature || null,
+      icfPdfUrl: signedPdfUrl,
+      scannedDocumentUrl: null,
+      signatureMethod: 'digital',
+    });
+
+    await createAuditLog({
+      action: 'CONSENT_DIGITALLY_SIGNED',
+      entityType: 'informed_consent',
+      entityId: consent.id,
+      patientId,
+      fieldName: 'owner_signature',
+      newValue: JSON.stringify({
+        method: 'digital',
+        signedAt,
+        ownerPrintedName: ownerPrintedName || patient.owner_name,
+      }),
+      reasonForChange: 'Owner digitally signed the informed consent form',
+    });
+
+    setDigitalSignOpen(false);
+    setStep('verify');
+    onComplete();
+  };
+
+  const handleConfirmScannedSign = async () => {
+    if (!consent || !canSign || !scannedFile) {
+      alert('Please upload a scanned signed consent document.');
+      return;
+    }
+
+    const uploadedAt = new Date().toISOString();
     await uploadConsentDocument({
       consentId: consent.id,
       patientId,
@@ -610,61 +713,40 @@ export function InformedConsentWorkflow({
       studyId: STUDY_ID,
       protocolVersion: '1.0',
       documentType: 'scanned_signed',
-      fileUrl: scannedDoc.cdnUrl,
-      fileName: scannedDoc.name,
-      fileSize: scannedDoc.size,
+      fileUrl: scannedFile.dataUrl,
+      fileName: scannedFile.name,
+      fileSize: scannedFile.size,
       uploadedBy: userEmail,
       version: 0,
       previousVersionId: null,
     });
-  };
-
-  const handleSign = async () => {
-    if (!consent || !canSign) return;
-
-    let signedPdfUrl = '';
-
-    if (signatureMethod === 'digital') {
-      if (!ownerSignatureDataUrl || !witnessName || !witnessSignature || !investigatorSignature) {
-        alert('Owner signature, witness name, witness signature, and investigator signature are required for digital signing.');
-        return;
-      }
-      const doc = buildConsentPdf(true);
-      const fileName = `${STUDY_ID}_signed_ICF_${patient.horse_name.replace(/\s+/g, '_')}_${patientId}.pdf`;
-      // Store signed PDF as a base64 data URL so it persists in the mock version store.
-      signedPdfUrl = doc.output('datauristring');
-      await uploadConsentDocument({
-        consentId: consent.id,
-        patientId,
-        caseId: patient.unique_id || `PTP-102-${String(patientId).padStart(3, '0')}`,
-        studyId: STUDY_ID,
-        protocolVersion: '1.0',
-        documentType: 'signed_pdf',
-        fileUrl: signedPdfUrl,
-        fileName,
-        fileSize: signedPdfUrl.length,
-        uploadedBy: userEmail,
-        version: 0,
-        previousVersionId: null,
-      });
-    } else if (signatureMethod === 'scanned') {
-      if (!scannedDoc) {
-        alert('Please upload a scanned signed document.');
-        return;
-      }
-      await handleUploadScanned();
-    }
 
     await signConsent({
       consentId: consent.id,
-      ownerSignature: '[e-signature captured in portal]',
+      ownerSignature: '[scanned signed document uploaded]',
       witnessName: witnessName || null,
       witnessSignature: witnessSignature || null,
       investigatorSignature: investigatorSignature || null,
-      icfPdfUrl: signedPdfUrl || null,
-      scannedDocumentUrl: scannedDoc?.cdnUrl || null,
-      signatureMethod,
+      icfPdfUrl: null,
+      scannedDocumentUrl: scannedFile.dataUrl,
+      signatureMethod: 'scanned',
     });
+
+    await createAuditLog({
+      action: 'CONSENT_SCAN_UPLOADED',
+      entityType: 'informed_consent',
+      entityId: consent.id,
+      patientId,
+      fieldName: 'scanned_document_url',
+      newValue: JSON.stringify({
+        method: 'printed',
+        fileName: scannedFile.name,
+        fileSize: scannedFile.size,
+        uploadedAt,
+      }),
+      reasonForChange: 'Uploaded scanned signed informed consent document',
+    });
+
     setStep('verify');
     onComplete();
   };
@@ -913,6 +995,14 @@ export function InformedConsentWorkflow({
     );
   }
 
+  const attestationTexts = [
+    'I have read and understood this form.',
+    `I have had at least ${COOLING_OFF_HOURS} hours to consider this consent.`,
+    `I voluntarily agree for my horse, ${patient.horse_name}, to participate in the PTP-102 trial.`,
+    'I understand my horse may receive the investigational drug or a placebo/control.',
+    'I may withdraw my horse at any time without penalty.',
+  ];
+
   // Signing step
   return (
     <Card>
@@ -923,20 +1013,69 @@ export function InformedConsentWorkflow({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <Tabs value={signatureMethod} onValueChange={(v) => setSignatureMethod(v as 'digital' | 'scanned')}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="digital">Digital e-Signature</TabsTrigger>
-            <TabsTrigger value="scanned">Print, Sign & Upload</TabsTrigger>
-          </TabsList>
+        <Alert className="bg-blue-50 border-blue-200">
+          <AlertDescription className="text-sm text-blue-800">
+            The cooling-off period has ended. Choose how the owner will sign Section 10 of the consent form.
+          </AlertDescription>
+        </Alert>
 
-          <TabsContent value="digital" className="space-y-4 pt-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Owner Name</Label>
-                <Input value={patient.owner_name} readOnly />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Button onClick={() => setDigitalSignOpen(true)} disabled={!canSign} type="button">
+            <PenTool className="h-4 w-4 mr-2" />
+            Sign Digitally
+          </Button>
+          <Button variant="outline" onClick={handlePrintBlankPdf} type="button">
+            <Download className="h-4 w-4 mr-2" />
+            Print & Sign
+          </Button>
+        </div>
+
+        <div className="bg-slate-50 border rounded-lg p-4 space-y-3">
+          <p className="text-sm text-slate-700">
+            Print, sign, and upload the scanned signed copy below.
+          </p>
+          <Input
+            type="file"
+            accept=".pdf,.png,.jpg,.jpeg"
+            onChange={(e) => handleScannedFileChange(e.target.files?.[0] ?? null)}
+            data-testid="scanned-consent-input"
+          />
+          {scannedFile && (
+            <p className="text-xs text-green-600">Selected: {scannedFile.name}</p>
+          )}
+          <Button
+            onClick={handleConfirmScannedSign}
+            disabled={!scannedFile || signing || uploadingDoc || !canSign}
+            className="w-full"
+            type="button"
+          >
+            {signing || uploadingDoc ? 'Recording...' : 'Upload Scanned Signed Consent'}
+          </Button>
+        </div>
+
+        <Dialog open={digitalSignOpen} onOpenChange={setDigitalSignOpen}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Digital Consent Signature</DialogTitle>
+              <DialogDescription>
+                Check each attestation, then sign and confirm.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="bg-slate-50 border rounded-lg p-4 space-y-2">
+                {attestationTexts.map((text, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <Checkbox
+                      checked={attestations[i] || false}
+                      onCheckedChange={(v) => setAttestations((prev) => ({ ...prev, [i]: !!v }))}
+                    />
+                    <span className="text-sm">{text}</span>
+                  </div>
+                ))}
               </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label>Owner e-Signature *</Label>
+
+              <div className="space-y-2">
+                <Label>Owner Signature *</Label>
                 <div className="border rounded-lg bg-white overflow-hidden">
                   <canvas
                     ref={canvasRef}
@@ -961,100 +1100,66 @@ export function InformedConsentWorkflow({
                   <p className="text-xs text-green-600">Signature captured.</p>
                 )}
               </div>
-              <div className="space-y-2">
-                <Label>Witness Name *</Label>
-                <Input value={witnessName} onChange={(e) => setWitnessName(e.target.value)} />
-              </div>
-              <div className="space-y-2">
-                <Label>Witness Digital Signature *</Label>
-                <Input value={witnessSignature} onChange={(e) => setWitnessSignature(e.target.value)} placeholder="Type full legal name" />
-              </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label>Investigator Digital Signature *</Label>
-                <Input value={investigatorSignature} onChange={(e) => setInvestigatorSignature(e.target.value)} placeholder="Type full legal name and credentials" />
-              </div>
-            </div>
-          </TabsContent>
 
-          <TabsContent value="scanned" className="space-y-4 pt-2">
-            <div className="bg-slate-50 border rounded-lg p-4 space-y-3">
-              <p className="text-sm text-slate-700">
-                1. Download the blank consent PDF below.<br />
-                2. Have the owner print and sign it.<br />
-                3. Upload the scanned signed copy here (PDF, JPEG, or PNG, max 10MB).
-              </p>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={handleDownloadUnsignedPdf} type="button">
-                  <Download className="h-4 w-4 mr-2" />
-                  Download Blank PDF
-                </Button>
-                <Button variant="outline" size="sm" onClick={handleSendToOwner} disabled={sending || sendStatus === 'sent'} type="button">
-                  <Send className="h-4 w-4 mr-2" />
-                  {sendStatus === 'sent' ? 'Sent' : 'Send to Owner'}
-                </Button>
-              </div>
-            </div>
-
-            {uploadError && (
-              <Alert className="bg-red-50 border-red-200">
-                <AlertDescription className="text-sm text-red-800">{uploadError}</AlertDescription>
-              </Alert>
-            )}
-            {scannedDoc ? (
-              <div className="border rounded-lg p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{scannedDoc.name}</span>
-                  <Button variant="ghost" size="sm" onClick={() => setScannedDoc(null)} type="button">
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-                {scannedDoc.isImage && (
-                  <img src={scannedDoc.cdnUrl} alt="Scanned document" className="w-full h-48 object-contain border rounded" />
-                )}
-                <p className="text-xs text-slate-500">Uploaded: {scannedDoc.cdnUrl}</p>
-              </div>
-            ) : (
-              <div className="border rounded-lg p-4 bg-slate-50">
-                <p className="text-sm text-slate-600 mb-3">
-                  Upload a scanned copy of the signed informed consent document (PDF, JPEG, or PNG, max 10MB).
-                </p>
-                <FileUploaderRegular
-                  pubkey="65522fb5ee7036edf97b"
-                  classNameUploader="uc-light uc-purple"
-                  sourceList="local, camera, gdrive"
-                  multiple={false}
-                  onFileUploadSuccess={(fileInfo: any) => {
-                    if (fileInfo.size > 10 * 1024 * 1024) {
-                      setUploadError('File exceeds 10MB limit.');
-                      return;
-                    }
-                    if (!fileInfo.mimeType?.match(/(image\/(jpeg|jpg|png)|application\/pdf)/i)) {
-                      setUploadError('Only PDF, JPEG, and PNG files are accepted.');
-                      return;
-                    }
-                    setUploadError(null);
-                    setScannedDoc(fileInfo);
-                  }}
+              <div className="space-y-2">
+                <Label>Or type your full name to sign electronically</Label>
+                <Input
+                  value={typedSignature}
+                  onChange={(e) => setTypedSignature(e.target.value)}
+                  placeholder="Type full legal name"
+                  data-testid="typed-signature-input"
                 />
               </div>
-            )}
-          </TabsContent>
-        </Tabs>
 
-        <Button
-          onClick={handleSign}
-          disabled={
-            signing ||
-            uploadingDoc ||
-            !canSign ||
-            (signatureMethod === 'digital' && (!ownerSignatureDataUrl || !witnessName || !witnessSignature || !investigatorSignature)) ||
-            (signatureMethod === 'scanned' && !scannedDoc)
-          }
-          className="w-full"
-          type="button"
-        >
-          {signing || uploadingDoc ? 'Recording Signatures...' : 'Sign Informed Consent'}
-        </Button>
+              <div className="space-y-2">
+                <Label>Owner Printed Name</Label>
+                <Input
+                  value={ownerPrintedName}
+                  onChange={(e) => setOwnerPrintedName(e.target.value)}
+                  placeholder="Printed name"
+                  data-testid="owner-printed-name-input"
+                />
+              </div>
+
+              <div className="text-sm text-slate-600">
+                Signed at: {new Date().toISOString()}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Witness Name</Label>
+                  <Input value={witnessName} onChange={(e) => setWitnessName(e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Witness Signature</Label>
+                  <Input
+                    value={witnessSignature}
+                    onChange={(e) => setWitnessSignature(e.target.value)}
+                    placeholder="Type full legal name"
+                  />
+                </div>
+                <div className="space-y-2 sm:col-span-2">
+                  <Label>Veterinarian/PI Signature *</Label>
+                  <Input
+                    value={investigatorSignature}
+                    onChange={(e) => setInvestigatorSignature(e.target.value)}
+                    placeholder="Type full name and credentials"
+                    data-testid="pi-signature-input"
+                  />
+                </div>
+              </div>
+
+              <Button
+                onClick={handleConfirmDigitalSign}
+                disabled={!canSign || signing || uploadingDoc}
+                className="w-full"
+                type="button"
+              >
+                {signing || uploadingDoc ? 'Recording...' : 'Confirm Digital Signature'}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   );

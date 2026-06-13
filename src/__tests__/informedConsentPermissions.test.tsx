@@ -18,6 +18,8 @@ vi.mock('jspdf', () => ({
     splitTextToSize = vi.fn().mockReturnValue([]);
     setPage = vi.fn();
     addPage = vi.fn();
+    addImage = vi.fn();
+    output = vi.fn((type: string) => (type === 'bloburl' ? 'blob:mock-url' : 'data:application/pdf;base64,mock'));
     internal = { pageSize: { getWidth: () => 210, getHeight: () => 297 }, pages: [null, {}] };
   },
 }));
@@ -123,6 +125,12 @@ function renderWithRole(role: 'admin' | 'vet' | null, email?: string, consentOve
 describe('InformedConsentWorkflow permissions', () => {
   beforeEach(() => {
     localStorage.clear();
+    window.alert = vi.fn();
+    vi.spyOn(window, 'open').mockImplementation(() => null);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('allows admins to view the consent workflow', () => {
@@ -145,42 +153,60 @@ describe('InformedConsentWorkflow permissions', () => {
     expect(screen.getByText(/You do not have permission to view the informed consent workflow/i)).toBeInTheDocument();
   });
 
-  it('lets an admin generate/download a PDF and records a GENERATE audit', async () => {
+  it('lets an admin sign digitally and records a CONSENT_DIGITALLY_SIGNED audit', async () => {
     seedAuth('admin', 'admin@example.com');
     renderWithRole('admin', 'admin@example.com', { status: 'pending' });
     expect(screen.queryByText(/You do not have permission/i)).not.toBeInTheDocument();
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole('tab', { name: /Print, Sign & Upload/i }));
-    const downloadBtn = screen.getByRole('button', { name: /Download Blank PDF/i });
-    expect(downloadBtn).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Sign Digitally/i }));
 
-    await user.click(downloadBtn);
+    const checkboxes = screen.getAllByRole('checkbox');
+    expect(checkboxes.length).toBeGreaterThanOrEqual(5);
+    for (let i = 0; i < 5; i++) {
+      await user.click(checkboxes[i]);
+    }
+
+    await user.type(screen.getByTestId('typed-signature-input'), 'Jane Doe');
+    await user.type(screen.getByTestId('owner-printed-name-input'), 'Jane Doe');
+    await user.type(screen.getByTestId('pi-signature-input'), 'Dr Vet');
+
+    await user.click(screen.getByRole('button', { name: /Confirm Digital Signature/i }));
+
     await waitFor(() => {
       const logs = JSON.parse(localStorage.getItem('ptp102_mock_audit_logs') || '[]');
-      const generateLog = logs.find((log: { action: string }) => log.action === 'GENERATE');
-      expect(generateLog).toBeTruthy();
-      expect(generateLog.userEmail).toBe('admin@example.com');
+      const signedLog = logs.find((log: { action: string }) => log.action === 'CONSENT_DIGITALLY_SIGNED');
+      expect(signedLog).toBeTruthy();
+      expect(signedLog.userEmail).toBe('admin@example.com');
     });
+
+    const consents = JSON.parse(localStorage.getItem('ptp102_mock_informed_consents') || '[]');
+    expect(consents[0].status).toBe('signed');
+    expect(consents[0].signature_method).toBe('digital');
   });
 
-  it('lets a vet generate/download a PDF and records a GENERATE audit', async () => {
+  it('lets a vet upload a scanned signed consent and records a CONSENT_SCAN_UPLOADED audit', async () => {
     seedAuth('vet', 'vet@example.com');
     renderWithRole('vet', 'vet@example.com', { status: 'pending' });
     expect(screen.queryByText(/You do not have permission/i)).not.toBeInTheDocument();
 
     const user = userEvent.setup();
-    await user.click(screen.getByRole('tab', { name: /Print, Sign & Upload/i }));
-    const downloadBtn = screen.getByRole('button', { name: /Download Blank PDF/i });
-    expect(downloadBtn).toBeInTheDocument();
+    const fileInput = screen.getByTestId('scanned-consent-input');
+    const file = new File(['scanned-signature'], 'consent.png', { type: 'image/png' });
+    await user.upload(fileInput, file);
 
-    await user.click(downloadBtn);
+    await user.click(screen.getByRole('button', { name: /Upload Scanned Signed Consent/i }));
+
     await waitFor(() => {
       const logs = JSON.parse(localStorage.getItem('ptp102_mock_audit_logs') || '[]');
-      const generateLog = logs.find((log: { action: string }) => log.action === 'GENERATE');
-      expect(generateLog).toBeTruthy();
-      expect(generateLog.userEmail).toBe('vet@example.com');
+      const uploadLog = logs.find((log: { action: string }) => log.action === 'CONSENT_SCAN_UPLOADED');
+      expect(uploadLog).toBeTruthy();
+      expect(uploadLog.userEmail).toBe('vet@example.com');
     });
+
+    const consents = JSON.parse(localStorage.getItem('ptp102_mock_informed_consents') || '[]');
+    expect(consents[0].status).toBe('signed');
+    expect(consents[0].signature_method).toBe('scanned');
   });
 
   it('logs permission decisions for debugging', () => {
