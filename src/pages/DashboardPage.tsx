@@ -182,6 +182,9 @@ export function DashboardPage() {
             <TabsContent value="supply" className="mt-6 space-y-6">
               <AdminSupplyPanel />
             </TabsContent>
+            <TabsContent value="audit" className="mt-6">
+              <AuditLogViewer />
+            </TabsContent>
           </Tabs>
         ) : qualLoading ? (
           <Card>

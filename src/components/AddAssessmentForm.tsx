@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ObelGradeReference, type ObelGradeValue } from '@/components/ObelGradeReference';
+import { useAuth } from '@/context/AuthContext';
 
 const assessmentSchema = z.object({
   assessmentDatetime: z.string().min(1, 'Date and time required'),
@@ -30,6 +31,7 @@ type AddAssessmentFormProps = {
 };
 
 export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAssessmentFormProps) {
+  const auth = useAuth();
   const [addAssessment, isSubmitting] = useMutateAction(addClinicalAssessmentAction);
 
   const form = useForm<z.infer<typeof assessmentSchema>>({
@@ -63,7 +65,7 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
         respiratoryRate: values.respiratoryRate ? parseInt(values.respiratoryRate) : null,
         temperature: values.temperature ? parseFloat(values.temperature) : null,
         clinicalNotes: values.clinicalNotes || null,
-        veterinarianName: localStorage.getItem('veterinarian_email') || 'Unknown',
+        veterinarianName: auth.email ?? 'Unknown',
       });
       form.reset();
       onSuccess();

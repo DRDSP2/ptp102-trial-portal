@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   Lock,
 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 const INCLUSION_CRITERIA = [
   { key: 'inclusionDiagnosedAcuteLaminitis', label: 'Horse with diagnosed acute laminitis (Obel grade 1-3)' },
@@ -84,6 +85,7 @@ export function EnrollmentEligibilityScreen({
   onComplete: (eligible: boolean) => void;
   locked?: boolean;
 }) {
+  const auth = useAuth();
   const [saveEligibility, isSaving] = useMutateAction(createEnrollmentEligibilityAction);
   const [existingRows, eligibilityLoading] = useLoadAction(loadEnrollmentEligibilityAction, [], { patientId });
 
@@ -151,7 +153,7 @@ export function EnrollmentEligibilityScreen({
       eligibilityDetermination: determination,
       ineligibleReason: isIneligible ? 'Failed inclusion/exclusion criteria' : null,
       deviationJustification: determination === 'requires_deviation' ? deviationJustification : null,
-      screenedBy: typeof window !== 'undefined' ? localStorage.getItem('veterinarian_email') || 'unknown' : 'unknown',
+      screenedBy: auth.email ?? 'unknown',
     });
     setLastSavedAt(new Date().toISOString());
     onComplete(isEligible || determination === 'requires_deviation');

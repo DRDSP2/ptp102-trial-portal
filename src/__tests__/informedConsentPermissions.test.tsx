@@ -6,6 +6,22 @@ import { AuthProvider } from '@/context/AuthContext';
 import { InformedConsentWorkflow } from '@/components/InformedConsentWorkflow';
 import type { Patient } from '@/types/patient';
 
+vi.mock('jspdf', () => ({
+  default: class MockJsPDF {
+    save = vi.fn();
+    text = vi.fn();
+    setFontSize = vi.fn();
+    setFont = vi.fn();
+    setTextColor = vi.fn();
+    setFillColor = vi.fn();
+    rect = vi.fn();
+    splitTextToSize = vi.fn().mockReturnValue([]);
+    setPage = vi.fn();
+    addPage = vi.fn();
+    internal = { pageSize: { getWidth: () => 210, getHeight: () => 297 }, pages: [null, {}] };
+  },
+}));
+
 function createPatient(): Patient {
   return {
     id: 1,
@@ -180,5 +196,43 @@ describe('InformedConsentWorkflow permissions', () => {
     expect(decisionPayload.resourceId).toBe(1);
     expect(decisionPayload.decision).toBe(true);
     infoSpy.mockRestore();
+  });
+
+  it('lets an admin download the blank PDF before the cooling-off period starts', async () => {
+    seedAuth('admin', 'admin@example.com');
+    renderWithRole('admin', 'admin@example.com');
+
+    const downloadBtn = screen.getByRole('button', { name: /Download Blank PDF/i });
+    expect(downloadBtn).toBeInTheDocument();
+
+    const user = userEvent.setup();
+    await user.click(downloadBtn);
+
+    await waitFor(() => {
+      const logs = JSON.parse(localStorage.getItem('ptp102_mock_audit_logs') || '[]');
+      const generateLog = logs.find((log: { action: string; entityType: string }) => log.action === 'GENERATE' && log.entityType === 'patient');
+      expect(generateLog).toBeTruthy();
+      expect(generateLog.userEmail).toBe('admin@example.com');
+    });
+  });
+
+  it('lets a vet download the blank PDF while reviewing the consent before cooling-off', async () => {
+    seedAuth('vet', 'vet@example.com');
+    renderWithRole('vet', 'vet@example.com');
+
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button', { name: /Begin Informed Consent Process/i }));
+
+    const reviewDownloadBtn = screen.getByRole('button', { name: /Download Blank PDF for Owner Review\/Signature/i });
+    expect(reviewDownloadBtn).toBeInTheDocument();
+
+    await user.click(reviewDownloadBtn);
+
+    await waitFor(() => {
+      const logs = JSON.parse(localStorage.getItem('ptp102_mock_audit_logs') || '[]');
+      const generateLog = logs.find((log: { action: string; entityType: string }) => log.action === 'GENERATE' && log.entityType === 'patient');
+      expect(generateLog).toBeTruthy();
+      expect(generateLog.userEmail).toBe('vet@example.com');
+    });
   });
 });

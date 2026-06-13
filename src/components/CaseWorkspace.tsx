@@ -27,6 +27,7 @@ import { ObelScoreChart } from '@/components/ObelScoreChart';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare, FileVideo, Lock, Unlock } from 'lucide-react';
 import { VideoUploadManager } from '@/components/VideoUploadManager';
+import { useAuth } from '@/context/AuthContext';
 
 type CaseWorkspaceProps = {
   patientId: number;
@@ -34,6 +35,9 @@ type CaseWorkspaceProps = {
 };
 
 export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
+  const auth = useAuth();
+  const isAdmin = auth.role === 'admin';
+  const userEmail = auth.email ?? 'unknown';
   const [caseData, loading, error, refresh] = useLoadAction(loadPatientCaseDataAction, [], { patientId });
   const [debugNotes] = useMutateAction(debugClinicalNotesAction);
   const [updateDataLockStatus] = useMutateAction(updateDataLockStatusAction);
@@ -97,7 +101,6 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   }
 
   const patient = caseData[0];
-  const isAdmin = !!localStorage.getItem('admin_email');
   const screeningStatus = (patient as any).screening_status || 'pending_screening';
   const needsScreening = screeningStatus === 'pending_screening';
 
@@ -360,8 +363,8 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
       <AdverseEventReporter
         patientId={patientId}
         horseName={patient.horse_name}
-        vetEmail={localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'unknown'}
-        vetName={localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'Unknown'}
+        vetEmail={userEmail}
+        vetName={userEmail}
         open={adverseEventOpen}
         onOpenChange={setAdverseEventOpen}
       />
@@ -504,7 +507,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
           <VideoUploadManager
             patientId={patientId}
             protocolHour={currentProtocolHour}
-            veterinarianName={localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'Unknown'}
+            veterinarianName={userEmail}
             onSuccess={handleRefresh}
           />
 

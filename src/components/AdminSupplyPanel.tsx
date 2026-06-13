@@ -106,6 +106,8 @@ function getDefaultLowThreshold(qty: number): number {
   return Math.max(1, Math.min(2, Math.ceil(qty * 0.2)));
 }
 
+const ACTIVE_INVENTORY_STATUSES = ['received', 'in_use', 'low', 'depleted'];
+
 export function AdminSupplyPanel() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [search, setSearch] = useState('');
@@ -130,11 +132,11 @@ export function AdminSupplyPanel() {
       string,
       { clinic: string; vetName: string; shipped: number; remaining: number; low: boolean; depleted: boolean }
     >();
-    allShipments.filter((s) => activeInventoryStatuses.includes(s.shipment_status)).forEach((s) => {
+    allShipments.filter((s) => ACTIVE_INVENTORY_STATUSES.includes(s.shipment_status)).forEach((s) => {
       const key = String(s.shipped_to_veterinarian_id || s.shipped_to_veterinarian_email || 'unknown');
       const existing = map.get(key);
-      const isLow = s.remaining_quantity > 0 && s.remaining_quantity <= s.low_threshold;
-      const isDepleted = s.remaining_quantity <= 0;
+      const isLow = (s.remaining_quantity ?? 0) > 0 && (s.remaining_quantity ?? 0) <= (s.low_threshold ?? 0);
+      const isDepleted = (s.remaining_quantity ?? 0) <= 0;
       if (existing) {
         existing.shipped += s.quantity_vials;
         existing.remaining += s.remaining_quantity;
@@ -158,7 +160,7 @@ export function AdminSupplyPanel() {
     return allShipments.filter((s) => {
       const matchesSearch =
         search.trim() === '' ||
-        s.batch_lot_number.toLowerCase().includes(search.toLowerCase()) ||
+        (s.batch_lot_number || '').toLowerCase().includes(search.toLowerCase()) ||
         (s.clinic_name || '').toLowerCase().includes(search.toLowerCase()) ||
         (s.vet_full_name || '').toLowerCase().includes(search.toLowerCase()) ||
         (s.product_name || '').toLowerCase().includes(search.toLowerCase());
@@ -171,13 +173,13 @@ export function AdminSupplyPanel() {
     () =>
       allShipments.filter(
         (s) =>
-          activeInventoryStatuses.includes(s.shipment_status) &&
-          (s.remaining_quantity <= 0 || (s.remaining_quantity > 0 && s.remaining_quantity <= s.low_threshold))
+          ACTIVE_INVENTORY_STATUSES.includes(s.shipment_status) &&
+          ((s.remaining_quantity ?? 0) <= 0 || ((s.remaining_quantity ?? 0) > 0 && (s.remaining_quantity ?? 0) <= (s.low_threshold ?? 0)))
       ),
     [allShipments]
   );
 
-  const activeInventoryStatuses = ['received', 'in_use', 'low', 'depleted'];
+
 
   const totalShipped = useMemo(
     () => allShipments.reduce((sum, s) => sum + (s.quantity_vials || 0), 0),
@@ -415,7 +417,7 @@ export function AdminSupplyPanel() {
                 <TableBody>
                   {filteredShipments.map((s) => {
                     const cfg = statusConfig[s.shipment_status] || statusConfig.pending;
-                    const isLow = s.remaining_quantity > 0 && s.remaining_quantity <= s.low_threshold;
+                    const isLow = (s.remaining_quantity ?? 0) > 0 && (s.remaining_quantity ?? 0) <= (s.low_threshold ?? 0);
                     return (
                       <TableRow key={s.id} className={isLow ? 'bg-amber-50/50' : undefined}>
                         <TableCell>
@@ -429,7 +431,7 @@ export function AdminSupplyPanel() {
                         <TableCell className="text-right">{s.quantity_vials}</TableCell>
                         <TableCell className="text-right">
                           <span className={s.remaining_quantity <= 0 ? 'text-red-600 font-semibold' : ''}>
-                            {s.remaining_quantity.toFixed(1)}
+                            {(s.remaining_quantity ?? 0).toFixed(1)}
                           </span>
                         </TableCell>
                         <TableCell>

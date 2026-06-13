@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle2, XCircle, AlertCircle, Clock } from 'lucide-react';
 import { Patient } from '@/types/patient';
+import { useAuth } from '@/context/AuthContext';
 
 type AdminScreeningPanelProps = {
   patient: Patient;
@@ -18,6 +19,8 @@ type AdminScreeningPanelProps = {
 };
 
 export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelProps) {
+  const auth = useAuth();
+  const adminEmail = auth.email ?? 'Unknown Admin';
   const [notes, setNotes] = useState('');
   const [showApprove, setShowApprove] = useState(false);
   const [showReject, setShowReject] = useState(false);
@@ -27,7 +30,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
   const [rejectPatient, isRejecting] = useMutateAction(rejectPatientScreeningAction);
   const [requestDetails, isRequesting] = useMutateAction(requestPatientDetailsAction);
 
-  const adminEmail = localStorage.getItem('admin_email') || 'Unknown Admin';
+
 
   const handleApprove = async () => {
     try {

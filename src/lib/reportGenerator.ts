@@ -4,7 +4,20 @@ import autoTable from 'jspdf-autotable';
 type PatientTrialData = Record<string, any>;
 
 export async function generatePatientTrialReport(patientData: PatientTrialData, patientName: string) {
-  const adminEmail = window.localStorage.getItem('admin_email') || window.localStorage.getItem('veterinarian_email') || 'Unknown';
+  function getCurrentEmail(): string {
+    if (typeof window === 'undefined') return 'Unknown';
+    const authRaw = window.localStorage.getItem('laminitis_auth_state');
+    try {
+      const auth = authRaw ? JSON.parse(authRaw) : null;
+      if (auth?.email) return auth.email;
+    } catch {
+      // fall through
+    }
+    return window.localStorage.getItem('admin_email') ||
+      window.localStorage.getItem('veterinarian_email') ||
+      'Unknown';
+  }
+  const adminEmail = getCurrentEmail();
   const doc = new jsPDF('p', 'mm', 'a4');
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();

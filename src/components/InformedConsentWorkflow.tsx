@@ -582,17 +582,17 @@ export function InformedConsentWorkflow({
   const handleDownloadUnsignedPdf = async () => {
     const doc = buildConsentPdf(false);
     doc.save(`${STUDY_ID}_ICF_${patient.horse_name.replace(/\s+/g, '_')}_${patientId}.pdf`);
-    if (consent) {
-      await createAuditLog({
-        action: 'GENERATE',
-        entityType: 'informed_consent',
-        entityId: consent.id,
-        patientId,
-        fieldName: 'icf_pdf_url',
-        newValue: JSON.stringify({ protocol: STUDY_ID, caseId: patient.unique_id, generatedAt: new Date().toISOString() }),
-        reasonForChange: 'Generated blank informed consent PDF for owner review/signature',
-      });
-    }
+    await createAuditLog({
+      action: 'GENERATE',
+      entityType: consent ? 'informed_consent' : 'patient',
+      entityId: consent ? consent.id : patientId,
+      patientId,
+      fieldName: 'icf_pdf_url',
+      newValue: JSON.stringify({ protocol: STUDY_ID, caseId: patient.unique_id, generatedAt: new Date().toISOString() }),
+      reasonForChange: consent
+        ? 'Generated blank informed consent PDF for owner review/signature'
+        : 'Generated blank informed consent PDF before cooling-off period',
+    });
   };
 
   const handleSendToOwner = async () => {
@@ -782,6 +782,17 @@ export function InformedConsentWorkflow({
           <Button onClick={() => setStep('viewing')} className="w-full" type="button" disabled={!canGenerate}>
             Begin Informed Consent Process
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDownloadUnsignedPdf}
+            disabled={!canGenerate}
+            className="w-full"
+            type="button"
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Download Blank PDF
+          </Button>
         </CardContent>
       </Card>
     );
@@ -878,6 +889,17 @@ export function InformedConsentWorkflow({
                 : `Please acknowledge all ${ICF_SECTIONS.length} sections and provide owner phone/email before proceeding.`}
             </AlertDescription>
           </Alert>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDownloadUnsignedPdf}
+            disabled={!canGenerate}
+            className="w-full"
+            type="button"
+          >
+            <Download className="h-4 w-4 mr-2" />
+            Download Blank PDF for Owner Review/Signature
+          </Button>
           <Button
             onClick={handleBeginICF}
             disabled={!allSectionsAcked || !ownerPhone || !ownerEmail || creating || !canGenerate}

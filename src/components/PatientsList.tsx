@@ -191,7 +191,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
 
   const handleScreenConfirm = async () => {
     if (!screenPatient || !screenAction) return;
-    const adminEmail = localStorage.getItem('admin_email') || 'Unknown Admin';
+    const adminEmail = auth.email ?? 'Unknown Admin';
     try {
       if (screenAction === 'approve') {
         await approvePatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes || null, reasonForChange: screenNotes || null });

@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { FileText, Zap, Video, X, Info, Loader2, AlertCircle } from 'lucide-react';
 import { FileUploaderRegular } from '@uploadcare/react-uploader';
 import '@uploadcare/react-uploader/core.css';
+import { useAuth } from '@/context/AuthContext';
 
 interface UploadcareFileInfo {
   uuid: string;
@@ -26,6 +27,7 @@ type QuickAddNoteProps = {
 };
 
 export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNoteProps) {
+  const auth = useAuth();
   const [noteType, setNoteType] = useState('observation');
   const [noteContent, setNoteContent] = useState('');
   const [uploadedVideo, setUploadedVideo] = useState<UploadcareFileInfo | null>(null);
@@ -79,7 +81,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
     try {
       const params = {
         patientId,
-        veterinarianName: localStorage.getItem('veterinarian_email') || localStorage.getItem('admin_email') || 'Unknown',
+        veterinarianName: auth.email ?? 'Unknown',
         noteType,
         noteContent: noteContent.trim() || `Video uploaded: ${uploadedVideo?.name}`,
         protocolHour: protocolHour ?? null,

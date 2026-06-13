@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 const treatmentSchema = z.object({
   administrationDatetime: z.string().min(1, 'Date and time required'),
@@ -31,8 +32,9 @@ type AddTreatmentFormProps = {
 };
 
 export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTreatmentFormProps) {
+  const auth = useAuth();
   const [addTreatment, isSubmitting] = useMutateAction(addTreatmentAction);
-  const vetEmail = typeof window !== 'undefined' ? localStorage.getItem('veterinarian_email') || '' : '';
+  const vetEmail = auth.email ?? '';
   const [shipments] = useLoadAction(loadSupplyShipmentsByVetAction, [], { vetEmail });
   const activeShipments = ((shipments as any[]) ?? []).filter(
     (s) =>
@@ -73,7 +75,7 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
         administrationDatetime: new Date(values.administrationDatetime).toISOString(),
         dosageMg: calculatedDosage,
         route: values.route,
-        veterinarianName: localStorage.getItem('veterinarian_email') || 'Unknown',
+        veterinarianName: auth.email ?? 'Unknown',
         batchNumber: values.batchNumber || null,
         immediateReactions: values.immediateReactions || null,
         notes: detailedNotes || null,

@@ -83,6 +83,15 @@ const ENTITY_TYPES: AuditEntityType[] = [
   'system',
 ];
 
+export function safeStringify(value: string | null): string {
+  if (!value) return 'null';
+  try {
+    return JSON.stringify(JSON.parse(value), null, 2);
+  } catch {
+    return value;
+  }
+}
+
 export function AuditLogViewer() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -174,12 +183,12 @@ export function AuditLogViewer() {
           </div>
           <div className="space-y-2">
             <Label>Action</Label>
-            <Select value={actionFilter} onValueChange={setActionFilter}>
+            <Select value={actionFilter || 'all'} onValueChange={(v) => setActionFilter(v === 'all' ? '' : v)}>
               <SelectTrigger>
                 <SelectValue placeholder="All actions" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All actions</SelectItem>
+                <SelectItem value="all">All actions</SelectItem>
                 {AUDIT_ACTIONS.map((a) => (
                   <SelectItem key={a} value={a}>
                     {a}
@@ -190,12 +199,12 @@ export function AuditLogViewer() {
           </div>
           <div className="space-y-2">
             <Label>Entity Type</Label>
-            <Select value={entityTypeFilter} onValueChange={setEntityTypeFilter}>
+            <Select value={entityTypeFilter || 'all'} onValueChange={(v) => setEntityTypeFilter(v === 'all' ? '' : v)}>
               <SelectTrigger>
                 <SelectValue placeholder="All entity types" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All entity types</SelectItem>
+                <SelectItem value="all">All entity types</SelectItem>
                 {ENTITY_TYPES.map((t) => (
                   <SelectItem key={t} value={t}>
                     {t}
@@ -325,13 +334,13 @@ export function AuditLogViewer() {
                     <div>
                       <Label className="text-muted-foreground">Old Value</Label>
                       <pre className="bg-slate-50 p-2 rounded border text-xs overflow-x-auto">
-                        {selectedLog.oldValue ? JSON.stringify(JSON.parse(selectedLog.oldValue), null, 2) : 'null'}
+                        {safeStringify(selectedLog.oldValue)}
                       </pre>
                     </div>
                     <div>
                       <Label className="text-muted-foreground">New Value</Label>
                       <pre className="bg-slate-50 p-2 rounded border text-xs overflow-x-auto">
-                        {selectedLog.newValue ? JSON.stringify(JSON.parse(selectedLog.newValue), null, 2) : 'null'}
+                        {safeStringify(selectedLog.newValue)}
                       </pre>
                     </div>
                   </div>
