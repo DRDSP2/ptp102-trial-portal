@@ -23,7 +23,7 @@ import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
 import { AdminSupplyPanel } from '@/components/AdminSupplyPanel';
 import { AdverseEventReporter } from '@/components/AdverseEventReporter';
-import { TrialOperationsHub } from '@/components/TrialOperationsHub';
+import { VetShipmentPanel } from '@/components/VetShipmentPanel';
 import { InvestigatorOnboardingWizard } from '@/components/InvestigatorOnboardingWizard';
 import { useLoadAction } from '@uibakery/data';
 import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
@@ -282,7 +282,7 @@ export function DashboardPage() {
               <ProtocolDocumentCenter isAdmin={false} />
             </TabsContent>
             <TabsContent value="supply" className="mt-6">
-              <TrialOperationsHub />
+              <VetShipmentPanel vetEmail={auth.email ?? ''} />
             </TabsContent>
             <TabsContent value="audit" className="mt-6">
               <AuditLogViewer />

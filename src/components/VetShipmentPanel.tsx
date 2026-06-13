@@ -140,16 +140,16 @@ export function VetShipmentPanel({ vetEmail }: VetShipmentPanelProps) {
                 </div>
                 <div className="p-3 bg-slate-50 border rounded-lg">
                   <p className="text-xs text-slate-500 uppercase">Quantity Received</p>
-                  <p className="font-semibold text-sm mt-1">{ship.quantity_vials} bottles ({ship.quantity_ml_total} mL total)</p>
+                  <p className="font-semibold text-sm mt-1">{ship.quantity_vials ?? 0} bottles ({ship.quantity_ml_total ?? 0} mL total)</p>
                 </div>
                 <div className="p-3 bg-slate-50 border rounded-lg">
                   <p className="text-xs text-slate-500 uppercase">Remaining</p>
-                  <p className={`font-semibold text-sm mt-1 ${ship.remaining_quantity <= ship.low_threshold ? 'text-amber-700' : ''}`}>
-                    {ship.remaining_quantity.toFixed(1)} bottles
-                    {ship.remaining_quantity <= ship.low_threshold && ship.remaining_quantity > 0 && (
+                  <p className={`font-semibold text-sm mt-1 ${(ship.remaining_quantity ?? 0) <= (ship.low_threshold ?? 0) ? 'text-amber-700' : ''}`}>
+                    {(ship.remaining_quantity ?? 0).toFixed(1)} bottles
+                    {(ship.remaining_quantity ?? 0) <= (ship.low_threshold ?? 0) && (ship.remaining_quantity ?? 0) > 0 && (
                       <span className="ml-2 text-xs text-amber-600">(low stock)</span>
                     )}
-                    {ship.remaining_quantity <= 0 && (
+                    {(ship.remaining_quantity ?? 0) <= 0 && (
                       <span className="ml-2 text-xs text-red-600">(depleted)</span>
                     )}
                   </p>
