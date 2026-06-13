@@ -21,6 +21,7 @@ import createAuditLogAction from '@/actions/createAuditLog';
 import jsPDF from 'jspdf';
 import { STUDY_ID } from '@/lib/auditTypes';
 import type { Patient } from '@/types/patient';
+import { useAuth } from '@/context/AuthContext';
 import {
   FileText,
   Clock,
@@ -126,15 +127,19 @@ const ICF_SECTIONS = [
 const DOSE_SCHEDULE_TEXT = 'Dose 1: Hour 0 (500 mL IV infusion over 15-30 minutes). Dose 2: Hour 12 (same volume). Monitoring at 24h, 48h, and 72h. Final follow-up Day 10-14.';
 const COOLING_OFF_HOURS = 12;
 
-function getUserRole() {
-  if (typeof window === 'undefined') return { isAdmin: false, isVet: false, email: '' };
-  const adminEmail = window.localStorage.getItem('admin_email');
-  const vetEmail = window.localStorage.getItem('veterinarian_email');
-  return {
-    isAdmin: !!adminEmail,
-    isVet: !!vetEmail,
-    email: adminEmail || vetEmail || 'unknown',
-  };
+function logPermissionDecision(
+  role: string | null,
+  permission: string,
+  resourceId: number,
+  decision: boolean
+) {
+  console.info('[InformedConsentWorkflow] permission decision', {
+    role: role ?? 'none',
+    permission,
+    resourceId,
+    decision,
+    timestamp: new Date().toISOString(),
+  });
 }
 
 export function InformedConsentWorkflow({
@@ -148,11 +153,21 @@ export function InformedConsentWorkflow({
   vetEmail?: string;
   onComplete: () => void;
 }) {
-  const { isAdmin, isVet, email: userEmail } = getUserRole();
+  const auth = useAuth();
+  const isAdmin = auth.role === 'admin';
+  const isVet = auth.role === 'vet';
+  const userEmail = auth.email ?? 'unknown';
+
   const canGenerate = isVet || isAdmin;
   const canSign = isVet || isAdmin;
   const canVerify = isVet || isAdmin;
   const canView = isVet || isAdmin;
+
+  logPermissionDecision(auth.role, 'view', patientId, canView);
+  logPermissionDecision(auth.role, 'create', patientId, canGenerate);
+  logPermissionDecision(auth.role, 'generate', patientId, canGenerate);
+  logPermissionDecision(auth.role, 'sign', patientId, canSign);
+  logPermissionDecision(auth.role, 'verify', patientId, canVerify);
 
   const [createConsent, creating] = useMutateAction(createInformedConsentAction);
   const [signConsent, signing] = useMutateAction(signInformedConsentAction);

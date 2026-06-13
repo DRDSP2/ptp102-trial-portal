@@ -5,6 +5,7 @@ import { useLoadAction, useMutateAction } from '@uibakery/data';
 import veterinarianLoginAction from '@/actions/veterinarianLogin';
 import loadPatientCaseDataAction from '@/actions/loadPatientCaseData';
 import { CaseWorkspace } from '@/components/CaseWorkspace';
+import { AuthProvider } from '@/context/AuthContext';
 
 function seedBulkData(patientId: number) {
   const notes = [];
@@ -114,12 +115,18 @@ describe('Patient open performance', () => {
 
     localStorage.setItem('veterinarian_email', 'phyto2002@gmail.com');
     localStorage.removeItem('admin_email');
+    localStorage.setItem(
+      'laminitis_auth_state',
+      JSON.stringify({ role: 'vet', email: 'phyto2002@gmail.com', termsAccepted: true, pendingApproval: false })
+    );
 
     const start = performance.now();
     render(
-      <Profiler id="CaseWorkspace" onRender={onRender}>
-        <CaseWorkspace patientId={patient.id} onBack={() => {}} />
-      </Profiler>
+      <AuthProvider>
+        <Profiler id="CaseWorkspace" onRender={onRender}>
+          <CaseWorkspace patientId={patient.id} onBack={() => {}} />
+        </Profiler>
+      </AuthProvider>
     );
     const initialLoadMs = performance.now() - start;
 
