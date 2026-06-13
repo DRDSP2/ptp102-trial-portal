@@ -40,7 +40,7 @@ const AGREEMENT_TEXT = `I, the undersigned veterinarian, agree to serve as a qua
 (f) not represent PTP-102 as safe or effective;
 (g) ensure all horse owners sign informed consent before enrollment.`;
 
-export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string }) {
+export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEmail: string; onSubmitted?: () => void }) {
   const [qualData, qualLoading] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail });
   const [saveQual, isSaving] = useMutateAction(saveInvestigatorQualificationAction);
 
@@ -427,6 +427,8 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
     },
   ];
 
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+
   const [form, setForm] = useState({
     licenseNumber: '',
     licenseState: '',
@@ -488,7 +490,7 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
   const handleSave = async () => {
     if (!vetEmail) return;
 
-    await saveQual({
+    const result = await saveQual({
       vetEmail,
       veterinarianId: qualification?.veterinarian_id ?? 0,
       licenseNumber: form.licenseNumber,
@@ -515,6 +517,11 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
       feedComments: feedComments || null,
       qualificationStatus: form.investigatorAgreementSigned && form.protocolSigned ? 'pending_review' : 'pending_submission',
     });
+
+    if (result && result.length > 0) {
+      setSubmitSuccess(true);
+      onSubmitted?.();
+    }
   };
 
   const status = qualification?.qualification_status || 'pending_submission';
@@ -544,9 +551,27 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Investigator Qualification</h2>
+      {submitSuccess ? (
+        <Card>
+          <CardContent className="p-8 text-center space-y-4">
+            <CheckCircle2 className="h-16 w-16 text-emerald-600 mx-auto" />
+            <h2 className="text-2xl font-bold">Investigator Qualification Submitted</h2>
+            <p className="text-slate-600">
+              Your qualification package has been submitted for review. An admin will review your credentials, GCP training, facility photos, and signed agreements.
+            </p>
+            <Badge variant="outline" className="bg-amber-100 text-amber-700 border-amber-300">
+              Status: Pending Review
+            </Badge>
+            <p className="text-sm text-slate-500">
+              You will be notified once your qualification is approved.
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">Investigator Qualification</h2>
           <p className="text-sm text-slate-500">Complete all steps before accessing patient data</p>
         </div>
         <Badge className={statusConfig[status]?.color}>
@@ -1331,6 +1356,8 @@ export function InvestigatorOnboardingWizard({ vetEmail }: { vetEmail: string })
           </div>
         </CardContent>
       </Card>
+        </>
+      )}
     </div>
   );
 }

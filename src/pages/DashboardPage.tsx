@@ -35,7 +35,7 @@ export function DashboardPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [enrollDialogOpen, setEnrollDialogOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [qualData, qualLoading] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail: auth.email || '' });
+  const [qualData, qualLoading, , refreshQual] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail: auth.email || '' });
 
   const handleEnrollSuccess = () => {
     setEnrollDialogOpen(false);
@@ -191,7 +191,7 @@ export function DashboardPage() {
             </CardContent>
           </Card>
         ) : !qualData || qualData.length === 0 ? (
-          <InvestigatorOnboardingWizard vetEmail={auth.email || ''} />
+          <InvestigatorOnboardingWizard vetEmail={auth.email || ''} onSubmitted={refreshQual} />
         ) : (
           <>
             <AdverseEventReporter vetEmail={auth.email || ''} vetName={auth.email?.split('@')[0] || 'Vet'} />
