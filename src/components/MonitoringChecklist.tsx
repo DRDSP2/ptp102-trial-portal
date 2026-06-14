@@ -63,11 +63,18 @@ export function MonitoringChecklist({ protocolHour, treatments, assessments, lab
       description: 'Mobility score'
     },
     { 
-      key: 'painScore', 
-      label: 'Pain Score (Obel Grade)', 
+      key: 'obelGrade', 
+      label: 'Obel Grade', 
       completed: recentAssessment && recentAssessment.obel_grade !== null,
       required: true,
       description: 'Grade 0-4'
+    },
+    { 
+      key: 'painScore', 
+      label: 'Pain Score', 
+      completed: recentAssessment && recentAssessment.pain_score !== null,
+      required: true,
+      description: 'Score 0-10'
     },
     { 
       key: 'adverseEvents', 

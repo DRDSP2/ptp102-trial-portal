@@ -336,10 +336,11 @@ const COMMON_CODE_LISTS: Record<string, { value: string; label: string }[]> = {
     { value: '10', label: 'Worst possible pain' },
   ],
   digital_pulse_score: [
-    { value: '0', label: 'Absent' },
+    { value: '0', label: 'None' },
     { value: '1', label: 'Weak' },
     { value: '2', label: 'Moderate' },
-    { value: '3', label: 'Bounding' },
+    { value: '3', label: 'Moderate-strong' },
+    { value: '4', label: 'Bounding' },
   ],
   note_type: [
     { value: 'observation', label: 'Observation' },
@@ -428,7 +429,7 @@ const DATASET_SCHEMA: DatasetMeta[] = [
       { name: 'hoof_temperature', label: 'Hoof temperature', type: 'char', length: 50, source: 'CRF Page 3' },
       { name: 'heart_rate', label: 'Heart rate', type: 'num', unit: 'bpm', source: 'CRF Page 3' },
       { name: 'respiratory_rate', label: 'Respiratory rate', type: 'num', unit: 'breaths/min', source: 'CRF Page 3' },
-      { name: 'temperature', label: 'Rectal temperature', type: 'num', unit: 'Celsius', source: 'CRF Page 3' },
+      { name: 'temperature', label: 'Rectal temperature', type: 'num', unit: 'Fahrenheit', source: 'CRF Page 3' },
       { name: 'clinical_notes', label: 'Clinical notes', type: 'char', length: 2000, source: 'CRF Page 3' },
       { name: 'veterinarian_name', label: 'Assessing veterinarian', type: 'char', length: 100, source: 'EDC system' },
     ],

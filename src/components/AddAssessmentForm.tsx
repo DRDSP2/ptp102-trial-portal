@@ -13,14 +13,43 @@ import { useAuth } from '@/context/AuthContext';
 
 const assessmentSchema = z.object({
   assessmentDatetime: z.string().min(1, 'Date and time required'),
-  obelGrade: z.string().min(1, 'Obel grade required'),
-  painScore: z.string().min(1, 'Pain score required'),
-  mobilityScore: z.string().optional(),
-  digitalPulseScore: z.string().optional(),
+  obelGrade: z.string().refine((v) => ['0', '1', '2', '3', '4'].includes(v), {
+    message: 'Obel grade must be 0–4',
+  }),
+  painScore: z.string().refine((v) => /^\d+$/.test(v) && Number(v) >= 0 && Number(v) <= 10, {
+    message: 'Pain score must be 0–10',
+  }),
+  mobilityScore: z
+    .string()
+    .refine((v) => v === '' || (/^\d+$/.test(v) && Number(v) >= 0 && Number(v) <= 10), {
+      message: 'Mobility score must be 0–10',
+    })
+    .optional(),
+  digitalPulseScore: z
+    .string()
+    .refine((v) => v === '' || (/^\d+$/.test(v) && Number(v) >= 0 && Number(v) <= 4), {
+      message: 'Digital pulse score must be 0–4',
+    })
+    .optional(),
   hoofTemperature: z.string().optional(),
-  heartRate: z.string().optional(),
-  respiratoryRate: z.string().optional(),
-  temperature: z.string().optional(),
+  heartRate: z
+    .string()
+    .refine((v) => v === '' || (/^\d+$/.test(v) && Number(v) >= 0), {
+      message: 'Heart rate must be 0 or higher',
+    })
+    .optional(),
+  respiratoryRate: z
+    .string()
+    .refine((v) => v === '' || (/^\d+$/.test(v) && Number(v) >= 0), {
+      message: 'Respiratory rate must be 0 or higher',
+    })
+    .optional(),
+  temperature: z
+    .string()
+    .refine((v) => v === '' || (/^\d*\.?\d+$/.test(v) && Number(v) >= 0), {
+      message: 'Temperature must be a non-negative number',
+    })
+    .optional(),
   clinicalNotes: z.string().optional(),
 });
 
@@ -76,7 +105,7 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4" noValidate>
         <FormField
           control={form.control}
           name="assessmentDatetime"
@@ -96,7 +125,10 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
           name="obelGrade"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="sr-only">Obel Grade (Lameness)</FormLabel>
+              <FormLabel>Obel Laminitis Grade (0–4)</FormLabel>
+              <FormDescription className="text-xs">
+                Clinician-judged gait/lameness grade. This is not calculated from pain, mobility, or vital signs.
+              </FormDescription>
               <FormControl>
                 <ObelGradeReference
                   value={field.value}

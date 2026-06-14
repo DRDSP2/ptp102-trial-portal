@@ -11,6 +11,7 @@ import {
 } from '@/lib/auditTypes';
 import { buildStatisticalXml, buildFullXml, generateDefineXml, type XmlExportPatient } from '@/lib/xmlExport';
 import { buildSubmissionPackage, type ExportFile } from '@/lib/submissionPackage';
+import { normalizeObelGrade } from '@/lib/obelGrade';
 
 // =============================================================================
 // UIBAKERY DATA MOCK — Enhanced for 4EVERLAND Deployment
@@ -489,6 +490,7 @@ type LocalAssessment = {
   patient_id: number;
   assessment_datetime: string;
   obel_grade: number | null;
+  obel_grade_original?: unknown;
   pain_score: number | null;
   mobility_score: number | null;
   digital_pulse_score: number | null;
@@ -503,7 +505,45 @@ type LocalAssessment = {
 
 function getAssessments(): LocalAssessment[] {
   ensureDemoData();
-  return loadFromStorage<LocalAssessment[]>(STORAGE_KEYS.assessments, []);
+  const assessments = loadFromStorage<LocalAssessment[]>(STORAGE_KEYS.assessments, []);
+
+  // Backfill legacy records to valid 0–4 Obel grades without data loss.
+  let migrated = false;
+  for (const assessment of assessments) {
+    if (assessment.obel_grade === null) continue;
+    const normalized = normalizeObelGrade(assessment.obel_grade);
+    if (normalized !== assessment.obel_grade) {
+      if (assessment.obel_grade_original === undefined) {
+        assessment.obel_grade_original = assessment.obel_grade;
+      }
+      assessment.obel_grade = normalized;
+      migrated = true;
+    }
+  }
+
+  if (migrated) {
+    saveAssessments(assessments);
+    const migratedAssessments = assessments.filter((a) => a.obel_grade_original !== undefined);
+    const first = migratedAssessments[0];
+    void recordAudit({
+      action: 'UPDATE',
+      entityType: 'clinical_assessment',
+      entityId: first?.id ?? null,
+      patientId: first?.patient_id ?? null,
+      fieldName: 'obel_grade',
+      oldValue: JSON.stringify({
+        reason: 'Backfill to valid 0-4 Obel grade',
+        migratedCount: migratedAssessments.length,
+        originalValues: migratedAssessments.map((a) => ({ id: a.id, original: a.obel_grade_original, normalized: a.obel_grade })),
+      }),
+      newValue: JSON.stringify({
+        message: `Backfilled ${migratedAssessments.length} assessment(s) to valid 0-4 Obel grade`,
+      }),
+      reasonForChange: 'Backfill to valid 0-4 Obel grade',
+    }).catch((err) => console.error('Failed to audit Obel backfill:', err));
+  }
+
+  return assessments;
 }
 
 function saveAssessments(assessments: LocalAssessment[]) {
@@ -2280,7 +2320,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
             id: assessments.length > 0 ? Math.max(...assessments.map((a) => a.id)) + 1 : 1,
             patient_id: p?.patientId ?? 0,
             assessment_datetime: p?.assessmentDatetime ?? new Date().toISOString(),
-            obel_grade: p?.obelGrade ?? null,
+            obel_grade: normalizeObelGrade(p?.obelGrade),
             pain_score: p?.painScore ?? null,
             mobility_score: p?.mobilityScore ?? null,
             digital_pulse_score: p?.digitalPulseScore ?? null,

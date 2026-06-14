@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { OBEL_GRADE_DESCRIPTIONS } from '@/lib/obelGrade';
 
 type Assessment = {
   id: number;
@@ -58,7 +59,8 @@ export function ObelScoreChart({ assessments, protocolStartTime }: ObelScoreChar
   };
 
   const getScoreColor = (score: number) => {
-    if (score === 1) return 'bg-green-500';
+    if (score === 0) return 'bg-emerald-500';
+    if (score === 1) return 'bg-green-600';
     if (score === 2) return 'bg-yellow-500';
     if (score === 3) return 'bg-orange-500';
     if (score === 4) return 'bg-red-500';
@@ -66,10 +68,9 @@ export function ObelScoreChart({ assessments, protocolStartTime }: ObelScoreChar
   };
 
   const getScoreLabel = (score: number) => {
-    if (score === 1) return 'Grade 1: Walks freely but shifts weight when standing';
-    if (score === 2) return 'Grade 2: Moves willingly at walk, short stride';
-    if (score === 3) return 'Grade 3: Moves reluctantly, lifts feet';
-    if (score === 4) return 'Grade 4: Refuses to move';
+    if (score >= 0 && score <= 4) {
+      return OBEL_GRADE_DESCRIPTIONS[score as 0 | 1 | 2 | 3 | 4];
+    }
     return `Grade ${score}`;
   };
 
@@ -111,7 +112,7 @@ export function ObelScoreChart({ assessments, protocolStartTime }: ObelScoreChar
           <div className="flex items-end justify-between gap-1 h-48">
             {validAssessments.map((assessment, index) => {
               const score = assessment.obel_grade!;
-              const height = (score / 4) * 100;
+              const height = Math.max((score / 4) * 100, 6);
               const hour = assessment.protocol_hour;
 
               return (
@@ -141,20 +142,24 @@ export function ObelScoreChart({ assessments, protocolStartTime }: ObelScoreChar
           <p className="text-xs font-medium mb-2">Obel Grade Reference:</p>
           <div className="space-y-1 text-xs">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded bg-green-500" />
-              <span className="text-muted-foreground">Grade 1: Walks freely, shifts weight standing</span>
+              <div className="w-3 h-3 rounded bg-emerald-500" />
+              <span className="text-muted-foreground">Grade 0: Sound — no lameness</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded bg-green-600" />
+              <span className="text-muted-foreground">Grade 1: Mild — lameness at trot / hard surface</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded bg-yellow-500" />
-              <span className="text-muted-foreground">Grade 2: Moves willingly, short stride</span>
+              <span className="text-muted-foreground">Grade 2: Moderate — obvious lameness at walk</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded bg-orange-500" />
-              <span className="text-muted-foreground">Grade 3: Moves reluctantly, lifts feet</span>
+              <span className="text-muted-foreground">Grade 3: Severe — reluctant to walk</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded bg-red-500" />
-              <span className="text-muted-foreground">Grade 4: Refuses to move</span>
+              <span className="text-muted-foreground">Grade 4: Very severe — refuses to move</span>
             </div>
           </div>
         </div>
