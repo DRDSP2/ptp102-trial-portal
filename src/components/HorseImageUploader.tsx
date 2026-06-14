@@ -1,27 +1,32 @@
+import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Upload, X } from 'lucide-react';
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
+import { Upload, X, Loader2 } from 'lucide-react';
+import { useSecureUpload } from '@/hooks/useSecureUpload';
+import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 
-type UploadcareFileInfo = {
-  uuid: string;
+type UploadedImageInfo = {
+  path: string;
   name: string;
   size: number;
-  cdnUrl: string;
-  isImage: boolean;
   mimeType: string;
 };
 
 type HorseImageUploaderProps = {
-  uploadedImage: UploadcareFileInfo | null;
+  patientId: string | number;
+  uploadedImage: UploadedImageInfo | null;
   profileUrl?: string;
   showUploader: boolean;
   onToggleUploader: (value: boolean) => void;
-  onUploadSuccess: (fileInfo: UploadcareFileInfo & { status: string }) => void;
+  onUploadSuccess: (fileInfo: UploadedImageInfo) => void;
   onRemove: () => void;
 };
 
+function isHttpUrl(value?: string): boolean {
+  return !!value && /^https?:\/\//.test(value);
+}
+
 export function HorseImageUploader({
+  patientId,
   uploadedImage,
   profileUrl,
   showUploader,
@@ -29,7 +34,39 @@ export function HorseImageUploader({
   onUploadSuccess,
   onRemove,
 }: HorseImageUploaderProps) {
-  const imageUrl = uploadedImage?.cdnUrl || profileUrl;
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { upload, isUploading } = useSecureUpload({
+    category: 'profile-image',
+    entityType: 'patients',
+    entityId: patientId,
+  });
+
+  const storagePath = uploadedImage?.path || (profileUrl && !isHttpUrl(profileUrl) ? profileUrl : undefined);
+  const { signedUrl, isLoading: isSignedUrlLoading } = useSecureDownloadUrl(storagePath ?? null);
+
+  const imageUrl = uploadedImage?.path ? signedUrl : isHttpUrl(profileUrl) ? profileUrl : signedUrl;
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const path = await upload(file);
+      onUploadSuccess({
+        path,
+        name: file.name,
+        size: file.size,
+        mimeType: file.type,
+      });
+      onToggleUploader(false);
+    } catch (err) {
+      console.error('Profile picture upload failed:', err);
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
 
   return (
     <div className="flex flex-col items-center gap-3 p-4 border rounded-lg bg-slate-50">
@@ -50,6 +87,10 @@ export function HorseImageUploader({
             <X className="h-4 w-4" />
           </Button>
         </div>
+      ) : isSignedUrlLoading ? (
+        <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
+          <Loader2 className="h-8 w-8 text-slate-400 animate-spin" />
+        </div>
       ) : (
         <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
           <svg className="h-16 w-16 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
@@ -59,7 +100,14 @@ export function HorseImageUploader({
       )}
 
       {!showUploader && !imageUrl && (
-        <Button type="button" variant="outline" size="sm" onClick={() => onToggleUploader(true)} className="gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => onToggleUploader(true)}
+          className="gap-2"
+          disabled={isUploading}
+        >
           <Upload className="h-4 w-4" />
           Upload Profile Picture
         </Button>
@@ -67,17 +115,34 @@ export function HorseImageUploader({
 
       {showUploader && !imageUrl && (
         <div className="w-full">
-          <FileUploaderRegular
-            pubkey="65522fb5ee7036edf97b"
-            classNameUploader="uc-light uc-purple"
-            sourceList="local, camera, gdrive, facebook"
-            userAgentIntegration="llm-nextjs"
-            filesViewMode="grid"
-            imgOnly={true}
-            multiple={false}
-            onFileUploadSuccess={onUploadSuccess}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={handleFileSelect}
+            disabled={isUploading}
           />
-          <Button type="button" variant="ghost" size="sm" onClick={() => onToggleUploader(false)} className="mt-2 w-full">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="w-full gap-2"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+          >
+            {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+            {isUploading ? 'Uploading...' : 'Choose Profile Picture'}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => onToggleUploader(false)}
+            className="mt-2 w-full"
+            disabled={isUploading}
+          >
             Cancel
           </Button>
         </div>

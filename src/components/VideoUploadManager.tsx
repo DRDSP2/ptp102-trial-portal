@@ -1,22 +1,19 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useMutateAction } from '@uibakery/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
-import { Video, X, AlertCircle, Upload, FileCheck, Info } from 'lucide-react';
+import { Video, X, AlertCircle, Upload, FileCheck, Info, Loader2 } from 'lucide-react';
 import addClinicalNoteAction from '@/actions/addClinicalNote';
+import { useSecureUpload } from '@/hooks/useSecureUpload';
+import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 
-interface UploadcareFileInfo {
-  uuid: string;
+type UploadedVideoInfo = {
+  path: string;
   name: string;
   size: number;
-  cdnUrl: string;
-  isImage: boolean;
   mimeType: string;
-}
+};
 
 type VideoUploadManagerProps = {
   patientId: number;
@@ -26,7 +23,8 @@ type VideoUploadManagerProps = {
 };
 
 export function VideoUploadManager({ patientId, protocolHour, veterinarianName, onSuccess }: VideoUploadManagerProps) {
-  const [uploadedFile, setUploadedFile] = useState<UploadcareFileInfo | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadedFile, setUploadedFile] = useState<UploadedVideoInfo | null>(null);
   const [showUploader, setShowUploader] = useState(false);
   const [showGuidelines, setShowGuidelines] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,27 +32,39 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [addNote] = useMutateAction(addClinicalNoteAction);
 
-  const handleFileUpload = (fileInfo: UploadcareFileInfo) => {
-    if (fileInfo.cdnUrl) {
+  const { upload, isUploading } = useSecureUpload({
+    category: 'gait-video',
+    entityType: 'patients',
+    entityId: patientId,
+  });
+
+  const { signedUrl } = useSecureDownloadUrl(uploadedFile?.path ?? null);
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setError(null);
+    setSaveSuccess(false);
+
+    try {
+      const path = await upload(file);
       setUploadedFile({
-        uuid: fileInfo.uuid,
-        name: fileInfo.name,
-        size: fileInfo.size,
-        cdnUrl: fileInfo.cdnUrl,
-        isImage: fileInfo.isImage,
-        mimeType: fileInfo.mimeType,
+        path,
+        name: file.name,
+        size: file.size,
+        mimeType: file.type,
       });
       setShowUploader(false);
       setShowGuidelines(true);
-      setError(null);
-      setSaveSuccess(false);
+    } catch (err) {
+      console.error('Video upload failed:', err);
+      setError(err instanceof Error ? err.message : 'Video upload failed. Please try again or use a smaller file (max 500MB).');
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
-  };
-
-  const handleFileUploadFailed = (errorInfo: any) => {
-    console.error('Video upload failed:', errorInfo);
-    setError(errorInfo?.message || 'Video upload failed. Please try again or use a smaller file (max 500MB).');
-    setShowUploader(false);
   };
 
   const handleRemoveVideo = () => {
@@ -76,7 +86,7 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
         noteType: 'video_assessment',
         noteContent: `Video uploaded: ${uploadedFile.name}`,
         protocolHour: protocolHour ?? null,
-        videoUrl: uploadedFile.cdnUrl,
+        videoUrl: uploadedFile.path,
         videoFileName: uploadedFile.name,
         videoUploadedAt: new Date().toISOString(),
       };
@@ -88,7 +98,7 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
       onSuccess();
     } catch (err) {
       console.error('Failed to save video record:', err);
-      setError('Video uploaded to CDN but failed to save to patient record. Please try again.');
+      setError('Video uploaded to secure storage but failed to save to patient record. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -151,7 +161,7 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
                 <li><strong>Lighting:</strong> Good natural light, avoid harsh shadows</li>
               </ul>
               <p className="text-xs text-blue-700 pt-1">
-                Videos are uploaded to secure CDN storage and linked to this patient record. Admin can download the full-resolution file for external analysis.
+                Videos are uploaded to secure private storage and linked to this patient record. Admin can request a signed download URL for external analysis.
               </p>
             </AlertDescription>
           </Alert>
@@ -163,7 +173,7 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
             variant="outline"
             onClick={() => setShowUploader(true)}
             className="gap-2 w-full bg-white"
-            disabled={isSaving}
+            disabled={isSaving || isUploading}
           >
             <Upload className="h-4 w-4" />
             Select or Record Video
@@ -171,26 +181,33 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
         )}
 
         {showUploader && !uploadedFile && (
-          <div className="border rounded-lg p-3 bg-white">
-            <FileUploaderRegular
-              pubkey="65522fb5ee7036edf97b"
-              classNameUploader="uc-light uc-purple"
-              sourceList="local, camera, gdrive, facebook"
-              userAgentIntegration="llm-nextjs"
-              filesViewMode="grid"
-              maxLocalFileSizeBytes={524288000}
-              imgOnly={false}
+          <div className="border rounded-lg p-3 bg-white space-y-3">
+            <input
+              ref={fileInputRef}
+              type="file"
               accept="video/*"
-              multiple={false}
-              onFileUploadSuccess={handleFileUpload}
-              onFileUploadFailed={handleFileUploadFailed}
+              capture="environment"
+              className="hidden"
+              onChange={handleFileSelect}
+              disabled={isUploading}
             />
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full gap-2"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+            >
+              {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+              {isUploading ? 'Uploading...' : 'Choose or Record Video'}
+            </Button>
             <Button
               type="button"
               variant="ghost"
               size="sm"
               onClick={() => setShowUploader(false)}
-              className="mt-2 w-full"
+              className="w-full"
+              disabled={isUploading}
             >
               Cancel
             </Button>
@@ -219,16 +236,22 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
               </Button>
             </div>
 
-            <video
-              src={uploadedFile.cdnUrl}
-              controls
-              className="w-full rounded-md max-h-[240px] bg-black"
-              preload="metadata"
-            />
+            {signedUrl ? (
+              <video
+                src={signedUrl}
+                controls
+                className="w-full rounded-md max-h-[240px] bg-black"
+                preload="metadata"
+              />
+            ) : (
+              <div className="w-full h-[160px] flex items-center justify-center bg-slate-100 rounded-md">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              </div>
+            )}
 
             <Button
               onClick={handleSaveToRecord}
-              disabled={isSaving}
+              disabled={isSaving || !signedUrl}
               className="w-full"
               type="button"
             >
