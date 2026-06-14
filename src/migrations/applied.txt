@@ -1,22 +1,33 @@
-Applied migrations:
-1730757941_create_patients_table at 2025-11-04T22:08:46.649Z
-1730757942_create_veterinarians_table at 2025-11-04T22:27:27.890Z
-1730757943_enhance_patients_and_create_trial_tables at 2025-11-04T22:27:27.891Z
-1730757944_add_video_url_to_clinical_notes at 2025-11-04T22:39:27.605Z
-1730759000_seed_realistic_trial_data at 2025-11-04T22:55:27.073Z
-1730759100_create_admin_users_table at 2025-11-04T23:13:41.073Z
-1730759101_update_admin_password at 2025-11-04T23:35:11.632Z
-1730759102_add_password_to_veterinarians at 2025-11-04T23:47:38.540Z
-1730759103_add_screening_workflow at 2025-11-05T00:10:49.620Z
-1730759104_add_enrollment_clinical_params at 2025-11-05T00:41:26.548Z
-1730759105_add_total_volume_to_treatments at 2025-11-05T03:10:15.237Z
-1730759106_backfill_total_volume_from_notes at 2025-11-05T03:12:10.210Z
-1730759107_add_profile_picture_to_patients at 2025-11-05T03:45:53.506Z
-1730920918_fix_protocol_hour_and_start_time at 2025-11-06T13:23:25.742Z
-1730920919_fix_license_number_type at 2025-11-06T15:11:53.502Z
-1730920920_force_fix_license_number at 2025-11-06T15:14:00.198Z
-1730921000_add_admin_fields_to_vets at 2025-11-07T03:26:49.473Z
-1730921001_add_flags_to_patients at 2025-11-07T03:26:49.473Z
-1730921002_set_vet_password at 2025-11-07T04:24:57.364Z
-1730921003_update_vet_verification_default at 2025-11-07T04:44:47.586Z
-1730921004_fix_admin_authentication at 2025-11-07T10:02:21.101Z
+Applied migrations (regenerated 2026-06-14 after combined re-application via
+scripts/migrations_combined.sql against project mzrmstscqlnfgsrsfjgh):
+
+1730757941_create_patients_table at 2026-06-14T21:00:00.000Z
+1730757942_create_veterinarians_table at 2026-06-14T21:00:00.000Z
+1730757943_enhance_patients_and_create_trial_tables at 2026-06-14T21:00:00.000Z
+1730757944_add_video_url_to_clinical_notes at 2026-06-14T21:00:00.000Z
+1730759000_seed_realistic_trial_data at 2026-06-14T21:00:00.000Z
+1730759100_create_admin_users_table at 2026-06-14T21:00:00.000Z
+1730759101_update_admin_password at 2026-06-14T21:00:00.000Z
+1730759102_add_password_to_veterinarians at 2026-06-14T21:00:00.000Z
+1730759103_add_screening_workflow at 2026-06-14T21:00:00.000Z
+1730759104_add_enrollment_clinical_params at 2026-06-14T21:00:00.000Z
+1730759105_add_total_volume_to_treatments at 2026-06-14T21:00:00.000Z
+1730759106_backfill_total_volume_from_notes at 2026-06-14T21:00:00.000Z
+1730759107_add_profile_picture_to_patients at 2026-06-14T21:00:00.000Z
+1730920918_fix_protocol_hour_and_start_time at 2026-06-14T21:00:00.000Z
+1730920919_fix_license_number_type at 2026-06-14T21:00:00.000Z
+1730920920_force_fix_license_number at 2026-06-14T21:00:00.000Z
+1730921000_add_admin_fields_to_vets at 2026-06-14T21:00:00.000Z
+1730921001_add_flags_to_patients at 2026-06-14T21:00:00.000Z
+1730921002_set_vet_password at 2026-06-14T21:00:00.000Z
+1730921003_update_vet_verification_default at 2026-06-14T21:00:00.000Z
+1730921004_fix_admin_authentication at 2026-06-14T21:00:00.000Z
+1738500000_create_compliance_framework at 2026-06-14T21:00:00.000Z
+1738600000_add_conflict_of_interest_to_vets at 2026-06-14T21:00:00.000Z
+1738700000_add_enrolled_by_vet_to_patients at 2026-06-14T21:00:00.000Z
+1738800000_enhance_ncie_shipment_vet_link at 2026-06-14T21:00:00.000Z (combined script omits two duplicate-column ADDs that the source file would fail on; see scripts/migrations_combined.sql comments)
+1781380365_clamp_obel_grade at 2026-06-14T21:00:00.000Z
+1781380366_private_uploads_bucket at 2026-06-14T21:00:00.000Z (subscript bug in source fixed in same commit)
+
+Schema independently verified via service-role probe: all 23 expected public
+tables present, private-uploads bucket and 3 storage RLS policies in place.

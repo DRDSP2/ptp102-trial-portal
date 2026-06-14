@@ -8,12 +8,15 @@ values ('private-uploads', 'private-uploads', false)
 on conflict (id) do nothing;
 
 -- Only allow authenticated users to read their own objects. Admins can read anything.
+-- The `(storage.foldername(name))[4]` parenthesisation is required by the
+-- Postgres parser; subscripting a function-call result without parens is a
+-- syntax error.
 create policy "Users can read their own private uploads"
 on storage.objects for select
 to authenticated
 using (
   (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
-  or storage.foldername(name)[4] = auth.uid()::text
+  or (storage.foldername(name))[4] = auth.uid()::text
 );
 
 -- Only allow authenticated users to upload objects into their own user folder.
@@ -22,7 +25,7 @@ on storage.objects for insert
 to authenticated
 with check (
   (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
-  or storage.foldername(name)[4] = auth.uid()::text
+  or (storage.foldername(name))[4] = auth.uid()::text
 );
 
 -- Users can only delete their own objects; admins can delete any.
@@ -31,5 +34,5 @@ on storage.objects for delete
 to authenticated
 using (
   (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
-  or storage.foldername(name)[4] = auth.uid()::text
+  or (storage.foldername(name))[4] = auth.uid()::text
 );
