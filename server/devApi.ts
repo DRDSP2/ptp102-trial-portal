@@ -1,3 +1,6 @@
+import { config } from 'dotenv';
+config({ path: '.env.local' });
+
 /**
  * Local development API server.
  * Mirrors the Vercel serverless functions in /api so the Vite dev proxy can
