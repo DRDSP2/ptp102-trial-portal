@@ -1,3 +1,20 @@
+/* eslint-disable no-undef */
+/**
+ * Tailwind config — PTP-102.
+ *
+ * Color palette (introduced in the gunmetal/silver/khaki restyle):
+ *   - Semantic shadcn colors are HSL-driven via index.css design tokens.
+ *   - The named scales (red/green/yellow/blue/purple/basic) are kept for
+ *     backwards compatibility with existing utilities in components, but
+ *     each scale has been retuned to a desaturated cousin of the original
+ *     so legacy code reads calmly without rewriting every utility:
+ *       red    -> muted terracotta (destructive)
+ *       green  -> muted olive       (success)
+ *       yellow -> muted brass       (warning)
+ *       blue   -> muted slate-blue  (info)
+ *       purple -> muted lavender    (rare; calmed)
+ *       basic  -> gunmetal/silver scale
+ */
 module.exports = {
   content: [
     './index.html',
@@ -19,7 +36,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: [
-          'var(--layout-text-font-family)',
+          'var(--font-sans)',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -30,12 +47,22 @@ module.exports = {
           'Arial',
           '"Noto Sans"',
           'sans-serif',
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
-          '"Noto Color Emoji"',
         ],
-        serif: ['var(--font-serif)', 'ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+        serif: [
+          'var(--font-serif)',
+          'ui-serif',
+          'Georgia',
+          'Cambria',
+          '"Times New Roman"',
+          'Times',
+          'serif',
+        ],
+        display: [
+          'var(--font-serif)',
+          'ui-serif',
+          'Georgia',
+          'serif',
+        ],
         mono: [
           'var(--font-mono)',
           'ui-monospace',
@@ -48,86 +75,123 @@ module.exports = {
           'monospace',
         ],
       },
+      letterSpacing: {
+        display: 'var(--tracking-display)',
+        eyebrow: 'var(--tracking-eyebrow)',
+      },
       colors: {
+        /* ---------- Brand tokens (preferred for new code) ------------------ */
+        gunmetal: {
+          DEFAULT:  'hsl(205 16% 12%)',
+          deep:     'hsl(205 16% 9%)',
+          elevated: 'hsl(204 14% 16%)',
+          hover:    'hsl(205 14% 20%)',
+        },
+        silver: {
+          cool:     'hsl(208 9% 25%)',
+          'cool-soft': 'hsl(210 8% 32%)',
+          text:     'hsl(210 6% 68%)',
+          strong:   'hsl(210 5% 91%)',
+        },
+        khaki: {
+          DEFAULT:  'hsl(74 23% 62%)',
+          deep:     'hsl(78 16% 47%)',
+          soft:     'hsl(74 25% 75%)',
+          tint:     'hsl(74 30% 85%)',
+        },
+        bone: {
+          DEFAULT:  'hsl(40 17% 93%)',
+          deep:     'hsl(38 14% 86%)',
+        },
+
+        /* ---------- Legacy scales — recalibrated, not removed -------------- */
+        /* Original blue (#1683ec) -> muted slate-blue.                       */
         blue: {
-          100: '#dfefff',
-          200: '#bfdfff',
-          300: '#8ec8ff',
-          400: '#4aa3f9',
-          500: '#1683ec',
-          600: '#1269bd',
-          700: '#0d478e',
-          800: '#092e62',
-          900: '#05183d',
-          DEFAULT: '#1683ec',
+          100: '#E5EAF1',
+          200: '#C9D2DE',
+          300: '#A6B5C7',
+          400: '#8295AB',
+          500: '#7A8FA6',
+          600: '#5E7388',
+          700: '#475868',
+          800: '#36424F',
+          900: '#1F262E',
+          DEFAULT: '#7A8FA6',
         },
+        /* Original green (#10b780) -> muted olive.                           */
         green: {
-          100: '#e6fff4',
-          200: '#aaffdd',
-          300: '#7ae9c6',
-          400: '#36d29e',
-          500: '#10b780',
-          600: '#0e9566',
-          700: '#0b734d',
-          800: '#085333',
-          900: '#05331f',
-          DEFAULT: '#10b780',
+          100: '#EAEEDD',
+          200: '#D5DEBA',
+          300: '#BEC9A8',
+          400: '#9AAB7A',
+          500: '#7B8F5C',
+          600: '#62754A',
+          700: '#4D5C3B',
+          800: '#3A452D',
+          900: '#262E1E',
+          DEFAULT: '#7B8F5C',
         },
+        /* Original purple — kept usable but desaturated.                     */
         purple: {
-          100: '#f0e6ff',
-          200: '#d9bfff',
-          300: '#c1a3ff',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#6f46d1',
-          700: '#552fb0',
-          800: '#3b1f80',
-          900: '#281259',
-          DEFAULT: '#8b5cf6',
+          100: '#EBE7EE',
+          200: '#D4CCDC',
+          300: '#B5A8C2',
+          400: '#9587A4',
+          500: '#776A87',
+          600: '#5E536C',
+          700: '#473F52',
+          800: '#332D3D',
+          900: '#1F1B26',
+          DEFAULT: '#776A87',
         },
+        /* Original yellow (#d19e00) -> muted brass.                          */
         yellow: {
-          100: '#fff5d6',
-          200: '#feeaa9',
-          300: '#ffd963',
-          400: '#f0bd1f',
-          500: '#d19e00',
-          600: '#a07904',
-          700: '#825f04',
-          800: '#624502',
-          900: '#432d02',
-          DEFAULT: '#d19e00',
+          100: '#F5EFDF',
+          200: '#EBDFBF',
+          300: '#E2D2A6',
+          400: '#D5BB7E',
+          500: '#C9A357',
+          600: '#A48643',
+          700: '#7F6932',
+          800: '#5C4C24',
+          900: '#3A3017',
+          DEFAULT: '#C9A357',
         },
+        /* Original red (#ef4444) -> muted terracotta.                        */
         red: {
-          100: '#ffe6e6',
-          200: '#ffbfbf',
-          300: '#ff8a8a',
-          400: '#f87171',
-          500: '#ef4444',
-          600: '#c93737',
-          700: '#a22929',
-          800: '#7a1c1c',
-          900: '#5b1010',
-          DEFAULT: '#ef4444',
+          100: '#F4E5E2',
+          200: '#E9CCC5',
+          300: '#E1B5AC',
+          400: '#D49081',
+          500: '#C46A5C',
+          600: '#A05346',
+          700: '#7C4036',
+          800: '#592D26',
+          900: '#371B17',
+          DEFAULT: '#C46A5C',
         },
+        /* Basic neutrals — gunmetal scale + cool silvers.                    */
         basic: {
-          100: '#ffffff',
-          200: '#fafafa',
-          300: '#f4f4f5',
-          400: '#d4d5d8',
-          500: '#b7b8bd',
-          600: '#898a8f',
-          700: '#606164',
-          800: '#48494d',
-          900: '#363639',
-          1000: '#1e1e20',
-          1100: '#09090b',
-          DEFAULT: '#606164',
+          100: '#F2F0EB',
+          200: '#E0DCD0',
+          300: '#C8CCD0',
+          400: '#A8AEB3',
+          500: '#878C92',
+          600: '#5C6168',
+          700: '#3B4147',
+          800: '#22282D',
+          900: '#1A1F23',
+          1000: '#13171A',
+          1100: '#0B0E10',
+          DEFAULT: '#878C92',
         },
         stroke: {
-          basic: '#09090b1f',
-          dark: '#09090b33',
-          light: '#09090b12',
+          basic: 'hsl(208 9% 25% / 0.45)',
+          dark:  'hsl(205 16% 9% / 0.65)',
+          light: 'hsl(210 5% 91% / 0.10)',
         },
+
+        /* ---------- shadcn semantic tokens (driven by CSS variables) ------- */
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -157,6 +221,21 @@ module.exports = {
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          foreground: 'hsl(var(--warning-foreground))',
+          soft: 'hsl(var(--warning-soft))',
+        },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--gunmetal-deep))',
+          soft: 'hsl(var(--success-soft))',
+        },
+        info: {
+          DEFAULT: 'hsl(var(--info))',
+          foreground: 'hsl(var(--gunmetal-deep))',
+          soft: 'hsl(var(--info-soft))',
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -188,6 +267,11 @@ module.exports = {
         '2xl': 'calc(var(--radius) + 8px)',
         '3xl': 'calc(var(--radius) + 12px)',
       },
+      boxShadow: {
+        elev: 'var(--ds-shadow-medium)',
+        card: 'var(--ds-shadow-border-medium)',
+        modal: 'var(--ds-shadow-modal)',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -198,20 +282,12 @@ module.exports = {
           to: { height: '0' },
         },
         'slide-from-left': {
-          '0%': {
-            transform: 'translateX(-100%)',
-          },
-          '100%': {
-            transform: 'translateX(0)',
-          },
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(0)' },
         },
         'slide-to-left': {
-          '0%': {
-            transform: 'translateX(0)',
-          },
-          '100%': {
-            transform: 'translateX(-100%)',
-          },
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
       animation: {

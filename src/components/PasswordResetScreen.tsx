@@ -77,17 +77,17 @@ export function PasswordResetScreen({ resetToken, onSuccess }: PasswordResetScre
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
-      <div className="mb-6">
-        <ByrockLogo variant="full" height={60} />
+    <div className="min-h-screen bg-hero-gradient flex flex-col items-center justify-center p-4">
+      <div className="mb-8">
+        <ByrockLogo variant="full" height={48} />
       </div>
-      <Card className="max-w-md w-full shadow-xl">
-        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
+      <Card className="max-w-md w-full bg-card/90 backdrop-blur-sm">
+        <CardHeader className="border-b border-silver-cool/40">
           <div className="flex items-center gap-3">
-            <Lock className="h-8 w-8 text-blue-400" />
+            <Lock className="h-5 w-5 text-khaki" />
             <div>
-              <CardTitle className="text-2xl">Set New Password</CardTitle>
-              <p className="text-slate-300 text-sm mt-1">Create a secure password</p>
+              <p className="text-eyebrow">Account recovery</p>
+              <CardTitle>Set a new password</CardTitle>
             </div>
           </div>
         </CardHeader>

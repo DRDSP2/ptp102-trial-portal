@@ -59,27 +59,28 @@ export function DashboardPage() {
   const isAdmin = auth.role === 'admin';
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-background">
       <RegulatoryBanner />
       <WhatsAppChatButton variant="floating" />
-      <header className="bg-white border-b border-slate-200 px-6 py-4">
+      <header className="border-b border-silver-cool/40 bg-gunmetal-deep/80 backdrop-blur-sm px-6 py-4">
         <div className="container mx-auto max-w-7xl flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <ByrockLogo variant="icon" height={32} />
-            <div>
-              <p className="text-sm font-medium text-slate-900">PTP-102 Laminitis Trial</p>
-              <p className="text-xs text-slate-500">{userEmail}</p>
+            <ByrockLogo variant="icon" height={28} />
+            <div className="hidden sm:block">
+              <p className="text-eyebrow">PTP-102 Trial</p>
+              <p className="text-sm text-silver-strong">{userEmail}</p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {isAdmin && (
-              <Badge variant="secondary" className="bg-blue-100 text-blue-900">
+              <Badge variant="info">
                 <Shield className="mr-1 h-3 w-3" />
                 Admin
               </Badge>
             )}
-            <Button variant="outline" size="sm" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
               <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Sign out</span>
             </Button>
           </div>
         </div>

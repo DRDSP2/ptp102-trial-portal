@@ -2,6 +2,13 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Card surfaces. Ride on the gunmetal-elevated token by default. The hairline
+ * silver-cool border keeps the edge legible against the dark background; the
+ * subtle medium shadow gives depth without bloom.
+ *
+ * Pass className="bg-transparent border-0 shadow-none" to opt out of all chrome.
+ */
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -9,7 +16,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+      "rounded-lg border border-silver-cool/60 bg-card text-card-foreground shadow-card",
       className,
     )}
     {...props}
@@ -29,6 +36,12 @@ const CardHeader = React.forwardRef<
 ))
 CardHeader.displayName = "CardHeader"
 
+/**
+ * CardTitle is rendered as <h3>. Our base typography styles all h1–h3 with
+ * the serif display face and tight letter-spacing, so card titles inherit
+ * the editorial look automatically. We override the size + weight here to
+ * keep card chrome compact.
+ */
 const CardTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -36,7 +49,7 @@ const CardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+      "text-xl font-medium leading-tight tracking-display text-silver-strong",
       className,
     )}
     {...props}
@@ -77,4 +90,3 @@ const CardFooter = React.forwardRef<
 CardFooter.displayName = "CardFooter"
 
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
-
