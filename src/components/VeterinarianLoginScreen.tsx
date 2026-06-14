@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutateAction } from '@uibakery/data';
-import veterinarianLoginAction from '@/actions/veterinarianLogin';
 import updateVetLastLoginAction from '@/actions/updateVetLastLogin';
+import checkVeterinarianAcceptanceAction from '@/actions/checkVeterinarianAcceptance';
+import { useAuth } from '@/context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,8 +27,10 @@ type VeterinarianLoginScreenProps = {
 };
 
 export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgotPassword, onBackToSelection }: VeterinarianLoginScreenProps) {
-  const [login, isLoading] = useMutateAction(veterinarianLoginAction);
+  const auth = useAuth();
+  const [checkAcceptance] = useMutateAction(checkVeterinarianAcceptanceAction);
   const [updateLastLogin] = useMutateAction(updateVetLastLoginAction);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -41,26 +44,24 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
       setError(null);
+      setIsLoading(true);
       const normalizedEmail = values.email.toLowerCase().trim();
-      
-      const result = await login({
-        email: normalizedEmail,
-        password: values.password,
-      });
 
-      if (!result || result.length === 0) {
-        setError('Invalid email or password. Please try again.');
-        return;
-      }
+      // Authenticate with Supabase Auth.
+      await auth.loginVet(normalizedEmail, values.password);
 
-      const userData = result[0];
+      // Load the local vet profile to enforce approval status.
+      const result = await checkAcceptance({ email: normalizedEmail });
+      const userData = result?.[0];
 
-      if (!userData.tc_accepted) {
+      if (!userData?.accepted) {
         setError('Your account exists but terms have not been accepted. Please complete registration.');
+        setIsLoading(false);
         return;
       }
 
       if (userData.verification_status === 'pending') {
+        auth.requestVetApproval(normalizedEmail);
         setError('Your account is pending admin approval. Redirecting...');
         setTimeout(() => {
           localStorage.setItem('pending_vet_email', normalizedEmail);
@@ -71,8 +72,11 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
 
       if (userData.verification_status === 'rejected') {
         setError('Your account was rejected. Please contact support@byrockvets.com');
+        setIsLoading(false);
         return;
       }
+
+      auth.approveVet();
 
       try {
         await updateLastLogin({ email: normalizedEmail });
@@ -84,6 +88,8 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
     } catch (err) {
       console.error('Login error:', err);
       setError(`Login failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 

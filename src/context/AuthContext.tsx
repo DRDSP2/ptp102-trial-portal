@@ -1,4 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import type { User } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase/client';
+import { getVetByEmail } from '@/lib/uibakeryDataMock';
 
 type AuthRole = 'vet' | 'admin' | null;
 
@@ -7,15 +10,17 @@ type AuthState = {
   email: string | null;
   termsAccepted: boolean;
   pendingApproval: boolean;
+  isLoading: boolean;
+  user: User | null;
 };
 
 type AuthContextType = AuthState & {
-  loginVet: (email: string) => void;
+  loginVet: (email: string, password?: string) => Promise<void>;
   requestVetApproval: (email: string) => void;
   approveVet: () => void;
   rejectVet: () => void;
-  loginAdmin: (email: string) => void;
-  logout: () => void;
+  loginAdmin: (email: string, password?: string) => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 const STORAGE_KEY = 'laminitis_auth_state';
@@ -25,93 +30,239 @@ const emptyState: AuthState = {
   email: null,
   termsAccepted: false,
   pendingApproval: false,
+  isLoading: true,
+  user: null,
 };
 
-function loadAuthState(): AuthState {
+function loadLegacyAuthState(): AuthState {
   if (typeof window === 'undefined') {
-    return emptyState;
+    return { ...emptyState, isLoading: false };
   }
 
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (!stored) {
-      return emptyState;
+      return { ...emptyState, isLoading: false };
     }
-    const parsed = JSON.parse(stored) as AuthState;
+    const parsed = JSON.parse(stored) as Omit<AuthState, 'isLoading' | 'user'>;
     return {
       role: parsed.role ?? null,
       email: parsed.email ?? null,
       termsAccepted: parsed.termsAccepted ?? false,
       pendingApproval: parsed.pendingApproval ?? false,
+      isLoading: false,
+      user: null,
     };
   } catch {
-    return emptyState;
+    return { ...emptyState, isLoading: false };
   }
 }
 
-function saveAuthState(state: AuthState) {
+function saveLegacyAuthState(state: Omit<AuthState, 'isLoading' | 'user'>) {
   if (typeof window === 'undefined') {
     return;
   }
+  window.localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      role: state.role,
+      email: state.email,
+      termsAccepted: state.termsAccepted,
+      pendingApproval: state.pendingApproval,
+    }),
+  );
+}
 
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+function clearLegacyAuthState() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  window.localStorage.removeItem(STORAGE_KEY);
+}
+
+function roleFromUser(user: User | null): AuthRole {
+  const role = user?.app_metadata?.role ?? user?.user_metadata?.role;
+  if (role === 'vet' || role === 'admin') {
+    return role;
+  }
+  return null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AuthState>(() => loadAuthState());
+  const [state, setState] = useState<AuthState>(loadLegacyAuthState());
 
   useEffect(() => {
-    saveAuthState(state);
-  }, [state]);
+    let mounted = true;
+
+    async function hydrate() {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (error || !data.session) {
+          if (mounted) setState(loadLegacyAuthState());
+          return;
+        }
+
+        const user = data.session.user;
+        const role = roleFromUser(user);
+        const email = user.email ?? null;
+        let termsAccepted = false;
+        let pendingApproval = false;
+
+        if (role === 'vet' && email) {
+          const vet = await getVetByEmail(email);
+          termsAccepted = vet?.tc_accepted ?? false;
+          pendingApproval = vet?.verification_status === 'pending';
+        } else if (role === 'admin') {
+          termsAccepted = true;
+          pendingApproval = false;
+        }
+
+        if (mounted) {
+          setState({
+            role,
+            email,
+            termsAccepted,
+            pendingApproval,
+            isLoading: false,
+            user,
+          });
+          saveLegacyAuthState({ role, email, termsAccepted, pendingApproval });
+        }
+      } catch {
+        if (mounted) setState(loadLegacyAuthState());
+      }
+    }
+
+    hydrate();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!session) {
+        if (mounted) setState({ ...emptyState, isLoading: false });
+        return;
+      }
+
+      const user = session.user;
+      const role = roleFromUser(user);
+      const email = user.email ?? null;
+      let termsAccepted = false;
+      let pendingApproval = false;
+
+      if (role === 'vet' && email) {
+        try {
+          const vet = await getVetByEmail(email);
+          termsAccepted = vet?.tc_accepted ?? false;
+          pendingApproval = vet?.verification_status === 'pending';
+        } catch {
+          // leave defaults
+        }
+      } else if (role === 'admin') {
+        termsAccepted = true;
+        pendingApproval = false;
+      }
+
+      if (mounted) {
+        const next = { role, email, termsAccepted, pendingApproval, isLoading: false, user };
+        setState(next);
+        saveLegacyAuthState({ role, email, termsAccepted, pendingApproval });
+      }
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const value = useMemo<AuthContextType>(
     () => ({
       ...state,
-      loginVet: (email: string) => {
-        setState({
-          role: 'vet',
-          email,
+      loginVet: async (email: string, password?: string) => {
+        const normalizedEmail = email.toLowerCase().trim();
+        if (password) {
+          const { error } = await supabase.auth.signInWithPassword({
+            email: normalizedEmail,
+            password,
+          });
+          if (error) throw error;
+          return;
+        }
+
+        // Fallback for legacy / test flows without a Supabase password.
+        const next = {
+          role: 'vet' as const,
+          email: normalizedEmail,
           termsAccepted: true,
           pendingApproval: false,
-        });
+        };
+        setState((current) => ({ ...current, ...next, isLoading: false }));
+        saveLegacyAuthState(next);
       },
       requestVetApproval: (email: string) => {
-        setState({
-          role: 'vet',
-          email,
+        const next = {
+          role: 'vet' as const,
+          email: email.toLowerCase().trim(),
           termsAccepted: false,
           pendingApproval: true,
-        });
+        };
+        setState((current) => ({ ...current, ...next, isLoading: false }));
+        saveLegacyAuthState(next);
       },
       approveVet: () => {
         setState((current) =>
           current.role === 'vet'
-            ? {
-                ...current,
-                termsAccepted: true,
-                pendingApproval: false,
-              }
-            : current
+            ? { ...current, termsAccepted: true, pendingApproval: false }
+            : current,
         );
-      },
-      rejectVet: () => {
-        setState(emptyState);
-      },
-      loginAdmin: (email: string) => {
-        setState({
-          role: 'admin',
-          email,
+        saveLegacyAuthState({
+          role: state.role,
+          email: state.email,
           termsAccepted: true,
           pendingApproval: false,
         });
       },
+      rejectVet: () => {
+        setState({ ...emptyState, isLoading: false });
+        clearLegacyAuthState();
+      },
+      loginAdmin: async (email: string, password?: string) => {
+        const normalizedEmail = email.toLowerCase().trim();
+        if (password) {
+          const { error } = await supabase.auth.signInWithPassword({
+            email: normalizedEmail,
+            password,
+          });
+          if (error) throw error;
+          const user = (await supabase.auth.getSession()).data.session?.user;
+          const role = roleFromUser(user ?? null);
+          if (role !== 'admin') {
+            await supabase.auth.signOut();
+            throw new Error('This account does not have admin access.');
+          }
+          return;
+        }
+
+        const next = {
+          role: 'admin' as const,
+          email: normalizedEmail,
+          termsAccepted: true,
+          pendingApproval: false,
+        };
+        setState((current) => ({ ...current, ...next, isLoading: false }));
+        saveLegacyAuthState(next);
+      },
       logout: () => {
-        setState(emptyState);
+        // Fire sign-out in the background; clear local state immediately so the UI
+        // does not wait on a network round-trip.
+        supabase.auth.signOut().catch(() => {});
+        setState({ ...emptyState, isLoading: false });
+        clearLegacyAuthState();
       },
     }),
-    [state]
+    [state],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -46,6 +46,7 @@ const STORAGE_KEYS = {
   auditLogs: 'ptp102_mock_audit_logs',
   enrollmentEligibility: 'ptp102_mock_enrollment_eligibility',
   protocolDeviations: 'ptp102_mock_protocol_deviations',
+  fileRecords: 'ptp102_mock_file_records',
 };
 
 // Demo / test account credentials and case seeding
@@ -430,6 +431,34 @@ function getVets(): LocalVet[] {
 
 function saveVets(vets: LocalVet[]) {
   saveToStorage(STORAGE_KEYS.vets, vets);
+}
+
+export async function getVetByEmail(email: string): Promise<LocalVet | undefined> {
+  return getVets().find((v) => v.email.toLowerCase() === email.toLowerCase());
+}
+
+// ---------------------------------------------------------------------------
+// File Records (secure upload metadata)
+// ---------------------------------------------------------------------------
+type LocalFileRecord = {
+  id: number;
+  owner_id: string;
+  entity_type: string;
+  entity_id: string;
+  category: string;
+  storage_path: string;
+  file_name: string;
+  file_size: number;
+  mime_type: string;
+  created_at: string;
+};
+
+function getFileRecords(): LocalFileRecord[] {
+  return loadFromStorage<LocalFileRecord[]>(STORAGE_KEYS.fileRecords, []);
+}
+
+function saveFileRecords(records: LocalFileRecord[]) {
+  saveToStorage(STORAGE_KEYS.fileRecords, records);
 }
 
 // ---------------------------------------------------------------------------
@@ -1968,6 +1997,38 @@ export function useMutateAction(actionName: ActionFactory | string) {
             return [vet];
           }
           return [];
+        }
+
+        // -------------------------------------------------------------------
+        // Secure file uploads
+        // -------------------------------------------------------------------
+        if (name === 'recordSecureUpload') {
+          const p = params as {
+            ownerId?: string;
+            entityType?: string;
+            entityId?: string;
+            category?: string;
+            storagePath?: string;
+            fileName?: string;
+            fileSize?: number;
+            mimeType?: string;
+          };
+          const records = getFileRecords();
+          const newRecord: LocalFileRecord = {
+            id: records.length > 0 ? Math.max(...records.map((r) => r.id)) + 1 : 1,
+            owner_id: p.ownerId ?? 'unknown',
+            entity_type: p.entityType ?? '',
+            entity_id: p.entityId ?? '',
+            category: p.category ?? '',
+            storage_path: p.storagePath ?? '',
+            file_name: p.fileName ?? '',
+            file_size: p.fileSize ?? 0,
+            mime_type: p.mimeType ?? '',
+            created_at: new Date().toISOString(),
+          };
+          records.push(newRecord);
+          saveFileRecords(records);
+          return [newRecord];
         }
 
         // -------------------------------------------------------------------

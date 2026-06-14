@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutateAction } from '@uibakery/data';
-import adminLoginAction from '@/actions/adminLogin';
 import updateAdminLastLoginAction from '@/actions/updateAdminLastLogin';
+import { useAuth } from '@/context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,8 +24,9 @@ type AdminLoginScreenProps = {
 };
 
 export function AdminLoginScreen({ onSuccess, onBackToVet }: AdminLoginScreenProps) {
-  const [login, isLoading] = useMutateAction(adminLoginAction);
+  const auth = useAuth();
   const [updateLastLogin] = useMutateAction(updateAdminLastLoginAction);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -39,26 +40,20 @@ export function AdminLoginScreen({ onSuccess, onBackToVet }: AdminLoginScreenPro
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
       setError(null);
+      setIsLoading(true);
       const normalizedEmail = values.email.toLowerCase().trim();
-      
-      const result = await login({
-        email: normalizedEmail,
-        password: values.password,
-      });
 
-      if (!result || result.length === 0) {
-        setError('Invalid email or password');
-        return;
-      }
+      await auth.loginAdmin(normalizedEmail, values.password);
 
-      const adminUser = result[0];
       updateLastLogin({ email: normalizedEmail }).catch((err) =>
         console.warn('Failed to update admin last login (non-critical):', err)
       );
       onSuccess(normalizedEmail);
     } catch (err) {
       console.error('Admin login error:', err);
-      setError('Login failed. Please try again.');
+      setError(`Login failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 

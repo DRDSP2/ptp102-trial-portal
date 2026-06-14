@@ -3,10 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutateAction } from '@uibakery/data';
-import simpleRegisterVetAction from '@/actions/simpleRegisterVet';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
-import { hashPassword } from '@/utils/passwordHash';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
+import { useAuth } from '@/context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,8 +47,9 @@ type TermsAndConditionsScreenProps = {
 };
 
 export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAndConditionsScreenProps) {
-  const [registerVet, isSubmitting] = useMutateAction(simpleRegisterVetAction);
+  const auth = useAuth();
   const [sendEmail] = useMutateAction(sendEmailNotificationAction);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showValidationSummary, setShowValidationSummary] = useState(false);
   const [consentPrintedAt, setConsentPrintedAt] = useState<string | null>(null);
@@ -86,25 +86,37 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
     try {
       setError(null);
       setShowValidationSummary(false);
+      setIsSubmitting(true);
       const normalizedEmail = values.email.toLowerCase().trim();
 
-      const hashedPassword = await hashPassword(values.password);
-
-      const result = await registerVet({
-        fullName: values.fullName,
-        email: normalizedEmail,
-        phone: values.phone || '',
-        passwordHash: hashedPassword,
-        licenseNumber: values.licenseNumber,
-        hospitalAffiliation: values.hospitalAffiliation,
-        signatureText: values.signatureText,
-        consentPrintedAt: printedAtRef.current ?? consentPrintedAt,
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: values.fullName,
+          email: normalizedEmail,
+          phone: values.phone || '',
+          password: values.password,
+          licenseNumber: values.licenseNumber,
+          hospitalAffiliation: values.hospitalAffiliation,
+          signatureText: values.signatureText,
+          consentPrintedAt: printedAtRef.current ?? consentPrintedAt,
+        }),
       });
 
-      console.log('Registration result:', result);
+      const result = await response.json().catch(() => ({ error: 'Registration failed' }));
 
-      if (!result || result.length === 0) {
-        setError('Registration failed: No response from database. Please contact support.');
+      if (!response.ok) {
+        const errorMessage = result.error ?? 'Registration failed';
+        if (
+          errorMessage.includes('already') ||
+          errorMessage.includes('duplicate') ||
+          errorMessage.includes('unique')
+        ) {
+          setError(`Email ${values.email} is already registered. Please use a different email or login instead.`);
+        } else {
+          setError(`Registration failed: ${errorMessage}`);
+        }
         return;
       }
 
@@ -121,17 +133,14 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
         }
       );
 
+      auth.requestVetApproval(normalizedEmail);
       onAccepted(normalizedEmail);
     } catch (err) {
       console.error('Registration error:', err);
-      
       const errorMessage = err instanceof Error ? err.message : String(err);
-      
-      if (errorMessage.includes('duplicate key') || errorMessage.includes('unique constraint') || errorMessage.includes('veterinarians_email_key')) {
-        setError(`Email ${values.email} is already registered. Please use a different email or login instead.`);
-      } else {
-        setError(`Registration failed: ${errorMessage}`);
-      }
+      setError(`Registration failed: ${errorMessage}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
