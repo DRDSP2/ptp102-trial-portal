@@ -1,15 +1,22 @@
-import { useLoadAction } from '@uibakery/data';
+import { useState } from 'react';
+import { useLoadAction, useMutateAction } from '@uibakery/data';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import loadAdminComplianceDashboardAction from '@/actions/loadAdminComplianceDashboard';
 import loadAllInvestigatorQualificationsAction from '@/actions/loadAllInvestigatorQualifications';
 import loadAllAdverseEventsAction from '@/actions/loadAllAdverseEvents';
 import loadProtocolDeviationsAction from '@/actions/loadProtocolDeviations';
 import loadNCIEShipmentsAction from '@/actions/loadNCIEShipments';
 import loadFDACorrespondenceAction from '@/actions/loadFDACorrespondence';
+import bulkUpdateDataLockStatusAction from '@/actions/bulkUpdateDataLockStatus';
 import {
   Shield,
   AlertTriangle,
@@ -22,15 +29,59 @@ import {
   AlertCircle,
   Database,
   ExternalLink,
+  Lock,
+  Snowflake,
+  Unlock,
 } from 'lucide-react';
 
-export function AdminComplianceDashboard() {
-  const [stats, statsLoading] = useLoadAction(loadAdminComplianceDashboardAction, []);
+type BulkLockProps = {
+  adminEmail?: string | null;
+};
+
+export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = {}) {
+  const [stats, statsLoading, , refreshStats] = useLoadAction(loadAdminComplianceDashboardAction, []);
   const [investigators, invLoading] = useLoadAction(loadAllInvestigatorQualificationsAction, []);
   const [aes, aeLoading] = useLoadAction(loadAllAdverseEventsAction, []);
   const [deviations, devLoading] = useLoadAction(loadProtocolDeviationsAction, []);
   const [shipments, shipLoading] = useLoadAction(loadNCIEShipmentsAction, []);
   const [fdaCorr, fdaLoading] = useLoadAction(loadFDACorrespondenceAction, []);
+  const [bulkUpdateLock, isBulkUpdating] = useMutateAction(bulkUpdateDataLockStatusAction);
+
+  const [bulkOpen, setBulkOpen] = useState(false);
+  const [bulkStatus, setBulkStatus] = useState<'frozen' | 'locked' | 'open'>('frozen');
+  const [bulkScope, setBulkScope] = useState<'enrolled' | 'completed' | 'enrolled_completed' | 'all'>('enrolled_completed');
+  const [bulkReason, setBulkReason] = useState('');
+  const [bulkError, setBulkError] = useState<string | null>(null);
+  const [bulkResult, setBulkResult] = useState<string | null>(null);
+
+  const handleBulkLockSubmit = async () => {
+    if (!bulkReason.trim()) {
+      setBulkError('A reason for change is required.');
+      return;
+    }
+    const filter =
+      bulkScope === 'enrolled'
+        ? ['enrolled']
+        : bulkScope === 'completed'
+        ? ['completed']
+        : bulkScope === 'enrolled_completed'
+        ? ['enrolled', 'completed']
+        : null;
+    try {
+      const updated = (await bulkUpdateLock({
+        dataLockStatus: bulkStatus,
+        trialStatusFilter: filter,
+        reasonForChange: bulkReason.trim(),
+        adminEmail,
+      })) as unknown as Array<{ id: number }>;
+      setBulkError(null);
+      setBulkResult(`Updated ${updated.length} patient record${updated.length === 1 ? '' : 's'} to ${bulkStatus}.`);
+      setBulkReason('');
+      refreshStats();
+    } catch (err) {
+      setBulkError(err instanceof Error ? err.message : 'Bulk update failed.');
+    }
+  };
 
   const s = stats && stats.length > 0 ? stats[0] : null;
 
@@ -90,12 +141,13 @@ export function AdminComplianceDashboard() {
       </div>
 
       <Tabs defaultValue="investigators" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5">
+        <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6">
           <TabsTrigger value="investigators"><Users className="h-4 w-4 mr-1" />Investigators</TabsTrigger>
           <TabsTrigger value="aes"><AlertTriangle className="h-4 w-4 mr-1" />AEs</TabsTrigger>
           <TabsTrigger value="deviations"><Activity className="h-4 w-4 mr-1" />Deviations</TabsTrigger>
           <TabsTrigger value="shipments"><FlaskConical className="h-4 w-4 mr-1" />NCIE</TabsTrigger>
           <TabsTrigger value="fda"><ExternalLink className="h-4 w-4 mr-1" />FDA</TabsTrigger>
+          <TabsTrigger value="lock"><Lock className="h-4 w-4 mr-1" />Data Lock</TabsTrigger>
         </TabsList>
 
         <TabsContent value="investigators" className="mt-4">
@@ -254,7 +306,152 @@ export function AdminComplianceDashboard() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        <TabsContent value="lock" className="mt-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Lock className="h-4 w-4" />
+                Study Data Lock
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {statsLoading ? (
+                <p className="text-sm text-slate-500">Loading...</p>
+              ) : (
+                <div className="space-y-4">
+                  <p className="text-sm text-slate-600">
+                    Freezing or locking patient records is the standard end-of-study workflow. <span className="font-semibold">Frozen</span> records remain editable but require a documented reason for change; <span className="font-semibold">locked</span> records reject all writes outright. Both states are recorded in the audit trail per 21 CFR Part 11.
+                  </p>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="p-4 border rounded-lg bg-slate-50">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Unlock className="h-4 w-4 text-slate-600" />
+                        <span className="text-xs font-medium text-slate-600">Open</span>
+                      </div>
+                      <p className="text-2xl font-bold text-slate-700">{s?.patients_open ?? 0}</p>
+                    </div>
+                    <div className="p-4 border rounded-lg bg-amber-50">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Snowflake className="h-4 w-4 text-amber-600" />
+                        <span className="text-xs font-medium text-amber-700">Frozen</span>
+                      </div>
+                      <p className="text-2xl font-bold text-amber-700">{s?.patients_frozen ?? 0}</p>
+                    </div>
+                    <div className="p-4 border rounded-lg bg-red-50">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Lock className="h-4 w-4 text-red-600" />
+                        <span className="text-xs font-medium text-red-700">Locked</span>
+                      </div>
+                      <p className="text-2xl font-bold text-red-700">{s?.patients_locked ?? 0}</p>
+                    </div>
+                  </div>
+
+                  {bulkResult && (
+                    <Alert className="bg-green-50 border-green-200">
+                      <CheckCircle2 className="h-4 w-4 text-green-600" />
+                      <AlertDescription className="text-sm text-green-800">{bulkResult}</AlertDescription>
+                    </Alert>
+                  )}
+
+                  <div className="pt-2">
+                    <Button
+                      type="button"
+                      variant="default"
+                      onClick={() => {
+                        setBulkOpen(true);
+                        setBulkResult(null);
+                        setBulkError(null);
+                      }}
+                      aria-label="Open bulk lock dialog"
+                    >
+                      <Lock className="h-4 w-4 mr-2" />
+                      Bulk Lock / Freeze Records
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
+
+      <Dialog open={bulkOpen} onOpenChange={setBulkOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Bulk Lock / Freeze Records</DialogTitle>
+            <DialogDescription>
+              Apply a single lock-status change to many patient records at once. Each affected record gets its own audit-log entry tagged with this reason. Records already in the target state are skipped.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="bulkStatus">Target status</Label>
+              <Select value={bulkStatus} onValueChange={(v) => setBulkStatus(v as 'frozen' | 'locked' | 'open')}>
+                <SelectTrigger id="bulkStatus">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="frozen">Freeze (soft hold; reasoned writes still allowed)</SelectItem>
+                  <SelectItem value="locked">Lock (hard hold; writes rejected)</SelectItem>
+                  <SelectItem value="open">Unlock (return to normal)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bulkScope">Scope</Label>
+              <Select
+                value={bulkScope}
+                onValueChange={(v) =>
+                  setBulkScope(v as 'enrolled' | 'completed' | 'enrolled_completed' | 'all')
+                }
+              >
+                <SelectTrigger id="bulkScope">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="enrolled_completed">Enrolled + Completed (recommended for end-of-study)</SelectItem>
+                  <SelectItem value="enrolled">Enrolled only</SelectItem>
+                  <SelectItem value="completed">Completed only</SelectItem>
+                  <SelectItem value="all">All patients (including screening, withdrawn)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bulkReason">Reason for change (required)</Label>
+              <Textarea
+                id="bulkReason"
+                value={bulkReason}
+                onChange={(e) => {
+                  setBulkReason(e.target.value);
+                  if (bulkError) setBulkError(null);
+                }}
+                placeholder="e.g. End-of-study data lock prior to FDA submission for INAD-PTP102-2025."
+                rows={3}
+              />
+              {bulkError && <p className="text-sm text-destructive">{bulkError}</p>}
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setBulkOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant={bulkStatus === 'locked' ? 'destructive' : 'default'}
+              onClick={handleBulkLockSubmit}
+              disabled={isBulkUpdating || !bulkReason.trim()}
+            >
+              {isBulkUpdating ? 'Updating...' : 'Apply'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

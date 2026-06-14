@@ -177,7 +177,7 @@ export function DashboardPage() {
               <MasterTrialsTable adminEmail={userEmail} />
             </TabsContent>
             <TabsContent value="compliance" className="mt-6">
-              <AdminComplianceDashboard />
+              <AdminComplianceDashboard adminEmail={userEmail} />
             </TabsContent>
             <TabsContent value="supply" className="mt-6 space-y-6">
               <AdminSupplyPanel />

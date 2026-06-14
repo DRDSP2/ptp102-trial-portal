@@ -46,6 +46,7 @@ const STORAGE_KEYS = {
   auditLogs: 'ptp102_mock_audit_logs',
   enrollmentEligibility: 'ptp102_mock_enrollment_eligibility',
   protocolDeviations: 'ptp102_mock_protocol_deviations',
+  adverseEvents: 'ptp102_mock_adverse_events',
   fileRecords: 'ptp102_mock_file_records',
 };
 
@@ -437,6 +438,26 @@ export async function getVetByEmail(email: string): Promise<LocalVet | undefined
   return getVets().find((v) => v.email.toLowerCase() === email.toLowerCase());
 }
 
+/**
+ * Records a LOGOUT audit event. Called from AuthContext.logout() before the
+ * Supabase session is torn down so the audit row carries the user's email
+ * and role rather than 'unknown'.
+ */
+export async function recordLogoutAudit(
+  email: string | null,
+  role: 'admin' | 'vet' | 'unknown',
+): Promise<void> {
+  const normalizedEmail = (email ?? 'unknown').toLowerCase();
+  await recordAudit({
+    action: 'LOGOUT',
+    entityType: role === 'admin' ? 'admin' : 'veterinarian',
+    entityId: null,
+    userId: normalizedEmail,
+    userEmail: normalizedEmail,
+    userRole: role,
+  });
+}
+
 // ---------------------------------------------------------------------------
 // File Records (secure upload metadata)
 // ---------------------------------------------------------------------------
@@ -673,6 +694,113 @@ function getProtocolDeviations(): LocalProtocolDeviation[] {
 
 function saveProtocolDeviations(deviations: LocalProtocolDeviation[]) {
   saveToStorage(STORAGE_KEYS.protocolDeviations, deviations);
+}
+
+// ---------------------------------------------------------------------------
+// Adverse Events
+// Mirrors public.adverse_events from the compliance framework migration.
+// ---------------------------------------------------------------------------
+type LocalAdverseEvent = {
+  id: number;
+  patient_id: number | null;
+  veterinarian_id: number | null;
+  reporter_name: string;
+  reporter_email: string;
+  event_description: string;
+  severity: string;
+  causality: string;
+  start_date: string;
+  is_ongoing: boolean;
+  resolved_date: string | null;
+  action_taken: string;
+  outcome: string | null;
+  admin_notified: boolean;
+  admin_notified_at: string | null;
+  sponsor_notified: boolean;
+  sponsor_notified_at: string | null;
+  vet_assessment: string | null;
+  digital_signature: string | null;
+  signed_at: string | null;
+  expected: boolean;
+  serious: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+function getAdverseEvents(): LocalAdverseEvent[] {
+  return loadFromStorage<LocalAdverseEvent[]>(STORAGE_KEYS.adverseEvents, []);
+}
+
+function saveAdverseEvents(events: LocalAdverseEvent[]) {
+  saveToStorage(STORAGE_KEYS.adverseEvents, events);
+}
+
+// ---------------------------------------------------------------------------
+// Data-lock enforcement (data_lock_status: 'open' | 'locked' | 'frozen')
+//
+// Semantics, mirroring the CaseWorkspace.tsx alert copy:
+//   - 'open'   : normal writes
+//   - 'frozen' : reviewable but writes still permitted, with a documented
+//                reasonForChange (analogous to a soft hold)
+//   - 'locked' : writes are rejected outright (analogous to a hard hold)
+//
+// Helpers throw a DataLockError, never a generic Error, so callers / UI can
+// distinguish lock failures from other validation errors.
+// ---------------------------------------------------------------------------
+export class DataLockError extends Error {
+  readonly status: 'locked' | 'frozen';
+  readonly patientId: number | null;
+  constructor(status: 'locked' | 'frozen', patientId: number | null, message: string) {
+    super(message);
+    this.name = 'DataLockError';
+    this.status = status;
+    this.patientId = patientId;
+  }
+}
+
+type LockGuardOptions = {
+  reasonForChange?: string | null;
+};
+
+/**
+ * Guards a write to a single patient's record set against data_lock_status.
+ *
+ * Returns `null` if the patient does not exist (caller must handle the
+ * "not found" case separately). Returns an empty string `''` when the
+ * write is allowed.
+ *
+ * Throws DataLockError when:
+ *   - patient.data_lock_status === 'locked'  (always)
+ *   - patient.data_lock_status === 'frozen' AND no non-empty reasonForChange
+ */
+function assertLockAllowsWrite(
+  patientId: number | null | undefined,
+  options: LockGuardOptions = {},
+): void {
+  if (patientId === null || patientId === undefined) return;
+  const patient = getPatients().find((pt) => pt.id === patientId);
+  if (!patient) return; // not found is not a lock failure
+  const status = ((patient as unknown as { data_lock_status?: string }).data_lock_status ?? 'open') as
+    | 'open'
+    | 'locked'
+    | 'frozen';
+  if (status === 'open') return;
+  if (status === 'locked') {
+    throw new DataLockError(
+      'locked',
+      patientId,
+      `Patient #${patientId} is LOCKED. Edits are blocked. An admin must unlock the record before any further changes.`,
+    );
+  }
+  // 'frozen' - allow with mandatory reason
+  const reason = (options.reasonForChange ?? '').trim();
+  if (!reason) {
+    throw new DataLockError(
+      'frozen',
+      patientId,
+      `Patient #${patientId} is FROZEN. Edits are still permitted but require a non-empty reasonForChange to be recorded in the audit trail.`,
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -1469,20 +1597,76 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
       return;
     }
 
-    if (name === 'loadAllTrialsData') {
-      setData([]);
-      setLoading(false);
-      return;
-    }
-
-    if (name === 'loadRegulatoryTrialsData') {
-      setData([]);
+    if (name === 'loadAllTrialsData' || name === 'loadRegulatoryTrialsData') {
+      const loadParams = _params as { vetEmail?: string | null; isFlagged?: boolean | null } | undefined;
+      const patients = getPatients();
+      const vets = getVets();
+      const treatments = getTreatments();
+      const assessments = getAssessments();
+      const rows = patients
+        .filter((p) => {
+          if (loadParams?.isFlagged === true && !p.is_flagged) return false;
+          if (loadParams?.isFlagged === false && p.is_flagged) return false;
+          if (loadParams?.vetEmail) {
+            const wantedEmail = loadParams.vetEmail.toLowerCase();
+            const enrolledBy = ((p as unknown as { enrolled_by_vet_email?: string | null }).enrolled_by_vet_email ?? '').toLowerCase();
+            if (enrolledBy !== wantedEmail) return false;
+          }
+          return true;
+        })
+        .map((p) => {
+          const enrolledBy = ((p as unknown as { enrolled_by_vet_email?: string | null }).enrolled_by_vet_email ?? null);
+          const vet = enrolledBy ? vets.find((v) => v.email.toLowerCase() === enrolledBy.toLowerCase()) : undefined;
+          return {
+            id: p.id,
+            unique_id: p.unique_id,
+            horse_name: p.horse_name,
+            age: p.age,
+            breed: p.breed,
+            weight: p.weight,
+            trial_status: p.trial_status,
+            enrollment_date: p.enrollment_date,
+            laminitis_grade: p.laminitis_grade,
+            affected_limbs: p.affected_limbs,
+            is_flagged: p.is_flagged ?? false,
+            flag_reason: p.flag_reason ?? null,
+            data_lock_status: ((p as unknown as { data_lock_status?: string }).data_lock_status ?? 'open') as 'open' | 'locked' | 'frozen',
+            veterinarian_name: vet?.full_name ?? '',
+            veterinarian_email: vet?.email ?? enrolledBy ?? '',
+            hospital_affiliation: vet?.hospital_affiliation ?? '',
+            license_number: vet?.license_number ?? '',
+            treatment_count: treatments.filter((t) => t.patient_id === p.id).length,
+            assessment_count: assessments.filter((a) => a.patient_id === p.id).length,
+          };
+        })
+        .sort((a, b) => new Date(b.enrollment_date).getTime() - new Date(a.enrollment_date).getTime());
+      setData(rows as unknown[]);
       setLoading(false);
       return;
     }
 
     if (name === 'loadAdminComplianceDashboard') {
-      setData([]);
+      // Returns a single-row summary the AdminComplianceDashboard can read.
+      const patients = getPatients();
+      const total = patients.length;
+      const locked = patients.filter(
+        (p) => ((p as unknown as { data_lock_status?: string }).data_lock_status ?? 'open') === 'locked',
+      ).length;
+      const frozen = patients.filter(
+        (p) => ((p as unknown as { data_lock_status?: string }).data_lock_status ?? 'open') === 'frozen',
+      ).length;
+      const enrolled = patients.filter((p) => p.trial_status === 'enrolled').length;
+      const completed = patients.filter((p) => p.trial_status === 'completed').length;
+      setData([
+        {
+          patients_total: total,
+          patients_locked: locked,
+          patients_frozen: frozen,
+          patients_open: total - locked - frozen,
+          patients_enrolled: enrolled,
+          patients_completed: completed,
+        },
+      ]);
       setLoading(false);
       return;
     }
@@ -1573,13 +1757,37 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
     }
 
     if (name === 'loadAdverseEvents') {
-      setData([]);
+      const loadParams = _params as { patientId?: number } | undefined;
+      const events = getAdverseEvents();
+      const patientId = Number(loadParams?.patientId ?? 0);
+      const filtered = patientId
+        ? events.filter((e) => e.patient_id === patientId)
+        : events;
+      setData(
+        filtered
+          .slice()
+          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) as unknown[],
+      );
       setLoading(false);
       return;
     }
 
     if (name === 'loadAllAdverseEvents') {
-      setData([]);
+      const events = getAdverseEvents();
+      const patients = getPatients();
+      const enriched = events.map((e) => {
+        const p = patients.find((pt) => pt.id === e.patient_id);
+        return {
+          ...e,
+          horse_name: p?.horse_name ?? null,
+          unique_id: p?.unique_id ?? null,
+        };
+      });
+      setData(
+        enriched
+          .slice()
+          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) as unknown[],
+      );
       setLoading(false);
       return;
     }
@@ -1861,7 +2069,20 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const vets = getVets();
           const existing = vets.find((v) => v.email === email);
           if (existing) {
-            // Update existing (ON CONFLICT behaviour)
+            // Update existing (ON CONFLICT behaviour). Capture old values so
+            // the audit row records what changed; the original code silently
+            // overwrote password_hash without auditing it.
+            const oldSnapshot = {
+              full_name: existing.full_name,
+              phone: existing.phone,
+              license_number: existing.license_number,
+              hospital_affiliation: existing.hospital_affiliation,
+              signature_text: existing.signature_text,
+              consent_printed_at: existing.consent_printed_at,
+              verification_status: existing.verification_status,
+              password_hash_changed: false,
+            };
+            const passwordChanged = p.passwordHash !== undefined && p.passwordHash !== existing.password_hash;
             existing.full_name = p.fullName ?? existing.full_name;
             existing.phone = p.phone ?? existing.phone;
             existing.password_hash = p.passwordHash ?? existing.password_hash;
@@ -1872,6 +2093,27 @@ export function useMutateAction(actionName: ActionFactory | string) {
             existing.verification_status = 'pending';
             existing.updated_at = new Date().toISOString();
             saveVets(vets);
+            await recordAudit({
+              action: 'UPDATE',
+              entityType: 'veterinarian',
+              entityId: existing.id,
+              userId: existing.email,
+              userEmail: existing.email,
+              userRole: 'vet',
+              fieldName: passwordChanged ? 'password_hash,profile' : 'profile',
+              oldValue: JSON.stringify(oldSnapshot),
+              newValue: JSON.stringify({
+                full_name: existing.full_name,
+                phone: existing.phone,
+                license_number: existing.license_number,
+                hospital_affiliation: existing.hospital_affiliation,
+                signature_text: existing.signature_text,
+                consent_printed_at: existing.consent_printed_at,
+                verification_status: existing.verification_status,
+                password_hash_changed: passwordChanged,
+              }),
+              reasonForChange: 'Vet re-registration / profile update via simpleRegisterVet',
+            });
             return [existing];
           }
 
@@ -2076,7 +2318,18 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'updatePatient') {
-          const p = params as { patientId?: number; [key: string]: unknown } | undefined;
+          const p = params as { patientId?: number; reasonForChange?: string | null; [key: string]: unknown } | undefined;
+          // Allow data_lock_status changes through here in case admins ever
+          // route them via updatePatient; the dedicated updateDataLockStatus
+          // handler is the canonical path. We deliberately skip the guard
+          // when only data_lock_status is being changed, since otherwise
+          // unlocking a locked record would be impossible.
+          const onlyLockChange =
+            p &&
+            Object.keys(p).every((k) => k === 'patientId' || k === 'reasonForChange' || k === 'data_lock_status');
+          if (!onlyLockChange) {
+            assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
+          }
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (patient) {
@@ -2099,7 +2352,8 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'updatePatientFlag') {
-          const p = params as { patientId?: number; flagName?: string; flagValue?: unknown } | undefined;
+          const p = params as { patientId?: number; flagName?: string; flagValue?: unknown; reasonForChange?: string | null } | undefined;
+          assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (patient && p?.flagName) {
@@ -2145,6 +2399,50 @@ export function useMutateAction(actionName: ActionFactory | string) {
             return [patient];
           }
           return [];
+        }
+
+        if (name === 'bulkUpdateDataLockStatus') {
+          const p = params as {
+            dataLockStatus?: 'open' | 'locked' | 'frozen';
+            trialStatusFilter?: string[] | null;
+            reasonForChange?: string;
+            adminEmail?: string | null;
+          } | undefined;
+          const newValue = p?.dataLockStatus ?? 'open';
+          const reason = (p?.reasonForChange ?? '').trim();
+          if (!reason) {
+            throw new Error('A non-empty reasonForChange is required for bulk lock changes.');
+          }
+          const filter = p?.trialStatusFilter && p.trialStatusFilter.length > 0 ? p.trialStatusFilter : null;
+          const patients = getPatients();
+          const updated: typeof patients = [];
+          const now = new Date().toISOString();
+          for (const patient of patients) {
+            if (filter && !filter.includes(patient.trial_status)) continue;
+            const oldValue = ((patient as unknown as { data_lock_status?: string }).data_lock_status ?? 'open') as
+              | 'open'
+              | 'locked'
+              | 'frozen';
+            if (oldValue === newValue) continue;
+            (patient as unknown as { data_lock_status: string }).data_lock_status = newValue;
+            patient.updated_at = now;
+            updated.push(patient);
+            await recordAudit({
+              action: newValue === 'frozen' ? 'FREEZE' : newValue === 'locked' ? 'LOCK' : 'UNLOCK',
+              entityType: 'patient',
+              entityId: patient.id,
+              patientId: patient.id,
+              fieldName: 'data_lock_status',
+              oldValue,
+              newValue,
+              reasonForChange: `[bulk] ${reason}`,
+              userEmail: p?.adminEmail ?? undefined,
+              userRole: p?.adminEmail ? 'admin' : undefined,
+              userId: p?.adminEmail ?? undefined,
+            });
+          }
+          savePatients(patients);
+          return updated;
         }
 
         // -------------------------------------------------------------------
@@ -2251,7 +2549,9 @@ export function useMutateAction(actionName: ActionFactory | string) {
             videoUrl?: string | null;
             videoFileName?: string | null;
             videoUploadedAt?: string | null;
+            reasonForChange?: string | null;
           };
+          assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
           const notes = getNotes();
           const newNote: LocalNote = {
             id: notes.length > 0 ? Math.max(...notes.map((n) => n.id)) + 1 : 1,
@@ -2292,7 +2592,9 @@ export function useMutateAction(actionName: ActionFactory | string) {
             batchNumber?: string | null;
             immediateReactions?: string | null;
             notes?: string | null;
+            reasonForChange?: string | null;
           };
+          assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
           const patientId = p?.patientId ?? 0;
           const protocolHour = p?.protocolHour ?? null;
           const treatments = getTreatments();
@@ -2375,7 +2677,9 @@ export function useMutateAction(actionName: ActionFactory | string) {
             clinicalNotes?: string | null;
             veterinarianName?: string;
             protocolHour?: number | null;
+            reasonForChange?: string | null;
           };
+          assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
           const assessments = getAssessments();
           const newAssessment: LocalAssessment = {
             id: assessments.length > 0 ? Math.max(...assessments.map((a) => a.id)) + 1 : 1,
@@ -2435,7 +2739,9 @@ export function useMutateAction(actionName: ActionFactory | string) {
             fibrinogen?: number | null;
             lactate?: number | null;
             additionalNotes?: string | null;
+            reasonForChange?: string | null;
           };
+          assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
           const labResults = getLabResults();
           const newResult: LocalLabResult = {
             id: labResults.length > 0 ? Math.max(...labResults.map((l) => l.id)) + 1 : 1,
@@ -2635,16 +2941,77 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'createAdverseEvent') {
-          const p = params as Record<string, unknown> | undefined;
-          console.info('[Mock] Adverse event created (stub):', params);
+          const p = (params ?? {}) as {
+            patientId?: number | null;
+            veterinarianId?: number | null;
+            reporterName?: string | null;
+            reporterEmail?: string | null;
+            eventDescription?: string;
+            severity?: string;
+            causality?: string;
+            startDate?: string;
+            isOngoing?: boolean;
+            resolvedDate?: string | null;
+            actionTaken?: string;
+            outcome?: string | null;
+            vetAssessment?: string | null;
+            digitalSignature?: string | null;
+            serious?: boolean;
+            expected?: boolean;
+            reasonForChange?: string | null;
+          };
+
+          // Adverse-event reporting must be possible even on locked records — a
+          // safety report can't be blocked by a data freeze. We still record
+          // the lock status in the audit trail when relevant for traceability.
+          // (Therefore: NO assertLockAllowsWrite call here, by design.)
+
+          const events = getAdverseEvents();
+          const now = new Date().toISOString();
+          const newEvent: LocalAdverseEvent = {
+            id: events.length > 0 ? Math.max(...events.map((e) => e.id)) + 1 : 1,
+            patient_id: p.patientId ?? null,
+            veterinarian_id: p.veterinarianId ?? null,
+            reporter_name: p.reporterName ?? 'Unknown',
+            reporter_email: p.reporterEmail ?? 'unknown@unknown',
+            event_description: p.eventDescription ?? '',
+            severity: p.severity ?? 'Mild',
+            causality: p.causality ?? 'Unrelated',
+            start_date: p.startDate ?? now,
+            is_ongoing: p.isOngoing ?? true,
+            resolved_date: p.resolvedDate ?? null,
+            action_taken: p.actionTaken ?? 'None',
+            outcome: p.outcome ?? null,
+            admin_notified: false,
+            admin_notified_at: null,
+            sponsor_notified: false,
+            sponsor_notified_at: null,
+            vet_assessment: p.vetAssessment ?? null,
+            digital_signature: p.digitalSignature ?? null,
+            signed_at: p.digitalSignature ? now : null,
+            expected: p.expected ?? false,
+            serious: p.serious ?? false,
+            created_at: now,
+            updated_at: now,
+          };
+          events.push(newEvent);
+          saveAdverseEvents(events);
+
           await recordAudit({
             action: 'CREATE',
             entityType: 'adverse_event',
-            entityId: 1,
-            patientId: (p?.patientId as number) ?? null,
-            newValue: JSON.stringify(p),
+            entityId: newEvent.id,
+            patientId: newEvent.patient_id,
+            newValue: JSON.stringify({
+              severity: newEvent.severity,
+              causality: newEvent.causality,
+              serious: newEvent.serious,
+              action_taken: newEvent.action_taken,
+              reporter_email: newEvent.reporter_email,
+            }),
+            reasonForChange: p.reasonForChange ?? null,
           });
-          return [{ id: 1 }];
+          return [newEvent];
         }
 
         if (name === 'createInformedConsent') {
@@ -2926,6 +3293,10 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const consent = consents.find((c) => c.id === consentId);
           if (!consent) return [];
 
+          assertLockAllowsWrite(consent.patient_id, {
+            reasonForChange: (p?.reasonForChange as string | null | undefined) ?? null,
+          });
+
           const now = new Date().toISOString();
           consent.owner_signature = (p?.ownerSignature as string) ?? consent.owner_signature;
           consent.witness_name = (p?.witnessName as string) ?? consent.witness_name;
@@ -2968,6 +3339,9 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const p = params as Record<string, unknown> | undefined;
           const consentId = Number(p?.consentId ?? 0);
           const patientId = Number(p?.patientId ?? 0);
+          assertLockAllowsWrite(patientId || null, {
+            reasonForChange: (p?.reasonForChange as string | null | undefined) ?? null,
+          });
           const documentType = (p?.documentType as LocalConsentDocument['document_type']) ?? 'scanned_signed';
           const fileUrl = (p?.fileUrl as string) ?? '';
           const fileName = (p?.fileName as string) ?? '';

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
-import { getVetByEmail } from '@/lib/uibakeryDataMock';
+import { getVetByEmail, recordLogoutAudit } from '@/lib/uibakeryDataMock';
 
 type AuthRole = 'vet' | 'admin' | null;
 
@@ -254,12 +254,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setState((current) => ({ ...current, ...next, isLoading: false }));
         saveLegacyAuthState(next);
       },
-      logout: () => {
+      logout: async () => {
+        // Snapshot identity BEFORE clearing local state so the audit row
+        // carries the real user, not 'unknown'.
+        const auditEmail = state.email;
+        const auditRole: 'admin' | 'vet' | 'unknown' = state.role ?? 'unknown';
+
+        // Clear local UI state synchronously — the existing contract is that
+        // logout takes effect immediately and does not wait on network or
+        // audit I/O. The audit + Supabase sign-out are best-effort.
+        setState({ ...emptyState, isLoading: false });
+        clearLegacyAuthState();
+
+        // Best-effort audit (never block sign-out on it).
+        recordLogoutAudit(auditEmail, auditRole).catch(() => {
+          // swallow — audit failures must not prevent the user from signing out
+        });
+
         // Fire sign-out in the background; clear local state immediately so the UI
         // does not wait on a network round-trip.
         supabase.auth.signOut().catch(() => {});
-        setState({ ...emptyState, isLoading: false });
-        clearLegacyAuthState();
       },
     }),
     [state],

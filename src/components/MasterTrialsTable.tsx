@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLoadAction, useMutateAction } from '@uibakery/data';
 import loadAllTrialsDataAction from '@/actions/loadAllTrialsData';
 import updatePatientFlagAction from '@/actions/updatePatientFlag';
+import updateDataLockStatusAction from '@/actions/updateDataLockStatus';
 import exportSubmissionPackageAction from '@/actions/exportSubmissionPackage';
 import { downloadSubmissionPackage } from '@/lib/submissionPackage';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,9 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Download, Flag, Filter, FileText, Loader2, FileJson } from 'lucide-react';
+import { Download, Flag, Filter, FileText, Loader2, FileJson, Lock, Snowflake, Unlock } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+
+type DataLockStatus = 'open' | 'locked' | 'frozen';
 
 type TrialData = {
   id: number;
@@ -29,6 +32,7 @@ type TrialData = {
   affected_limbs: string;
   is_flagged: boolean;
   flag_reason: string | null;
+  data_lock_status: DataLockStatus;
   veterinarian_name: string;
   veterinarian_email: string;
   hospital_affiliation: string;
@@ -50,9 +54,14 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
     { vetEmail: vetFilter, isFlagged: flagFilter === 'flagged' ? true : flagFilter === 'unflagged' ? false : null }
   );
   const [updateFlag, isUpdating] = useMutateAction(updatePatientFlagAction);
+  const [updateLock, isLockUpdating] = useMutateAction(updateDataLockStatusAction);
   const [selectedTrial, setSelectedTrial] = useState<TrialData | null>(null);
   const [flagDialogOpen, setFlagDialogOpen] = useState(false);
   const [flagReason, setFlagReason] = useState('');
+  const [lockDialogOpen, setLockDialogOpen] = useState(false);
+  const [pendingLockStatus, setPendingLockStatus] = useState<DataLockStatus>('open');
+  const [lockReason, setLockReason] = useState('');
+  const [lockError, setLockError] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [isExportingPackage, setIsExportingPackage] = useState(false);
   const [regulatoryTrials, loadingRegulatory, , loadRegulatoryData] = useLoadAction(
@@ -84,6 +93,44 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
       refresh();
     } catch (err) {
       console.error('Failed to update flag:', err);
+    }
+  };
+
+  // Lock cycle: open -> frozen -> locked -> open. Frozen is a soft hold
+  // (writes still allowed with a documented reason); locked is a hard hold
+  // (writes are rejected outright).
+  const nextLockStatus = (current: DataLockStatus): DataLockStatus =>
+    current === 'open' ? 'frozen' : current === 'frozen' ? 'locked' : 'open';
+
+  const handleLockClick = (trial: TrialData) => {
+    setSelectedTrial(trial);
+    setPendingLockStatus(nextLockStatus(trial.data_lock_status));
+    setLockReason('');
+    setLockError(null);
+    setLockDialogOpen(true);
+  };
+
+  const handleConfirmLock = async () => {
+    if (!selectedTrial) return;
+    if (!lockReason.trim()) {
+      setLockError('A reason for change is required.');
+      return;
+    }
+    try {
+      await updateLock({
+        patientId: selectedTrial.id,
+        dataLockStatus: pendingLockStatus,
+        reasonForChange: lockReason.trim(),
+        adminEmail,
+      });
+      setLockDialogOpen(false);
+      setLockReason('');
+      setLockError(null);
+      setSelectedTrial(null);
+      refresh();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Failed to update lock status';
+      setLockError(message);
     }
   };
 
@@ -405,51 +452,98 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data.map((trial) => (
-                    <TableRow key={trial.id} className={trial.is_flagged ? 'bg-red-50' : ''}>
-                      <TableCell className="font-mono text-sm">{trial.unique_id}</TableCell>
-                      <TableCell>
-                        <div>
-                          <p className="font-medium">{trial.horse_name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {trial.age}y {trial.breed}
-                          </p>
-                        </div>
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell">
-                        <Badge variant="secondary">{trial.trial_status}</Badge>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        <Badge variant="outline">Grade {trial.laminitis_grade}</Badge>
-                      </TableCell>
-                      <TableCell>
-                        <div>
-                          <p className="font-medium text-sm">{trial.veterinarian_name}</p>
-                          <p className="text-xs text-muted-foreground">{trial.veterinarian_email}</p>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-sm hidden lg:table-cell">{trial.hospital_affiliation}</TableCell>
-                      <TableCell className="text-sm hidden md:table-cell">
-                        {new Date(trial.enrollment_date).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell className="hidden lg:table-cell">
-                        <div className="text-xs space-y-1">
-                          <p>{trial.treatment_count} treatments</p>
-                          <p>{trial.assessment_count} assessments</p>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Button
-                          type="button"
-                          variant={trial.is_flagged ? 'destructive' : 'outline'}
-                          size="sm"
-                          onClick={() => handleFlagClick(trial)}
-                        >
-                          <Flag className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {data.map((trial) => {
+                    const lockStatus = trial.data_lock_status ?? 'open';
+                    const rowBg =
+                      lockStatus === 'locked'
+                        ? 'bg-red-100'
+                        : lockStatus === 'frozen'
+                        ? 'bg-amber-50'
+                        : trial.is_flagged
+                        ? 'bg-red-50'
+                        : '';
+                    return (
+                      <TableRow key={trial.id} className={rowBg}>
+                        <TableCell className="font-mono text-sm">
+                          <div className="flex items-center gap-2">
+                            <span>{trial.unique_id}</span>
+                            {lockStatus === 'locked' && (
+                              <Badge variant="destructive" className="gap-1 text-[10px]" title="Record is LOCKED — edits are blocked">
+                                <Lock className="h-3 w-3" />
+                                LOCKED
+                              </Badge>
+                            )}
+                            {lockStatus === 'frozen' && (
+                              <Badge className="gap-1 text-[10px] bg-amber-500 hover:bg-amber-600" title="Record is FROZEN — edits require a reason">
+                                <Snowflake className="h-3 w-3" />
+                                FROZEN
+                              </Badge>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">{trial.horse_name}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {trial.age}y {trial.breed}
+                            </p>
+                          </div>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          <Badge variant="secondary">{trial.trial_status}</Badge>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          <Badge variant="outline">Grade {trial.laminitis_grade}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <p className="font-medium text-sm">{trial.veterinarian_name}</p>
+                            <p className="text-xs text-muted-foreground">{trial.veterinarian_email}</p>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-sm hidden lg:table-cell">{trial.hospital_affiliation}</TableCell>
+                        <TableCell className="text-sm hidden md:table-cell">
+                          {new Date(trial.enrollment_date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="hidden lg:table-cell">
+                          <div className="text-xs space-y-1">
+                            <p>{trial.treatment_count} treatments</p>
+                            <p>{trial.assessment_count} assessments</p>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-1">
+                            <Button
+                              type="button"
+                              variant={
+                                lockStatus === 'locked' ? 'destructive' : lockStatus === 'frozen' ? 'default' : 'outline'
+                              }
+                              size="sm"
+                              onClick={() => handleLockClick(trial)}
+                              title={`Cycle lock: ${lockStatus} -> ${nextLockStatus(lockStatus)}`}
+                              aria-label={`Cycle lock status for ${trial.unique_id}`}
+                            >
+                              {lockStatus === 'locked' ? (
+                                <Lock className="h-4 w-4" />
+                              ) : lockStatus === 'frozen' ? (
+                                <Snowflake className="h-4 w-4" />
+                              ) : (
+                                <Unlock className="h-4 w-4" />
+                              )}
+                            </Button>
+                            <Button
+                              type="button"
+                              variant={trial.is_flagged ? 'destructive' : 'outline'}
+                              size="sm"
+                              onClick={() => handleFlagClick(trial)}
+                            >
+                              <Flag className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </div>
@@ -514,6 +608,75 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
                 : selectedTrial?.is_flagged
                 ? 'Remove Flag'
                 : 'Flag Entry'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={lockDialogOpen} onOpenChange={setLockDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {pendingLockStatus === 'locked'
+                ? 'Lock Record'
+                : pendingLockStatus === 'frozen'
+                ? 'Freeze Record'
+                : 'Unlock Record'}
+            </DialogTitle>
+            <DialogDescription>
+              {pendingLockStatus === 'locked'
+                ? 'Locking BLOCKS all further edits to this patient. An admin must unlock the record before any new treatment, assessment, lab result, note, or consent can be added. This action is recorded in the audit trail.'
+                : pendingLockStatus === 'frozen'
+                ? 'Freezing marks the record as under review. Edits remain possible but require a documented reason for change. This action is recorded in the audit trail.'
+                : 'Unlocking returns the record to normal editing. This action is recorded in the audit trail.'}
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedTrial && (
+            <div className="space-y-4">
+              <div className="text-sm">
+                <p className="font-medium">Trial: {selectedTrial.unique_id}</p>
+                <p className="text-muted-foreground">{selectedTrial.horse_name}</p>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Current status: <span className="font-mono">{selectedTrial.data_lock_status}</span> &rarr;{' '}
+                  <span className="font-mono">{pendingLockStatus}</span>
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="lockReason">Reason for Change (required)</Label>
+                <Textarea
+                  id="lockReason"
+                  value={lockReason}
+                  onChange={(e) => {
+                    setLockReason(e.target.value);
+                    if (lockError) setLockError(null);
+                  }}
+                  placeholder="e.g. End-of-study data freeze; investigator review pending; protocol deviation under review..."
+                  rows={3}
+                />
+                {lockError && <p className="text-sm text-destructive">{lockError}</p>}
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setLockDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant={pendingLockStatus === 'locked' ? 'destructive' : 'default'}
+              onClick={handleConfirmLock}
+              disabled={isLockUpdating || !lockReason.trim()}
+            >
+              {isLockUpdating
+                ? 'Updating...'
+                : pendingLockStatus === 'locked'
+                ? 'Lock Record'
+                : pendingLockStatus === 'frozen'
+                ? 'Freeze Record'
+                : 'Unlock Record'}
             </Button>
           </DialogFooter>
         </DialogContent>
