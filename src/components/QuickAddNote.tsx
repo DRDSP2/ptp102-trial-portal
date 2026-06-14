@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useMutateAction } from '@uibakery/data';
 import addClinicalNoteAction from '@/actions/addClinicalNote';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -7,18 +7,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { FileText, Zap, Video, X, Info, Loader2, AlertCircle } from 'lucide-react';
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
+import { useSecureUpload } from '@/hooks/useSecureUpload';
+import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 import { useAuth } from '@/context/AuthContext';
 
-interface UploadcareFileInfo {
-  uuid: string;
+type UploadedVideoInfo = {
+  path: string;
   name: string;
   size: number;
-  cdnUrl: string;
-  isImage: boolean;
   mimeType: string;
-}
+};
 
 type QuickAddNoteProps = {
   patientId: number;
@@ -28,35 +26,47 @@ type QuickAddNoteProps = {
 
 export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNoteProps) {
   const auth = useAuth();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [noteType, setNoteType] = useState('observation');
   const [noteContent, setNoteContent] = useState('');
-  const [uploadedVideo, setUploadedVideo] = useState<UploadcareFileInfo | null>(null);
+  const [uploadedVideo, setUploadedVideo] = useState<UploadedVideoInfo | null>(null);
   const [showGuidelines, setShowGuidelines] = useState(false);
   const [showUploader, setShowUploader] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [addNote, isSubmitting] = useMutateAction(addClinicalNoteAction);
 
-  const handleFileUpload = (fileInfo: UploadcareFileInfo) => {
-    if (fileInfo.cdnUrl) {
-      console.log('Video uploaded to Uploadcare:', fileInfo);
+  const { upload, isUploading } = useSecureUpload({
+    category: 'gait-video',
+    entityType: 'patients',
+    entityId: patientId,
+  });
+
+  const { signedUrl } = useSecureDownloadUrl(uploadedVideo?.path ?? null);
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setError(null);
+
+    try {
+      const path = await upload(file);
       setUploadedVideo({
-        uuid: fileInfo.uuid,
-        name: fileInfo.name,
-        size: fileInfo.size,
-        cdnUrl: fileInfo.cdnUrl,
-        isImage: fileInfo.isImage,
-        mimeType: fileInfo.mimeType,
+        path,
+        name: file.name,
+        size: file.size,
+        mimeType: file.type,
       });
       setShowUploader(false);
       setShowGuidelines(true);
-      setError(null);
+    } catch (err) {
+      console.error('Video upload failed:', err);
+      setError(err instanceof Error ? err.message : 'Video upload failed. Please try again or use a smaller file.');
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
-  };
-
-  const handleFileUploadFailed = (errorInfo: any) => {
-    console.error('Video upload failed:', errorInfo);
-    setError(errorInfo?.message || 'Video upload failed. Please try again or use a smaller file.');
-    setShowUploader(false);
   };
 
   const handleRemoveVideo = () => {
@@ -66,13 +76,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
   };
 
   const handleQuickAdd = async () => {
-    console.log('=== handleQuickAdd CALLED ===');
-    console.log('patientId:', patientId);
-    console.log('noteContent:', noteContent);
-    console.log('uploadedVideo:', uploadedVideo?.name);
-    
     if (!noteContent.trim() && !uploadedVideo) {
-      console.log('VALIDATION FAILED: No content or video');
       return;
     }
 
@@ -85,26 +89,19 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
         noteType,
         noteContent: noteContent.trim() || `Video uploaded: ${uploadedVideo?.name}`,
         protocolHour: protocolHour ?? null,
-        videoUrl: uploadedVideo?.cdnUrl ?? null,
+        videoUrl: uploadedVideo?.path ?? null,
         videoFileName: uploadedVideo?.name ?? null,
         videoUploadedAt: uploadedVideo ? new Date().toISOString() : null,
       };
 
-      console.log('=== SUBMITTING TO DATABASE ===');
-      console.log('Params:', params);
-
-      const result = await addNote(params);
-      
-      console.log('=== DATABASE SUBMISSION SUCCESS ===');
-      console.log('Result:', result);
+      await addNote(params);
 
       setNoteContent('');
       setNoteType('observation');
       handleRemoveVideo();
-      console.log('=== CALLING onSuccess ===');
       onSuccess();
     } catch (error) {
-      console.error('=== HANDLE QUICK ADD ERROR ===', error);
+      console.error('Quick add note error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       setError(errorMessage);
     }
@@ -122,8 +119,6 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
   const handleTemplateClick = (template: string) => {
     setNoteContent(template);
   };
-
-
 
   return (
     <Card>
@@ -196,7 +191,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
                   <li><strong>Format:</strong> MP4 or MOV, minimum 720p resolution, 30fps or higher</li>
                 </ul>
                 <p className="text-xs text-blue-700 pt-2">
-                  <strong>Note:</strong> These videos will be processed through Sleip AI for objective lameness scoring and gait analysis to track treatment response.
+                  <strong>Note:</strong> These videos will be uploaded to secure private storage and linked to this patient record.
                 </p>
               </AlertDescription>
             </Alert>
@@ -209,7 +204,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
               size="sm"
               onClick={() => setShowUploader(true)}
               className="gap-2 w-full"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isUploading}
             >
               <Video className="h-4 w-4" />
               Record or Upload Video
@@ -218,25 +213,33 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
 
           {showUploader && !uploadedVideo && (
             <div className="border rounded-lg p-3">
-              <FileUploaderRegular
-                pubkey="65522fb5ee7036edf97b"
-                classNameUploader="uc-light uc-purple"
-                sourceList="local, camera, gdrive, facebook"
-                userAgentIntegration="llm-nextjs"
-                filesViewMode="grid"
-                maxLocalFileSizeBytes={524288000}
-                imgOnly={false}
+              <input
+                ref={fileInputRef}
+                type="file"
                 accept="video/*"
-                multiple={false}
-                onFileUploadSuccess={handleFileUpload}
-                onFileUploadFailed={handleFileUploadFailed}
+                capture="environment"
+                className="hidden"
+                onChange={handleFileSelect}
+                disabled={isUploading}
               />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="gap-2 w-full"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+              >
+                {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Video className="h-4 w-4" />}
+                {isUploading ? 'Uploading...' : 'Choose or Record Video'}
+              </Button>
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowUploader(false)}
                 className="mt-2 w-full"
+                disabled={isUploading}
               >
                 Cancel
               </Button>
@@ -264,11 +267,17 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
                 </Button>
               </div>
 
-              <video
-                src={uploadedVideo.cdnUrl}
-                controls
-                className="w-full rounded-md max-h-[200px]"
-              />
+              {signedUrl ? (
+                <video
+                  src={signedUrl}
+                  controls
+                  className="w-full rounded-md max-h-[200px]"
+                />
+              ) : (
+                <div className="w-full h-[160px] flex items-center justify-center bg-slate-100 rounded-md">
+                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -280,19 +289,15 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
               {quickTemplates.map((template, index) => (
                 <Button
                   key={index}
+                  type="button"
                   variant="outline"
                   size="sm"
                   onClick={() => handleTemplateClick(template)}
-                  className="justify-start text-left h-auto py-2"
-                  type="button"
+                  className="justify-start text-left h-auto py-2 px-3"
                   disabled={isSubmitting}
                 >
-                  {template.startsWith('Video:') ? (
-                    <Video className="h-3 w-3 mr-2 flex-shrink-0" />
-                  ) : (
-                    <FileText className="h-3 w-3 mr-2 flex-shrink-0" />
-                  )}
-                  <span className="text-xs">{template}</span>
+                  <FileText className="h-3 w-3 mr-2 shrink-0" />
+                  {template}
                 </Button>
               ))}
             </div>
@@ -303,16 +308,13 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
           onClick={handleQuickAdd}
           disabled={isSubmitting || (!noteContent.trim() && !uploadedVideo)}
           className="w-full"
-          type="button"
         >
           {isSubmitting ? (
-            <>
-              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              Saving...
-            </>
+            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
           ) : (
-            'Add Note'
+            <Zap className="h-4 w-4 mr-2" />
           )}
+          {isSubmitting ? 'Saving...' : 'Add Note'}
         </Button>
       </CardContent>
     </Card>

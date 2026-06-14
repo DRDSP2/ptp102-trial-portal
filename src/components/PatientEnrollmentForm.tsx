@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -16,18 +16,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Info, Upload, X } from 'lucide-react';
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
+import { Info, Upload, X, Loader2 } from 'lucide-react';
+import { useSecureUpload } from '@/hooks/useSecureUpload';
+import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 
-interface UploadcareFileInfo {
-  uuid: string;
+type UploadedImageInfo = {
+  path: string;
   name: string;
   size: number;
-  cdnUrl: string;
-  isImage: boolean;
   mimeType: string;
-}
+};
 
 const patientSchema = z.object({
   horseName: z.string().min(2, 'Horse name must be at least 2 characters'),
@@ -89,14 +87,13 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
   const [updatePatient, isUpdating] = useMutateAction(updatePatientAction);
   const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const isEditMode = Boolean(patient);
-  const [uploadedImage, setUploadedImage] = useState<UploadcareFileInfo | null>(
-    patient?.profile_picture_url
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadedImage, setUploadedImage] = useState<UploadedImageInfo | null>(
+    patient?.profile_picture_url && !patient.profile_picture_url.startsWith('http')
       ? {
-          uuid: '',
+          path: patient.profile_picture_url,
           name: 'Current profile picture',
           size: 0,
-          cdnUrl: patient.profile_picture_url,
-          isImage: true,
           mimeType: 'image/*',
         }
       : null
@@ -109,19 +106,36 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
     defaultValues: getDefaultValues(patient),
   });
 
-  const handleImageUpload = (fileInfo: UploadcareFileInfo & { status: string }) => {
-    if (fileInfo.status === 'success' && fileInfo.cdnUrl && fileInfo.isImage) {
-      console.log('Profile picture uploaded:', fileInfo);
-      setUploadedImage({
-        uuid: fileInfo.uuid,
-        name: fileInfo.name,
-        size: fileInfo.size,
-        cdnUrl: fileInfo.cdnUrl,
-        isImage: fileInfo.isImage,
-        mimeType: fileInfo.mimeType,
-      });
-      form.setValue('profilePictureUrl', fileInfo.cdnUrl);
+  const { upload, isUploading } = useSecureUpload({
+    category: 'profile-image',
+    entityType: 'patients',
+    entityId: patient?.id ?? 'new',
+  });
+
+  const { signedUrl } = useSecureDownloadUrl(uploadedImage?.path ?? null);
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const path = await upload(file);
+      const info: UploadedImageInfo = {
+        path,
+        name: file.name,
+        size: file.size,
+        mimeType: file.type,
+      };
+      setUploadedImage(info);
+      form.setValue('profilePictureUrl', path);
       setShowUploader(false);
+    } catch (err) {
+      console.error('Profile picture upload failed:', err);
+      setSubmitError(err instanceof Error ? err.message : 'Profile picture upload failed');
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -208,11 +222,17 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
               <div className="flex flex-col items-center gap-3 p-4 border rounded-lg bg-slate-50">
                 {uploadedImage ? (
                   <div className="relative">
-                    <img
-                      src={uploadedImage.cdnUrl}
-                      alt="Horse profile"
-                      className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
-                    />
+                    {signedUrl ? (
+                      <img
+                        src={uploadedImage.path.startsWith('http') ? uploadedImage.path : signedUrl}
+                        alt="Horse profile"
+                        className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                      />
+                    ) : (
+                      <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
+                        <Loader2 className="h-8 w-8 text-slate-400 animate-spin" />
+                      </div>
+                    )}
                     <Button
                       type="button"
                       variant="destructive"
@@ -230,7 +250,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                     </svg>
                   </div>
                 )}
-                
+
                 {!showUploader && !uploadedImage && (
                   <Button
                     type="button"
@@ -238,6 +258,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                     size="sm"
                     onClick={() => setShowUploader(true)}
                     className="gap-2"
+                    disabled={isUploading}
                   >
                     <Upload className="h-4 w-4" />
                     Upload Profile Picture
@@ -246,22 +267,33 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
 
                 {showUploader && !uploadedImage && (
                   <div className="w-full">
-                    <FileUploaderRegular
-                      pubkey="65522fb5ee7036edf97b"
-                      classNameUploader="uc-light uc-purple"
-                      sourceList="local, camera, gdrive, facebook"
-                      userAgentIntegration="llm-nextjs"
-                      filesViewMode="grid"
-                      imgOnly={true}
-                      multiple={false}
-                      onFileUploadSuccess={handleImageUpload}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      className="hidden"
+                      onChange={handleFileSelect}
+                      disabled={isUploading}
                     />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 w-full"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isUploading}
+                    >
+                      {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      {isUploading ? 'Uploading...' : 'Choose Profile Picture'}
+                    </Button>
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowUploader(false)}
                       className="mt-2 w-full"
+                      disabled={isUploading}
                     >
                       Cancel
                     </Button>

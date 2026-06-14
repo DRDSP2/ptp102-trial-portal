@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -11,19 +11,17 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, Loader2 } from 'lucide-react';
 import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
+import { useSecureUpload } from '@/hooks/useSecureUpload';
+import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 
-interface UploadcareFileInfo {
-  uuid: string;
+type UploadedImageInfo = {
+  path: string;
   name: string;
   size: number;
-  cdnUrl: string;
-  isImage: boolean;
   mimeType: string;
-}
+};
 
 const updatePatientSchema = z.object({
   horseName: z.string().min(2),
@@ -51,7 +49,8 @@ const CRITICAL_PATIENT_FIELDS = ['trialStatus', 'eligibilityVerified', 'consentD
 export function PatientDetailDialog({ patient, open, onClose, onUpdate }: PatientDetailDialogProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [updatePatient, isSubmitting] = useMutateAction(updatePatientAction);
-  const [uploadedImage, setUploadedImage] = useState<UploadcareFileInfo | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadedImage, setUploadedImage] = useState<UploadedImageInfo | null>(null);
   const [showUploader, setShowUploader] = useState(false);
   const [reasonDialogOpen, setReasonDialogOpen] = useState(false);
   const [pendingValues, setPendingValues] = useState<z.infer<typeof updatePatientSchema> | null>(null);
@@ -73,19 +72,38 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
     },
   });
 
-  const handleImageUpload = (fileInfo: UploadcareFileInfo & { status: string }) => {
-    if (fileInfo.status === 'success' && fileInfo.cdnUrl && fileInfo.isImage) {
-      console.log('Profile picture uploaded:', fileInfo);
-      setUploadedImage({
-        uuid: fileInfo.uuid,
-        name: fileInfo.name,
-        size: fileInfo.size,
-        cdnUrl: fileInfo.cdnUrl,
-        isImage: fileInfo.isImage,
-        mimeType: fileInfo.mimeType,
-      });
-      form.setValue('profilePictureUrl', fileInfo.cdnUrl);
+  const { upload, isUploading } = useSecureUpload({
+    category: 'profile-image',
+    entityType: 'patients',
+    entityId: patient?.id ?? 'new',
+  });
+
+  const currentPicturePath = uploadedImage?.path || form.watch('profilePictureUrl') || undefined;
+  const { signedUrl } = useSecureDownloadUrl(
+    currentPicturePath && !currentPicturePath.startsWith('http') ? currentPicturePath : null,
+  );
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const path = await upload(file);
+      const info: UploadedImageInfo = {
+        path,
+        name: file.name,
+        size: file.size,
+        mimeType: file.type,
+      };
+      setUploadedImage(info);
+      form.setValue('profilePictureUrl', path);
       setShowUploader(false);
+    } catch (err) {
+      console.error('Profile picture upload failed:', err);
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -241,31 +259,39 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="flex flex-col items-center gap-3 p-4 border rounded-lg bg-slate-50">
-                {uploadedImage || form.watch('profilePictureUrl') ? (
-                  <div className="relative">
-                    <img
-                      src={uploadedImage?.cdnUrl || form.watch('profilePictureUrl')}
-                      alt="Horse profile"
-                      className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
-                    />
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="sm"
-                      onClick={handleRemoveImage}
-                      className="absolute -top-2 -right-2 h-8 w-8 rounded-full p-0"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
-                    <svg className="h-16 w-16 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/>
-                    </svg>
-                  </div>
-                )}
-                
+                {(() => {
+                  const rawUrl = uploadedImage?.path || form.watch('profilePictureUrl');
+                  const imageUrl = rawUrl && rawUrl.startsWith('http') ? rawUrl : signedUrl;
+                  return imageUrl ? (
+                    <div className="relative">
+                      <img
+                        src={imageUrl}
+                        alt="Horse profile"
+                        className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        onClick={handleRemoveImage}
+                        className="absolute -top-2 -right-2 h-8 w-8 rounded-full p-0"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : signedUrl === null && currentPicturePath ? (
+                    <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
+                      <Loader2 className="h-8 w-8 text-slate-400 animate-spin" />
+                    </div>
+                  ) : (
+                    <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
+                      <svg className="h-16 w-16 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/>
+                      </svg>
+                    </div>
+                  );
+                })()}
+
                 {!showUploader && !uploadedImage && !form.watch('profilePictureUrl') && (
                   <Button
                     type="button"
@@ -273,6 +299,7 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
                     size="sm"
                     onClick={() => setShowUploader(true)}
                     className="gap-2"
+                    disabled={isUploading}
                   >
                     <Upload className="h-4 w-4" />
                     Upload Profile Picture
@@ -281,22 +308,33 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
 
                 {showUploader && !uploadedImage && (
                   <div className="w-full">
-                    <FileUploaderRegular
-                      pubkey="65522fb5ee7036edf97b"
-                      classNameUploader="uc-light uc-purple"
-                      sourceList="local, camera, gdrive, facebook"
-                      userAgentIntegration="llm-nextjs"
-                      filesViewMode="grid"
-                      imgOnly={true}
-                      multiple={false}
-                      onFileUploadSuccess={handleImageUpload}
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      className="hidden"
+                      onChange={handleFileSelect}
+                      disabled={isUploading}
                     />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 w-full"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isUploading}
+                    >
+                      {isUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                      {isUploading ? 'Uploading...' : 'Choose Profile Picture'}
+                    </Button>
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
                       onClick={() => setShowUploader(false)}
                       className="mt-2 w-full"
+                      disabled={isUploading}
                     >
                       Cancel
                     </Button>

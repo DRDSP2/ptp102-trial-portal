@@ -8,8 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FileUploaderRegular } from '@uploadcare/react-uploader';
-import '@uploadcare/react-uploader/core.css';
+import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
+import { SecureFileUploadButton } from '@/components/SecureFileUploadButton';
 import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
 import saveInvestigatorQualificationAction from '@/actions/saveInvestigatorQualification';
 import {
@@ -28,6 +28,7 @@ import {
   XCircle,
   Award,
   CheckCircle,
+  Loader2,
 } from 'lucide-react';
 
 const AGREEMENT_TEXT = `I, the undersigned veterinarian, agree to serve as a qualified investigator for the PTP-102 Laminitis Pilot Study. I will:
@@ -60,10 +61,10 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
   const [externalFileName, setExternalFileName] = useState('');
 
   // Facility photo uploads
-  const [drugStoragePhoto, setDrugStoragePhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
-  const [emergencyPhoto, setEmergencyPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
-  const [housingPhoto, setHousingPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
-  const [feedPhoto, setFeedPhoto] = useState<{ cdnUrl: string; name: string } | null>(null);
+  const [drugStoragePhoto, setDrugStoragePhoto] = useState<{ path: string; name: string } | null>(null);
+  const [emergencyPhoto, setEmergencyPhoto] = useState<{ path: string; name: string } | null>(null);
+  const [housingPhoto, setHousingPhoto] = useState<{ path: string; name: string } | null>(null);
+  const [feedPhoto, setFeedPhoto] = useState<{ path: string; name: string } | null>(null);
   const [showDrugUploader, setShowDrugUploader] = useState(false);
   const [showEmergencyUploader, setShowEmergencyUploader] = useState(false);
   const [showHousingUploader, setShowHousingUploader] = useState(false);
@@ -71,6 +72,21 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
   const [housingComments, setHousingComments] = useState('');
   const [feedComments, setFeedComments] = useState('');
   const [uploadError, setUploadError] = useState<string | null>(null);
+
+  const facilityEntityId = vetEmail ?? 'pending';
+
+  const { signedUrl: drugSignedUrl } = useSecureDownloadUrl(
+    drugStoragePhoto?.path && !drugStoragePhoto.path.startsWith('http') ? drugStoragePhoto.path : null,
+  );
+  const { signedUrl: emergencySignedUrl } = useSecureDownloadUrl(
+    emergencyPhoto?.path && !emergencyPhoto.path.startsWith('http') ? emergencyPhoto.path : null,
+  );
+  const { signedUrl: housingSignedUrl } = useSecureDownloadUrl(
+    housingPhoto?.path && !housingPhoto.path.startsWith('http') ? housingPhoto.path : null,
+  );
+  const { signedUrl: feedSignedUrl } = useSecureDownloadUrl(
+    feedPhoto?.path && !feedPhoto.path.startsWith('http') ? feedPhoto.path : null,
+  );
 
   const totalSlides = 8;
   const PASSING_SCORE = 80;
@@ -464,16 +480,16 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
     });
     // Populate facility photos from saved qualification
     if (qualification.drug_storage_photo_url) {
-      setDrugStoragePhoto({ cdnUrl: qualification.drug_storage_photo_url, name: 'Drug Storage' });
+      setDrugStoragePhoto({ path: qualification.drug_storage_photo_url, name: 'Drug Storage' });
     }
     if (qualification.emergency_equipment_photo_url) {
-      setEmergencyPhoto({ cdnUrl: qualification.emergency_equipment_photo_url, name: 'Emergency Equipment' });
+      setEmergencyPhoto({ path: qualification.emergency_equipment_photo_url, name: 'Emergency Equipment' });
     }
     if (qualification.housing_photo_url) {
-      setHousingPhoto({ cdnUrl: qualification.housing_photo_url, name: 'Equine Housing' });
+      setHousingPhoto({ path: qualification.housing_photo_url, name: 'Equine Housing' });
     }
     if (qualification.feed_photo_url) {
-      setFeedPhoto({ cdnUrl: qualification.feed_photo_url, name: 'Feed Storage' });
+      setFeedPhoto({ path: qualification.feed_photo_url, name: 'Feed Storage' });
     }
     if (qualification.housing_comments) {
       setHousingComments(qualification.housing_comments);
@@ -509,10 +525,10 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
       protocolSignedAt: form.protocolSigned ? new Date().toISOString() : null,
       protocolSignedVersion: form.protocolSigned ? '1.0' : null,
       protocolSignature: form.protocolSigned ? `${vetEmail}-protocol` : null,
-      drugStoragePhotoUrl: drugStoragePhoto?.cdnUrl ?? null,
-      emergencyEquipmentPhotoUrl: emergencyPhoto?.cdnUrl ?? null,
-      housingPhotoUrl: housingPhoto?.cdnUrl ?? null,
-      feedPhotoUrl: feedPhoto?.cdnUrl ?? null,
+      drugStoragePhotoUrl: drugStoragePhoto?.path ?? null,
+      emergencyEquipmentPhotoUrl: emergencyPhoto?.path ?? null,
+      housingPhotoUrl: housingPhoto?.path ?? null,
+      feedPhotoUrl: feedPhoto?.path ?? null,
       housingComments: housingComments || null,
       feedComments: feedComments || null,
       qualificationStatus: form.investigatorAgreementSigned && form.protocolSigned ? 'pending_review' : 'pending_submission',
@@ -943,7 +959,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={drugStoragePhoto.cdnUrl} alt="Drug Storage" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={drugStoragePhoto.path.startsWith('http') ? drugStoragePhoto.path : drugSignedUrl} alt="Drug Storage" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{drugStoragePhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowDrugUploader(true)}>Replace</Button>
@@ -952,26 +968,22 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                       </div>
                     ) : showDrugUploader ? (
                       <div className="space-y-2">
-                        <FileUploaderRegular
-                          pubkey="65522fb5ee7036edf97b"
-                          classNameUploader="uc-light uc-purple"
-                          sourceList="local, camera"
-                          imgOnly={true}
-                          multiple={false}
-                          onFileUploadSuccess={(fileInfo: any) => {
-                            if (fileInfo.size > 10 * 1024 * 1024) {
-                              setUploadError('File exceeds 10MB limit.');
-                              return;
-                            }
-                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
-                              setUploadError('Only JPEG and PNG images are accepted.');
-                              return;
-                            }
+                        <SecureFileUploadButton
+                          category="facility-photo"
+                          entityType="investigator-quals"
+                          entityId={facilityEntityId}
+                          accept="image/*"
+                          capture="environment"
+                          className="w-full"
+                          onUploadSuccess={(info) => {
                             setUploadError(null);
-                            setDrugStoragePhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setDrugStoragePhoto({ path: info.path, name: info.name });
                             setShowDrugUploader(false);
                           }}
-                        />
+                          onError={(err) => setUploadError(err.message)}
+                        >
+                          Choose Photo
+                        </SecureFileUploadButton>
                         <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowDrugUploader(false)}>Cancel</Button>
                       </div>
                     ) : (
@@ -1023,7 +1035,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={emergencyPhoto.cdnUrl} alt="Emergency Equipment" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={emergencyPhoto.path.startsWith('http') ? emergencyPhoto.path : emergencySignedUrl} alt="Emergency Equipment" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{emergencyPhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowEmergencyUploader(true)}>Replace</Button>
@@ -1104,7 +1116,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={housingPhoto.cdnUrl} alt="Equine Housing" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={housingPhoto.path.startsWith('http') ? housingPhoto.path : housingSignedUrl} alt="Equine Housing" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{housingPhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowHousingUploader(true)}>Replace</Button>
@@ -1194,7 +1206,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={feedPhoto.cdnUrl} alt="Feed Storage" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={feedPhoto.path.startsWith('http') ? feedPhoto.path : feedSignedUrl} alt="Feed Storage" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{feedPhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowFeedUploader(true)}>Replace</Button>
