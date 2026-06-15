@@ -152,21 +152,21 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
   const hasErrors = Object.keys(formErrors).length > 0;
 
   return (
-    <div className="min-h-screen bg-hero-gradient flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
       <div className="hidden print:block w-full max-w-4xl">
         <PrintConsent values={form.getValues()} printedAt={consentPrintedAt} />
       </div>
       <div className="print:hidden w-full flex flex-col items-center">
-        <div className="mb-8">
+        <div className="mb-6">
           <ByrockLogo variant="full" height={48} />
         </div>
-        <Card className="max-w-4xl w-full bg-card/90 backdrop-blur-sm">
-        <CardHeader className="border-b border-silver-cool/40">
+        <Card className="max-w-4xl w-full shadow-xl">
+        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
           <div className="flex items-center gap-3">
-            <AlertTriangle className="h-5 w-5 text-warning" />
+            <AlertTriangle className="h-8 w-8 text-yellow-400" />
             <div>
-              <p className="text-eyebrow">Investigational drug use agreement</p>
-              <CardTitle>PTP-102 trial — terms &amp; conditions</CardTitle>
+              <CardTitle className="text-2xl">PTP-102 Laminitis Trial - Terms & Conditions</CardTitle>
+              <p className="text-slate-300 text-sm mt-1">Investigational Drug Use Agreement</p>
             </div>
           </div>
         </CardHeader>

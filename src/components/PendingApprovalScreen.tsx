@@ -45,17 +45,17 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
   const supportEmail = 'drdsp@pm.me';
 
   return (
-    <div className="min-h-screen bg-hero-gradient flex flex-col items-center justify-center p-4">
-      <div className="mb-8">
-        <ByrockLogo variant="full" height={48} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+      <div className="mb-6">
+        <ByrockLogo variant="full" height={60} />
       </div>
-      <Card className="max-w-md w-full bg-card/90 backdrop-blur-sm">
-        <CardHeader className="border-b border-silver-cool/40">
+      <Card className="max-w-md w-full shadow-xl">
+        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
           <div className="flex items-center gap-3">
-            <Clock className="h-5 w-5 text-warning" />
+            <Clock className="h-8 w-8 text-yellow-400" />
             <div>
-              <p className="text-eyebrow">Awaiting review</p>
-              <CardTitle>Pending approval</CardTitle>
+              <CardTitle className="text-2xl">Pending Approval</CardTitle>
+              <p className="text-slate-300 text-sm mt-1">PTP-102 Trial Access</p>
             </div>
           </div>
         </CardHeader>

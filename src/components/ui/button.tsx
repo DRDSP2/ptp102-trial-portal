@@ -4,40 +4,27 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-/**
- * Button variants — per design token spec.
- *
- * Token mapping:
- *   default (primary)    -> bg-[#2d6a4f] hover:bg-[#357a5c] text-white
- *   secondary            -> transparent bg, border-white/15, text-white/60, hover:bg-white/5 border-white/25 text-white
- *   outline              -> border-white/10, bg-transparent, hover:bg-white/5
- *   ghost                -> no chrome, text-white/60, hover:bg-white/5 text-white
- *   destructive          -> bg-red-500/80 hover:bg-red-500/90 text-white
- *   link                 -> khaki underline, hover:text-khaki-soft
- */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold tracking-tight transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2d6a4f] focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-[#2d6a4f] text-white shadow-sm hover:bg-[#357a5c]",
+          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive:
-          "bg-red-500/80 text-white shadow-sm hover:bg-red-500/90",
+          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-white/15 bg-transparent text-foreground hover:bg-white/5",
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-transparent text-white/60 border border-white/15 hover:bg-white/5 hover:border-white/25 hover:text-white",
-        ghost:
-          "text-white/60 hover:bg-white/5 hover:text-white",
-        link:
-          "text-khaki underline-offset-4 hover:underline hover:text-khaki-soft",
+          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-8 rounded-lg px-3 text-xs",
-        default: "h-10 px-5 py-2",
-        lg: "h-12 px-7 text-base",
-        icon: "h-10 w-10",
+        default: "h-9 px-4 py-2",
+        sm: "h-8 rounded-md px-3 text-xs",
+        lg: "h-10 rounded-md px-8",
+        icon: "h-9 w-9",
       },
     },
     defaultVariants: {

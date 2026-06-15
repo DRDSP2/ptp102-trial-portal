@@ -2,184 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* =============================================================================
-   PTP-102 design tokens
-   -----------------------------------------------------------------------------
-   A calm, modern, fintech-leaning palette: dark gunmetal base, silver
-   neutrals, muted khaki-green accent, refined serif display + clean sans
-   body. All colors are stored as HSL triples so Tailwind utilities of the
-   form `bg-[hsl(var(--token))]` and the shadcn `hsl(var(--name))` consumers
-   work the same way.
-
-   Contrast notes (WCAG 2.1 AA target):
-     - silver-text (#A8AEB3) on gunmetal (#1A1F23)   -> 7.4:1  (AAA)
-     - khaki      (#A8B388) on gunmetal              -> 6.1:1  (AA normal, AAA large)
-     - khaki-deep (#7A8665) on gunmetal              -> 3.7:1  (AA large only)
-     - success    (#7B8F5C) on gunmetal              -> 3.6:1  (AA large)
-     - warning    (#C9A357) on gunmetal              -> 5.9:1  (AA normal)
-     - destructive(#C46A5C) on gunmetal              -> 4.8:1  (AA normal)
-   ============================================================================= */
-
-:root {
-  /* ---------------------------------------------------------------- palette */
-  --gunmetal:           205 16% 12%;   /* #1A1F23 */
-  --gunmetal-deep:      205 16% 9%;    /* #13171A */
-  --gunmetal-elevated:  204 14% 16%;   /* #22282D */
-  --gunmetal-hover:     205 14% 20%;   /* #2C3338 - card hover */
-
-  --silver-cool:        208 9% 25%;    /* #3B4147 - borders, dividers */
-  --silver-cool-soft:   210 8% 32%;    /* #4B5158 - subtle borders */
-  --silver-text:        210 6% 68%;    /* #A8AEB3 - muted body text */
-  --silver-strong:      210 5% 91%;    /* #E5E7E9 - high-contrast text */
-
-  --khaki:              74 23% 62%;    /* #A8B388 - accent */
-  --khaki-deep:         78 16% 47%;    /* #7A8665 - hover/pressed */
-  --khaki-soft:         74 25% 75%;    /* #C9D1B0 - soft fills */
-  --khaki-tint:         74 30% 85%;    /* #DDE1C7 - very soft fill */
-
-  --bone:               40 17% 93%;    /* #F2F0EB - light surface alt */
-  --bone-deep:          38 14% 86%;    /* #E0DCD0 - light surface elevated */
-
-  /* status (muted, semantic) */
-  --success:            89 22% 46%;    /* #7B8F5C  olive */
-  --success-soft:       86 23% 73%;    /* #BEC9A8 */
-  --warning:            38 51% 56%;    /* #C9A357  brass */
-  --warning-soft:       40 47% 80%;    /* #E2D2A6 */
-  --destructive-mute:   8  46% 56%;    /* #C46A5C  terracotta */
-  --destructive-soft:   8  44% 80%;    /* #E1B5AC */
-  --info:               212 17% 56%;   /* #7A8FA6  slate-blue */
-  --info-soft:          212 22% 80%;   /* #B7C4D2 */
-
-  /* ---------------------------------------------------------------- shadows */
-  --ds-shadow-border:        0 0 0 1px hsl(var(--silver-cool) / 0.45);
-  --ds-shadow-small:         0 1px 2px rgba(0, 0, 0, 0.25);
-  --ds-shadow-border-small:  var(--ds-shadow-border), var(--ds-shadow-small);
-  --ds-shadow-medium:        0 2px 4px rgba(0, 0, 0, 0.30), 0 8px 16px -8px rgba(0, 0, 0, 0.40);
-  --ds-shadow-border-medium: var(--ds-shadow-border), var(--ds-shadow-medium);
-  --ds-shadow-large:         0 4px 8px rgba(0, 0, 0, 0.35), 0 16px 32px -8px rgba(0, 0, 0, 0.50);
-  --ds-shadow-border-large:  var(--ds-shadow-border), var(--ds-shadow-large);
-  --ds-shadow-tooltip:       var(--ds-shadow-border), 0 1px 1px rgba(0, 0, 0, 0.20), 0 4px 8px rgba(0, 0, 0, 0.30);
-  --ds-shadow-menu:          var(--ds-shadow-border), 0 1px 1px rgba(0, 0, 0, 0.20), 0 4px 8px -4px rgba(0, 0, 0, 0.30),
-                             0 16px 24px -8px rgba(0, 0, 0, 0.40);
-  --ds-shadow-modal:         var(--ds-shadow-border), 0 1px 1px rgba(0, 0, 0, 0.20), 0 8px 16px -4px rgba(0, 0, 0, 0.30),
-                             0 24px 32px -8px rgba(0, 0, 0, 0.50);
-  --ds-shadow-fullscreen:    var(--ds-shadow-modal);
-
-  /* ---------------------------------------------------------------- shape */
-  --radius:                  0.5rem;
-
-  /* -------------------------------------------------------------- typography */
-  --font-serif: 'Fraunces', 'Cormorant Garamond', ui-serif, Georgia, 'Times New Roman', serif;
-  --font-sans:  'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono:  ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  --layout-text-font-family: var(--font-sans);
-
-  --tracking-display: -0.025em;     /* tight, editorial-feel headings */
-  --tracking-eyebrow: 0.18em;        /* small caps eyebrows */
-
-  /* ---------------------------------------------------------------- shadcn
-     The `--scn-*` variables drive Tailwind utilities via tailwind.config.js
-     (`hsl(var(--background))` etc.). We map them to the dark gunmetal theme
-     by default — there is no separate light theme in this app.
-  ============================================================================= */
-  --scn-background:           var(--gunmetal);
-  --scn-foreground:           var(--silver-strong);
-
-  --scn-muted:                var(--gunmetal-elevated);
-  --scn-muted-foreground:     var(--silver-text);
-
-  --scn-card:                 var(--gunmetal-elevated);
-  --scn-card-foreground:      var(--silver-strong);
-
-  --scn-popover:              var(--gunmetal-elevated);
-  --scn-popover-foreground:   var(--silver-strong);
-
-  --scn-border:               var(--silver-cool);
-  --scn-input:                var(--silver-cool);
-
-  --scn-primary:              var(--khaki);
-  --scn-primary-foreground:   var(--gunmetal-deep);
-
-  --scn-secondary:            var(--gunmetal-elevated);
-  --scn-secondary-foreground: var(--silver-strong);
-
-  --scn-accent:               var(--khaki-soft);
-  --scn-accent-foreground:    var(--gunmetal-deep);
-
-  --scn-destructive:          var(--destructive-mute);
-  --scn-destructive-foreground: 40 17% 95%;
-
-  --scn-warning:              var(--warning);
-  --scn-warning-foreground:   var(--gunmetal-deep);
-
-  --scn-ring:                 var(--khaki);
-  --scn-radius:               var(--radius);
-
-  --scn-chart-1:              var(--khaki);
-  --scn-chart-2:              var(--info);
-  --scn-chart-3:              var(--warning);
-  --scn-chart-4:              var(--success);
-  --scn-chart-5:              var(--silver-text);
-
-  --scn-sidebar-background:   var(--gunmetal-deep);
-  --scn-sidebar-foreground:   var(--silver-text);
-  --scn-sidebar-primary:      var(--khaki);
-  --scn-sidebar-primary-foreground: var(--gunmetal-deep);
-  --scn-sidebar-accent:       var(--gunmetal-elevated);
-  --scn-sidebar-accent-foreground: var(--silver-strong);
-  --scn-sidebar-border:       var(--silver-cool);
-  --scn-sidebar-ring:         var(--khaki);
-
-  /* ---------------------------------------------------------------- aliases
-     The non-prefixed variables are the ones tailwind.config.js reads via
-     `hsl(var(--background))`. We just point them at the scn layer.
-  ============================================================================= */
-  --background:           var(--scn-background);
-  --foreground:           var(--scn-foreground);
-  --muted:                var(--scn-muted);
-  --muted-foreground:     var(--scn-muted-foreground);
-  --card:                 var(--scn-card);
-  --card-foreground:      var(--scn-card-foreground);
-  --popover:              var(--scn-popover);
-  --popover-foreground:   var(--scn-popover-foreground);
-  --border:               var(--scn-border);
-  --input:                var(--scn-input);
-  --primary:              var(--scn-primary);
-  --primary-foreground:   var(--scn-primary-foreground);
-  --secondary:            var(--scn-secondary);
-  --secondary-foreground: var(--scn-secondary-foreground);
-  --accent:               var(--scn-accent);
-  --accent-foreground:    var(--scn-accent-foreground);
-  --destructive:          var(--scn-destructive);
-  --destructive-foreground: var(--scn-destructive-foreground);
-  --warning:              var(--scn-warning);
-  --warning-foreground:   var(--scn-warning-foreground);
-  --ring:                 var(--scn-ring);
-  --chart-1:              var(--scn-chart-1);
-  --chart-2:              var(--scn-chart-2);
-  --chart-3:              var(--scn-chart-3);
-  --chart-4:              var(--scn-chart-4);
-  --chart-5:              var(--scn-chart-5);
-  --sidebar-background:           var(--scn-sidebar-background);
-  --sidebar-foreground:           var(--scn-sidebar-foreground);
-  --sidebar-primary:              var(--scn-sidebar-primary);
-  --sidebar-primary-foreground:   var(--scn-sidebar-primary-foreground);
-  --sidebar-accent:               var(--scn-sidebar-accent);
-  --sidebar-accent-foreground:    var(--scn-sidebar-accent-foreground);
-  --sidebar-border:               var(--scn-sidebar-border);
-  --sidebar-ring:                 var(--scn-sidebar-ring);
-}
-
-/* The .dark class no longer flips theme — the app is dark-by-default. The
-   selector remains so Tailwind's `dark:` variants stay no-ops rather than
-   triggering an unintended palette switch. */
-.dark {
-  /* intentionally empty */
-}
-
-/* =============================================================================
-   Base typography
-   ============================================================================= */
 @layer base {
   * {
     border-color: hsl(var(--border));
@@ -187,86 +9,135 @@
 
   html {
     scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background: hsl(var(--background));
-    color: hsl(var(--foreground));
-    font-family: var(--font-sans);
-    font-feature-settings: 'cv11', 'ss01', 'ss02', 'ss03';
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
-    line-height: 1.6;
-  }
-
-  h1, h2, h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    letter-spacing: var(--tracking-display);
-    line-height: 1.05;
-    color: hsl(var(--silver-strong));
-    /* Fraunces optical sizing + slight roundness for editorial feel */
-    font-variation-settings: 'opsz' 144, 'SOFT' 30;
-  }
-
-  h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
-  h2 { font-size: clamp(2rem,   3.5vw, 3rem); }
-  h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
-
-  h4, h5, h6 {
-    font-family: var(--font-sans);
-    font-weight: 500;
-    letter-spacing: -0.005em;
-    line-height: 1.25;
-    color: hsl(var(--silver-strong));
-  }
-
-  /* Eyebrow / category label — opt in via .text-eyebrow */
-  .text-eyebrow {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: var(--tracking-eyebrow);
-    text-transform: uppercase;
-    color: hsl(var(--khaki));
-  }
-
-  /* Use the serif explicitly when an inline element wants it (drop-cap,
-     numerical highlight, etc.) — opt in via .font-display. */
-  .font-display {
-    font-family: var(--font-serif);
-    font-feature-settings: 'liga', 'kern', 'ss01';
-    letter-spacing: var(--tracking-display);
-  }
-
-  /* Subtle selection styling */
-  ::selection {
-    background: hsl(var(--khaki) / 0.35);
-    color: hsl(var(--silver-strong));
-  }
-
-  /* Ring colour for keyboard focus */
-  :focus-visible {
-    outline-color: hsl(var(--khaki));
   }
 }
 
-/* =============================================================================
-   Utilities
-   ============================================================================= */
-@layer utilities {
-  /* Subtle grain on dark surfaces (used by hero sections / large panels). */
-  .bg-noise {
-    background-image: radial-gradient(hsl(var(--silver-strong) / 0.04) 1px, transparent 1px);
-    background-size: 3px 3px;
-  }
+:root {
+  --radius: 0.5rem;
+  --ds-shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --ds-shadow-small: 0px 1px 2px rgba(0, 0, 0, 0.04);
+  --ds-shadow-border-small: var(--ds-shadow-border), var(--ds-shadow-small);
+  --ds-shadow-medium: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 8px -8px rgba(0, 0, 0, 0.04);
+  --ds-shadow-border-medium: var(--ds-shadow-border), var(--ds-shadow-medium);
+  --ds-shadow-large: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.04);
+  --ds-shadow-border-large: var(--ds-shadow-border), var(--ds-shadow-large);
+  --ds-shadow-tooltip: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02), 0px 4px 8px rgba(0, 0, 0, 0.04);
+  --ds-shadow-menu: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02), 0px 4px 8px -4px rgba(0, 0, 0, 0.04),
+    0px 16px 24px -8px rgba(0, 0, 0, 0.06);
+  --ds-shadow-modal: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02), 0px 8px 16px -4px rgba(0, 0, 0, 0.04),
+    0px 24px 32px -8px rgba(0, 0, 0, 0.06);
+  --ds-shadow-fullscreen: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02),
+    0px 8px 16px -4px rgba(0, 0, 0, 0.04), 0px 24px 32px -8px rgba(0, 0, 0, 0.06);
+  --scn-background: 0 0% 100%;
+  --scn-foreground: 240 10% 3.9%;
+  --scn-muted: 240 4.8% 95.9%;
+  --scn-muted-foreground: 240 3.8% 46.1%;
+  --scn-card: 0 0% 100%;
+  --scn-card-foreground: 240 10% 3.9%;
+  --scn-popover: 0 0% 100%;
+  --scn-popover-foreground: 240 10% 3.9%;
+  --scn-border: 240 5.9% 90%;
+  --scn-input: 240 5.9% 90%;
+  --scn-primary: 240 5.9% 10%;
+  --scn-primary-foreground: 0 0% 98%;
+  --scn-secondary: 240 4.8% 95.9%;
+  --scn-secondary-foreground: 240 5.9% 10%;
+  --scn-accent: 240 4.8% 95.9%;
+  --scn-accent-foreground: 240 5.9% 10%;
+  --scn-destructive: 0 84.2% 60.2%;
+  --scn-destructive-foreground: 0 0% 98%;
+  --scn-warning: 35, 100%, 52%;
+  --scn-warning-foreground: 0 0% 9%;
+  --scn-ring: 240 5% 64.9%;
+  --scn-radius: 0.5rem;
+  --scn-chart-1: 173 58% 39%;
+  --scn-chart-2: 12 76% 61%;
+  --scn-chart-3: 197 37% 24%;
+  --scn-chart-4: 43 74% 66%;
+  --scn-chart-5: 27 87% 67%;
+  --scn-sidebar-background: 0 0% 98%;
+  --scn-sidebar-foreground: 240 5.3% 26.1%;
+  --scn-sidebar-primary: 240 5.9% 10%;
+  --scn-sidebar-primary-foreground: 0 0% 98%;
+  --scn-sidebar-accent: 240 4.8% 95.9%;
+  --scn-sidebar-accent-foreground: 240 5.9% 10%;
+  --scn-sidebar-border: 220 13% 91%;
+  --scn-sidebar-ring: 240 5% 64.9%;
+  --background: var(--scn-background);
+  --foreground: var(--scn-foreground);
+  --muted: var(--scn-muted);
+  --muted-foreground: var(--scn-muted-foreground);
+  --card: var(--scn-card);
+  --card-foreground: var(--scn-card-foreground);
+  --popover: var(--scn-popover);
+  --popover-foreground: var(--scn-popover-foreground);
+  --border: var(--scn-border);
+  --input: var(--scn-input);
+  --primary: var(--scn-primary);
+  --primary-foreground: var(--scn-primary-foreground);
+  --secondary: var(--scn-secondary);
+  --secondary-foreground: var(--scn-secondary-foreground);
+  --accent: var(--scn-accent);
+  --accent-foreground: var(--scn-accent-foreground);
+  --destructive: var(--scn-destructive);
+  --destructive-foreground: var(--scn-destructive-foreground);
+  --warning: var(--scn-warning);
+  --warning-foreground: var(--scn-warning-foreground);
+  --ring: var(--scn-ring);
+  --radius: var(--scn-radius);
+  --chart-1: var(--scn-chart-1);
+  --chart-2: var(--scn-chart-2);
+  --chart-3: var(--scn-chart-3);
+  --chart-4: var(--scn-chart-4);
+  --chart-5: var(--scn-chart-5);
+  --sidebar-background: var(--scn-sidebar-background);
+  --sidebar-foreground: var(--scn-sidebar-foreground);
+  --sidebar-primary: var(--scn-sidebar-primary);
+  --sidebar-primary-foreground: var(--scn-sidebar-primary-foreground);
+  --sidebar-accent: var(--scn-sidebar-accent);
+  --sidebar-accent-foreground: var(--scn-sidebar-accent-foreground);
+  --sidebar-border: var(--scn-sidebar-border);
+  --sidebar-ring: var(--scn-sidebar-ring);
+}
 
-  .bg-hero-gradient {
-    background:
-      radial-gradient(80% 60% at 30% 20%, hsl(var(--khaki) / 0.08), transparent 70%),
-      radial-gradient(60% 50% at 80% 80%, hsl(var(--info) / 0.06), transparent 70%),
-      hsl(var(--gunmetal-deep));
-  }
+.dark {
+  --scn-background: 240 10% 3.9%;
+  --scn-foreground: 0 0% 98%;
+  --scn-muted: 240 3.7% 15.9%;
+  --scn-muted-foreground: 240 5% 64.9%;
+  --scn-card: 240 10% 3.9%;
+  --scn-card-foreground: 0 0% 98%;
+  --scn-popover: 240 10% 3.9%;
+  --scn-popover-foreground: 0 0% 98%;
+  --scn-border: 240 3.7% 15.9%;
+  --scn-input: 240 3.7% 15.9%;
+  --scn-primary: 0 0% 98%;
+  --scn-primary-foreground: 240 5.9% 10%;
+  --scn-secondary: 240 3.7% 15.9%;
+  --scn-secondary-foreground: 0 0% 98%;
+  --scn-accent: 240 3.7% 15.9%;
+  --scn-accent-foreground: 0 0% 98%;
+  --scn-destructive: 0 62.8% 30.6%;
+  --scn-destructive-foreground: 0 85.7% 97.3%;
+  --scn-warning: 35, 100%, 52%;
+  --scn-warning-foreground: 0 0% 9%;
+  --scn-ring: 240 3.7% 15.9%;
+  --scn-chart-1: 220 70% 50%;
+  --scn-chart-2: 160 60% 45%;
+  --scn-chart-3: 30 80% 55%;
+  --scn-chart-4: 280 65% 60%;
+  --scn-chart-5: 340 75% 55%;
+  --scn-sidebar-background: 240 5.9% 10%;
+  --scn-sidebar-foreground: 240 4.8% 95.9%;
+  --scn-sidebar-primary: 224.3 76.3% 48%;
+  --scn-sidebar-primary-foreground: 0 0% 100%;
+  --scn-sidebar-accent: 240 3.7% 15.9%;
+  --scn-sidebar-accent-foreground: 240 4.8% 95.9%;
+  --scn-sidebar-border: 240 3.7% 15.9%;
+  --scn-sidebar-ring: 240 4.9% 83.9%;
 }
