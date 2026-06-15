@@ -175,10 +175,10 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
 
           {showGuidelines && (
             <Alert className="bg-blue-50 border-blue-200">
-              <Info className="h-4 w-4 text-blue-600" />
+              <Info className="h-4 w-4 text-info" />
               <AlertDescription className="text-sm space-y-2">
-                <p className="font-semibold text-blue-900">Sleip AI Gait Assessment Guidelines:</p>
-                <ul className="list-disc list-inside space-y-1 text-blue-800 text-xs ml-2">
+                <p className="font-semibold text-info-soft">Sleip AI Gait Assessment Guidelines:</p>
+                <ul className="list-disc list-inside space-y-1 text-silver-strong text-xs ml-2">
                   <li><strong>Camera Position:</strong> Side view, perpendicular to horse's path of travel</li>
                   <li><strong>Distance:</strong> 15-20 feet from the horse to capture full body in frame</li>
                   <li><strong>Surface:</strong> Flat, even ground (concrete or asphalt preferred)</li>
@@ -190,7 +190,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
                   <li><strong>Stability:</strong> Hold camera steady or use tripod, avoid panning</li>
                   <li><strong>Format:</strong> MP4 or MOV, minimum 720p resolution, 30fps or higher</li>
                 </ul>
-                <p className="text-xs text-blue-700 pt-2">
+                <p className="text-xs text-silver-text pt-2">
                   <strong>Note:</strong> These videos will be uploaded to secure private storage and linked to this patient record.
                 </p>
               </AlertDescription>

@@ -122,8 +122,8 @@ export function MonitoringChecklist({ protocolHour, treatments, assessments, lab
           <>
             {isWithin72Hours && (
               <div className="bg-orange-100 border border-orange-300 rounded-md p-3 mb-3">
-                <p className="text-xs font-semibold text-orange-900">PRIMARY OBSERVATION PERIOD (0-72h)</p>
-                <p className="text-xs text-orange-800 mt-1">Close monitoring required - document all observations</p>
+                <p className="text-xs font-semibold text-warning-soft">PRIMARY OBSERVATION PERIOD (0-72h)</p>
+                <p className="text-xs text-silver-strong mt-1">Close monitoring required - document all observations</p>
               </div>
             )}
             <div className="space-y-2">

@@ -236,16 +236,16 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
 
       {(patient as any).data_lock_status === 'frozen' && (
         <Alert className="bg-amber-50 border-amber-200">
-          <Lock className="h-4 w-4 text-amber-600" />
-          <AlertDescription className="text-amber-800 font-medium">
+          <Lock className="h-4 w-4 text-warning" />
+          <AlertDescription className="text-warning-soft font-medium">
             This patient record is <strong>FROZEN</strong>. Data are reviewable; changes are still possible with a documented reason and admin approval.
           </AlertDescription>
         </Alert>
       )}
       {(patient as any).data_lock_status === 'locked' && (
         <Alert className="bg-red-50 border-red-200">
-          <Lock className="h-4 w-4 text-red-600" />
-          <AlertDescription className="text-red-800 font-medium">
+          <Lock className="h-4 w-4 text-destructive" />
+          <AlertDescription className="text-destructive-foreground font-medium">
             This patient record is <strong>LOCKED</strong>. Final state — no further changes are permitted. Contact an admin if a critical correction is required.
           </AlertDescription>
         </Alert>
@@ -306,16 +306,16 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
             <CardContent className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <div className="p-2 bg-green-50 border border-green-200 rounded">
-                  <p className="font-semibold text-green-800 flex items-center gap-1"><CheckSquare className="h-3 w-3" /> Inclusion</p>
-                  <ul className="text-xs text-green-700 mt-1 space-y-0.5">
+                  <p className="font-semibold text-success-soft flex items-center gap-1"><CheckSquare className="h-3 w-3" /> Inclusion</p>
+                  <ul className="text-xs text-silver-strong mt-1 space-y-0.5">
                     <li>• Acute laminitis (Obel 1-3)</li>
                     <li>• Age 2-20 years</li>
                     <li>• Weight &gt;200 kg</li>
                   </ul>
                 </div>
                 <div className="p-2 bg-red-50 border border-red-200 rounded">
-                  <p className="font-semibold text-red-800 flex items-center gap-1"><XSquare className="h-3 w-3" /> Exclusion</p>
-                  <ul className="text-xs text-red-700 mt-1 space-y-0.5">
+                  <p className="font-semibold text-destructive flex items-center gap-1"><XSquare className="h-3 w-3" /> Exclusion</p>
+                  <ul className="text-xs text-silver-strong mt-1 space-y-0.5">
                     <li>• Chronic &gt;14 days</li>
                     <li>• Pregnant/lactating</li>
                     <li>• Concurrent systemic disease</li>
@@ -323,8 +323,8 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 </div>
               </div>
               <div className="p-2 bg-blue-50 border border-blue-200 rounded text-sm">
-                <p className="font-semibold text-blue-800">Dosing Schedule</p>
-                <p className="text-xs text-blue-700 mt-1">Dose 1: Hour 0 • Dose 2: Hour 12 • 500mL IV @ 5mg/mL</p>
+                <p className="font-semibold text-info-soft">Dosing Schedule</p>
+                <p className="text-xs text-silver-strong mt-1">Dose 1: Hour 0 • Dose 2: Hour 12 • 500mL IV @ 5mg/mL</p>
               </div>
             </CardContent>
           </Card>
@@ -434,7 +434,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 {patient.treatments && patient.treatments.length > 0 ? (
                   <div className="space-y-2">
                     {patient.treatments.map((treatment: any) => (
-                      <div key={treatment.id} className="p-4 border rounded-lg bg-white">
+                      <div key={treatment.id} className="p-4 border rounded-lg bg-gunmetal-deep">
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1">
                             <p className="font-medium text-base mb-1">
@@ -471,7 +471,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               {patient.clinical_notes && patient.clinical_notes.length > 0 ? (
                 <div className="space-y-3">
                   {patient.clinical_notes.map((note: any) => (
-                    <div key={note.id} className="p-4 border rounded-lg bg-white">
+                    <div key={note.id} className="p-4 border rounded-lg bg-gunmetal-deep">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <Badge variant="secondary">{note.note_type}</Badge>
@@ -524,7 +524,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                   {patient.clinical_notes
                     .filter((note: any) => note.video_url && note.video_url.trim() !== '')
                     .map((note: any) => (
-                      <div key={note.id} className="p-4 border rounded-lg bg-white">
+                      <div key={note.id} className="p-4 border rounded-lg bg-gunmetal-deep">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-2 min-w-0">
                             <Video className="h-5 w-5 text-blue-600 shrink-0" />
@@ -603,7 +603,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 {patient.lab_results && patient.lab_results.length > 0 ? (
                   <div className="space-y-2">
                     {patient.lab_results.map((lab: any) => (
-                      <div key={lab.id} className="p-4 border rounded-lg bg-white">
+                      <div key={lab.id} className="p-4 border rounded-lg bg-gunmetal-deep">
                         <div className="flex items-center justify-between mb-3">
                           <p className="font-medium">{new Date(lab.test_datetime).toLocaleString()}</p>
                           <Badge variant="outline">
@@ -761,7 +761,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 {patient.assessments && patient.assessments.length > 0 ? (
                   <div className="space-y-3">
                     {[...patient.assessments].reverse().map((assessment: any) => (
-                      <div key={assessment.id} className="p-4 border rounded-lg bg-white">
+                      <div key={assessment.id} className="p-4 border rounded-lg bg-gunmetal-deep">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-2">
                             <Badge variant="outline" className="text-base px-3 py-1">

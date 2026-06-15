@@ -7,7 +7,7 @@ export function ProtocolInfoCard() {
   return (
     <Card className="border-blue-200 bg-blue-50">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-blue-900">
+        <CardTitle className="flex items-center gap-2 text-info-soft">
           <Syringe className="h-5 w-5" />
           PTP-102 Dosage & Monitoring Protocol
         </CardTitle>

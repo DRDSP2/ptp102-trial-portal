@@ -100,9 +100,9 @@ export function AdministrationProcedureChecklist({
                     <p className="text-sm font-medium">{item.label}</p>
                     <ChecklistStatusBadge status={item.status} />
                   </div>
-                  {item.notes && <p className="text-xs text-slate-600">{item.notes}</p>}
+                   {item.notes && <p className="text-xs text-silver-text">{item.notes}</p>}
                   {item.lastUpdated && (
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-silver-text/80 mt-1">
                       Updated {new Date(item.lastUpdated).toLocaleDateString()} by {item.updatedBy || '—'}
                     </p>
                   )}

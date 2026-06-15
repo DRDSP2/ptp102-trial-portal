@@ -188,7 +188,7 @@ export function BottleInventoryTable({ drugSupply }: { drugSupply: DrugSupply })
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.label}>
-              <TableCell className="text-slate-500 text-sm">{row.label}</TableCell>
+              <TableCell className="text-silver-text text-sm">{row.label}</TableCell>
               <TableCell className="font-medium text-sm">
                 {row.label === 'Bottles Supplied' && drugSupply.inventoryDiscrepancy && drugSupply.bottlesSupplied !== drugSupply.bottlesReceived ? (
                   <span className="flex items-center gap-2">

@@ -41,11 +41,11 @@ export function ResearchHub() {
       content: (
         <div className="space-y-4">
           <div className="bg-gradient-to-br from-[#6b7f3a]/10 to-[#4a5c28]/5 border border-[#6b7f3a]/20 rounded-lg p-4">
-            <h4 className="font-semibold text-[#4a5c28] mb-2 flex items-center gap-2">
+            <h4 className="font-semibold text-khaki-soft mb-2 flex items-center gap-2">
               <Award className="h-4 w-4" />
               Breakthrough Solution for Laminitis
             </h4>
-            <p className="text-sm text-slate-700 leading-relaxed">
+            <p className="text-sm text-silver-strong leading-relaxed">
               PTP-102 represents Byrock Technologies&apos; pioneering pharmaceutical development 
               in equine healthcare. With patents pending across Europe, the United States, and 
               Australia, PTP-102 is positioned to become the first-in-class therapeutic treatment 
@@ -77,8 +77,8 @@ export function ResearchHub() {
           </div>
 
           <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm font-semibold text-blue-900 mb-2">Key Research Finding</p>
-            <blockquote className="text-sm text-blue-800 italic border-l-2 border-blue-300 pl-3">
+            <p className="text-sm font-semibold text-info-soft mb-2">Key Research Finding</p>
+            <blockquote className="text-sm text-silver-strong italic border-l-2 border-info pl-3">
               &quot;PTP-100, by far gave the most promising results of a prophylactic or therapeutic 
               treatment for this crippling equine disease.&quot;
             </blockquote>
@@ -167,8 +167,8 @@ export function ResearchHub() {
           </div>
 
           <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
-            <p className="text-xs text-amber-800 flex items-start gap-2">
-              <AlertCircle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-warning-soft flex items-start gap-2">
+              <AlertCircle className="h-3.5 w-3.5 mt-0.5 flex-shrink-0 text-warning" />
               <span>
                 Additional research materials are available via the Byrock documentation portal. 
                 Contact your trial coordinator for access to restricted datasets.
@@ -209,7 +209,7 @@ export function ResearchHub() {
             ].map((req, i) => (
               <div key={i} className="flex items-start gap-2 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span className="text-slate-700">{req}</span>
+                <span className="text-silver-strong">{req}</span>
               </div>
             ))}
           </div>
@@ -237,7 +237,7 @@ export function ResearchHub() {
             </Badge>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold mb-2">Research & Clinical Documentation</h2>
-          <p className="text-slate-300 text-sm sm:text-base max-w-2xl">
+          <p className="text-silver-strong text-sm sm:text-base max-w-2xl">
             Access comprehensive PTP-102 research materials, clinical trial protocols, 
             and regulatory documentation designed for veterinary professionals.
           </p>
@@ -269,11 +269,11 @@ export function ResearchHub() {
                           )}
                         </div>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-slate-300 group-hover:text-[#6b7f3a] group-hover:translate-x-0.5 transition-all" />
+                      <ChevronRight className="h-4 w-4 text-silver-text group-hover:text-khaki group-hover:translate-x-0.5 transition-all" />
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-slate-500 line-clamp-2">
+                    <p className="text-sm text-silver-text line-clamp-2">
                       {section.id === 'overview' && 'Comprehensive overview of PTP-102 formulation, dosing regimen, and development status.'}
                       {section.id === 'mission' && 'Byrock Technologies mission statement and core values driving equine pharmaceutical innovation.'}
                       {section.id === 'clinical-trials' && 'Access clinical trial data, safety profiles, and efficacy summaries for veterinary review.'}
@@ -301,12 +301,12 @@ export function ResearchHub() {
       </div>
 
       {/* Quick Access Footer */}
-      <Card className="border-dashed border-slate-300 bg-slate-50/50">
+      <Card className="border-dashed border-silver-cool/60 bg-gunmetal-deep/40">
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <p className="font-semibold text-sm">Need additional research materials?</p>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="font-semibold text-sm text-silver-strong">Need additional research materials?</p>
+              <p className="text-xs text-silver-text mt-1">
                 Full documentation repository available on the Byrock documentation portal.
               </p>
             </div>
@@ -328,8 +328,8 @@ export function ResearchHub() {
 
 function AlertBanner({ type, title, message }: { type: 'info' | 'warning'; title: string; message: string }) {
   const styles = {
-    info: 'bg-blue-50 border-blue-200 text-blue-900',
-    warning: 'bg-amber-50 border-amber-200 text-amber-900',
+    info: 'bg-info/10 border-info/40 text-info-soft',
+    warning: 'bg-warning/10 border-warning/40 text-warning-soft',
   };
   return (
     <div className={`p-4 border rounded-lg ${styles[type]}`}>

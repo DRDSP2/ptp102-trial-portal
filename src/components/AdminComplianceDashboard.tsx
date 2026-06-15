@@ -156,13 +156,13 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">Investigator Qualification Status</CardTitle>
             </CardHeader>
             <CardContent>
-              {invLoading ? <p className="text-sm text-slate-500">Loading...</p> : (
+              {invLoading ? <p className="text-sm text-silver-text">Loading...</p> : (
                 <div className="space-y-2">
                   {investigators?.map((inv: any) => (
                     <div key={inv.id} className="p-3 border rounded-lg flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium">{inv.full_name}</p>
-                        <p className="text-xs text-slate-500">{inv.email} • {inv.hospital_affiliation}</p>
+                        <p className="text-xs text-silver-text">{inv.email} • {inv.hospital_affiliation}</p>
                       </div>
                       <Badge className={
                         inv.qualification_status === 'approved' ? 'bg-green-100 text-green-800' :
@@ -173,7 +173,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                         {inv.qualification_status}
                       </Badge>
                     </div>
-                  )) || <p className="text-sm text-slate-500">No investigator qualifications found.</p>}
+                  )) || <p className="text-sm text-silver-text">No investigator qualifications found.</p>}
                 </div>
               )}
             </CardContent>
@@ -186,7 +186,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">Adverse Events Log</CardTitle>
             </CardHeader>
             <CardContent>
-              {aeLoading ? <p className="text-sm text-slate-500">Loading...</p> : (
+              {aeLoading ? <p className="text-sm text-silver-text">Loading...</p> : (
                 <div className="space-y-2">
                   {aes?.map((ae: any) => (
                     <div key={ae.id} className={`p-3 border rounded-lg ${ae.severity === 'Severe' || ae.severity === 'Life-Threatening' || ae.severity === 'Fatal' ? 'border-red-300 bg-red-50' : ''}`}>
@@ -198,10 +198,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                           'bg-red-100 text-red-800'
                         }>{ae.severity}</Badge>
                       </div>
-                      <p className="text-xs text-slate-600">{ae.event_description}</p>
-                      <p className="text-xs text-slate-400 mt-1">Reported: {new Date(ae.created_at).toLocaleString()} by {ae.reporter_name}</p>
+                      <p className="text-xs text-silver-text">{ae.event_description}</p>
+                      <p className="text-xs text-silver-text/80 mt-1">Reported: {new Date(ae.created_at).toLocaleString()} by {ae.reporter_name}</p>
                     </div>
-                  )) || <p className="text-sm text-slate-500">No adverse events reported.</p>}
+                  )) || <p className="text-sm text-silver-text">No adverse events reported.</p>}
                 </div>
               )}
             </CardContent>
@@ -214,7 +214,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">Protocol Deviations</CardTitle>
             </CardHeader>
             <CardContent>
-              {devLoading ? <p className="text-sm text-slate-500">Loading...</p> : (
+              {devLoading ? <p className="text-sm text-silver-text">Loading...</p> : (
                 <div className="space-y-2">
                   {deviations?.map((dev: any) => (
                     <div key={dev.id} className="p-3 border rounded-lg">
@@ -226,10 +226,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                           'bg-red-100 text-red-800'
                         }>{dev.impact_assessment}</Badge>
                       </div>
-                      <p className="text-xs text-slate-600">{dev.description}</p>
-                      <p className="text-xs text-slate-400 mt-1">{dev.horse_name} • {new Date(dev.deviation_date).toLocaleDateString()}</p>
+                      <p className="text-xs text-silver-text">{dev.description}</p>
+                      <p className="text-xs text-silver-text/80 mt-1">{dev.horse_name} • {new Date(dev.deviation_date).toLocaleDateString()}</p>
                     </div>
-                  )) || <p className="text-sm text-slate-500">No protocol deviations found.</p>}
+                  )) || <p className="text-sm text-silver-text">No protocol deviations found.</p>}
                 </div>
               )}
             </CardContent>
@@ -242,7 +242,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">NCIE Shipment Log</CardTitle>
             </CardHeader>
             <CardContent>
-              {shipLoading ? <p className="text-sm text-slate-500">Loading...</p> : (
+              {shipLoading ? <p className="text-sm text-silver-text">Loading...</p> : (
                 <div className="space-y-3">
                   {shipments?.map((ship: any) => (
                     <div key={ship.id} className="p-4 border rounded-lg">
@@ -258,7 +258,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                           'bg-slate-100 text-slate-700'
                         }>{ship.shipment_status?.replace(/_/g, ' ')}</Badge>
                       </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-silver-text">
                         <p><span className="font-semibold">Vet:</span> {ship.shipped_to_veterinarian_name || ship.shipped_to_investigator || 'Unknown'}</p>
                         <p><span className="font-semibold">Email:</span> {ship.shipped_to_veterinarian_email || '—'}</p>
                         <p><span className="font-semibold">Tracking:</span> {ship.tracking_number || '—'}</p>
@@ -276,7 +276,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                         )}
                       </div>
                     </div>
-                  )) || <p className="text-sm text-slate-500">No shipments logged.</p>}
+                  )) || <p className="text-sm text-silver-text">No shipments logged.</p>}
                 </div>
               )}
             </CardContent>
@@ -289,7 +289,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">FDA Correspondence</CardTitle>
             </CardHeader>
             <CardContent>
-              {fdaLoading ? <p className="text-sm text-slate-500">Loading...</p> : (
+              {fdaLoading ? <p className="text-sm text-silver-text">Loading...</p> : (
                 <div className="space-y-2">
                   {fdaCorr?.map((corr: any) => (
                     <div key={corr.id} className="p-3 border rounded-lg">
@@ -297,10 +297,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                         <p className="text-sm font-medium">{corr.subject}</p>
                         <Badge variant="outline">{corr.correspondence_type}</Badge>
                       </div>
-                      <p className="text-xs text-slate-600">{corr.description}</p>
-                      <p className="text-xs text-slate-400">{corr.from_entity} → {corr.to_entity} • {new Date(corr.correspondence_date).toLocaleDateString()}</p>
+                      <p className="text-xs text-silver-text">{corr.description}</p>
+                      <p className="text-xs text-silver-text/80">{corr.from_entity} → {corr.to_entity} • {new Date(corr.correspondence_date).toLocaleDateString()}</p>
                     </div>
-                  )) || <p className="text-sm text-slate-500">No FDA correspondence logged.</p>}
+                  )) || <p className="text-sm text-silver-text">No FDA correspondence logged.</p>}
                 </div>
               )}
             </CardContent>
@@ -317,20 +317,20 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
             </CardHeader>
             <CardContent>
               {statsLoading ? (
-                <p className="text-sm text-slate-500">Loading...</p>
+                <p className="text-sm text-silver-text">Loading...</p>
               ) : (
                 <div className="space-y-4">
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-silver-text">
                     Freezing or locking patient records is the standard end-of-study workflow. <span className="font-semibold">Frozen</span> records remain editable but require a documented reason for change; <span className="font-semibold">locked</span> records reject all writes outright. Both states are recorded in the audit trail per 21 CFR Part 11.
                   </p>
 
                   <div className="grid grid-cols-3 gap-3">
                     <div className="p-4 border rounded-lg bg-slate-50">
                       <div className="flex items-center gap-2 mb-1">
-                        <Unlock className="h-4 w-4 text-slate-600" />
-                        <span className="text-xs font-medium text-slate-600">Open</span>
+                        <Unlock className="h-4 w-4 text-silver-text" />
+                        <span className="text-xs font-medium text-silver-text">Open</span>
                       </div>
-                      <p className="text-2xl font-bold text-slate-700">{s?.patients_open ?? 0}</p>
+                      <p className="text-2xl font-bold text-silver-strong">{s?.patients_open ?? 0}</p>
                     </div>
                     <div className="p-4 border rounded-lg bg-amber-50">
                       <div className="flex items-center gap-2 mb-1">

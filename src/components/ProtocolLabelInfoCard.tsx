@@ -213,19 +213,19 @@ export function ProtocolLabelInfoCard({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Protocol Version</p>
-                <p className="font-semibold text-sm mt-1">{protocol.protocolVersion}</p>
+                <p className="font-semibold text-sm mt-1 text-slate-900">{protocol.protocolVersion}</p>
               </div>
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Infusion Time</p>
-                <p className="font-semibold text-sm mt-1">{protocol.infusionTime || 'Not recorded'}</p>
+                <p className="font-semibold text-sm mt-1 text-slate-900">{protocol.infusionTime || 'Not recorded'}</p>
               </div>
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Approved By</p>
-                <p className="font-semibold text-sm mt-1">{protocol.protocolApprovedBy || '—'}</p>
+                <p className="font-semibold text-sm mt-1 text-slate-900">{protocol.protocolApprovedBy || '—'}</p>
               </div>
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Approved Date</p>
-                <p className="font-semibold text-sm mt-1">
+                <p className="font-semibold text-sm mt-1 text-slate-900">
                   {protocol.protocolApprovedDate ? new Date(protocol.protocolApprovedDate).toLocaleDateString() : '—'}
                 </p>
               </div>

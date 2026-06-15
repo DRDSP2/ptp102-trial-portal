@@ -174,7 +174,7 @@ export function ProductShipmentTrackingCard({
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Tracking Number</p>
                 <div className="flex items-center gap-2 mt-1">
-                  <p className="font-mono font-semibold text-sm">
+                  <p className="font-mono font-semibold text-sm text-slate-900">
                     {shipment.trackingNumber || 'Not assigned'}
                   </p>
                   {shipment.trackingNumber && (
@@ -186,11 +186,11 @@ export function ProductShipmentTrackingCard({
               </div>
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Carrier</p>
-                <p className="font-semibold text-sm mt-1">{shipment.carrier || 'Not assigned'}</p>
+                <p className="font-semibold text-sm mt-1 text-slate-900">{shipment.carrier || 'Not assigned'}</p>
               </div>
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Expected Delivery</p>
-                <p className="font-semibold text-sm mt-1">
+                <p className="font-semibold text-sm mt-1 text-slate-900">
                   {shipment.expectedDeliveryDate
                     ? new Date(shipment.expectedDeliveryDate).toLocaleString()
                     : 'Not scheduled'}
@@ -198,7 +198,7 @@ export function ProductShipmentTrackingCard({
               </div>
               <div className="p-3 bg-slate-50 border rounded-lg">
                 <p className="text-xs text-slate-500 uppercase">Delivered</p>
-                <p className="font-semibold text-sm mt-1">
+                <p className="font-semibold text-sm mt-1 text-slate-900">
                   {shipment.deliveredDate
                     ? new Date(shipment.deliveredDate).toLocaleString()
                     : 'Not yet delivered'}

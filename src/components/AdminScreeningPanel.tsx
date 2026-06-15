@@ -98,8 +98,8 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
     if (value === null || value === undefined) return null;
     return (
       <div className="grid grid-cols-2 gap-2">
-        <span className="text-sm text-slate-600">{label}:</span>
-        <span className="text-sm font-medium">{value}</span>
+        <span className="text-sm text-slate-700 font-medium">{label}:</span>
+        <span className="text-sm font-medium text-slate-900">{value}</span>
       </div>
     );
   };
@@ -108,19 +108,19 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
     return (
       <Card className="border-green-200 bg-green-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-green-900">
+          <CardTitle className="flex items-center gap-2 text-success-soft">
             <CheckCircle2 className="h-5 w-5" />
             Screening Approved
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2 text-sm text-green-800">
+          <div className="space-y-2 text-sm text-silver-strong">
             <p><strong>Approved by:</strong> {screenedBy}</p>
             {screenedAt && <p><strong>Date:</strong> {new Date(screenedAt).toLocaleString()}</p>}
             {screeningNotes && (
               <div>
                 <strong>Notes:</strong>
-                <p className="mt-1 p-2 bg-white rounded border border-green-200">{screeningNotes}</p>
+                <p className="mt-1 p-2 bg-white rounded border border-green-200 text-slate-900">{screeningNotes}</p>
               </div>
             )}
           </div>
@@ -134,19 +134,19 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
     return (
       <Card className="border-red-200 bg-red-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-red-900">
+          <CardTitle className="flex items-center gap-2 text-destructive">
             <XCircle className="h-5 w-5" />
             Screening Rejected
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2 text-sm text-red-800">
+          <div className="space-y-2 text-sm text-silver-strong">
             <p><strong>Rejected by:</strong> {screenedBy}</p>
             {screenedAt && <p><strong>Date:</strong> {new Date(screenedAt).toLocaleString()}</p>}
             {screeningNotes && (
               <div>
                 <strong>Rejection Reason:</strong>
-                <p className="mt-1 p-2 bg-white rounded border border-red-200">{screeningNotes}</p>
+                <p className="mt-1 p-2 bg-white rounded border border-red-200 text-slate-900">{screeningNotes}</p>
               </div>
             )}
           </div>
@@ -160,24 +160,24 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
     return (
       <Card className="border-amber-200 bg-amber-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-amber-900">
+          <CardTitle className="flex items-center gap-2 text-warning-soft">
             <Clock className="h-5 w-5" />
             Awaiting Further Details
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <Alert className="bg-white border-amber-300">
-            <AlertDescription className="text-sm text-amber-800">
+            <AlertDescription className="text-sm text-slate-900">
               This patient submission requires additional information from the veterinarian before it can be reviewed.
             </AlertDescription>
           </Alert>
-          <div className="space-y-2 text-sm text-amber-800">
+          <div className="space-y-2 text-sm text-silver-strong">
             <p><strong>Requested by:</strong> {screenedBy}</p>
             {screenedAt && <p><strong>Date:</strong> {new Date(screenedAt).toLocaleString()}</p>}
             {screeningNotes && (
               <div>
                 <strong>Message to Vet:</strong>
-                <p className="mt-1 p-2 bg-white rounded border border-amber-200">{screeningNotes}</p>
+                <p className="mt-1 p-2 bg-white rounded border border-amber-200 text-slate-900">{screeningNotes}</p>
               </div>
             )}
           </div>
@@ -197,10 +197,10 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
 
           {showApprove && (
             <div className="space-y-3 p-4 bg-white rounded-lg border border-green-200">
-              <h4 className="font-medium text-green-900">Admit Patient to Trial</h4>
+              <h4 className="font-medium text-slate-900">Admit Patient to Trial</h4>
               <Textarea placeholder="Optional admission notes..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
               <div className="flex gap-2">
-                <Button onClick={handleApprove} disabled={isApproving} className="bg-green-600 hover:bg-green-700" type="button">
+                <Button onClick={handleApprove} disabled={isApproving} className="bg-green-700 hover:bg-green-800 text-white" type="button">
                   {isApproving ? 'Admitting...' : 'Confirm Admission'}
                 </Button>
                 <Button onClick={() => { setShowApprove(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
@@ -210,7 +210,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
 
           {showReject && (
             <div className="space-y-3 p-4 bg-white rounded-lg border border-red-200">
-              <h4 className="font-medium text-red-900">Reject Patient Enrollment</h4>
+              <h4 className="font-medium text-slate-900">Reject Patient Enrollment</h4>
               <Textarea placeholder="Rejection reason (required)..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
               <div className="flex gap-2">
                 <Button onClick={handleReject} disabled={isRejecting || !notes.trim()} variant="destructive" type="button">
@@ -228,7 +228,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
   return (
     <Card className="border-orange-200 bg-orange-50">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between text-orange-900">
+        <CardTitle className="flex items-center justify-between text-warning-soft">
           <div className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5" />
             Screening Required
@@ -240,7 +240,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
       </CardHeader>
       <CardContent className="space-y-4">
         <Alert className="bg-white border-orange-300">
-          <AlertDescription className="text-sm text-orange-800">
+          <AlertDescription className="text-sm text-slate-900">
             This patient is pending admin screening. Review all fields and attachments, then choose an action.
           </AlertDescription>
         </Alert>
@@ -293,7 +293,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
               <DetailRow label="Enrollment Date" value={patientData.enrollment_date ? new Date(patientData.enrollment_date).toLocaleDateString() : null} />
               <DetailRow label="Consent Date" value={patientData.consent_date ? new Date(patientData.consent_date).toLocaleDateString() : null} />
               <div className="col-span-2">
-                <span className="text-sm text-slate-600">Eligibility Verified: </span>
+                <span className="text-sm text-slate-700 font-medium">Eligibility Verified: </span>
                 <Badge variant={patientData.eligibility_verified ? 'default' : 'secondary'} className="ml-2">
                   {patientData.eligibility_verified ? 'Yes' : 'No'}
                 </Badge>
@@ -304,11 +304,11 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
 
         {!showApprove && !showReject && !showAwaiting && (
           <div className="flex gap-2 flex-wrap">
-            <Button onClick={() => setShowApprove(true)} className="flex-1 bg-green-600 hover:bg-green-700" type="button">
+            <Button onClick={() => setShowApprove(true)} className="flex-1 bg-green-700 hover:bg-green-800 text-white" type="button">
               <CheckCircle2 className="mr-2 h-4 w-4" />
               Admit
             </Button>
-            <Button onClick={() => setShowAwaiting(true)} variant="secondary" className="flex-1 bg-amber-600 hover:bg-amber-700 text-white" type="button">
+            <Button onClick={() => setShowAwaiting(true)} variant="secondary" className="flex-1 bg-amber-700 hover:bg-amber-800 text-white" type="button">
               <Clock className="mr-2 h-4 w-4" />
               Awaiting Details
             </Button>
@@ -321,10 +321,10 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
 
         {showApprove && (
           <div className="space-y-3 p-4 bg-white rounded-lg border border-green-200">
-            <h4 className="font-medium text-green-900">Admit Patient to Trial</h4>
+            <h4 className="font-medium text-slate-900">Admit Patient to Trial</h4>
             <Textarea placeholder="Optional admission notes..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
             <div className="flex gap-2">
-              <Button onClick={handleApprove} disabled={isApproving} className="bg-green-600 hover:bg-green-700" type="button">
+              <Button onClick={handleApprove} disabled={isApproving} className="bg-green-700 hover:bg-green-800 text-white" type="button">
                 {isApproving ? 'Admitting...' : 'Confirm Admission'}
               </Button>
               <Button onClick={() => { setShowApprove(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
@@ -334,10 +334,10 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
 
         {showAwaiting && (
           <div className="space-y-3 p-4 bg-white rounded-lg border border-amber-200">
-            <h4 className="font-medium text-amber-900">Request Further Details</h4>
+            <h4 className="font-medium text-slate-900">Request Further Details</h4>
             <Textarea placeholder="Describe what information or documents are missing..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
             <div className="flex gap-2">
-              <Button onClick={handleAwaitingDetails} disabled={isRequesting || !notes.trim()} className="bg-amber-600 hover:bg-amber-700" type="button">
+              <Button onClick={handleAwaitingDetails} disabled={isRequesting || !notes.trim()} className="bg-amber-700 hover:bg-amber-800 text-white" type="button">
                 {isRequesting ? 'Sending...' : 'Send Request'}
               </Button>
               <Button onClick={() => { setShowAwaiting(false); setNotes(''); }} variant="outline" type="button">Cancel</Button>
@@ -347,7 +347,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
 
         {showReject && (
           <div className="space-y-3 p-4 bg-white rounded-lg border border-red-200">
-            <h4 className="font-medium text-red-900">Reject Patient Enrollment</h4>
+            <h4 className="font-medium text-slate-900">Reject Patient Enrollment</h4>
             <Textarea placeholder="Rejection reason (required)..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
             <div className="flex gap-2">
               <Button onClick={handleReject} disabled={isRejecting || !notes.trim()} variant="destructive" type="button">
@@ -366,15 +366,15 @@ function StatusHistory({ history }: { history: { status: string; timestamp: stri
   if (!history || history.length === 0) return null;
   return (
     <div className="mt-4 bg-white/60 rounded-lg p-3 space-y-2">
-      <p className="text-xs font-semibold text-slate-700 uppercase">Status History</p>
+      <p className="text-xs font-semibold text-slate-800 uppercase">Status History</p>
       <div className="space-y-1">
         {history.map((entry, i) => (
-          <div key={i} className="text-xs flex justify-between items-start gap-2">
+          <div key={i} className="text-xs flex justify-between items-start gap-2 text-slate-900">
             <div>
               <span className="font-medium capitalize">{entry.status.replace(/_/g, ' ')}</span>
-              {entry.notes && <span className="text-slate-500 block">{entry.notes}</span>}
+              {entry.notes && <span className="text-slate-700 block">{entry.notes}</span>}
             </div>
-            <span className="text-slate-500 whitespace-nowrap">{entry.admin} — {new Date(entry.timestamp).toLocaleString()}</span>
+            <span className="text-slate-700 whitespace-nowrap">{entry.admin} — {new Date(entry.timestamp).toLocaleString()}</span>
           </div>
         ))}
       </div>
