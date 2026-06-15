@@ -2,6 +2,7 @@ export type UploadCategory =
   | 'gait-video'
   | 'profile-image'
   | 'facility-photo'
+  | 'note-ocr-document'
   | 'consent-document'
   | 'protocol-document';
 
@@ -22,6 +23,10 @@ export const UPLOAD_LIMITS: Record<UploadCategory, UploadLimits> = {
   'facility-photo': {
     maxBytes: 20 * 1024 * 1024, // 20 MB
     allowedMimeTypes: ['image/*'],
+  },
+  'note-ocr-document': {
+    maxBytes: 25 * 1024 * 1024, // 25 MB
+    allowedMimeTypes: ['image/*', 'application/pdf'],
   },
   'consent-document': {
     maxBytes: 25 * 1024 * 1024, // 25 MB

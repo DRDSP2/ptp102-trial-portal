@@ -495,6 +495,11 @@ type LocalNote = {
   video_url: string | null;
   video_file_name: string | null;
   video_uploaded_at: string | null;
+  ocr_document_url: string | null;
+  ocr_document_file_name: string | null;
+  ocr_document_mime_type: string | null;
+  ocr_extracted_text: string | null;
+  ocr_processed_at: string | null;
   created_at: string;
 };
 
@@ -2549,6 +2554,11 @@ export function useMutateAction(actionName: ActionFactory | string) {
             videoUrl?: string | null;
             videoFileName?: string | null;
             videoUploadedAt?: string | null;
+            ocrDocumentUrl?: string | null;
+            ocrDocumentFileName?: string | null;
+            ocrDocumentMimeType?: string | null;
+            ocrExtractedText?: string | null;
+            ocrProcessedAt?: string | null;
             reasonForChange?: string | null;
           };
           assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
@@ -2563,6 +2573,11 @@ export function useMutateAction(actionName: ActionFactory | string) {
             video_url: p?.videoUrl ?? null,
             video_file_name: p?.videoFileName ?? null,
             video_uploaded_at: p?.videoUploadedAt ?? null,
+            ocr_document_url: p?.ocrDocumentUrl ?? null,
+            ocr_document_file_name: p?.ocrDocumentFileName ?? null,
+            ocr_document_mime_type: p?.ocrDocumentMimeType ?? null,
+            ocr_extracted_text: p?.ocrExtractedText ?? null,
+            ocr_processed_at: p?.ocrProcessedAt ?? null,
             created_at: new Date().toISOString(),
           };
           notes.push(newNote);

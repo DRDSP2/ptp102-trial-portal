@@ -164,6 +164,7 @@ describe('upload category guard', () => {
   it('accepts known categories', () => {
     expect(isUploadCategory('gait-video')).toBe(true);
     expect(isUploadCategory('profile-image')).toBe(true);
+    expect(isUploadCategory('note-ocr-document')).toBe(true);
     expect(isUploadCategory('consent-document')).toBe(true);
   });
 

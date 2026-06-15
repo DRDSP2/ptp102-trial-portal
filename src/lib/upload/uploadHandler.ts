@@ -22,7 +22,7 @@ export type UploadResult = {
 };
 
 export function isUploadCategory(value: string): value is UploadCategory {
-  return ['gait-video', 'profile-image', 'facility-photo', 'consent-document', 'protocol-document'].includes(value);
+  return ['gait-video', 'profile-image', 'facility-photo', 'note-ocr-document', 'consent-document', 'protocol-document'].includes(value);
 }
 
 export async function handleUpload({

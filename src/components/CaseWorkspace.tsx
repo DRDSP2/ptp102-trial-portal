@@ -481,6 +481,12 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                               Has Video
                             </Badge>
                           )}
+                          {note.ocr_document_url && note.ocr_document_url.trim() !== '' && (
+                            <Badge variant="outline" className="gap-1">
+                              <FileText className="h-3 w-3" />
+                              OCR Document
+                            </Badge>
+                          )}
                         </div>
                         <span className="text-xs text-muted-foreground">
                           {note.protocol_hour !== null ? `Protocol Hour ${note.protocol_hour}` : 'Pre-Protocol'}
@@ -488,6 +494,18 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                       </div>
                       
                       <p className="text-sm mb-3 leading-relaxed">{note.note_content}</p>
+
+                      {note.ocr_document_url && note.ocr_document_url.trim() !== '' && (
+                        <div className="mb-3 space-y-2 rounded-md border bg-muted/30 p-3">
+                          <div className="flex items-center justify-between gap-2 text-xs">
+                            <span className="font-medium">OCR source: {note.ocr_document_file_name || 'Attached document'}</span>
+                            {note.ocr_processed_at && <span className="text-muted-foreground">{new Date(note.ocr_processed_at).toLocaleString()}</span>}
+                          </div>
+                          {note.ocr_extracted_text && (
+                            <p className="whitespace-pre-wrap text-xs leading-relaxed text-muted-foreground">{note.ocr_extracted_text}</p>
+                          )}
+                        </div>
+                      )}
                       
                       <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t">
                         <span>Recorded by: <span className="font-medium text-foreground">{note.veterinarian_name}</span></span>

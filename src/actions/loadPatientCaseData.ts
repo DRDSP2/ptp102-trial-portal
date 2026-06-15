@@ -34,6 +34,11 @@ function loadPatientCaseData() {
               'protocol_hour', cn.protocol_hour,
               'video_url', cn.video_url,
               'video_file_name', cn.video_file_name,
+              'ocr_document_url', cn.ocr_document_url,
+              'ocr_document_file_name', cn.ocr_document_file_name,
+              'ocr_document_mime_type', cn.ocr_document_mime_type,
+              'ocr_extracted_text', cn.ocr_extracted_text,
+              'ocr_processed_at', cn.ocr_processed_at,
               'veterinarian_name', cn.veterinarian_name,
               'created_at', cn.created_at
             ) ORDER BY cn.created_at DESC
@@ -97,4 +102,3 @@ function loadPatientCaseData() {
 }
 
 export default loadPatientCaseData;
-

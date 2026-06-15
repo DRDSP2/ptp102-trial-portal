@@ -7,6 +7,8 @@ describe('secure upload validation', () => {
     expect(validateUpload({ name: 'gait.mp4', type: 'video/mp4', size: 1024 }, 'gait-video').ok).toBe(true);
     expect(validateUpload({ name: 'horse.jpg', type: 'image/jpeg', size: 1024 }, 'profile-image').ok).toBe(true);
     expect(validateUpload({ name: 'stable.png', type: 'image/png', size: 1024 }, 'facility-photo').ok).toBe(true);
+    expect(validateUpload({ name: 'referral.pdf', type: 'application/pdf', size: 1024 }, 'note-ocr-document').ok).toBe(true);
+    expect(validateUpload({ name: 'field-note.jpg', type: 'image/jpeg', size: 1024 }, 'note-ocr-document').ok).toBe(true);
     expect(validateUpload({ name: 'consent.pdf', type: 'application/pdf', size: 1024 }, 'consent-document').ok).toBe(
       true,
     );
@@ -14,6 +16,12 @@ describe('secure upload validation', () => {
 
   it('rejects disallowed MIME types', () => {
     const result = validateUpload({ name: 'malware.exe', type: 'application/x-msdownload', size: 1024 }, 'gait-video');
+    expect(result.ok).toBe(false);
+    expect(result.error).toContain('not allowed');
+  });
+
+  it('keeps OCR documents out of lab-only spreadsheet uploads', () => {
+    const result = validateUpload({ name: 'lab-values.csv', type: 'text/csv', size: 1024 }, 'note-ocr-document');
     expect(result.ok).toBe(false);
     expect(result.error).toContain('not allowed');
   });

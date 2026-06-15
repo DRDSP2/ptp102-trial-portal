@@ -20,6 +20,14 @@ export type ClinicalNote = {
   note_type: string;
   note_content: string;
   protocol_hour: number | null;
+  video_url?: string | null;
+  video_file_name?: string | null;
+  video_uploaded_at?: string | null;
+  ocr_document_url?: string | null;
+  ocr_document_file_name?: string | null;
+  ocr_document_mime_type?: string | null;
+  ocr_extracted_text?: string | null;
+  ocr_processed_at?: string | null;
   created_at: string;
   updated_at: string;
 };

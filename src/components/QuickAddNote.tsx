@@ -6,16 +6,26 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { FileText, Zap, Video, X, Info, Loader2, AlertCircle } from 'lucide-react';
+import { FileText, Zap, Video, X, Info, Loader2, AlertCircle, FileSearch } from 'lucide-react';
 import { useSecureUpload } from '@/hooks/useSecureUpload';
 import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 import { useAuth } from '@/context/AuthContext';
+import { processNoteOcrDocument } from '@/lib/ocr/noteOcr';
 
 type UploadedVideoInfo = {
   path: string;
   name: string;
   size: number;
   mimeType: string;
+};
+
+type UploadedOcrDocumentInfo = {
+  path: string;
+  name: string;
+  size: number;
+  mimeType: string;
+  extractedText: string;
+  processedAt: string;
 };
 
 type QuickAddNoteProps = {
@@ -27,9 +37,11 @@ type QuickAddNoteProps = {
 export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNoteProps) {
   const auth = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const ocrInputRef = useRef<HTMLInputElement>(null);
   const [noteType, setNoteType] = useState('observation');
   const [noteContent, setNoteContent] = useState('');
   const [uploadedVideo, setUploadedVideo] = useState<UploadedVideoInfo | null>(null);
+  const [uploadedOcrDocument, setUploadedOcrDocument] = useState<UploadedOcrDocumentInfo | null>(null);
   const [showGuidelines, setShowGuidelines] = useState(false);
   const [showUploader, setShowUploader] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,6 +50,12 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
   const { upload, isUploading } = useSecureUpload({
     category: 'gait-video',
     entityType: 'patients',
+    entityId: patientId,
+  });
+
+  const { upload: uploadOcrDocument, isUploading: isUploadingOcrDocument } = useSecureUpload({
+    category: 'note-ocr-document',
+    entityType: 'clinical_notes',
     entityId: patientId,
   });
 
@@ -69,14 +87,49 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
     }
   };
 
+  const handleOcrFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setError(null);
+
+    try {
+      const path = await uploadOcrDocument(file);
+      const ocrResult = await processNoteOcrDocument({ file, storagePath: path });
+      setUploadedOcrDocument({
+        path,
+        name: file.name,
+        size: file.size,
+        mimeType: file.type,
+        extractedText: ocrResult.extractedText,
+        processedAt: ocrResult.processedAt,
+      });
+      if (!noteContent.trim()) {
+        setNoteContent(`OCR document uploaded: ${file.name}`);
+      }
+    } catch (err) {
+      console.error('OCR document upload failed:', err);
+      setError(err instanceof Error ? err.message : 'OCR document upload failed. Please try again with a PDF or image.');
+    } finally {
+      if (ocrInputRef.current) {
+        ocrInputRef.current.value = '';
+      }
+    }
+  };
+
   const handleRemoveVideo = () => {
     setUploadedVideo(null);
     setShowGuidelines(false);
     setError(null);
   };
 
+  const handleRemoveOcrDocument = () => {
+    setUploadedOcrDocument(null);
+    setError(null);
+  };
+
   const handleQuickAdd = async () => {
-    if (!noteContent.trim() && !uploadedVideo) {
+    if (!noteContent.trim() && !uploadedVideo && !uploadedOcrDocument) {
       return;
     }
 
@@ -87,11 +140,16 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
         patientId,
         veterinarianName: auth.email ?? 'Unknown',
         noteType,
-        noteContent: noteContent.trim() || `Video uploaded: ${uploadedVideo?.name}`,
+        noteContent: noteContent.trim() || (uploadedOcrDocument ? `Document uploaded for OCR: ${uploadedOcrDocument.name}` : `Video uploaded: ${uploadedVideo?.name}`),
         protocolHour: protocolHour ?? null,
         videoUrl: uploadedVideo?.path ?? null,
         videoFileName: uploadedVideo?.name ?? null,
         videoUploadedAt: uploadedVideo ? new Date().toISOString() : null,
+        ocrDocumentUrl: uploadedOcrDocument?.path ?? null,
+        ocrDocumentFileName: uploadedOcrDocument?.name ?? null,
+        ocrDocumentMimeType: uploadedOcrDocument?.mimeType ?? null,
+        ocrExtractedText: uploadedOcrDocument?.extractedText ?? null,
+        ocrProcessedAt: uploadedOcrDocument?.processedAt ?? null,
       };
 
       await addNote(params);
@@ -99,6 +157,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
       setNoteContent('');
       setNoteType('observation');
       handleRemoveVideo();
+      handleRemoveOcrDocument();
       onSuccess();
     } catch (error) {
       console.error('Quick add note error:', error);
@@ -282,6 +341,52 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
           )}
         </div>
 
+        <div className="space-y-3 rounded-lg border p-3">
+          <div>
+            <p className="text-sm font-medium">OCR Document or Image</p>
+            <p className="text-xs text-muted-foreground">Upload notes, referral letters, photos, or PDFs here, not in Lab Results.</p>
+          </div>
+
+          <input
+            ref={ocrInputRef}
+            type="file"
+            accept="image/*,application/pdf"
+            className="hidden"
+            onChange={handleOcrFileSelect}
+            disabled={isUploadingOcrDocument}
+          />
+
+          {!uploadedOcrDocument ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="gap-2 w-full"
+              onClick={() => ocrInputRef.current?.click()}
+              disabled={isSubmitting || isUploadingOcrDocument}
+            >
+              {isUploadingOcrDocument ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileSearch className="h-4 w-4" />}
+              {isUploadingOcrDocument ? 'Processing OCR...' : 'Upload OCR Document or Image'}
+            </Button>
+          ) : (
+            <div className="space-y-2 rounded-md bg-muted/40 p-3">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex min-w-0 items-center gap-2">
+                  <FileSearch className="h-4 w-4 text-primary shrink-0" />
+                  <span className="truncate text-sm font-medium">{uploadedOcrDocument.name}</span>
+                </div>
+                <Button type="button" variant="ghost" size="sm" onClick={handleRemoveOcrDocument} disabled={isSubmitting}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="rounded border bg-background p-2">
+                <p className="mb-1 text-xs font-medium text-muted-foreground">Extracted text</p>
+                <p className="text-xs leading-relaxed">{uploadedOcrDocument.extractedText}</p>
+              </div>
+            </div>
+          )}
+        </div>
+
         {!noteContent.trim() && (
           <div className="space-y-2">
             <p className="text-xs text-muted-foreground">Quick templates:</p>
@@ -306,7 +411,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
 
         <Button
           onClick={handleQuickAdd}
-          disabled={isSubmitting || (!noteContent.trim() && !uploadedVideo)}
+          disabled={isSubmitting || (!noteContent.trim() && !uploadedVideo && !uploadedOcrDocument)}
           className="w-full"
         >
           {isSubmitting ? (
