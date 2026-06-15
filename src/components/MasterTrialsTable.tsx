@@ -411,7 +411,16 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Veterinarians</SelectItem>
-                  {Array.from(new Set(data.map((t) => t.veterinarian_email))).map((email) => (
+                  {Array.from(
+                    new Set(
+                      data
+                        .map((t) => t.veterinarian_email)
+                        // Radix forbids empty-string SelectItem values, and trial rows
+                        // whose patient has no `enrolled_by_vet_email` produce ''.
+                        // Filter them so the dropdown only lists real vet emails.
+                        .filter((email): email is string => Boolean(email && email.trim())),
+                    ),
+                  ).map((email) => (
                     <SelectItem key={email} value={email}>
                       {email}
                     </SelectItem>
