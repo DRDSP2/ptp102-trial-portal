@@ -183,7 +183,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loginVet: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
         if (password) {
-          const { error } = await supabase.auth.signInWithPassword({
+          const { error, data } = await supabase.auth.signInWithPassword({
             email: normalizedEmail,
             password,
           });
@@ -202,9 +202,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         saveLegacyAuthState(next);
       },
       requestVetApproval: (email: string) => {
+        const normalizedEmail = email.toLowerCase().trim();
         const next = {
           role: 'vet' as const,
-          email: email.toLowerCase().trim(),
+          email: normalizedEmail,
           termsAccepted: false,
           pendingApproval: true,
         };

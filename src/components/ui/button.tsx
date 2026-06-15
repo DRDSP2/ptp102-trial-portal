@@ -5,39 +5,39 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 /**
- * Button variants — repainted for the gunmetal / khaki theme.
+ * Button variants — per design token spec.
  *
  * Token mapping:
- *   default     -> khaki fill on dark text   (primary CTA — matches reference hero buttons)
- *   secondary   -> elevated gunmetal pill    (calm side actions)
- *   outline     -> ghost with silver border  (tertiary)
- *   ghost       -> no chrome                  (links inside surfaces)
- *   destructive -> muted terracotta          (irreversible actions)
- *   link        -> khaki underline           (inline references)
+ *   default (primary)    -> bg-[#2d6a4f] hover:bg-[#357a5c] text-white
+ *   secondary            -> transparent bg, border-white/15, text-white/60, hover:bg-white/5 border-white/25 text-white
+ *   outline              -> border-white/10, bg-transparent, hover:bg-white/5
+ *   ghost                -> no chrome, text-white/60, hover:bg-white/5 text-white
+ *   destructive          -> bg-red-500/80 hover:bg-red-500/90 text-white
+ *   link                 -> khaki underline, hover:text-khaki-soft
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium tracking-tight transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold tracking-tight transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2d6a4f] focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-sm hover:bg-khaki-deep hover:text-silver-strong",
+          "bg-[#2d6a4f] text-white shadow-sm hover:bg-[#357a5c]",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/85",
+          "bg-red-500/80 text-white shadow-sm hover:bg-red-500/90",
         outline:
-          "border border-silver-cool bg-transparent text-foreground hover:bg-gunmetal-elevated hover:border-silver-cool-soft",
+          "border border-white/15 bg-transparent text-foreground hover:bg-white/5",
         secondary:
-          "bg-secondary text-secondary-foreground border border-silver-cool/60 hover:bg-gunmetal-hover",
+          "bg-transparent text-white/60 border border-white/15 hover:bg-white/5 hover:border-white/25 hover:text-white",
         ghost:
-          "text-silver-text hover:bg-gunmetal-elevated hover:text-silver-strong",
+          "text-white/60 hover:bg-white/5 hover:text-white",
         link:
           "text-khaki underline-offset-4 hover:underline hover:text-khaki-soft",
       },
       size: {
+        sm: "h-8 rounded-lg px-3 text-xs",
         default: "h-10 px-5 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-12 rounded-md px-7 text-base",
-        icon: "h-9 w-9",
+        lg: "h-12 px-7 text-base",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {
