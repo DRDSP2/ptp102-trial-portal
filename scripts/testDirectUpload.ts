@@ -76,11 +76,14 @@ async function signIn(client: SupabaseClient): Promise<{ userId: string }> {
   return { userId: data.session.user.id };
 }
 
-async function uploadOnce(client: SupabaseClient, userId: string): Promise<string> {
+async function uploadAndVerify(client: SupabaseClient, userId: string): Promise<string> {
   // Path scheme matches src/lib/upload/path.ts:
   //   <category>/<userId>/<entityType>/<entityId>/<timestamp>-<filename>
   const ts = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(0, 14);
-  const path = `patient-media/${userId}/diagnostics/test/${ts}-direct-upload-probe.pdf`;
+  const uploadPath = `patient-media/${userId}/diagnostics/test/${ts}-direct-upload-probe.pdf`;
+
+  console.log(`  · bucket:     "${BUCKET}"`);
+  console.log(`  · uploadPath: "${uploadPath}"`);
 
   // Tiny valid PDF (1-page minimal). Just bytes; RLS doesn't validate
   // content, only path/auth.
@@ -90,24 +93,58 @@ async function uploadOnce(client: SupabaseClient, userId: string): Promise<strin
     0x25, 0x25, 0x45, 0x4f, 0x46, 0x0a, // %%EOF
   ]);
 
-  const { error } = await client.storage
+  const { data: uploadData, error: uploadError } = await client.storage
     .from(BUCKET)
-    .upload(path, pdfBytes, {
+    .upload(uploadPath, pdfBytes, {
       contentType: 'application/pdf',
       cacheControl: '60',
       upsert: false,
     });
 
-  if (error) {
-    fail(`upload to "${BUCKET}" failed: ${error.message} (path=${path})`);
+  if (uploadError) {
+    fail(`upload to "${BUCKET}" failed: ${uploadError.message} (path=${uploadPath})`);
   }
-  return path;
+  console.log(`  · upload() returned path: "${uploadData?.path ?? '<none>'}"`);
+  console.log(`  · upload() returned id:   "${uploadData?.id ?? '<none>'}"`);
+  ok('upload succeeded');
+
+  // Post-upload existence probe. Uses SELECT (list) on the parent folder.
+  // If this passes, the object is queryable via SELECT — confirming the
+  // path is correct AND a SELECT policy permits the read. If it fails
+  // with zero matches but upload succeeded, the cause is the SELECT
+  // policy (not a path-string mismatch).
+  const lastSlash = uploadPath.lastIndexOf('/');
+  const parentDir = uploadPath.slice(0, lastSlash);
+  const fileName = uploadPath.slice(lastSlash + 1);
+  console.log(`  · existence probe — list("${parentDir}") searching for "${fileName}"`);
+
+  const { data: listed, error: listError } = await client.storage
+    .from(BUCKET)
+    .list(parentDir, { limit: 100, search: fileName });
+
+  if (listError) {
+    fail(`list() failed: ${listError.message}. Likely a missing or mismatched SELECT policy on bucket "${BUCKET}".`);
+  }
+  const found = (listed ?? []).find((entry) => entry.name === fileName);
+  if (!found) {
+    fail(
+      `list() returned ${listed?.length ?? 0} entries but none matched "${fileName}". ` +
+        `Either the object was not written, or a SELECT policy is filtering it out (RLS denies the read). ` +
+        `Cause is NOT a path-string mismatch — upload and list used the same "${uploadPath}".`,
+    );
+  }
+  ok(`existence probe found "${found.name}" (size=${found.metadata?.size ?? '?'} bytes)`);
+
+  return uploadPath;
 }
 
 async function signAndHead(client: SupabaseClient, path: string): Promise<void> {
+  console.log(`  · createSignedUrl bucket: "${BUCKET}"`);
+  console.log(`  · createSignedUrl path:   "${path}"`);
+
   const { data, error } = await client.storage.from(BUCKET).createSignedUrl(path, 300);
   if (error || !data?.signedUrl) {
-    fail(`createSignedUrl failed: ${error?.message ?? 'no URL returned'}`);
+    fail(`createSignedUrl failed for path "${path}": ${error?.message ?? 'no URL returned'}`);
   }
 
   const head = await fetch(data.signedUrl, { method: 'HEAD' });
@@ -147,9 +184,9 @@ async function main() {
   const { userId } = await signIn(client);
   ok(`session for user ${userId}`);
 
-  step(`Upload to bucket "${BUCKET}"`);
-  const path = await uploadOnce(client, userId);
-  ok(`uploaded ${path}`);
+  step(`Upload to bucket "${BUCKET}" + verify existence`);
+  const path = await uploadAndVerify(client, userId);
+  ok(`uploaded and verified: ${path}`);
 
   step('Mint signed URL and HEAD it');
   await signAndHead(client, path);
