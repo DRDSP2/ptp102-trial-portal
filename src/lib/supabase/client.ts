@@ -10,6 +10,40 @@ function warnMissingEnv() {
   );
 }
 
+// Some IPFS gateways (notably *.eth.limo) send `clear-site-data: "cookies"`
+// on every response, which would wipe a cookie-backed Supabase session on
+// every navigation. We persist the session in localStorage instead by
+// providing a custom cookie-shaped adapter that reads/writes localStorage.
+// Keys are namespaced under `sb-cookie:` so they don't collide with anything
+// else the app stores. SSR contexts (no `window`) get a no-op adapter.
+const localStorageCookieAdapter = {
+  get(name: string): string | undefined {
+    if (typeof window === 'undefined') return undefined;
+    try {
+      const value = window.localStorage.getItem(`sb-cookie:${name}`);
+      return value ?? undefined;
+    } catch {
+      return undefined;
+    }
+  },
+  set(name: string, value: string, _options?: Record<string, unknown>): void {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.setItem(`sb-cookie:${name}`, value);
+    } catch {
+      /* quota or privacy mode — silently ignore */
+    }
+  },
+  remove(name: string, _options?: Record<string, unknown>): void {
+    if (typeof window === 'undefined') return;
+    try {
+      window.localStorage.removeItem(`sb-cookie:${name}`);
+    } catch {
+      /* ignore */
+    }
+  },
+};
+
 export const createClient = () => {
   if (!supabaseUrl || !supabaseKey) {
     warnMissingEnv();
@@ -26,7 +60,9 @@ export const createClient = () => {
     } as any;
   }
 
-  return createBrowserClient(supabaseUrl, supabaseKey);
+  return createBrowserClient(supabaseUrl, supabaseKey, {
+    cookies: localStorageCookieAdapter,
+  });
 };
 
 export const supabase = createClient();
