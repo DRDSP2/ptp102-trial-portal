@@ -12,7 +12,7 @@ function makeUser(id: string, role: 'admin' | 'vet' | null) {
 
 describe('secure upload access control', () => {
   const ownPath = buildStoragePath({
-    category: 'gait-video',
+    category: 'patient-media',
     entityType: 'patients',
     entityId: 42,
     userId: 'vet-1',

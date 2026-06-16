@@ -51,21 +51,22 @@ describe('secure upload handler', () => {
 
     const result = await handleUpload({
       user: makeUser('vet-1', 'vet'),
-      category: 'gait-video',
+      category: 'patient-media',
       entityType: 'patients',
       entityId: '42',
       file,
     });
 
-    expect(result.path).toContain('patients/42/gait-video/vet-1/');
+    // Path scheme: <category>/<userId>/<entityType>/<entityId>/<timestamp>-<safeName>
+    expect(result.path).toContain('patient-media/vet-1/patients/42/');
     expect(result.path).toContain('gait.mp4');
     expect(result.fileName).toBe('gait.mp4');
     expect(result.size).toBe(5);
     expect(result.mimeType).toBe('video/mp4');
-    expect(from).toHaveBeenCalledWith('private-uploads');
+    expect(from).toHaveBeenCalledWith('ptp102-trial-portal');
   });
 
-  it('rejects files that fail category validation', async () => {
+  it('rejects files that fail category mime-type validation', async () => {
     mockStorage();
     const file: ParsedFile = {
       fieldname: 'file',
@@ -78,7 +79,7 @@ describe('secure upload handler', () => {
     await expect(
       handleUpload({
         user: makeUser('vet-1', 'vet'),
-        category: 'gait-video',
+        category: 'patient-media',
         entityType: 'patients',
         entityId: '42',
         file,
@@ -88,18 +89,19 @@ describe('secure upload handler', () => {
 
   it('rejects oversized files', async () => {
     mockStorage();
+    // consent-signatures cap is 25 MB; 26 MB should exceed it.
     const file: ParsedFile = {
       fieldname: 'file',
-      filename: 'huge.jpg',
-      mimeType: 'image/jpeg',
-      buffer: Buffer.alloc(11 * 1024 * 1024),
-      size: 11 * 1024 * 1024,
+      filename: 'huge.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.alloc(26 * 1024 * 1024),
+      size: 26 * 1024 * 1024,
     };
 
     await expect(
       handleUpload({
         user: makeUser('vet-1', 'vet'),
-        category: 'profile-image',
+        category: 'consent-signatures',
         entityType: 'patients',
         entityId: '42',
         file,
@@ -120,7 +122,7 @@ describe('secure upload handler', () => {
     await expect(
       handleUpload({
         user: makeUser('vet-1', 'vet'),
-        category: 'gait-video',
+        category: 'patient-media',
         entityType: 'patients',
         entityId: '42',
         file,
@@ -136,7 +138,7 @@ describe('secure download handler', () => {
 
   it('returns a signed URL for the owner', async () => {
     mockStorage({ signedUrl: 'https://signed.example.com/file' });
-    const path = 'patients/42/gait-video/vet-1/20260101-000000-gait.mp4';
+    const path = 'patient-media/vet-1/patients/42/20260101000000-gait.mp4';
 
     const result = await handleDownload({ user: makeUser('vet-1', 'vet'), path });
 
@@ -145,7 +147,7 @@ describe('secure download handler', () => {
 
   it('returns a signed URL for admins', async () => {
     mockStorage({ signedUrl: 'https://signed.example.com/file' });
-    const path = 'patients/42/gait-video/vet-1/20260101-000000-gait.mp4';
+    const path = 'patient-media/vet-1/patients/42/20260101000000-gait.mp4';
 
     const result = await handleDownload({ user: makeUser('admin-1', 'admin'), path });
 
@@ -154,7 +156,7 @@ describe('secure download handler', () => {
 
   it('denies access to another vets files', async () => {
     mockStorage();
-    const path = 'patients/42/gait-video/vet-1/20260101-000000-gait.mp4';
+    const path = 'patient-media/vet-1/patients/42/20260101000000-gait.mp4';
 
     await expect(handleDownload({ user: makeUser('vet-2', 'vet'), path })).rejects.toThrow('Forbidden');
   });
@@ -162,13 +164,15 @@ describe('secure download handler', () => {
 
 describe('upload category guard', () => {
   it('accepts known categories', () => {
-    expect(isUploadCategory('gait-video')).toBe(true);
-    expect(isUploadCategory('profile-image')).toBe(true);
-    expect(isUploadCategory('note-ocr-document')).toBe(true);
-    expect(isUploadCategory('consent-document')).toBe(true);
+    expect(isUploadCategory('trial-documents')).toBe(true);
+    expect(isUploadCategory('site-files')).toBe(true);
+    expect(isUploadCategory('patient-media')).toBe(true);
+    expect(isUploadCategory('consent-signatures')).toBe(true);
   });
 
-  it('rejects unknown categories', () => {
+  it('rejects unknown / legacy categories', () => {
     expect(isUploadCategory('malware')).toBe(false);
+    expect(isUploadCategory('gait-video')).toBe(false);
+    expect(isUploadCategory('profile-image')).toBe(false);
   });
 });

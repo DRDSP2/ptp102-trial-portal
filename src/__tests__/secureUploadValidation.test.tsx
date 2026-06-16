@@ -4,31 +4,44 @@ import { UPLOAD_LIMITS } from '@/lib/upload/config';
 
 describe('secure upload validation', () => {
   it('allows allowed MIME types', () => {
-    expect(validateUpload({ name: 'gait.mp4', type: 'video/mp4', size: 1024 }, 'gait-video').ok).toBe(true);
-    expect(validateUpload({ name: 'horse.jpg', type: 'image/jpeg', size: 1024 }, 'profile-image').ok).toBe(true);
-    expect(validateUpload({ name: 'stable.png', type: 'image/png', size: 1024 }, 'facility-photo').ok).toBe(true);
-    expect(validateUpload({ name: 'referral.pdf', type: 'application/pdf', size: 1024 }, 'note-ocr-document').ok).toBe(true);
-    expect(validateUpload({ name: 'field-note.jpg', type: 'image/jpeg', size: 1024 }, 'note-ocr-document').ok).toBe(true);
-    expect(validateUpload({ name: 'consent.pdf', type: 'application/pdf', size: 1024 }, 'consent-document').ok).toBe(
-      true,
-    );
+    expect(validateUpload({ name: 'gait.mp4', type: 'video/mp4', size: 1024 }, 'patient-media').ok).toBe(true);
+    expect(validateUpload({ name: 'horse.jpg', type: 'image/jpeg', size: 1024 }, 'patient-media').ok).toBe(true);
+    expect(validateUpload({ name: 'stable.png', type: 'image/png', size: 1024 }, 'site-files').ok).toBe(true);
+    expect(validateUpload({ name: 'referral.pdf', type: 'application/pdf', size: 1024 }, 'patient-media').ok).toBe(true);
+    expect(validateUpload({ name: 'field-note.jpg', type: 'image/jpeg', size: 1024 }, 'patient-media').ok).toBe(true);
+    expect(
+      validateUpload({ name: 'consent.pdf', type: 'application/pdf', size: 1024 }, 'consent-signatures').ok,
+    ).toBe(true);
+    expect(
+      validateUpload({ name: 'protocol.pdf', type: 'application/pdf', size: 1024 }, 'trial-documents').ok,
+    ).toBe(true);
   });
 
   it('rejects disallowed MIME types', () => {
-    const result = validateUpload({ name: 'malware.exe', type: 'application/x-msdownload', size: 1024 }, 'gait-video');
+    const result = validateUpload({ name: 'malware.exe', type: 'application/x-msdownload', size: 1024 }, 'patient-media');
     expect(result.ok).toBe(false);
     expect(result.error).toContain('not allowed');
   });
 
-  it('keeps OCR documents out of lab-only spreadsheet uploads', () => {
-    const result = validateUpload({ name: 'lab-values.csv', type: 'text/csv', size: 1024 }, 'note-ocr-document');
+  it('keeps non-PDFs out of consent-signatures', () => {
+    // consent-signatures only accepts application/pdf
+    const result = validateUpload({ name: 'lab-values.csv', type: 'text/csv', size: 1024 }, 'consent-signatures');
+    expect(result.ok).toBe(false);
+    expect(result.error).toContain('not allowed');
+  });
+
+  it('keeps videos out of consent-signatures', () => {
+    const result = validateUpload({ name: 'sig.mp4', type: 'video/mp4', size: 1024 }, 'consent-signatures');
     expect(result.ok).toBe(false);
     expect(result.error).toContain('not allowed');
   });
 
   it('rejects files that exceed the category size limit', () => {
-    const oversized = UPLOAD_LIMITS['profile-image'].maxBytes + 1;
-    const result = validateUpload({ name: 'huge.jpg', type: 'image/jpeg', size: oversized }, 'profile-image');
+    const oversized = UPLOAD_LIMITS['consent-signatures'].maxBytes + 1;
+    const result = validateUpload(
+      { name: 'huge.pdf', type: 'application/pdf', size: oversized },
+      'consent-signatures',
+    );
     expect(result.ok).toBe(false);
     expect(result.error).toContain('exceeds maximum size');
   });

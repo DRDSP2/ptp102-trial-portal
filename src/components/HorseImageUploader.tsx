@@ -36,7 +36,7 @@ export function HorseImageUploader({
 }: HorseImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { upload, isUploading } = useSecureUpload({
-    category: 'profile-image',
+    category: 'patient-media',
     entityType: 'patients',
     entityId: patientId,
   });

@@ -127,6 +127,104 @@ Email/password only — no Google OAuth path is wired up.
 
 ---
 
+## Storage bucket and RLS
+
+The app uploads to a single Supabase Storage bucket `ptp102-trial-portal`
+with four top-level folders that mirror the `UploadCategory` values in
+`src/lib/upload/config.ts`:
+
+- `trial-documents/` — protocol PDFs, IB documents, regulatory paperwork
+- `site-files/` — facility photos and site-qualification documents
+- `patient-media/` — gait videos, horse profile images, OCR documents
+- `consent-signatures/` — signed consent / e-signature PDFs
+
+### Path scheme
+
+`buildStoragePath(...)` produces:
+
+```
+<category>/<userId>/<entityType>/<entityId>/<timestamp>-<safeFileName>
+```
+
+`<userId>` is the second path segment so RLS can enforce per-user access.
+
+### Required RLS policies
+
+The browser uploads directly to Supabase Storage (no server-side route),
+so the bucket needs RLS policies that allow each authenticated user to
+read/write their own paths and let admins read anything. Apply this in
+the Supabase SQL editor (one-time setup):
+
+```sql
+-- Bucket itself must exist and be marked private. Create via dashboard
+-- or with the service-role API. Then attach the policies below.
+
+-- 1. INSERT: any authenticated user can write under their own userId prefix.
+create policy "ptp102_user_can_insert_own_path"
+  on storage.objects for insert to authenticated
+  with check (
+    bucket_id = 'ptp102-trial-portal'
+    and (storage.foldername(name))[2] = auth.uid()::text
+  );
+
+-- 2. SELECT: same, plus admin override based on JWT app_metadata.role.
+create policy "ptp102_user_can_read_own_path_or_admin"
+  on storage.objects for select to authenticated
+  using (
+    bucket_id = 'ptp102-trial-portal'
+    and (
+      (storage.foldername(name))[2] = auth.uid()::text
+      or coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin'
+    )
+  );
+
+-- 3. UPDATE: owner only. (Admins typically don't overwrite uploads.)
+create policy "ptp102_user_can_update_own_path"
+  on storage.objects for update to authenticated
+  using (
+    bucket_id = 'ptp102-trial-portal'
+    and (storage.foldername(name))[2] = auth.uid()::text
+  )
+  with check (
+    bucket_id = 'ptp102-trial-portal'
+    and (storage.foldername(name))[2] = auth.uid()::text
+  );
+
+-- 4. DELETE: owner only.
+create policy "ptp102_user_can_delete_own_path"
+  on storage.objects for delete to authenticated
+  using (
+    bucket_id = 'ptp102-trial-portal'
+    and (storage.foldername(name))[2] = auth.uid()::text
+  );
+```
+
+### Verifying the bucket end-to-end
+
+Run the standalone direct-upload probe:
+
+```bash
+npx tsx scripts/testDirectUpload.ts
+```
+
+This signs in as the seeded test vet, uploads a tiny PDF, mints a signed
+URL, HEADs it, then deletes the object. If it exits 0, browser uploads
+will work for that user from any host. If it fails on `upload`, check
+that the policies above are applied and the bucket name matches.
+
+### Why direct browser upload (no /api/upload)
+
+The repo still contains `api/upload.ts` (a Vercel serverless function)
+and `src/lib/upload/uploadHandler.ts` (its handler). These are NOT used
+by the browser app on static IPFS / Cloudflare Pages deployments
+because those hosts have no server runtime. POSTs to `/api/upload` on
+those hosts return HTTP 405 because the gateway can only serve static
+files. The browser hooks (`useSecureUpload`, `useSecureDownloadUrl`)
+call `supabase.storage` directly. The `/api/*` files are kept in the
+repo for future use on a host that does run server functions.
+
+---
+
 ## IPFS / ENS considerations
 
 ### URL stability

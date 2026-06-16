@@ -73,7 +73,7 @@ export function PatientDetailDialog({ patient, open, onClose, onUpdate }: Patien
   });
 
   const { upload, isUploading } = useSecureUpload({
-    category: 'profile-image',
+    category: 'patient-media',
     entityType: 'patients',
     entityId: patient?.id ?? 'new',
   });

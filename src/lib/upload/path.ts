@@ -23,6 +23,12 @@ function formatTimestamp(date = new Date()): string {
   return iso.replace(/[-:T.Z]/g, '').slice(0, 14);
 }
 
+// Path scheme: <category>/<userId>/<entityType>/<entityId>/<timestamp>-<safeName>
+//
+// The userId is segment index 1 (zero-based) so an RLS policy that calls
+// `(storage.foldername(name))[2] = auth.uid()::text` matches it (Postgres
+// arrays are 1-based; `foldername()` returns the directory components only).
+// Admins bypass the per-user check via a separate policy.
 export function buildStoragePath({
   category,
   entityType,
@@ -35,11 +41,12 @@ export function buildStoragePath({
     throw new Error('Invalid file name');
   }
   const timestamp = formatTimestamp();
-  return `${entityType}/${entityId}/${category}/${userId}/${timestamp}-${safeName}`;
+  return `${category}/${userId}/${entityType}/${entityId}/${timestamp}-${safeName}`;
 }
 
+// Convention: <category>/<userId>/<entityType>/<entityId>/<filename>
+// Index 1 is the user id segment.
 export function parseOwnerFromPath(path: string): string | null {
   const parts = path.split('/');
-  // Convention: entityType/entityId/category/userId/fileName
-  return parts[3] ?? null;
+  return parts[1] ?? null;
 }

@@ -48,13 +48,13 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
   const [addNote, isSubmitting] = useMutateAction(addClinicalNoteAction);
 
   const { upload, isUploading } = useSecureUpload({
-    category: 'gait-video',
+    category: 'patient-media',
     entityType: 'patients',
     entityId: patientId,
   });
 
   const { upload: uploadOcrDocument, isUploading: isUploadingOcrDocument } = useSecureUpload({
-    category: 'note-ocr-document',
+    category: 'patient-media',
     entityType: 'clinical_notes',
     entityId: patientId,
   });

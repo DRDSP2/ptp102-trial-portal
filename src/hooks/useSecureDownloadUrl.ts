@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
+import { PRIVATE_BUCKET, SIGNED_URL_TTL_SECONDS } from '@/lib/upload/config';
 
+// Direct browser → Supabase Storage signed-URL request.
+//
+// Same architectural change as useSecureUpload: the previous /api/download
+// Vercel route does not exist on static IPFS hosts, so we ask Supabase
+// Storage to mint a signed URL directly. RLS on the bucket determines
+// whether the user is allowed to read the path; if not, createSignedUrl
+// returns an error that we surface to the caller.
 export function useSecureDownloadUrl(path: string | null | undefined) {
   const [signedUrl, setSignedUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,19 +29,15 @@ export function useSecureDownloadUrl(path: string | null | undefined) {
         throw new Error('You must be signed in to download files');
       }
 
-      const token = sessionData.session.access_token;
-      const response = await fetch(`/api/download?path=${encodeURIComponent(path)}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data, error: signError } = await supabase.storage
+        .from(PRIVATE_BUCKET)
+        .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
 
-      const result = await response.json().catch(() => ({ error: 'Download failed' }));
-      if (!response.ok) {
-        throw new Error(result.error ?? 'Download failed');
+      if (signError || !data?.signedUrl) {
+        throw new Error(signError?.message ?? 'Failed to create signed URL');
       }
 
-      setSignedUrl(result.signedUrl);
+      setSignedUrl(data.signedUrl);
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(message);

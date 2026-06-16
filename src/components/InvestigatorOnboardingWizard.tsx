@@ -969,7 +969,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                     ) : showDrugUploader ? (
                       <div className="space-y-2">
                         <SecureFileUploadButton
-                          category="facility-photo"
+                          category="site-files"
                           entityType="investigator-quals"
                           entityId={facilityEntityId}
                           accept="image/*"

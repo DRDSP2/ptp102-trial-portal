@@ -33,7 +33,7 @@ export function VideoUploadManager({ patientId, protocolHour, veterinarianName, 
   const [addNote] = useMutateAction(addClinicalNoteAction);
 
   const { upload, isUploading } = useSecureUpload({
-    category: 'gait-video',
+    category: 'patient-media',
     entityType: 'patients',
     entityId: patientId,
   });

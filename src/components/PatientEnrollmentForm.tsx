@@ -107,7 +107,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
   });
 
   const { upload, isUploading } = useSecureUpload({
-    category: 'profile-image',
+    category: 'patient-media',
     entityType: 'patients',
     entityId: patient?.id ?? 'new',
   });
