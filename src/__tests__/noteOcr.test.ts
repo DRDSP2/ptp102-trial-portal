@@ -21,14 +21,15 @@ vi.mock('tesseract.js', () => ({
   })
 }));
 
-// Mock DOMMatrix for pdfjs-dist
+// Mock DOMMatrix for pdfjs-dist (see setupTests.ts for full rationale).
 if (typeof globalThis.DOMMatrix === 'undefined') {
-  globalThis.DOMMatrix = class DOMMatrix {
+  class DOMMatrixStub {
     constructor() {}
-    static fromMatrix() { return new DOMMatrix(); }
-    static fromFloat32Array() { return new DOMMatrix(); }
-    static fromFloat64Array() { return new DOMMatrix(); }
-  };
+    static fromMatrix() { return new DOMMatrixStub(); }
+    static fromFloat32Array() { return new DOMMatrixStub(); }
+    static fromFloat64Array() { return new DOMMatrixStub(); }
+  }
+  globalThis.DOMMatrix = DOMMatrixStub as unknown as typeof DOMMatrix;
 }
 
 describe('note OCR processing', () => {

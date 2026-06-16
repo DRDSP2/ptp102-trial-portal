@@ -90,25 +90,25 @@ function renderDashboard(role: 'admin' | 'vet', email: string) {
   );
 }
 
-function renderHook<T>(hook: () => T, wrapper?: (props: { children: ReactNode }) => JSX.Element) {
+function renderHook<T>(hook: () => T, WrapperComponent?: (props: { children: ReactNode }) => JSX.Element) {
   const result: { current: T } = { current: undefined as unknown as T };
-  function Wrapper() {
+  function Inner() {
     result.current = hook();
     return null;
   }
-  if (wrapper) {
-    render(<wrapper><Wrapper /></wrapper>);
+  if (WrapperComponent) {
+    render(<WrapperComponent><Inner /></WrapperComponent>);
   } else {
-    render(<Wrapper />);
+    render(<Inner />);
   }
   return result;
 }
 
-async function createShipmentForVet(vetId: number, vetEmail: string, batchLotNumber: string) {
+async function createShipmentForVet(vetId: number, vetEmail: string, batchLotNumber: string): Promise<any[] | null> {
   const hook = renderHook(() => useMutateAction(createSupplyShipmentAction));
-  let created: any[] | null = null;
+  const captured: { value: any[] | null } = { value: null };
   await act(async () => {
-    created = (await hook.current[0]({
+    captured.value = (await hook.current[0]({
       productName: 'PTP-102',
       batchLotNumber,
       quantityVials: 5,
@@ -126,7 +126,7 @@ async function createShipmentForVet(vetId: number, vetEmail: string, batchLotNum
       shipmentNotes: null,
     })) as any[] | null;
   });
-  return created;
+  return captured.value;
 }
 
 describe('Supply shipment visibility between admin and vet clinic', () => {

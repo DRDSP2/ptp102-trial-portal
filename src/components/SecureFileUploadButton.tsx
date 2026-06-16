@@ -12,7 +12,7 @@ export type SecureUploadSuccessInfo = {
 
 type SecureFileUploadButtonProps = UseSecureUploadOptions & {
   accept?: string;
-  capture?: boolean;
+  capture?: boolean | 'user' | 'environment';
   disabled?: boolean;
   className?: string;
   children?: ReactNode;

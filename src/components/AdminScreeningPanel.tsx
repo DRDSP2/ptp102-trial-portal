@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
 import { CheckCircle2, XCircle, AlertCircle, Clock } from 'lucide-react';
 import { Patient } from '@/types/patient';
 import { useAuth } from '@/context/AuthContext';

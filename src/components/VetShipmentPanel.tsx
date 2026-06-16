@@ -8,9 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
 import {
-  Truck, PackageCheck, ClipboardCheck, Thermometer, AlertTriangle,
+  Truck, PackageCheck, ClipboardCheck, AlertTriangle,
   CheckCircle2, Clock, Copy, Box
 } from 'lucide-react';
 

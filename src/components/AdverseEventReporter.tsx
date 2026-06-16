@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useMutateAction } from '@uibakery/data';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,9 +13,7 @@ import createAdverseEventAction from '@/actions/createAdverseEvent';
 import { checkProhibitedTerms } from '@/utils/prohibitedTermsFilter';
 import {
   AlertTriangle,
-  Stethoscope,
   Send,
-  Clock,
   ShieldAlert,
   CheckCircle2,
 } from 'lucide-react';

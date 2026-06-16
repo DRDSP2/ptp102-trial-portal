@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
 import {
   Table,
   TableBody,
@@ -13,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { AlertTriangle, Package, CheckCircle2, Beaker } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Beaker } from 'lucide-react';
 import type { DrugSupply } from '@/types/trialOperations';
 
 export function DrugSupplyInventoryCard({

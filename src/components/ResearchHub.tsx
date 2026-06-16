@@ -4,7 +4,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import {
   BookOpen,
   FlaskConical,
@@ -30,7 +29,7 @@ interface ResearchSection {
 }
 
 export function ResearchHub() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [_activeSection, setActiveSection] = useState<string | null>(null);
 
   const sections: ResearchSection[] = [
     {

@@ -64,7 +64,7 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
   const [lockError, setLockError] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [isExportingPackage, setIsExportingPackage] = useState(false);
-  const [regulatoryTrials, loadingRegulatory, , loadRegulatoryData] = useLoadAction(
+  const [regulatoryTrials, _loadingRegulatory, , loadRegulatoryData] = useLoadAction(
     loadAllTrialsDataAction,
     [],
     { vetEmail: null, isFlagged: null }

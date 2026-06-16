@@ -14,12 +14,15 @@ if (typeof Element !== 'undefined' && !Element.prototype.scrollIntoView) {
   Element.prototype.scrollIntoView = () => {};
 }
 
-// Mock DOMMatrix for pdfjs-dist
+// Mock DOMMatrix for pdfjs-dist. The full DOMMatrix surface is large; pdfjs only
+// constructs instances and reads a handful of properties, so a stub that matches
+// the shape via cast is sufficient for tests.
 if (typeof globalThis.DOMMatrix === 'undefined') {
-  globalThis.DOMMatrix = class DOMMatrix {
+  class DOMMatrixStub {
     constructor() {}
-    static fromMatrix() { return new DOMMatrix(); }
-    static fromFloat32Array() { return new DOMMatrix(); }
-    static fromFloat64Array() { return new DOMMatrix(); }
-  };
+    static fromMatrix() { return new DOMMatrixStub(); }
+    static fromFloat32Array() { return new DOMMatrixStub(); }
+    static fromFloat64Array() { return new DOMMatrixStub(); }
+  }
+  globalThis.DOMMatrix = DOMMatrixStub as unknown as typeof DOMMatrix;
 }

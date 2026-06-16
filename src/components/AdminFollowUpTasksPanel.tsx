@@ -172,7 +172,7 @@ export function AdminFollowUpTasksPanel({
                   <div className="space-y-2">
                     <Label>Assigned To</Label>
                     <Input
-                      value={newTask.assignedTo}
+                      value={newTask.assignedTo ?? ''}
                       onChange={(e) => setNewTask((p) => ({ ...p, assignedTo: e.target.value }))}
                       placeholder="Name or email"
                     />
@@ -181,7 +181,7 @@ export function AdminFollowUpTasksPanel({
                     <Label>Due Date</Label>
                     <Input
                       type="date"
-                      value={newTask.dueDate}
+                      value={newTask.dueDate ?? ''}
                       onChange={(e) => setNewTask((p) => ({ ...p, dueDate: e.target.value }))}
                     />
                   </div>

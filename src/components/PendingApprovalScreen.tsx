@@ -5,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ByrockLogo } from '@/components/ByrockLogo';
-import { Clock, Mail, CheckCircle2, XCircle } from 'lucide-react';
+import { Clock, Mail, CheckCircle2 } from 'lucide-react';
 
 type PendingApprovalScreenProps = {
   email: string;
@@ -14,7 +14,7 @@ type PendingApprovalScreenProps = {
 };
 
 export function PendingApprovalScreen({ email, onApproved, onRejected }: PendingApprovalScreenProps) {
-  const [checkStatus, loading, error, refresh] = useLoadAction(checkVeterinarianAcceptanceAction, [], { email });
+  const [checkStatus, loading, _error, refresh] = useLoadAction(checkVeterinarianAcceptanceAction, [], { email });
   const [checking, setChecking] = useState(false);
 
   useEffect(() => {

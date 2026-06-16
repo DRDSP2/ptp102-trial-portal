@@ -1,0 +1,48 @@
+# Continuous integration checks for the PTP-102 trial portal.
+#
+# Runs on every push to main and on every pull request. Production deploy is
+# handled separately by 4EVERLAND from main (https://bitrock.eth.limo); this
+# workflow does NOT deploy anything — it only gates merges on the four checks
+# the project relies on: lint, typecheck, unit tests, and a production build.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: lint • typecheck • test • build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test -- --run
+
+      - name: Production build
+        run: npm run build

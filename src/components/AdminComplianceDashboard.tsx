@@ -3,7 +3,6 @@ import { useLoadAction, useMutateAction } from '@uibakery/data';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
@@ -24,9 +23,7 @@ import {
   FileText,
   FlaskConical,
   Activity,
-  Clock,
   CheckCircle2,
-  AlertCircle,
   Database,
   ExternalLink,
   Lock,

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLoadAction, useMutateAction } from '@uibakery/data';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -28,7 +28,6 @@ import {
   XCircle,
   Award,
   CheckCircle,
-  Loader2,
 } from 'lucide-react';
 
 const AGREEMENT_TEXT = `I, the undersigned veterinarian, agree to serve as a qualified investigator for the PTP-102 Laminitis Pilot Study. I will:
@@ -959,7 +958,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={drugStoragePhoto.path.startsWith('http') ? drugStoragePhoto.path : drugSignedUrl} alt="Drug Storage" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={drugStoragePhoto.path.startsWith('http') ? drugStoragePhoto.path : drugSignedUrl ?? undefined} alt="Drug Storage" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{drugStoragePhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowDrugUploader(true)}>Replace</Button>
@@ -1035,7 +1034,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={emergencyPhoto.path.startsWith('http') ? emergencyPhoto.path : emergencySignedUrl} alt="Emergency Equipment" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={emergencyPhoto.path.startsWith('http') ? emergencyPhoto.path : emergencySignedUrl ?? undefined} alt="Emergency Equipment" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{emergencyPhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowEmergencyUploader(true)}>Replace</Button>
@@ -1044,26 +1043,22 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                       </div>
                     ) : showEmergencyUploader ? (
                       <div className="space-y-2">
-                        <FileUploaderRegular
-                          pubkey="65522fb5ee7036edf97b"
-                          classNameUploader="uc-light uc-purple"
-                          sourceList="local, camera"
-                          imgOnly={true}
-                          multiple={false}
-                          onFileUploadSuccess={(fileInfo: any) => {
-                            if (fileInfo.size > 10 * 1024 * 1024) {
-                              setUploadError('File exceeds 10MB limit.');
-                              return;
-                            }
-                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
-                              setUploadError('Only JPEG and PNG images are accepted.');
-                              return;
-                            }
+                        <SecureFileUploadButton
+                          category="site-files"
+                          entityType="investigator-quals"
+                          entityId={facilityEntityId}
+                          accept="image/jpeg,image/png"
+                          capture="environment"
+                          className="w-full"
+                          onUploadSuccess={(info) => {
                             setUploadError(null);
-                            setEmergencyPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setEmergencyPhoto({ path: info.path, name: info.name });
                             setShowEmergencyUploader(false);
                           }}
-                        />
+                          onError={(err) => setUploadError(err.message)}
+                        >
+                          Choose Photo
+                        </SecureFileUploadButton>
                         <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowEmergencyUploader(false)}>Cancel</Button>
                       </div>
                     ) : (
@@ -1116,7 +1111,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={housingPhoto.path.startsWith('http') ? housingPhoto.path : housingSignedUrl} alt="Equine Housing" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={housingPhoto.path.startsWith('http') ? housingPhoto.path : housingSignedUrl ?? undefined} alt="Equine Housing" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{housingPhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowHousingUploader(true)}>Replace</Button>
@@ -1125,26 +1120,22 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                       </div>
                     ) : showHousingUploader ? (
                       <div className="space-y-2">
-                        <FileUploaderRegular
-                          pubkey="65522fb5ee7036edf97b"
-                          classNameUploader="uc-light uc-purple"
-                          sourceList="local, camera"
-                          imgOnly={true}
-                          multiple={false}
-                          onFileUploadSuccess={(fileInfo: any) => {
-                            if (fileInfo.size > 10 * 1024 * 1024) {
-                              setUploadError('File exceeds 10MB limit.');
-                              return;
-                            }
-                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
-                              setUploadError('Only JPEG and PNG images are accepted.');
-                              return;
-                            }
+                        <SecureFileUploadButton
+                          category="site-files"
+                          entityType="investigator-quals"
+                          entityId={facilityEntityId}
+                          accept="image/jpeg,image/png"
+                          capture="environment"
+                          className="w-full"
+                          onUploadSuccess={(info) => {
                             setUploadError(null);
-                            setHousingPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setHousingPhoto({ path: info.path, name: info.name });
                             setShowHousingUploader(false);
                           }}
-                        />
+                          onError={(err) => setUploadError(err.message)}
+                        >
+                          Choose Photo
+                        </SecureFileUploadButton>
                         <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowHousingUploader(false)}>Cancel</Button>
                       </div>
                     ) : (
@@ -1206,7 +1197,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                           <CheckCircle className="h-3.5 w-3.5 flex-shrink-0" />
                           Uploaded — Awaiting admin approval
                         </div>
-                        <img src={feedPhoto.path.startsWith('http') ? feedPhoto.path : feedSignedUrl} alt="Feed Storage" className="w-full h-32 object-cover rounded-lg border" />
+                        <img src={feedPhoto.path.startsWith('http') ? feedPhoto.path : feedSignedUrl ?? undefined} alt="Feed Storage" className="w-full h-32 object-cover rounded-lg border" />
                         <p className="text-xs text-emerald-600 font-medium">{feedPhoto.name}</p>
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm" className="flex-1" type="button" onClick={() => setShowFeedUploader(true)}>Replace</Button>
@@ -1215,26 +1206,22 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
                       </div>
                     ) : showFeedUploader ? (
                       <div className="space-y-2">
-                        <FileUploaderRegular
-                          pubkey="65522fb5ee7036edf97b"
-                          classNameUploader="uc-light uc-purple"
-                          sourceList="local, camera"
-                          imgOnly={true}
-                          multiple={false}
-                          onFileUploadSuccess={(fileInfo: any) => {
-                            if (fileInfo.size > 10 * 1024 * 1024) {
-                              setUploadError('File exceeds 10MB limit.');
-                              return;
-                            }
-                            if (!fileInfo.mimeType?.match(/image\/(jpeg|jpg|png)/i)) {
-                              setUploadError('Only JPEG and PNG images are accepted.');
-                              return;
-                            }
+                        <SecureFileUploadButton
+                          category="site-files"
+                          entityType="investigator-quals"
+                          entityId={facilityEntityId}
+                          accept="image/jpeg,image/png"
+                          capture="environment"
+                          className="w-full"
+                          onUploadSuccess={(info) => {
                             setUploadError(null);
-                            setFeedPhoto({ cdnUrl: fileInfo.cdnUrl, name: fileInfo.name });
+                            setFeedPhoto({ path: info.path, name: info.name });
                             setShowFeedUploader(false);
                           }}
-                        />
+                          onError={(err) => setUploadError(err.message)}
+                        >
+                          Choose Photo
+                        </SecureFileUploadButton>
                         <Button variant="ghost" size="sm" className="w-full" type="button" onClick={() => setShowFeedUploader(false)}>Cancel</Button>
                       </div>
                     ) : (

@@ -53,7 +53,9 @@ export async function generatePatientTrialReport(patientData: PatientTrialData, 
       alternateRowStyles: { fillColor: [245, 245, 245] },
       margin: { left: 15, right: 15 },
     });
-    nextY.current = doc.previousAutoTable?.finalY ? doc.previousAutoTable.finalY + 10 : nextY.current + 10;
+    // jspdf-autotable attaches `lastAutoTable` to the doc instance after each call.
+    const lastAutoTable = (doc as unknown as { lastAutoTable?: { finalY: number } }).lastAutoTable;
+    nextY.current = lastAutoTable?.finalY ? lastAutoTable.finalY + 10 : nextY.current + 10;
   };
 
   const nextY = { current: 35 };

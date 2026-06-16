@@ -45,6 +45,19 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   const [lockDialogOpen, setLockDialogOpen] = useState(false);
   const [adverseEventOpen, setAdverseEventOpen] = useState(false);
   const [pendingLockStatus, setPendingLockStatus] = useState<string | null>(null);
+  // Active tab is tracked here so each TabsContent can lazy-mount its (often
+  // large) history table only when first visited. This keeps the initial mount
+  // lean even for patients with hundreds of notes/treatments/labs/assessments.
+  const [activeTab, setActiveTab] = useState<'treatments' | 'notes' | 'videos' | 'labs' | 'assessments'>('treatments');
+  const [visitedTabs, setVisitedTabs] = useState<Set<string>>(() => new Set(['treatments']));
+  const handleTabChange = useCallback((value: string) => {
+    setActiveTab(value as typeof activeTab);
+    setVisitedTabs((prev) => (prev.has(value) ? prev : new Set(prev).add(value)));
+  }, []);
+  // Render the first HISTORY_PAGE_SIZE rows of long history lists by default.
+  // Vets can expand any list to view the full record on demand.
+  const HISTORY_PAGE_SIZE = 25;
+  const [showAllTreatments, setShowAllTreatments] = useState(false);
 
   const handleRefresh = useCallback(async () => {
     console.log('=== REFRESHING DATA ===');
@@ -369,7 +382,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
         onOpenChange={setAdverseEventOpen}
       />
 
-      <Tabs defaultValue="treatments" className="w-full">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
           <TabsTrigger value="treatments">
             <Activity className="h-4 w-4 mr-1 sm:mr-2" />
@@ -432,28 +445,43 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               <div className="space-y-4">
                 <h4 className="font-medium">Treatment History</h4>
                 {patient.treatments && patient.treatments.length > 0 ? (
-                  <div className="space-y-2">
-                    {patient.treatments.map((treatment: any) => (
-                      <div key={treatment.id} className="p-4 border rounded-lg bg-gunmetal-deep">
-                        <div className="flex items-start justify-between mb-2">
-                          <div className="flex-1">
-                            <p className="font-medium text-base mb-1">
-                              {treatment.total_volume_ml ? `${treatment.total_volume_ml}mL` : `${treatment.dosage_mg}mg`} via {treatment.route}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {new Date(treatment.administration_datetime).toLocaleString()}
-                            </p>
+                  <>
+                    <div className="space-y-2">
+                      {(showAllTreatments ? patient.treatments : patient.treatments.slice(0, HISTORY_PAGE_SIZE)).map((treatment: any) => (
+                        <div key={treatment.id} className="p-4 border rounded-lg bg-gunmetal-deep">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <p className="font-medium text-base mb-1">
+                                {treatment.total_volume_ml ? `${treatment.total_volume_ml}mL` : `${treatment.dosage_mg}mg`} via {treatment.route}
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                {new Date(treatment.administration_datetime).toLocaleString()}
+                              </p>
+                            </div>
+                            <Badge variant="outline">
+                              {treatment.protocol_hour !== null && treatment.protocol_hour !== undefined ? `Hour ${treatment.protocol_hour}` : 'Pre-Protocol'}
+                            </Badge>
                           </div>
-                          <Badge variant="outline">
-                            {treatment.protocol_hour !== null && treatment.protocol_hour !== undefined ? `Hour ${treatment.protocol_hour}` : 'Pre-Protocol'}
-                          </Badge>
+                          <div className="text-xs text-muted-foreground pt-2 border-t">
+                            Administered by: <span className="font-medium text-foreground">{treatment.veterinarian_name}</span>
+                          </div>
                         </div>
-                        <div className="text-xs text-muted-foreground pt-2 border-t">
-                          Administered by: <span className="font-medium text-foreground">{treatment.veterinarian_name}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                    {patient.treatments.length > HISTORY_PAGE_SIZE && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="mt-3 w-full"
+                        onClick={() => setShowAllTreatments((prev) => !prev)}
+                      >
+                        {showAllTreatments
+                          ? `Show recent ${HISTORY_PAGE_SIZE} only`
+                          : `Show all ${patient.treatments.length} treatments`}
+                      </Button>
+                    )}
+                  </>
                 ) : (
                   <p className="text-sm text-muted-foreground">No treatments recorded yet</p>
                 )}
@@ -463,6 +491,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
         </TabsContent>
 
         <TabsContent value="notes" className="mt-4 sm:mt-6">
+          {visitedTabs.has('notes') && (
           <Card>
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">Clinical Notes</CardTitle>
@@ -519,9 +548,11 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               )}
             </CardContent>
           </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="videos" className="mt-4 sm:mt-6 space-y-4">
+          {visitedTabs.has('videos') && (<>
           <VideoUploadManager
             patientId={patientId}
             protocolHour={currentProtocolHour}
@@ -606,9 +637,11 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               )}
             </CardContent>
           </Card>
+          </>)}
         </TabsContent>
 
         <TabsContent value="labs" className="mt-4 sm:mt-6">
+          {visitedTabs.has('labs') && (
           <Card>
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">Lab Results Entry</CardTitle>
@@ -764,9 +797,11 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               </div>
             </CardContent>
           </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="assessments" className="mt-4 sm:mt-6">
+          {visitedTabs.has('assessments') && (
           <Card>
             <CardHeader>
               <CardTitle className="text-lg sm:text-xl">Clinical Assessment</CardTitle>
@@ -852,6 +887,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               </div>
             </CardContent>
           </Card>
+          )}
         </TabsContent>
       </Tabs>
     </div>

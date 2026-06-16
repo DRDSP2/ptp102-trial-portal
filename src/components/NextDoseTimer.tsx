@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   Syringe,
   CalendarClock,
-  Activity,
 } from 'lucide-react';
 
 type Treatment = {
@@ -58,8 +57,6 @@ function getNextDoseInfo(protocolStartTime: Date | null, treatments: Treatment[]
 
   const now = Date.now();
   const startMs = protocolStartTime.getTime();
-  const elapsedMs = now - startMs;
-  const elapsedHours = elapsedMs / (1000 * 60 * 60);
 
   // Find which doses have been administered
   const administeredHours = new Set<number>();
@@ -104,7 +101,7 @@ function getNextDoseInfo(protocolStartTime: Date | null, treatments: Treatment[]
       const inWindow = now >= windowStartMs && now <= windowEndMs;
 
       return {
-        status: isOverdue ? 'overdue' : inWindow ? 'due-soon' : 'pending' as const,
+        status: (isOverdue ? 'overdue' : inWindow ? 'due-soon' : 'pending') as 'overdue' | 'due-soon' | 'pending',
         message: isOverdue
           ? `${dose.label} is overdue`
           : inWindow

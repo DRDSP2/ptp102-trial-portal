@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 import createInformedConsentAction from '@/actions/createInformedConsent';
@@ -24,7 +23,6 @@ import {
   FileText,
   Clock,
   CheckCircle2,
-  AlertCircle,
   PenTool,
   Download,
   ShieldAlert,

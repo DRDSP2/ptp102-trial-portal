@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
-import { CheckCircle, XCircle, Trash2, Eye, Mail, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2 } from 'lucide-react';
+import { CheckCircle, XCircle, Trash2, Eye, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -82,13 +82,13 @@ type InvestigatorQualification = {
 
 export function VeterinarianManagementPanel() {
   const [vets, loadingVets, errorVets, refreshVets] = useLoadAction(loadVeterinariansAction, [], {});
-  const [allQuals, loadingQuals] = useLoadAction(loadAllInvestigatorQualificationsAction, [], {});
+  const [allQuals, _loadingQuals] = useLoadAction(loadAllInvestigatorQualificationsAction, [], {});
   const [approveVet] = useMutateAction(approveVeterinarianAction);
   const [rejectVet] = useMutateAction(rejectVeterinarianAction);
   const [deleteVet] = useMutateAction(deleteVeterinarianAction);
   const [approveQual] = useMutateAction(approveInvestigatorQualificationAction);
   const [rejectQual] = useMutateAction(rejectInvestigatorQualificationAction);
-  const [updateVetStatus] = useMutateAction(updateVetVerificationStatusAction);
+  const [_updateVetStatus] = useMutateAction(updateVetVerificationStatusAction);
   const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [selectedVet, setSelectedVet] = useState<Veterinarian | null>(null);
   const [selectedQual, setSelectedQual] = useState<InvestigatorQualification | null>(null);
@@ -963,13 +963,13 @@ export function VeterinarianManagementPanel() {
                                                 try {
                                                   await approveQual({ veterinarianId: vet.id, vetEmail: vet.email });
                                                   alert(`Investigator qualification approved.`);
-                                                } catch (e) { alert('Failed.'); }
+                                                } catch (_e) { alert('Failed.'); }
                                               }}>Approve Qual</Button>
                                               <Button size="sm" variant="outline" className="flex-1 text-[10px] h-7 text-red-600" type="button" onClick={async () => {
                                                 try {
                                                   await rejectQual({ veterinarianId: vet.id, vetEmail: vet.email });
                                                   alert(`Investigator qualification rejected.`);
-                                                } catch (e) { alert('Failed.'); }
+                                                } catch (_e) { alert('Failed.'); }
                                               }}>Reject Qual</Button>
                                             </div>
                                           </>
@@ -1009,7 +1009,7 @@ export function VeterinarianManagementPanel() {
                                           try {
                                             await approveQual({ veterinarianId: vet.id, vetEmail: vet.email });
                                             alert('Investigator qualification approved.');
-                                          } catch (e) {
+                                          } catch (_e) {
                                             alert('Failed to approve qualification.');
                                           }
                                         }}
@@ -1029,7 +1029,7 @@ export function VeterinarianManagementPanel() {
                                             try {
                                               await rejectQual({ veterinarianId: vet.id, vetEmail: vet.email });
                                               alert('Investigator qualification rejected.');
-                                            } catch (e) {
+                                            } catch (_e) {
                                               alert('Failed to reject qualification.');
                                             }
                                           }

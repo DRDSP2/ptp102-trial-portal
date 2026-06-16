@@ -18,7 +18,7 @@ export async function compressVideo(
     return file;
   }
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     const video = document.createElement('video');
     video.preload = 'metadata';
     

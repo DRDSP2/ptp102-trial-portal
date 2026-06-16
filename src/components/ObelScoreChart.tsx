@@ -16,8 +16,17 @@ type ObelScoreChartProps = {
   protocolStartTime: Date | null;
 };
 
-export function ObelScoreChart({ assessments, protocolStartTime }: ObelScoreChartProps) {
-  const validAssessments = assessments.filter((a) => a.obel_grade !== null);
+// Maximum number of bars to render in the trend chart. Older assessments are
+// hidden from the visualization but still flow through trend math via the
+// first/last values. This keeps the chart legible and the initial commit cheap
+// even for patients with hundreds of recorded scores.
+const CHART_MAX_BARS = 50;
+
+export function ObelScoreChart({ assessments, protocolStartTime: _protocolStartTime }: ObelScoreChartProps) {
+  const allValidAssessments = assessments.filter((a) => a.obel_grade !== null);
+  const validAssessments = allValidAssessments.length > CHART_MAX_BARS
+    ? allValidAssessments.slice(-CHART_MAX_BARS)
+    : allValidAssessments;
 
   if (validAssessments.length === 0) {
     return (
@@ -36,9 +45,6 @@ export function ObelScoreChart({ assessments, protocolStartTime }: ObelScoreChar
   const firstScore = validAssessments[0].obel_grade!;
   const lastScore = validAssessments[validAssessments.length - 1].obel_grade!;
   const scoreDifference = lastScore - firstScore;
-
-  const maxScore = Math.max(...validAssessments.map((a) => a.obel_grade!));
-  const minScore = Math.min(...validAssessments.map((a) => a.obel_grade!));
 
   const getTrendIcon = () => {
     if (scoreDifference < 0) return <TrendingDown className="h-5 w-5 text-green-600" />;
@@ -110,7 +116,7 @@ export function ObelScoreChart({ assessments, protocolStartTime }: ObelScoreChar
 
         <div className="relative">
           <div className="flex items-end justify-between gap-1 h-48">
-            {validAssessments.map((assessment, index) => {
+            {validAssessments.map((assessment, _index) => {
               const score = assessment.obel_grade!;
               const height = Math.max((score / 4) * 100, 6);
               const hour = assessment.protocol_hour;

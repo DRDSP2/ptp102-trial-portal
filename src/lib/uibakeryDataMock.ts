@@ -4,7 +4,6 @@ import {
   type AuditLogEntry,
   type AuditPayload,
   type AuditAction,
-  type AuditEntityType,
   STUDY_ID,
   STUDY_TITLE,
   SPONSOR_NAME,
@@ -214,7 +213,7 @@ type LocalPatient = {
   eligibility_verified: boolean;
   protocol_start_time: string | null;
   consent_date: string | null;
-  consent_id: number | null;
+  consent_id?: number | null;
   digital_pulse?: string | null;
   hoof_wall_temperature?: string | null;
   coronary_band_condition?: string | null;
@@ -228,10 +227,18 @@ type LocalPatient = {
   profile_picture_url?: string | null;
   enrolled_by_vet_email?: string | null;
   completed_timeline_steps: string[];
+  // Optional/synthesized fields surfaced by various read paths.
+  // Stored when present, defaulted at read-time when absent.
+  unique_id?: string | null;
+  laminitis_grade?: number | null;
+  affected_limbs?: string | null;
+  is_flagged?: boolean | null;
+  flag_reason?: string | null;
+  data_lock_status?: 'open' | 'locked' | 'frozen';
   created_at: string;
   updated_at: string;
-  status_history: { status: string; timestamp: string; admin: string; notes: string }[];
-  audit_log: AuditEntry[];
+  status_history?: { status: string; timestamp: string; admin: string; notes: string }[];
+  audit_log?: AuditEntry[];
 };
 
 type LocalPatientParams = Partial<LocalPatient> & {
@@ -257,6 +264,10 @@ type LocalPatientParams = Partial<LocalPatient> & {
   hoofWallTemperature?: string | null;
   coronaryBandCondition?: string | null;
   hoofTesterResponse?: string | null;
+  enrollmentHeartRate?: number | null;
+  enrollmentRespiratoryRate?: number | null;
+  enrollmentTemperature?: number | null;
+  bodyConditionScore?: number | null;
   profilePictureUrl?: string | null;
   enrolledByVetEmail?: string | null;
   completedTimelineSteps?: string[];
@@ -495,11 +506,13 @@ type LocalNote = {
   video_url: string | null;
   video_file_name: string | null;
   video_uploaded_at: string | null;
-  ocr_document_url: string | null;
-  ocr_document_file_name: string | null;
-  ocr_document_mime_type: string | null;
-  ocr_extracted_text: string | null;
-  ocr_processed_at: string | null;
+  // OCR fields (added in d783f71). Optional because pre-OCR records
+  // and demo seeds omit them.
+  ocr_document_url?: string | null;
+  ocr_document_file_name?: string | null;
+  ocr_document_mime_type?: string | null;
+  ocr_extracted_text?: string | null;
+  ocr_processed_at?: string | null;
   created_at: string;
 };
 
@@ -927,6 +940,8 @@ function ensureDemoData() {
         protocol_hour: 0,
         veterinarian_name: vetName,
         total_volume_ml: 500,
+        batch_number: null,
+        immediate_reactions: null,
       },
       {
         id: nextTreatmentId + 1,
@@ -937,6 +952,8 @@ function ensureDemoData() {
         protocol_hour: 12,
         veterinarian_name: vetName,
         total_volume_ml: 500,
+        batch_number: null,
+        immediate_reactions: null,
       }
     );
     saveToStorage(STORAGE_KEYS.treatments, treatments);
@@ -1163,13 +1180,13 @@ type LocalInvestigatorQual = {
   facility_inspection_completed: boolean | null;
   facility_inspection_date: string | null;
   drug_storage_photo_url: string | null;
-  drug_storage_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  drug_storage_photo_status?: 'pending' | 'approved' | 'rejected' | null;
   emergency_equipment_photo_url: string | null;
-  emergency_equipment_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  emergency_equipment_photo_status?: 'pending' | 'approved' | 'rejected' | null;
   housing_photo_url: string | null;
-  housing_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  housing_photo_status?: 'pending' | 'approved' | 'rejected' | null;
   feed_photo_url: string | null;
-  feed_photo_status: 'pending' | 'approved' | 'rejected' | null;
+  feed_photo_status?: 'pending' | 'approved' | 'rejected' | null;
   housing_comments: string | null;
   feed_comments: string | null;
   facility_checklist: Record<string, unknown> | null;
@@ -1182,7 +1199,7 @@ type LocalInvestigatorQual = {
   protocol_signature: string | null;
   qualification_status: string | null;
   status: 'pending' | 'approved' | 'rejected';
-  audit_log: AuditEntry[];
+  audit_log?: AuditEntry[];
   created_at: string;
   updated_at: string;
   // backward compatibility: old blob format
@@ -3077,8 +3094,8 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const patient = patients.find((pt) => pt.id === newConsent.patient_id);
           if (patient) {
             patient.consent_id = newConsent.id;
-            patient.consent_date = now;
-            patient.updated_at = now;
+            patient.consent_date = now.toISOString();
+            patient.updated_at = now.toISOString();
             savePatients(patients);
           }
           await recordAudit({

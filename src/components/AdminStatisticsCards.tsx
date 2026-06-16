@@ -1,7 +1,7 @@
 import { useLoadAction } from '@uibakery/data';
 import loadAdminStatisticsAction from '@/actions/loadAdminStatistics';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Clock, Calendar, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Users, Clock, Calendar, CheckCircle } from 'lucide-react';
 
 type Statistics = {
   total_vets: number;

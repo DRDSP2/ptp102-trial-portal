@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 
 export function VetResetPage() {
   const [resetToken, setResetToken] = useState('');
-  const [email, setEmail] = useState('');
+  const [_email, setEmail] = useState('');
   const auth = useAuth();
   const navigate = useNavigate();
 

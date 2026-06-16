@@ -2,7 +2,7 @@
  * Deterministic XML export builders for the PTP-102 trial.
  */
 
-import { type AuditLogEntry, STUDY_ID, STUDY_TITLE, SPONSOR_NAME } from '@/lib/auditTypes';
+import { type AuditLogEntry, STUDY_TITLE } from '@/lib/auditTypes';
 
 export type StudyMetadata = {
   studyId: string;
@@ -533,7 +533,7 @@ ${itemNodes}
     </CodeList>`;
 }
 
-function buildItemDefXml(variable: VariableMeta, order: number): string {
+function buildItemDefXml(variable: VariableMeta, _order: number): string {
   const attrs: Record<string, string> = {
     OID: `IT.${variable.name}`,
     Name: variable.name,

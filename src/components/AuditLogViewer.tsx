@@ -28,7 +28,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Search, ShieldCheck, ShieldAlert, Eye } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, Eye } from 'lucide-react';
 import { type AuditAction, type AuditEntityType } from '@/lib/auditTypes';
 
 const AUDIT_ACTIONS: AuditAction[] = [

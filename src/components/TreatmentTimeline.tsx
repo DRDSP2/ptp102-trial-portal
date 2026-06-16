@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import { useProtocolClock } from '@/hooks/useProtocolClock';
 import { Clock, CheckCircle2, AlertCircle, Syringe, Activity, Calendar, Timer, ChevronRight } from 'lucide-react';
-import { format, addHours, differenceInSeconds, isPast, isFuture, isWithinInterval } from 'date-fns';
+import { format, addHours, differenceInSeconds, isPast, isWithinInterval } from 'date-fns';
 
 export interface TimelineStep {
   id: string;

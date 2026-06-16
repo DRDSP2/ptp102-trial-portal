@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
-import type { User } from '@supabase/supabase-js';
+import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
 import { getVetByEmail, recordLogoutAudit } from '@/lib/uibakeryDataMock';
 
@@ -139,7 +139,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (_event: AuthChangeEvent, session: Session | null) => {
       if (!session) {
         if (mounted) setState({ ...emptyState, isLoading: false });
         return;
@@ -183,7 +183,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loginVet: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
         if (password) {
-          const { error, data } = await supabase.auth.signInWithPassword({
+          const { error } = await supabase.auth.signInWithPassword({
             email: normalizedEmail,
             password,
           });

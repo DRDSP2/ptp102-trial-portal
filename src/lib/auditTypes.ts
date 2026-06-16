@@ -76,12 +76,21 @@ export type AuditLogEntry = {
   previousHash: string;
 };
 
-export type AuditPayload = Omit<
-  AuditLogEntry,
-  'id' | 'sequenceNumber' | 'timestamp' | 'clientHash' | 'previousHash'
-> & {
-  timestamp?: string;
-};
+/**
+ * Input payload for `recordAudit`. Only `action` and `entityType` are required;
+ * every other field is filled in by the recorder with safe defaults
+ * (current user, current timestamp, null for unspecified context).
+ *
+ * The recorder is responsible for the audit-chain fields it generates itself
+ * (`id`, `sequenceNumber`, `timestamp`, `clientHash`, `previousHash`).
+ */
+export type AuditPayload = Pick<AuditLogEntry, 'action' | 'entityType'> &
+  Partial<
+    Omit<
+      AuditLogEntry,
+      'id' | 'sequenceNumber' | 'clientHash' | 'previousHash' | 'action' | 'entityType'
+    >
+  >;
 
 export const STUDY_ID = 'PTP-102';
 export const STUDY_TITLE = 'PTP-102 Laminitis Pilot Study';

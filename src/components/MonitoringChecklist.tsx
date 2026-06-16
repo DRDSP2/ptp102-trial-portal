@@ -17,9 +17,6 @@ export function MonitoringChecklist({ protocolHour, treatments, assessments, lab
     t.protocol_hour !== null && Math.abs(t.protocol_hour - (protocolHour || 0)) <= 1
   );
   
-  const hasAssessmentAtCurrentHour = assessments.some((a: any) => 
-    a.protocol_hour !== null && Math.abs(a.protocol_hour - (protocolHour || 0)) <= 2
-  );
   
   const hasLabsAtCurrentHour = labResults.some((l: any) => 
     l.protocol_hour !== null && Math.abs(l.protocol_hour - (protocolHour || 0)) <= 4

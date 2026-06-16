@@ -114,7 +114,7 @@ function renderWithRole(role: 'admin' | 'vet' | null, email?: string, consentOve
       <InformedConsentWorkflow
         patientId={patient.id}
         patient={patient}
-        vetEmail={role === 'vet' ? email : patient.owner_email}
+        vetEmail={role === 'vet' ? email : patient.owner_email ?? undefined}
         onComplete={() => {}}
       />
     </AuthProvider>
