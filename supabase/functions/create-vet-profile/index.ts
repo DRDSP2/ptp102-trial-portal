@@ -1,9 +1,12 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.0';
 
+// The supabase-js FunctionsClient sends apikey and x-client-info alongside
+// Authorization and Content-Type. All must be listed in the preflight response
+// or the browser will reject the cross-origin POST with a CORS error.
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  'Access-Control-Allow-Headers': 'authorization, content-type, apikey, x-client-info',
 };
 
 Deno.serve(async (req: Request) => {
