@@ -6,6 +6,7 @@ import { useMutateAction } from '@uibakery/data';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -88,35 +89,61 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
       setShowValidationSummary(false);
       setIsSubmitting(true);
       const normalizedEmail = values.email.toLowerCase().trim();
+      const now = new Date().toISOString();
+      const consentAt = printedAtRef.current ?? consentPrintedAt ?? now;
 
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fullName: values.fullName,
-          email: normalizedEmail,
-          phone: values.phone || '',
-          password: values.password,
-          licenseNumber: values.licenseNumber,
-          hospitalAffiliation: values.hospitalAffiliation,
-          signatureText: values.signatureText,
-          consentPrintedAt: printedAtRef.current ?? consentPrintedAt,
-        }),
+      // Step 1: create the Supabase Auth user.
+      // Email confirmation should be disabled in the Supabase project settings
+      // so the vet lands on the pending-approval page without clicking a link.
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: normalizedEmail,
+        password: values.password,
+        options: {
+          data: {
+            role: 'vet',
+            full_name: values.fullName,
+            phone: values.phone || '',
+            license_number: values.licenseNumber,
+            hospital_affiliation: values.hospitalAffiliation,
+            signature_text: values.signatureText,
+            consent_printed_at: consentAt,
+          },
+        },
       });
 
-      const result = await response.json().catch(() => ({ error: 'Registration failed' }));
-
-      if (!response.ok) {
-        const errorMessage = result.error ?? 'Registration failed';
+      if (signUpError || !signUpData.user) {
+        const message = signUpError?.message ?? 'Registration failed';
         if (
-          errorMessage.includes('already') ||
-          errorMessage.includes('duplicate') ||
-          errorMessage.includes('unique')
+          message.toLowerCase().includes('already') ||
+          message.toLowerCase().includes('duplicate') ||
+          message.toLowerCase().includes('unique')
         ) {
           setError(`Email ${values.email} is already registered. Please use a different email or login instead.`);
         } else {
-          setError(`Registration failed: ${errorMessage}`);
+          setError(`Registration failed: ${message}`);
         }
+        return;
+      }
+
+      // Step 2: create the veterinarian profile via Supabase Edge Function.
+      // The Edge Function uses the service-role key — never exposed to the client —
+      // to update app_metadata and insert the profile row.
+      const { error: profileError } = await supabase.functions.invoke('create-vet-profile', {
+        body: {
+          userId: signUpData.user.id,
+          email: normalizedEmail,
+          fullName: values.fullName,
+          phone: values.phone || '',
+          licenseNumber: values.licenseNumber,
+          hospitalAffiliation: values.hospitalAffiliation,
+          signatureText: values.signatureText,
+          consentPrintedAt: consentAt,
+        },
+      });
+
+      if (profileError) {
+        console.error('Profile creation error:', profileError);
+        setError('Account created but profile setup failed. Please contact support.');
         return;
       }
 

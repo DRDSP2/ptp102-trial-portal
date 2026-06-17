@@ -1,3 +1,7 @@
+// @deprecated — Supabase Auth + Edge Function replaces this on IPFS deployments.
+// The app now signs up via supabase.auth.signUp() client-side and creates the
+// vet profile through the create-vet-profile Edge Function. This file is kept
+// for Vercel deployments that may still use it during the migration period.
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createServiceClient } from '../src/lib/supabase/server';
 

@@ -27,6 +27,9 @@ coverage/
 .DS_Store
 Thumbs.db
 
+# Supabase CLI project state
+supabase/.temp/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*

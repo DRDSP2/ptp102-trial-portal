@@ -71,7 +71,7 @@ Open the canonical URL and confirm:
 |---|---|
 | Landing page loads | Auth selection (Vet / Admin) renders without console errors |
 | Vet login | Form submits to Supabase Auth; valid session persists across page reloads |
-| Vet registration | Form posts to `/api/register`; record appears in Supabase `auth.users` |
+| Vet registration | `supabase.auth.signUp()` + Edge Function call; record appears in Supabase `auth.users` and `veterinarians` table |
 | Admin login | Form submits; admin session persists across reloads |
 | Patient list (admin tab) | Loads from `localStorage` mock (data layer migration is in progress) |
 | Clinical Notes OCR upload | PDF/image upload triggers OCR; extracted text appears in the notes field |
@@ -124,6 +124,76 @@ Vets must:
 4. Log in with email + password after approval.
 
 Email/password only — no Google OAuth path is wired up.
+
+### Registration flow (IPFS / static deployments)
+
+On the 4EVERLAND IPFS gateway there is no server runtime, so `POST /api/register`
+(which was a Vercel serverless function) cannot be called. The registration flow
+now uses two client-side calls instead:
+
+1. **`supabase.auth.signUp()`** — creates the Supabase Auth user with metadata.
+2. **`supabase.functions.invoke('create-vet-profile')`** — calls a Supabase Edge
+   Function that uses the service-role key to set `app_metadata.role = 'vet'` and
+   insert the profile row into the `veterinarians` table.
+
+---
+
+## Supabase setup
+
+### Edge Function deployment
+
+The `create-vet-profile` Edge Function lives in
+`supabase/functions/create-vet-profile/`. To deploy:
+
+```bash
+# Install the Supabase CLI (one-time)
+brew install supabase/tap/supabase
+
+# Link to your project
+supabase link --project-ref mzrmstscqlnfgsrsfjgh
+
+# Deploy the function
+supabase functions deploy create-vet-profile
+
+# Verify
+supabase functions list
+```
+
+The Edge Function requires no manual secrets — `SUPABASE_URL` and
+`SUPABASE_SERVICE_ROLE_KEY` are injected automatically by the Supabase
+runtime.
+
+### Allowed origins
+
+Add `byrock.eth.limo` (and any preview domains) to the Supabase project's
+**Allowed Origins** list:
+
+1. Open the [Supabase dashboard](https://supabase.com/dashboard/project/mzrmstscqlnfgsrsfjgh).
+2. Go to **Authentication → Settings → Allowed Origins**.
+3. Add:
+   - `https://byrock.eth.limo`
+   - `https://*.pages.dev` (Cloudflare Pages previews)
+   - `http://localhost:5173` (local dev)
+4. Save.
+
+Without this, Supabase Auth will refuse sign-ups from these origins.
+
+### Email confirmation (recommended)
+
+If the Supabase project has **Confirm email** enabled (default), new users
+will receive a confirmation link before they can sign in. For this clinical
+trial workflow where an admin approves vets manually, you may wish to
+**disable** email confirmation:
+
+1. **Authentication → Settings → Email Auth**.
+2. Toggle **Confirm email** OFF.
+3. Save.
+
+With confirmation off, `signUp()` returns an active session immediately and
+the vet can be redirected to the pending-approval page without clicking an
+email link. If you keep confirmation ON, the vet must click the confirmation
+email first — the pending-approval flow after registration assumes the user
+will confirm via email before the admin processes them.
 
 ---
 
@@ -260,7 +330,7 @@ The app is mid-migration from a UIBakery-managed backend to Supabase.
 | Concern | Backend |
 |---|---|
 | Auth (login, register, sessions) | Supabase Auth |
-| Vet registration writes | Supabase (`/api/register` → `auth.users`) |
+| Vet registration writes | Supabase Auth (`signUp()` + Edge Function → `auth.users` + `veterinarians`) |
 | Secure file uploads (notes, images) | Supabase Storage `private-uploads` bucket, RLS-protected |
 | Signed downloads | `/api/download` — 5-minute signed URLs, server-side ACL check |
 | OCR (PDF/image text extraction) | Client-side via `pdfjs-dist` + `tesseract.js` (lazy-loaded chunks) |
