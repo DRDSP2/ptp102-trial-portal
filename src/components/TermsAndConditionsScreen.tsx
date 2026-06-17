@@ -128,22 +128,29 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
       // Step 2: create the veterinarian profile via Supabase Edge Function.
       // The Edge Function uses the service-role key — never exposed to the client —
       // to update app_metadata and insert the profile row.
-      const { error: profileError } = await supabase.functions.invoke('create-vet-profile', {
-        body: {
-          userId: signUpData.user.id,
-          email: normalizedEmail,
-          fullName: values.fullName,
-          phone: values.phone || '',
-          licenseNumber: values.licenseNumber,
-          hospitalAffiliation: values.hospitalAffiliation,
-          signatureText: values.signatureText,
-          consentPrintedAt: consentAt,
+      const { error: profileError, data: profileData } = await supabase.functions.invoke(
+        'create-vet-profile',
+        {
+          body: {
+            userId: signUpData.user.id,
+            email: normalizedEmail,
+            fullName: values.fullName,
+            phone: values.phone || '',
+            licenseNumber: values.licenseNumber,
+            hospitalAffiliation: values.hospitalAffiliation,
+            signatureText: values.signatureText,
+            consentPrintedAt: consentAt,
+          },
         },
-      });
+      );
 
       if (profileError) {
-        console.error('Profile creation error:', profileError);
-        setError('Account created but profile setup failed. Please contact support.');
+        // profileError is a FunctionsHttpError with the function's JSON response inside.
+        const resp = profileData as Record<string, unknown> | undefined;
+        const message = (resp?.error as string) ?? 'Profile setup failed';
+        const detail = resp?.detail ? ` (${String(resp.detail)})` : '';
+        console.error('Profile creation error:', { error: profileError, response: resp });
+        setError(`Account created but profile setup failed: ${message}${detail}. Please contact support.`);
         return;
       }
 
