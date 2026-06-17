@@ -86,40 +86,45 @@ Deno.serve(async (req: Request) => {
   }
 
   // Step 2: insert the veterinarian profile.
+  // id is omitted so the DB auto-generates it (BIGINT GENERATED ALWAYS AS IDENTITY).
+  // The email column is UNIQUE and links this record to the Auth user.
   const now = new Date().toISOString();
-  const { error: insertError } = await supabase.from('veterinarians').insert({
-    id: userId,
-    full_name: fullName,
-    email: email!.toLowerCase().trim(),
-    phone: phone || null,
-    password_hash: 'supabase-managed',
-    license_number: licenseNumber,
-    hospital_affiliation: hospitalAffiliation,
-    tc_accepted: true,
-    tc_accepted_at: consentPrintedAt,
-    signature_text: signatureText,
-    consent_printed_at: consentPrintedAt || null,
-    verification_status: 'pending',
-    created_at: now,
-    updated_at: now,
-  });
+  const { data: inserted, error: insertError } = await supabase
+    .from('veterinarians')
+    .insert({
+      full_name: fullName,
+      email: email!.toLowerCase().trim(),
+      phone: phone || null,
+      password_hash: 'supabase-managed',
+      license_number: licenseNumber,
+      hospital_affiliation: hospitalAffiliation,
+      tc_accepted: true,
+      tc_accepted_at: consentPrintedAt,
+      signature_text: signatureText,
+      consent_printed_at: consentPrintedAt || null,
+      verification_status: 'pending',
+      created_at: now,
+      updated_at: now,
+    })
+    .select('id')
+    .single();
 
-  if (insertError) {
+  if (insertError || !inserted) {
     // Roll back the auth user so the email can be retried.
     await supabase.auth.admin.deleteUser(userId!).catch(() => {});
 
     return new Response(
       JSON.stringify({
-        error: `Failed to create profile: ${insertError.message}`,
-        detail: insertError.message,
+        error: `Failed to create profile: ${insertError?.message ?? 'no row returned'}`,
+        detail: insertError?.message ?? 'unknown',
         step: 'insert_veterinarians',
-        code: insertError.code,
+        code: insertError?.code,
       }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     );
   }
 
-  return new Response(JSON.stringify({ success: true, id: userId, email: email!.toLowerCase().trim() }), {
+  return new Response(JSON.stringify({ success: true, id: inserted.id, email: email!.toLowerCase().trim() }), {
     status: 201,
     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
   });
