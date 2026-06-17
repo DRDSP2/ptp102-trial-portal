@@ -29,5 +29,7 @@ scripts/migrations_combined.sql against project mzrmstscqlnfgsrsfjgh):
 1781380365_clamp_obel_grade at 2026-06-14T21:00:00.000Z
 1781380366_private_uploads_bucket at 2026-06-14T21:00:00.000Z (subscript bug in source fixed in same commit)
 
+1781380368_add_phone_and_consent_printed_to_vets at PENDING (run scripts/migrations_combined.sql or the individual file)
+
 Schema independently verified via service-role probe: all 23 expected public
 tables present, private-uploads bucket and 3 storage RLS policies in place.

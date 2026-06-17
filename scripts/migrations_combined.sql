@@ -1135,6 +1135,15 @@ USING (
 );
 
 -- =============================================================================
+-- Migration 1781380368: add phone and consent_printed_at to veterinarians.
+-- Both are used by the registration INSERT but were omitted from the original
+-- schema and never added by any subsequent migration.
+-- =============================================================================
+ALTER TABLE veterinarians
+  ADD COLUMN IF NOT EXISTS phone              TEXT,
+  ADD COLUMN IF NOT EXISTS consent_printed_at TIMESTAMPTZ;
+
+-- =============================================================================
 -- Final sanity check: every expected public table must exist or we abort.
 -- =============================================================================
 DO $$
