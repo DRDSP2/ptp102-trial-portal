@@ -1135,6 +1135,16 @@ USING (
 );
 
 -- =============================================================================
+-- 1781380367_add_note_ocr_fields.sql
+-- =============================================================================
+ALTER TABLE clinical_notes
+  ADD COLUMN IF NOT EXISTS ocr_document_url TEXT,
+  ADD COLUMN IF NOT EXISTS ocr_document_file_name TEXT,
+  ADD COLUMN IF NOT EXISTS ocr_document_mime_type TEXT,
+  ADD COLUMN IF NOT EXISTS ocr_extracted_text TEXT,
+  ADD COLUMN IF NOT EXISTS ocr_processed_at TIMESTAMPTZ;
+
+-- =============================================================================
 -- Migration 1781380368: add phone and consent_printed_at to veterinarians.
 -- Both are used by the registration INSERT but were omitted from the original
 -- schema and never added by any subsequent migration.
