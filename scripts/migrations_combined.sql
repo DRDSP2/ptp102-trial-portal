@@ -1170,6 +1170,61 @@ CREATE INDEX IF NOT EXISTS idx_recovery_tokens_email   ON recovery_tokens (email
 CREATE INDEX IF NOT EXISTS idx_recovery_tokens_expires ON recovery_tokens (expires_at);
 
 -- =============================================================================
+-- 1791000000_fix_storage_rls_ptp102_bucket.sql
+--
+-- The app uses bucket 'ptp102-trial-portal' (see src/lib/upload/config.ts).
+-- Path scheme: <category>/<userId>/<entityType>/<entityId>/<timestamp>-<safeName>
+-- foldername()[2] is the userId segment.  This replaces the old
+-- 'private-uploads' policies that used foldername()[4] on the wrong bucket.
+-- =============================================================================
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('ptp102-trial-portal', 'ptp102-trial-portal', false)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Users can read their own private uploads"      ON storage.objects;
+DROP POLICY IF EXISTS "Users can upload to their own private folder"  ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete their own private uploads"    ON storage.objects;
+DROP POLICY IF EXISTS "ptp102_user_can_insert_own_path"              ON storage.objects;
+DROP POLICY IF EXISTS "ptp102_user_can_read_own_path_or_admin"       ON storage.objects;
+DROP POLICY IF EXISTS "ptp102_user_can_update_own_path"              ON storage.objects;
+DROP POLICY IF EXISTS "ptp102_user_can_delete_own_path"              ON storage.objects;
+
+CREATE POLICY "ptp102_user_can_insert_own_path"
+  ON storage.objects FOR INSERT TO authenticated
+  WITH CHECK (
+    bucket_id = 'ptp102-trial-portal'
+    AND (storage.foldername(name))[2] = auth.uid()::text
+  );
+
+CREATE POLICY "ptp102_user_can_read_own_path_or_admin"
+  ON storage.objects FOR SELECT TO authenticated
+  USING (
+    bucket_id = 'ptp102-trial-portal'
+    AND (
+      (storage.foldername(name))[2] = auth.uid()::text
+      OR coalesce(auth.jwt() -> 'app_metadata' ->> 'role', '') = 'admin'
+    )
+  );
+
+CREATE POLICY "ptp102_user_can_update_own_path"
+  ON storage.objects FOR UPDATE TO authenticated
+  USING (
+    bucket_id = 'ptp102-trial-portal'
+    AND (storage.foldername(name))[2] = auth.uid()::text
+  )
+  WITH CHECK (
+    bucket_id = 'ptp102-trial-portal'
+    AND (storage.foldername(name))[2] = auth.uid()::text
+  );
+
+CREATE POLICY "ptp102_user_can_delete_own_path"
+  ON storage.objects FOR DELETE TO authenticated
+  USING (
+    bucket_id = 'ptp102-trial-portal'
+    AND (storage.foldername(name))[2] = auth.uid()::text
+  );
+
+-- =============================================================================
 -- Final sanity check: every expected public table must exist or we abort.
 -- =============================================================================
 DO $$
