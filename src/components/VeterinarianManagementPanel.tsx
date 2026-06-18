@@ -1,14 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useMutateAction, useLoadAction } from '@uibakery/data';
-import loadVeterinariansAction from '@/actions/loadVeterinarians';
+import { useState, useEffect, useCallback } from 'react';
+import { useLoadAction, useMutateAction } from '@uibakery/data';
 import loadAllInvestigatorQualificationsAction from '@/actions/loadAllInvestigatorQualifications';
-import approveVeterinarianAction from '@/actions/approveVeterinarian';
-import rejectVeterinarianAction from '@/actions/rejectVeterinarian';
-import deleteVeterinarianAction from '@/actions/deleteVeterinarian';
 import approveInvestigatorQualificationAction from '@/actions/approveInvestigatorQualification';
 import rejectInvestigatorQualificationAction from '@/actions/rejectInvestigatorQualification';
 import updateVetVerificationStatusAction from '@/actions/updateVetVerificationStatus';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
+import { useVeterinarians, useMutateVeterinarian, useDeleteVeterinarian } from '@/hooks/useVeterinarians';
 import { supabase } from '@/lib/supabase/client';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -82,11 +79,10 @@ type InvestigatorQualification = {
 };
 
 export function VeterinarianManagementPanel() {
-  const [vets, loadingVets, errorVets, refreshVets] = useLoadAction(loadVeterinariansAction, [], {});
+  const { vets, loading: loadingVets, error: errorVets, load: refreshVets } = useVeterinarians();
+  const { mutate: approveOrRejectVet } = useMutateVeterinarian();
+  const { remove: deleteVet } = useDeleteVeterinarian();
   const [allQuals, _loadingQuals] = useLoadAction(loadAllInvestigatorQualificationsAction, [], {});
-  const [approveVet] = useMutateAction(approveVeterinarianAction);
-  const [rejectVet] = useMutateAction(rejectVeterinarianAction);
-  const [deleteVet] = useMutateAction(deleteVeterinarianAction);
   const [approveQual] = useMutateAction(approveInvestigatorQualificationAction);
   const [rejectQual] = useMutateAction(rejectInvestigatorQualificationAction);
   const [_updateVetStatus] = useMutateAction(updateVetVerificationStatusAction);
@@ -98,6 +94,8 @@ export function VeterinarianManagementPanel() {
   const [pendingVetAction, setPendingVetAction] = useState<{ id: number; action: 'approve' | 'reject' } | null>(null);
 
   const qualsList: InvestigatorQualification[] = allQuals || [];
+
+  useEffect(() => { refreshVets(); }, [refreshVets]);
 
   const getQualForVet = (vet: Veterinarian): InvestigatorQualification | null => {
     return qualsList.find((q) => q.vet_email === vet.email || q.veterinarian_id === vet.id) || null;
@@ -121,45 +119,28 @@ export function VeterinarianManagementPanel() {
     setReasonDialogOpen(true);
   };
 
-  const executeVetAction = async (reason: string) => {
+  const executeVetAction = useCallback(async (reason: string) => {
     if (!pendingVetAction) return;
     const { id, action } = pendingVetAction;
     const vet = vets.find((v: Veterinarian) => v.id === id);
     try {
-      if (action === 'approve') {
-        const result = await approveVet({ id, reasonForChange: reason });
-        console.log('Veterinarian approved:', result);
-        if (vet) {
-          sendNotification(
-            sendEmail,
-            NotificationType.VET_APPROVED,
-            `✅ Vet Approved: ${vet.full_name}`,
-            {
-              'Veterinarian': vet.full_name,
-              'Email': vet.email,
-              'Hospital': vet.hospital_affiliation,
-              'License': vet.license_number,
-            }
-          ).catch(err => console.error('Email notification failed (non-critical):', err));
-        }
-        alert('Veterinarian approved successfully.');
-      } else {
-        const result = await rejectVet({ id, reasonForChange: reason });
-        console.log('Veterinarian rejected:', result);
-        if (vet) {
-          sendNotification(
-            sendEmail,
-            NotificationType.VET_REJECTED,
-            `❌ Vet Rejected: ${vet.full_name}`,
-            {
-              'Veterinarian': vet.full_name,
-              'Email': vet.email,
-              'Hospital': vet.hospital_affiliation,
-            }
-          ).catch(err => console.error('Email notification failed (non-critical):', err));
-        }
-        alert('Veterinarian rejected.');
+      await approveOrRejectVet(id, action, reason);
+      if (vet) {
+        const notifType = action === 'approve' ? NotificationType.VET_APPROVED : NotificationType.VET_REJECTED;
+        const prefix = action === 'approve' ? '✅' : '❌';
+        sendNotification(
+          sendEmail,
+          notifType,
+          `${prefix} Vet ${action === 'approve' ? 'Approved' : 'Rejected'}: ${vet.full_name}`,
+          {
+            'Veterinarian': vet.full_name,
+            'Email': vet.email,
+            'Hospital': vet.hospital_affiliation,
+            ...(action === 'approve' ? { 'License': vet.license_number } : {}),
+          }
+        ).catch(err => console.error('Email notification failed (non-critical):', err));
       }
+      alert(`Veterinarian ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
       await refreshVets();
     } catch (error) {
       console.error(`Failed to ${action} veterinarian:`, error);
@@ -167,20 +148,20 @@ export function VeterinarianManagementPanel() {
     } finally {
       setPendingVetAction(null);
     }
-  };
+  }, [pendingVetAction, vets, approveOrRejectVet, sendEmail, refreshVets]);
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = useCallback(async (id: number) => {
     if (window.confirm('Are you sure you want to permanently delete this veterinarian? This action cannot be undone.')) {
       try {
-        await deleteVet({ id });
+        await deleteVet(id);
         console.log('Veterinarian deleted:', id);
-        refreshVets();
+        await refreshVets();
       } catch (error) {
         console.error('Failed to delete veterinarian:', error);
         alert('Failed to delete veterinarian. Please try again.');
       }
     }
-  };
+  }, [deleteVet, refreshVets]);
 
   const handleSendRecovery = async (vet: Veterinarian) => {
     try {
