@@ -9,6 +9,7 @@ import approveInvestigatorQualificationAction from '@/actions/approveInvestigato
 import rejectInvestigatorQualificationAction from '@/actions/rejectInvestigatorQualification';
 import updateVetVerificationStatusAction from '@/actions/updateVetVerificationStatus';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
+import { supabase } from '@/lib/supabase/client';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -17,7 +18,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
-import { CheckCircle, XCircle, Trash2, Eye, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2 } from 'lucide-react';
+import { CheckCircle, XCircle, Trash2, Eye, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2, Mail } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -178,6 +179,19 @@ export function VeterinarianManagementPanel() {
         console.error('Failed to delete veterinarian:', error);
         alert('Failed to delete veterinarian. Please try again.');
       }
+    }
+  };
+
+  const handleSendRecovery = async (vet: Veterinarian) => {
+    try {
+      const { error } = await supabase.functions.invoke('recovery-request', {
+        body: { email: vet.email, actor_email: 'admin' },
+      });
+      if (error) throw error;
+      alert(`Recovery email sent if this account exists.`);
+    } catch (err) {
+      console.error('Failed to send recovery email:', err);
+      alert('Failed to send recovery email. Please try again.');
     }
   };
 
@@ -1111,6 +1125,16 @@ export function VeterinarianManagementPanel() {
                           </>
                         )}
 
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleSendRecovery(vet)}
+                          type="button"
+                          title="Send recovery email"
+                          className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                        >
+                          <Mail className="h-4 w-4" />
+                        </Button>
                         <Button
                           variant="ghost"
                           size="sm"

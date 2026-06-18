@@ -31,6 +31,7 @@ scripts/migrations_combined.sql against project mzrmstscqlnfgsrsfjgh):
 
 1781380367_add_note_ocr_fields at 2026-06-17T00:00:00.000Z
 1781380368_add_phone_and_consent_printed_to_vets at 2026-06-17T00:00:00.000Z
+1790000000_create_recovery_tokens at 2026-06-18T00:00:00.000Z
 
 Schema independently verified via service-role probe: all 23 expected public
 tables present, private-uploads bucket and 3 storage RLS policies in place.

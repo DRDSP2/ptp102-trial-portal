@@ -1154,6 +1154,22 @@ ALTER TABLE veterinarians
   ADD COLUMN IF NOT EXISTS consent_printed_at TIMESTAMPTZ;
 
 -- =============================================================================
+-- 1790000000_create_recovery_tokens.sql
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS recovery_tokens (
+  id          BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  email       TEXT NOT NULL,
+  token_hash  TEXT NOT NULL,
+  role        TEXT NOT NULL CHECK (role IN ('admin', 'vet')),
+  expires_at  TIMESTAMPTZ NOT NULL,
+  used_at     TIMESTAMPTZ,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_recovery_tokens_email   ON recovery_tokens (email);
+CREATE INDEX IF NOT EXISTS idx_recovery_tokens_expires ON recovery_tokens (expires_at);
+
+-- =============================================================================
 -- Final sanity check: every expected public table must exist or we abort.
 -- =============================================================================
 DO $$
@@ -1164,7 +1180,7 @@ DECLARE
     'informed_consents','audit_logs','study_settings','investigator_qualifications',
     'protocol_versions','adverse_events','site_qualifications','monitoring_visits',
     'fda_correspondence','protocol_deviations','communication_messages',
-    'enrollment_eligibility','treatment_outcomes','ncie_shipment_log'
+    'enrollment_eligibility','treatment_outcomes','ncie_shipment_log','recovery_tokens'
   ];
   t TEXT;
   missing_list TEXT := '';

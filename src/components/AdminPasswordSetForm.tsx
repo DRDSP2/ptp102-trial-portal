@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '@/lib/supabase/client';
-import { clearRecoveryMode } from '@/lib/supabase/recovery';
+import { clearRecoveryMode, getRecoveryToken } from '@/lib/supabase/recovery';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,6 +36,8 @@ export function AdminPasswordSetForm({ onSuccess }: AdminPasswordSetFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  const recoveryToken = getRecoveryToken();
+
   const form = useForm<z.infer<typeof setPasswordSchema>>({
     resolver: zodResolver(setPasswordSchema),
     defaultValues: {
@@ -49,16 +51,21 @@ export function AdminPasswordSetForm({ onSuccess }: AdminPasswordSetFormProps) {
       setError(null);
       setIsLoading(true);
 
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: values.password,
-      });
-
-      if (updateError) throw updateError;
+      if (recoveryToken) {
+        const { error: invokeError } = await supabase.functions.invoke('recovery-complete', {
+          body: { token: recoveryToken, password: values.password },
+        });
+        if (invokeError) throw invokeError;
+      } else {
+        const { error: updateError } = await supabase.auth.updateUser({
+          password: values.password,
+        });
+        if (updateError) throw updateError;
+      }
 
       clearRecoveryMode();
       setSuccess(true);
 
-      // Brief pause so the user sees the success state before redirect
       setTimeout(() => {
         onSuccess();
       }, 1500);
