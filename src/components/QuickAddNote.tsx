@@ -11,6 +11,7 @@ import { useSecureUpload } from '@/hooks/useSecureUpload';
 import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 import { useAuth } from '@/context/AuthContext';
 import { processNoteOcrDocument } from '@/lib/ocr/noteOcr';
+import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 type UploadedVideoInfo = {
   path: string;
@@ -153,6 +154,18 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
       };
 
       await addNote(params);
+
+      sendWhatsAppNotification({
+        activityType: 'Clinical Note Added',
+        vetName: auth.email ?? 'Unknown Vet',
+        patientId,
+        details: {
+          'Note Type': noteType,
+          'Note': noteContent.trim().slice(0, 150),
+          'Video': uploadedVideo?.name ?? null,
+          'OCR Document': uploadedOcrDocument?.name ?? null,
+        },
+      });
 
       setNoteContent('');
       setNoteType('observation');

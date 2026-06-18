@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 const treatmentSchema = z.object({
   administrationDatetime: z.string().min(1, 'Date and time required'),
@@ -82,6 +83,19 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
         protocolHour: finalProtocolHour,
         totalVolumeMl: parseFloat(values.totalVolumeMl),
       });
+
+      sendWhatsAppNotification({
+        activityType: 'Treatment Added',
+        vetName: auth.email ?? 'Unknown Vet',
+        patientId,
+        details: {
+          'Route': values.route,
+          'Dosage (mg)': calculatedDosage,
+          'Batch': values.batchNumber ?? null,
+          'Notes': values.notes?.slice(0, 150) ?? null,
+        },
+      });
+
       form.reset();
       onSuccess();
     } catch (error) {

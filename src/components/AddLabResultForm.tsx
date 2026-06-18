@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useAuth } from '@/context/AuthContext';
+import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 const labSchema = z.object({
   testDatetime: z.string().min(1, 'Date and time required'),
@@ -37,6 +39,7 @@ type AddLabResultFormProps = {
 };
 
 export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabResultFormProps) {
+  const auth = useAuth();
   const [addLab, isSubmitting] = useMutateAction(addLabResultAction);
 
   const form = useForm<z.infer<typeof labSchema>>({
@@ -93,6 +96,19 @@ export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabR
       console.log('AddLabResultForm: Calling addLab with params', params);
       const result = await addLab(params);
       console.log('AddLabResultForm: Success', result);
+
+      sendWhatsAppNotification({
+        activityType: 'Lab Result Added',
+        vetName: auth.email ?? 'Unknown Vet',
+        patientId,
+        details: {
+          'WBC': values.wbc || null,
+          'SAA': values.serumAmyloidA || null,
+          'Fibrinogen': values.fibrinogen || null,
+          'Lactate': values.lactate || null,
+          'Notes': values.additionalNotes?.slice(0, 150) ?? null,
+        },
+      });
 
       form.reset();
       onSuccess();

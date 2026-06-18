@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Separator } from '@/components/ui/separator';
 import createAdverseEventAction from '@/actions/createAdverseEvent';
 import { checkProhibitedTerms } from '@/utils/prohibitedTermsFilter';
+import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 import {
   AlertTriangle,
   Send,
@@ -87,6 +88,20 @@ export function AdverseEventReporter({
       serious: form.serious,
       expected: form.expected,
     });
+
+    sendWhatsAppNotification({
+      activityType: 'Adverse Event Reported',
+      vetName: vetName || vetEmail || 'Unknown Vet',
+      patientId: patientId ?? undefined,
+      details: {
+        'Severity': form.severity,
+        'Causality': form.causality,
+        'Description': form.eventDescription.slice(0, 150),
+        'Serious': form.serious ? 'Yes' : 'No',
+        'Expected': form.expected ? 'Yes' : 'No',
+      },
+    });
+
     setSubmitted(true);
     setTimeout(() => {
       setOpen(false);

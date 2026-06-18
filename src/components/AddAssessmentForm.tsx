@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ObelGradeReference, type ObelGradeValue } from '@/components/ObelGradeReference';
 import { useAuth } from '@/context/AuthContext';
+import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 const assessmentSchema = z.object({
   assessmentDatetime: z.string().min(1, 'Date and time required'),
@@ -96,6 +97,18 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
         clinicalNotes: values.clinicalNotes || null,
         veterinarianName: auth.email ?? 'Unknown',
       });
+
+      sendWhatsAppNotification({
+        activityType: 'Assessment Added',
+        vetName: auth.email ?? 'Unknown Vet',
+        patientId,
+        details: {
+          'Obel Grade': values.obelGrade,
+          'Pain Score': values.painScore,
+          'Notes': values.clinicalNotes?.slice(0, 150) ?? null,
+        },
+      });
+
       form.reset();
       onSuccess();
     } catch (error) {
