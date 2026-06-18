@@ -35,7 +35,7 @@ const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL ?? '').toLowerCase().trim();
 const ADMIN_NAME = process.env.ADMIN_NAME || 'Admin';
 const REDIRECT_URL =
-  process.env.ADMIN_REDIRECT_URL || 'https://byrock.eth.limo/admin/login';
+  process.env.ADMIN_REDIRECT_URL || 'https://byrock.eth.limo/';
 
 if (!SUPABASE_URL || !SERVICE_KEY) {
   throw new Error(
