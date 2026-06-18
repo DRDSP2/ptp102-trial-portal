@@ -1,5 +1,3 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.0';
-
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -45,21 +43,6 @@ Deno.serve(async (req: Request) => {
   const authToken = Deno.env.get('TWILIO_AUTH_TOKEN');
 
   if (!accountSid || !authToken) {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL');
-    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
-
-    if (supabaseUrl && serviceRoleKey) {
-      const supabase = createClient(supabaseUrl, serviceRoleKey, {
-        auth: { autoRefreshToken: false, persistSession: false },
-      });
-      await supabase.from('audit_logs').insert({
-        action: 'whatsapp_notification_skipped',
-        entity_type: 'system',
-        new_value: JSON.stringify({ to, message, activityType, vetName, patientId, reason: 'Twilio not configured' }),
-        timestamp: new Date().toISOString(),
-      }).catch(() => {});
-    }
-
     return new Response(JSON.stringify({
       warning: 'Twilio not configured',
       detail: 'WhatsApp notification was not sent — set TWILIO_ACCOUNT_SID and TWILIO_AUTH_TOKEN',
