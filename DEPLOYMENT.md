@@ -52,6 +52,19 @@ ls dist/        # index.html + assets/* should exist
 - Output directory: `dist`
 - ENS binding: `byrock.eth` → 4EVERLAND IPNS hash (auto-pinned on each deploy)
 
+> **Important:** 4EVERLAND must be configured with a **Rewrite** rule so that
+> unknown paths serve `index.html` instead of 404ing. Without this, the
+> Supabase password-recovery link (which goes to `/admin/login#access_token=…`)
+> would fail because IPFS has no file at that path.
+>
+> Go to **Dashboard → Project Settings → Advanced → Rewrite** and add:
+> - **Source:** `/*`
+> - **Destination:** `/index.html`
+>
+> This is not needed for Cloudflare Pages because `public/_redirects` handles
+> the same job natively. An `ipfs-404.html` fallback file is also deployed as
+> a secondary mechanism.
+
 ### Cloudflare Pages project settings
 
 - Repo: same as above
