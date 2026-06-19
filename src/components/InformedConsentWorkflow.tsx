@@ -438,7 +438,7 @@ export function InformedConsentWorkflow({
       ['Principal Investigator:', piName || 'N/A'],
       ['PI Phone:', piPhone || 'N/A'],
       ['Sponsor:', 'Byrock Technologies Ltd'],
-      ['Sponsor Email:', 'drdsp@pm.me'],
+      ['Sponsor Email:', 'drsp@pm.me'],
     ];
     contactRows.forEach(([label, value]) => {
       doc.setFontSize(9);
@@ -493,7 +493,7 @@ export function InformedConsentWorkflow({
 
       const displayText =
         i === 7
-          ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drdsp@pm.me`
+          ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drsp@pm.me`
           : section.text;
       y = addWrapped(displayText, margin, y, pageWidth - margin * 2, 9);
     });
@@ -953,7 +953,7 @@ export function InformedConsentWorkflow({
                     <p className="text-sm font-semibold text-slate-900">{section.title}</p>
                     <p className="text-sm text-slate-700 mt-1">
                       {i === 7
-                        ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drdsp@pm.me`
+                        ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drsp@pm.me`
                         : section.text}
                     </p>
                   </div>

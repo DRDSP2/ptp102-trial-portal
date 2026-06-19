@@ -17,6 +17,16 @@ import { handleUpload, isUploadCategory } from '../src/lib/upload/uploadHandler'
 import { handleDownload } from '../src/lib/upload/downloadHandler';
 
 const PORT = process.env.PORT ?? 3001;
+const E2E_STATE_TOKEN = process.env.E2E_BACKEND_STATE_TOKEN;
+
+type E2EExpectedState = 'vet_pending' | 'vet_approved' | 'uploads_present' | 'product_moved';
+
+const e2eExpectedStates = new Set<E2EExpectedState>([
+  'vet_pending',
+  'vet_approved',
+  'uploads_present',
+  'product_moved',
+]);
 
 function json(res: http.ServerResponse, status: number, body: unknown) {
   res.writeHead(status, { 'Content-Type': 'application/json' });
@@ -29,6 +39,122 @@ function getBearerToken(req: http.IncomingMessage): string | null {
     return auth.slice(7);
   }
   return null;
+}
+
+function isE2EStateEndpointEnabled() {
+  return (
+    process.env.E2E_BACKEND_STATE_ENABLED === 'true' &&
+    process.env.NODE_ENV !== 'production' &&
+    process.env.VERCEL_ENV !== 'production' &&
+    Boolean(E2E_STATE_TOKEN)
+  );
+}
+
+function hasE2EStateAccess(req: http.IncomingMessage) {
+  const token = getBearerToken(req) ?? req.headers['x-e2e-state-token'];
+  return typeof token === 'string' && Boolean(E2E_STATE_TOKEN) && token === E2E_STATE_TOKEN;
+}
+
+function tableMissing(error: { code?: string; message?: string } | null) {
+  return error?.code === '42P01' || /relation .* does not exist/i.test(error?.message ?? '');
+}
+
+async function countRows(
+  table: string,
+  applyFilters: (query: ReturnType<ReturnType<typeof createServiceClient>['from']>['select']) => unknown,
+) {
+  const supabase = createServiceClient();
+  const query = supabase.from(table).select('*', { count: 'exact', head: true });
+  const { count, error } = (await applyFilters(query)) as { count: number | null; error: { message: string; code?: string } | null };
+  if (error) {
+    if (tableMissing(error)) return { count: 0, skipped: true, table };
+    throw new Error(`${table} check failed: ${error.message}`);
+  }
+  return { count: count ?? 0, skipped: false, table };
+}
+
+async function handleE2EState(req: http.IncomingMessage, res: http.ServerResponse) {
+  if (!isE2EStateEndpointEnabled()) {
+    return json(res, 404, { error: 'Not found' });
+  }
+
+  if (!hasE2EStateAccess(req)) {
+    return json(res, 401, { error: 'Missing or invalid E2E state token' });
+  }
+
+  const url = new URL(req.url ?? '/', `http://${req.headers.host}`);
+  const expectedState = url.searchParams.get('expectedState') as E2EExpectedState | null;
+  const vetEmail = url.searchParams.get('vetEmail')?.toLowerCase().trim();
+
+  if (!expectedState || !e2eExpectedStates.has(expectedState)) {
+    return json(res, 400, { error: 'Invalid expectedState' });
+  }
+
+  if (!vetEmail || !vetEmail.endsWith('@example.test')) {
+    return json(res, 400, { error: 'vetEmail must be a disposable @example.test address' });
+  }
+
+  try {
+    const supabase = createServiceClient();
+    const { data: vet, error: vetError } = await supabase
+      .from('veterinarians')
+      .select('id,email,verification_status')
+      .eq('email', vetEmail)
+      .maybeSingle();
+
+    if (vetError) {
+      throw new Error(`veterinarians check failed: ${vetError.message}`);
+    }
+
+    const checks: Record<string, unknown> = { veterinarian: vet };
+    let ok = Boolean(vet);
+
+    if (expectedState === 'vet_pending') {
+      ok = ok && vet?.verification_status === 'pending';
+    }
+
+    if (expectedState === 'vet_approved' || expectedState === 'uploads_present' || expectedState === 'product_moved') {
+      ok = ok && vet?.verification_status === 'approved';
+    }
+
+    if (expectedState === 'uploads_present') {
+      const userResponse = await supabase.auth.admin.listUsers();
+      const user = userResponse.data.users.find((candidate) => candidate.email?.toLowerCase() === vetEmail);
+      checks.authUserId = user?.id ?? null;
+
+      const prefix = user ? `${user.id}/` : `${vetEmail}/`;
+      const { data: storageObjects, error: storageError } = await supabase.storage.from('private-uploads').list(prefix, {
+        limit: 10,
+      });
+
+      if (storageError) {
+        throw new Error(`private-uploads check failed: ${storageError.message}`);
+      }
+
+      checks.privateUploads = storageObjects?.length ?? 0;
+      ok = ok && (storageObjects?.length ?? 0) > 0;
+    }
+
+    if (expectedState === 'product_moved') {
+      const targetOwner = url.searchParams.get('targetOwner') ?? process.env.E2E_TARGET_OWNER;
+      const targetCategory = url.searchParams.get('targetCategory') ?? process.env.E2E_TARGET_CATEGORY;
+      const shipmentChecks = await Promise.all([
+        targetOwner
+          ? countRows('ncie_shipment_log', (query) => query.eq('received_by_clinic_name', targetOwner))
+          : Promise.resolve({ count: 0, skipped: true, table: 'ncie_shipment_log' }),
+        targetCategory
+          ? countRows('ncie_shipment_log', (query) => query.eq('shipment_status', targetCategory))
+          : Promise.resolve({ count: 0, skipped: true, table: 'ncie_shipment_log' }),
+      ]);
+      checks.productMovement = shipmentChecks;
+      ok = ok && shipmentChecks.some((check) => !check.skipped && check.count > 0);
+    }
+
+    return json(res, ok ? 200 : 409, { ok, expectedState, checks });
+  } catch (err) {
+    console.error('E2E state check error:', err);
+    return json(res, 500, { error: err instanceof Error ? err.message : 'Internal server error' });
+  }
 }
 
 async function readJsonBody(req: http.IncomingMessage): Promise<unknown> {
@@ -210,6 +336,10 @@ const server = http.createServer((req, res) => {
 
   if (url.startsWith('/api/download') && req.method === 'GET') {
     return handleDownloadRoute(req, res);
+  }
+
+  if (url.startsWith('/e2e/state') && req.method === 'GET') {
+    return handleE2EState(req, res);
   }
 
   return json(res, 404, { error: 'Not found' });

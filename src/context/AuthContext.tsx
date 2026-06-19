@@ -170,20 +170,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
       requestVetApproval: (email: string) => {
         const normalizedEmail = email.toLowerCase().trim();
+        const user = state.user;
         const next = {
           role: 'vet' as const,
           email: normalizedEmail,
-          termsAccepted: false,
+          termsAccepted: state.email === normalizedEmail ? state.termsAccepted : false,
           pendingApproval: true,
+          user,
         };
         setState((current) => ({ ...current, ...next, isLoading: false }));
       },
       approveVet: () => {
-        setState((current) =>
-          current.role === 'vet'
-            ? { ...current, termsAccepted: true, pendingApproval: false }
-            : current,
-        );
+        setState((current) => (current.role === 'vet' ? { ...current, pendingApproval: false } : current));
       },
       rejectVet: () => {
         setState({ ...emptyState, isLoading: false });

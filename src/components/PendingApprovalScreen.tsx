@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ByrockLogo } from '@/components/ByrockLogo';
 import { Clock, Mail, CheckCircle2 } from 'lucide-react';
+import { SUPPORT_EMAIL, supportMailto } from '@/lib/contact';
 
 type PendingApprovalScreenProps = {
   email: string;
@@ -42,14 +43,12 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
     setTimeout(() => setChecking(false), 1000);
   };
 
-  const supportEmail = 'drdsp@pm.me';
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
       <div className="mb-6">
         <ByrockLogo variant="full" height={60} />
       </div>
-      <Card className="max-w-md w-full shadow-xl">
+      <Card data-testid="vet-pending-approval" className="max-w-md w-full shadow-xl">
         <CardHeader className="bg-slate-900 text-white rounded-t-lg">
           <div className="flex items-center gap-3">
             <Clock className="h-8 w-8 text-yellow-400" />
@@ -122,7 +121,7 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
               variant="default"
               size="lg"
               className="w-full"
-              onClick={() => window.location.href = `mailto:${supportEmail}?subject=Account Approval Status - ${email}`}
+              onClick={() => window.location.href = supportMailto(`Account Approval Status - ${email}`)}
             >
               <Mail className="mr-2 h-4 w-4" />
               Contact Support
@@ -133,7 +132,7 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
             <p>This page will automatically check for approval status every 5 seconds.</p>
             <p className="mt-1">
               If the button above does not open your email client, contact{' '}
-              <span className="font-medium">drdsp@pm.me</span>
+              <span className="font-medium">{SUPPORT_EMAIL}</span>
             </p>
           </div>
         </CardContent>

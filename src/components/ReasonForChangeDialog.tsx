@@ -18,6 +18,7 @@ type ReasonForChangeDialogProps = {
   title?: string;
   description?: string;
   fieldLabel?: string;
+  testIdPrefix?: string;
   onConfirm: (reason: string) => void;
   onCancel?: () => void;
 };
@@ -28,6 +29,7 @@ export function ReasonForChangeDialog({
   title = 'Reason for Change Required',
   description = 'This is a critical field. FDA 21 CFR Part 11 requires a documented reason before modifying this record.',
   fieldLabel = 'Reason for change',
+  testIdPrefix = 'reason-for-change',
   onConfirm,
   onCancel,
 }: ReasonForChangeDialogProps) {
@@ -55,7 +57,7 @@ export function ReasonForChangeDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleCancel}>
-      <DialogContent className="max-w-lg">
+      <DialogContent className="max-w-lg" data-testid={`${testIdPrefix}-dialog`}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5 text-amber-600" />
@@ -68,6 +70,7 @@ export function ReasonForChangeDialog({
             <Label htmlFor="reason-for-change">{fieldLabel} *</Label>
             <Textarea
               id="reason-for-change"
+              data-testid={`${testIdPrefix}-input`}
               value={reason}
               onChange={(e) => {
                 setReason(e.target.value);
@@ -81,10 +84,10 @@ export function ReasonForChangeDialog({
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={handleCancel}>
+          <Button variant="outline" onClick={handleCancel} data-testid={`${testIdPrefix}-cancel`}>
             Cancel
           </Button>
-          <Button onClick={handleConfirm}>Confirm Change</Button>
+          <Button onClick={handleConfirm} data-testid={`${testIdPrefix}-confirm`}>Confirm Change</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

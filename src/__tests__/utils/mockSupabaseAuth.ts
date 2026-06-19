@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 import type { Session, User } from '@supabase/supabase-js';
 
-export const SUPPORT_EMAIL = 'drdsp@pm.me';
+export { SUPPORT_EMAIL } from '@/lib/contact';
 
 export function createMockUser(overrides: Partial<User> = {}): User {
   return {

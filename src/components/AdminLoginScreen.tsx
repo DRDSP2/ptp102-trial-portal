@@ -83,7 +83,7 @@ export function AdminLoginScreen({ onSuccess, onBackToVet }: AdminLoginScreenPro
                   <FormItem>
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="drdsp@pm.me" {...field} />
+                      <Input type="email" placeholder="drsp@pm.me" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

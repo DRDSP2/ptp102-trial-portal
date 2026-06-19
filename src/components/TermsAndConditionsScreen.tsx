@@ -17,6 +17,7 @@ import { AlertTriangle, CheckCircle2, Check, X, Printer } from 'lucide-react';
 import { ByrockLogo } from '@/components/ByrockLogo';
 import { PrintConsent } from '@/components/PrintConsent';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { SUPPORT_EMAIL } from '@/lib/contact';
 
 const termsSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
@@ -47,6 +48,8 @@ type TermsAndConditionsScreenProps = {
   onBackToLogin?: () => void;
 };
 
+type RegistrationValues = z.infer<typeof termsSchema>;
+
 export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAndConditionsScreenProps) {
   const auth = useAuth();
   const [sendEmail] = useMutateAction(sendEmailNotificationAction);
@@ -56,7 +59,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
   const [consentPrintedAt, setConsentPrintedAt] = useState<string | null>(null);
   const printedAtRef = useRef<string | null>(null);
 
-  const form = useForm<z.infer<typeof termsSchema>>({
+  const form = useForm<RegistrationValues>({
     resolver: zodResolver(termsSchema),
     mode: 'onChange',
     defaultValues: {
@@ -83,7 +86,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
     number: /\d/.test(password),
   };
 
-  const onSubmit = async (values: z.infer<typeof termsSchema>) => {
+  const onSubmit = async (values: RegistrationValues) => {
     try {
       setError(null);
       setShowValidationSummary(false);
@@ -92,65 +95,10 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
       const now = new Date().toISOString();
       const consentAt = printedAtRef.current ?? consentPrintedAt ?? now;
 
-      // Step 1: create the Supabase Auth user.
-      // Email confirmation should be disabled in the Supabase project settings
-      // so the vet lands on the pending-approval page without clicking a link.
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-        email: normalizedEmail,
-        password: values.password,
-        options: {
-          data: {
-            role: 'vet',
-            full_name: values.fullName,
-            phone: values.phone || '',
-            license_number: values.licenseNumber,
-            hospital_affiliation: values.hospitalAffiliation,
-            signature_text: values.signatureText,
-            consent_printed_at: consentAt,
-          },
-        },
-      });
+      const registrationResult = await registerVet(values, normalizedEmail, consentAt);
 
-      if (signUpError || !signUpData.user) {
-        const message = signUpError?.message ?? 'Registration failed';
-        if (
-          message.toLowerCase().includes('already') ||
-          message.toLowerCase().includes('duplicate') ||
-          message.toLowerCase().includes('unique')
-        ) {
-          setError(`Email ${values.email} is already registered. Please use a different email or login instead.`);
-        } else {
-          setError(`Registration failed: ${message}`);
-        }
-        return;
-      }
-
-      // Step 2: create the veterinarian profile via Supabase Edge Function.
-      // The Edge Function uses the service-role key — never exposed to the client —
-      // to update app_metadata and insert the profile row.
-      const { error: profileError, data: profileData } = await supabase.functions.invoke(
-        'create-vet-profile',
-        {
-          body: {
-            userId: signUpData.user.id,
-            email: normalizedEmail,
-            fullName: values.fullName,
-            phone: values.phone || '',
-            licenseNumber: values.licenseNumber,
-            hospitalAffiliation: values.hospitalAffiliation,
-            signatureText: values.signatureText,
-            consentPrintedAt: consentAt,
-          },
-        },
-      );
-
-      if (profileError) {
-        // profileError is a FunctionsHttpError with the function's JSON response inside.
-        const resp = profileData as Record<string, unknown> | undefined;
-        const message = (resp?.error as string) ?? 'Profile setup failed';
-        const detail = resp?.detail ? ` (${String(resp.detail)})` : '';
-        console.error('Profile creation error:', { error: profileError, response: resp });
-        setError(`Account created but profile setup failed: ${message}${detail}. Please contact support at drdsp@pm.me.`);
+      if (!registrationResult.ok) {
+        setError(registrationResult.message);
         return;
       }
 
@@ -176,6 +124,94 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const registerVet = async (values: RegistrationValues, normalizedEmail: string, consentAt: string): Promise<{ ok: true } | { ok: false; message: string }> => {
+    if (typeof supabase.auth.signUp === 'function' && typeof supabase.functions?.invoke === 'function') {
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: normalizedEmail,
+        password: values.password,
+        options: {
+          data: {
+            role: 'vet',
+            full_name: values.fullName,
+            phone: values.phone || '',
+            license_number: values.licenseNumber,
+            hospital_affiliation: values.hospitalAffiliation,
+            signature_text: values.signatureText,
+            consent_printed_at: consentAt,
+          },
+        },
+      });
+
+      if (signUpError || !signUpData.user) {
+        return { ok: false, message: formatRegistrationError(values.email, signUpError?.message) };
+      }
+
+      const { error: profileError, data: profileData } = await supabase.functions.invoke(
+        'create-vet-profile',
+        {
+          body: {
+            userId: signUpData.user.id,
+            email: normalizedEmail,
+            fullName: values.fullName,
+            phone: values.phone || '',
+            licenseNumber: values.licenseNumber,
+            hospitalAffiliation: values.hospitalAffiliation,
+            signatureText: values.signatureText,
+            consentPrintedAt: consentAt,
+          },
+        },
+      );
+
+      if (profileError) {
+        const resp = profileData as Record<string, unknown> | undefined;
+        const message = (resp?.error as string) ?? 'Profile setup failed';
+        const detail = resp?.detail ? ` (${String(resp.detail)})` : '';
+        console.error('Profile creation error:', { error: profileError, response: resp });
+        return { ok: false, message: `Account created but profile setup failed: ${message}${detail}. Please contact support at ${SUPPORT_EMAIL}.` };
+      }
+
+      return { ok: true };
+    }
+
+    if (import.meta.env.DEV) {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: values.fullName,
+          email: normalizedEmail,
+          phone: values.phone || '',
+          password: values.password,
+          licenseNumber: values.licenseNumber,
+          hospitalAffiliation: values.hospitalAffiliation,
+          signatureText: values.signatureText,
+          consentPrintedAt: consentAt,
+        }),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        return { ok: false, message: formatRegistrationError(values.email, body?.error) };
+      }
+
+      return { ok: true };
+    }
+
+    return { ok: false, message: `Registration is not configured. Please contact support at ${SUPPORT_EMAIL}.` };
+  };
+
+  const formatRegistrationError = (email: string, message: unknown) => {
+    const text = typeof message === 'string' && message ? message : 'Registration failed';
+    if (
+      text.toLowerCase().includes('already') ||
+      text.toLowerCase().includes('duplicate') ||
+      text.toLowerCase().includes('unique')
+    ) {
+      return `Email ${email} is already registered. Please use a different email or login instead.`;
+    }
+    return `Registration failed: ${text}`;
   };
 
   const handleInvalidSubmit = () => {
@@ -316,7 +352,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <FormItem>
                       <FormLabel>Full Name *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Dr. Jane Smith" {...field} />
+                        <Input data-testid="vet-registration-full-name" placeholder="Dr. Jane Smith" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -330,7 +366,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <FormItem>
                       <FormLabel>Email Address *</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="jane.smith@hospital.com" {...field} />
+                        <Input data-testid="vet-registration-email" type="email" placeholder="jane.smith@hospital.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -344,7 +380,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <FormItem>
                       <FormLabel>Phone Number</FormLabel>
                       <FormControl>
-                        <Input type="tel" placeholder="+1 (555) 123-4567" {...field} />
+                        <Input data-testid="vet-registration-phone" type="tel" placeholder="+1 (555) 123-4567" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -358,7 +394,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <FormItem>
                       <FormLabel>Password *</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Min. 10 characters" {...field} />
+                        <Input data-testid="vet-registration-password" type="password" placeholder="Min. 10 characters" {...field} />
                       </FormControl>
                       {password.length > 0 && (
                         <div className="space-y-1 mt-2">
@@ -416,7 +452,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <FormItem>
                       <FormLabel>Confirm Password *</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Re-enter password" {...field} />
+                        <Input data-testid="vet-registration-confirm-password" type="password" placeholder="Re-enter password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -431,6 +467,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                       <FormLabel>Veterinary License Number *</FormLabel>
                       <FormControl>
                         <Input 
+                          data-testid="vet-registration-license-number"
                           placeholder="e.g., CA123456, UK/12345/2023, etc." 
                           {...field}
                         />
@@ -448,7 +485,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <FormItem>
                       <FormLabel>Hospital Affiliation *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Equine Medical Center" {...field} />
+                        <Input data-testid="vet-registration-hospital-affiliation" placeholder="Equine Medical Center" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -465,7 +502,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        <Checkbox data-testid="vet-registration-investigational-acknowledged" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                       <div className="space-y-1 leading-none flex-1">
                         <FormLabel className="font-normal cursor-pointer">
@@ -486,7 +523,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        <Checkbox data-testid="vet-registration-risk-accepted" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                       <div className="space-y-1 leading-none flex-1">
                         <FormLabel className="font-normal cursor-pointer">
@@ -507,7 +544,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        <Checkbox data-testid="vet-registration-liability-acknowledged" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                       <div className="space-y-1 leading-none flex-1">
                         <FormLabel className="font-normal cursor-pointer">
@@ -528,7 +565,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
                       <FormControl>
-                        <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                        <Checkbox data-testid="vet-registration-no-conflict-of-interest" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                       <div className="space-y-1 leading-none flex-1">
                         <FormLabel className="font-normal cursor-pointer">
@@ -551,7 +588,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   <FormItem>
                     <FormLabel>Digital Signature *</FormLabel>
                     <FormControl>
-                      <Input placeholder="Type your full name to sign" className="font-serif text-lg" {...field} />
+                      <Input data-testid="vet-registration-signature-text" placeholder="Type your full name to sign" className="font-serif text-lg" {...field} />
                     </FormControl>
                     <FormDescription className="text-xs">By typing your name, you are providing a legally binding electronic signature</FormDescription>
                     <FormMessage />
@@ -587,7 +624,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <Printer className="mr-2 h-4 w-4" />
                     Print / Save as PDF
                   </Button>
-                  <Button type="submit" size="lg" disabled={isSubmitting} className="min-w-[200px]">
+                  <Button data-testid="vet-registration-submit" type="submit" size="lg" disabled={isSubmitting} className="min-w-[200px]">
                     {isSubmitting ? 'Processing...' : 'Accept Terms & Continue'}
                   </Button>
                 </div>

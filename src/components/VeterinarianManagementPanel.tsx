@@ -837,7 +837,7 @@ export function VeterinarianManagementPanel() {
                 </TableRow>
               ) : (
                 vetsList.map((vet) => (
-                  <TableRow key={vet.id}>
+                  <TableRow key={vet.id} data-testid={`vet-row-${vet.email}`}>
                     <TableCell className="font-medium">
                       <div>
                         <p>{vet.full_name}</p>
@@ -1086,6 +1086,8 @@ export function VeterinarianManagementPanel() {
                         {vet.verification_status === 'pending' && (
                           <>
                             <Button
+                              data-testid="approve-vet"
+                              data-vet-email={vet.email}
                               variant="ghost"
                               size="sm"
                               onClick={() => handleApprove(vet.id)}
@@ -1139,6 +1141,7 @@ export function VeterinarianManagementPanel() {
         onOpenChange={setReasonDialogOpen}
         title={pendingVetAction?.action === 'approve' ? 'Approve Veterinarian' : 'Reject Veterinarian'}
         description={`Please provide a reason for ${pendingVetAction?.action === 'approve' ? 'approving' : 'rejecting'} this veterinarian. This will be recorded in the audit trail.`}
+        testIdPrefix="vet-approval-reason"
         onConfirm={executeVetAction}
       />
     </Card>

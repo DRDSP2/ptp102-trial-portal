@@ -1,0 +1,2 @@
+FAKE TEST DOCUMENT ONLY
+This disposable fixture is for Playwright E2E upload testing in a dedicated non-production environment.

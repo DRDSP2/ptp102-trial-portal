@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { ByrockLogo } from '@/components/ByrockLogo';
 import { UserPlus, LogIn, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { SUPPORT_EMAIL } from '@/lib/contact';
 
 const loginSchema = z.object({
   email: z.string().email('Valid email is required'),
@@ -70,7 +71,7 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
       }
 
       if (userData.verification_status === 'rejected') {
-        setError('Your account was rejected. Please contact support at drdsp@pm.me');
+        setError(`Your account was rejected. Please contact support at ${SUPPORT_EMAIL}`);
         setIsLoading(false);
         return;
       }
