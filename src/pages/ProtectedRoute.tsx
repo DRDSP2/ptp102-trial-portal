@@ -10,6 +10,10 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const auth = useAuth();
   const location = useLocation();
 
+  if (auth.isLoading) {
+    return <div>Loading...</div>;
+  }
+
   if (!auth.role) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }

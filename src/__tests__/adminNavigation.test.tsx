@@ -1,17 +1,26 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+
+vi.mock('@/lib/supabase/client', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn(),
+      onAuthStateChange: vi.fn(),
+      signInWithPassword: vi.fn(),
+      signOut: vi.fn(),
+    },
+    from: vi.fn(),
+    functions: {
+      invoke: vi.fn(),
+    },
+  },
+}));
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { CaseWorkspace } from '@/components/CaseWorkspace';
-
-function seedAuth(role: 'admin' | 'vet', email: string) {
-  localStorage.setItem(
-    'laminitis_auth_state',
-    JSON.stringify({ role, email, termsAccepted: true, pendingApproval: false })
-  );
-}
+import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 
 function seedShipments() {
   localStorage.setItem(
@@ -92,6 +101,7 @@ function seedPatient() {
 describe('Admin navigation and role preservation', () => {
   beforeEach(() => {
     localStorage.clear();
+    clearAuthMocks();
   });
 
   it('renders the admin dashboard with admin-only tabs', async () => {
@@ -124,6 +134,7 @@ describe('Admin navigation and role preservation', () => {
       </MemoryRouter>
     );
 
+    await screen.findByText('Admin');
     await user.click(screen.getByRole('tab', { name: /Supply/i }));
     await waitFor(() => {
       expect(screen.getByText('Clinic Inventory Summary')).toBeInTheDocument();
@@ -142,6 +153,7 @@ describe('Admin navigation and role preservation', () => {
       </MemoryRouter>
     );
 
+    await screen.findByText('Admin');
     await user.click(screen.getByRole('tab', { name: /Audit/i }));
     await waitFor(() => {
       expect(screen.getByText('Audit Trail')).toBeInTheDocument();

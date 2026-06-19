@@ -1,9 +1,25 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+
+vi.mock('@/lib/supabase/client', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn(),
+      onAuthStateChange: vi.fn(),
+      signInWithPassword: vi.fn(),
+      signOut: vi.fn(),
+    },
+    from: vi.fn(),
+    functions: {
+      invoke: vi.fn(),
+    },
+  },
+}));
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 
 /**
  * Regression test for the admin "Trial Data" tab crash.
@@ -16,13 +32,6 @@ import { DashboardPage } from '@/pages/DashboardPage';
  * 12 seeded LAM-XXXXX patients all had null enrolled_by_vet_email, so
  * the crash hit on first render.
  */
-
-function seedAuth(role: 'admin' | 'vet', email: string) {
-  localStorage.setItem(
-    'laminitis_auth_state',
-    JSON.stringify({ role, email, termsAccepted: true, pendingApproval: false }),
-  );
-}
 
 function seedPatientsMissingVetEmail() {
   // Two patients with no enrolled_by_vet_email — replicates the seeded
@@ -82,6 +91,7 @@ describe('MasterTrialsTable — Trial Data tab does not crash on missing vet ema
 
   beforeEach(() => {
     localStorage.clear();
+    clearAuthMocks();
     // Capture any React/Radix error boundary logs for assertion. The
     // pre-fix Radix invariant logs a synchronous throw via console.error.
     errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -104,6 +114,7 @@ describe('MasterTrialsTable — Trial Data tab does not crash on missing vet ema
       </MemoryRouter>,
     );
 
+    await screen.findByText('Admin');
     // Click the Trial Data tab. Pre-fix, this synchronously threw the
     // Radix Select invariant during render of the Veterinarians filter.
     await user.click(screen.getByRole('tab', { name: /Trials Data/i }));

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
-import { recordLogoutAudit } from '@/lib/uibakeryDataMock';
+import { recordLogoutAudit, setCurrentAuditUser, clearCurrentAuditUser } from '@/lib/uibakeryDataMock';
 
 type AuthRole = 'vet' | 'admin' | null;
 
@@ -23,8 +23,6 @@ type AuthContextType = AuthState & {
   logout: () => Promise<void>;
 };
 
-const STORAGE_KEY = 'laminitis_auth_state';
-
 const emptyState: AuthState = {
   role: null,
   email: null,
@@ -33,52 +31,6 @@ const emptyState: AuthState = {
   isLoading: true,
   user: null,
 };
-
-function loadLegacyAuthState(): AuthState {
-  if (typeof window === 'undefined') {
-    return { ...emptyState, isLoading: false };
-  }
-
-  try {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (!stored) {
-      return { ...emptyState, isLoading: false };
-    }
-    const parsed = JSON.parse(stored) as Omit<AuthState, 'isLoading' | 'user'>;
-    return {
-      role: parsed.role ?? null,
-      email: parsed.email ?? null,
-      termsAccepted: parsed.termsAccepted ?? false,
-      pendingApproval: parsed.pendingApproval ?? false,
-      isLoading: false,
-      user: null,
-    };
-  } catch {
-    return { ...emptyState, isLoading: false };
-  }
-}
-
-function saveLegacyAuthState(state: Omit<AuthState, 'isLoading' | 'user'>) {
-  if (typeof window === 'undefined') {
-    return;
-  }
-  window.localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify({
-      role: state.role,
-      email: state.email,
-      termsAccepted: state.termsAccepted,
-      pendingApproval: state.pendingApproval,
-    }),
-  );
-}
-
-function clearLegacyAuthState() {
-  if (typeof window === 'undefined') {
-    return;
-  }
-  window.localStorage.removeItem(STORAGE_KEY);
-}
 
 function roleFromUser(user: User | null): AuthRole {
   const role = user?.app_metadata?.role ?? user?.user_metadata?.role;
@@ -91,7 +43,7 @@ function roleFromUser(user: User | null): AuthRole {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AuthState>(loadLegacyAuthState());
+  const [state, setState] = useState<AuthState>(emptyState);
 
   useEffect(() => {
     let mounted = true;
@@ -100,7 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const { data, error } = await supabase.auth.getSession();
         if (error || !data.session) {
-          if (mounted) setState(loadLegacyAuthState());
+          if (mounted) setState({ ...emptyState, isLoading: false });
           return;
         }
 
@@ -136,10 +88,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             isLoading: false,
             user,
           });
-          saveLegacyAuthState({ role, email, termsAccepted, pendingApproval });
+          if (role && email) {
+            setCurrentAuditUser(email, role);
+          }
         }
       } catch {
-        if (mounted) setState(loadLegacyAuthState());
+        if (mounted) setState({ ...emptyState, isLoading: false });
       }
     }
 
@@ -179,7 +133,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (mounted) {
         const next = { role, email, termsAccepted, pendingApproval, isLoading: false, user };
         setState(next);
-        saveLegacyAuthState({ role, email, termsAccepted, pendingApproval });
+        if (role && email) {
+          setCurrentAuditUser(email, role);
+        }
       }
     });
 
@@ -211,7 +167,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           pendingApproval: false,
         };
         setState((current) => ({ ...current, ...next, isLoading: false }));
-        saveLegacyAuthState(next);
       },
       requestVetApproval: (email: string) => {
         const normalizedEmail = email.toLowerCase().trim();
@@ -222,7 +177,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           pendingApproval: true,
         };
         setState((current) => ({ ...current, ...next, isLoading: false }));
-        saveLegacyAuthState(next);
       },
       approveVet: () => {
         setState((current) =>
@@ -230,16 +184,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             ? { ...current, termsAccepted: true, pendingApproval: false }
             : current,
         );
-        saveLegacyAuthState({
-          role: state.role,
-          email: state.email,
-          termsAccepted: true,
-          pendingApproval: false,
-        });
       },
       rejectVet: () => {
         setState({ ...emptyState, isLoading: false });
-        clearLegacyAuthState();
       },
       loginAdmin: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
@@ -265,7 +212,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           pendingApproval: false,
         };
         setState((current) => ({ ...current, ...next, isLoading: false }));
-        saveLegacyAuthState(next);
       },
       logout: async () => {
         // Snapshot identity BEFORE clearing local state so the audit row
@@ -277,12 +223,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // logout takes effect immediately and does not wait on network or
         // audit I/O. The audit + Supabase sign-out are best-effort.
         setState({ ...emptyState, isLoading: false });
-        clearLegacyAuthState();
 
         // Best-effort audit (never block sign-out on it).
         recordLogoutAudit(auditEmail, auditRole).catch(() => {
           // swallow — audit failures must not prevent the user from signing out
         });
+
+        clearCurrentAuditUser();
 
         // Fire sign-out in the background; clear local state immediately so the UI
         // does not wait on a network round-trip.

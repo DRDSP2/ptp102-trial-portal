@@ -1,16 +1,25 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+
+vi.mock('@/lib/supabase/client', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn(),
+      onAuthStateChange: vi.fn(),
+      signInWithPassword: vi.fn(),
+      signOut: vi.fn(),
+    },
+    from: vi.fn(),
+    functions: {
+      invoke: vi.fn(),
+    },
+  },
+}));
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { AuthProvider } from '@/context/AuthContext';
 import { AddAssessmentForm } from '@/components/AddAssessmentForm';
-
-function seedAuth() {
-  localStorage.setItem(
-    'laminitis_auth_state',
-    JSON.stringify({ role: 'vet', email: 'vet@test.com', termsAccepted: true, pendingApproval: false })
-  );
-}
+import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 
 function renderForm() {
   return render(
@@ -23,12 +32,13 @@ function renderForm() {
 describe('AddAssessmentForm', () => {
   beforeEach(() => {
     localStorage.clear();
-    seedAuth();
+    clearAuthMocks();
+    seedAuth('vet', 'vet@test.com');
   });
 
-  it('renders the Obel grade selector and pain score fields', () => {
+  it('renders the Obel grade selector and pain score fields', async () => {
     renderForm();
-    expect(screen.getByText('Obel Laminitis Grade (0–4)')).toBeInTheDocument();
+    expect(await screen.findByText('Obel Laminitis Grade (0–4)')).toBeInTheDocument();
     expect(screen.getByText('Pain Score (0-10)')).toBeInTheDocument();
   });
 

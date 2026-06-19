@@ -1,10 +1,26 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
+
+vi.mock('@/lib/supabase/client', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn(),
+      onAuthStateChange: vi.fn(),
+      signInWithPassword: vi.fn(),
+      signOut: vi.fn(),
+    },
+    from: vi.fn(),
+    functions: {
+      invoke: vi.fn(),
+    },
+  },
+}));
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { AuthProvider } from '@/context/AuthContext';
 import { InformedConsentWorkflow } from '@/components/InformedConsentWorkflow';
 import type { Patient } from '@/types/patient';
+import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 
 vi.mock('jspdf', () => ({
   default: class MockJsPDF {
@@ -50,17 +66,6 @@ function createPatient(): Patient {
     consent_date: null,
     consent_id: null,
   } as Patient;
-}
-
-function seedAuth(role: 'admin' | 'vet' | null, email?: string) {
-  if (role) {
-    localStorage.setItem(
-      'laminitis_auth_state',
-      JSON.stringify({ role, email: email ?? `${role}@example.com`, termsAccepted: true, pendingApproval: false })
-    );
-  } else {
-    localStorage.removeItem('laminitis_auth_state');
-  }
 }
 
 function renderWithRole(role: 'admin' | 'vet' | null, email?: string, consentOverride?: Record<string, unknown>) {
@@ -109,6 +114,9 @@ function renderWithRole(role: 'admin' | 'vet' | null, email?: string, consentOve
       ])
     );
   }
+  if (role) {
+    seedAuth(role, email ?? `${role}@example.com`);
+  }
   render(
     <AuthProvider>
       <InformedConsentWorkflow
@@ -125,6 +133,7 @@ function renderWithRole(role: 'admin' | 'vet' | null, email?: string, consentOve
 describe('InformedConsentWorkflow permissions', () => {
   beforeEach(() => {
     localStorage.clear();
+    clearAuthMocks();
     window.alert = vi.fn();
     vi.spyOn(window, 'open').mockImplementation(() => null);
   });
@@ -133,30 +142,28 @@ describe('InformedConsentWorkflow permissions', () => {
     vi.restoreAllMocks();
   });
 
-  it('allows admins to view the consent workflow', () => {
-    seedAuth('admin', 'admin@example.com');
+  it('allows admins to view the consent workflow', async () => {
     renderWithRole('admin', 'admin@example.com');
+    expect(await screen.findByText(/Informed Consent Required/i)).toBeInTheDocument();
     expect(screen.queryByText(/You do not have permission/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/Informed Consent Required/i)).toBeInTheDocument();
   });
 
-  it('allows vets to view the consent workflow', () => {
-    seedAuth('vet', 'vet@example.com');
+  it('allows vets to view the consent workflow', async () => {
     renderWithRole('vet', 'vet@example.com');
+    expect(await screen.findByText(/Informed Consent Required/i)).toBeInTheDocument();
     expect(screen.queryByText(/You do not have permission/i)).not.toBeInTheDocument();
-    expect(screen.getByText(/Informed Consent Required/i)).toBeInTheDocument();
   });
 
-  it('shows the permission error for unauthenticated users', () => {
-    seedAuth(null);
+  it('shows the permission error for unauthenticated users', async () => {
     renderWithRole(null);
-    expect(screen.getByText(/You do not have permission to view the informed consent workflow/i)).toBeInTheDocument();
+    expect(await screen.findByText(/You do not have permission to view the informed consent workflow/i)).toBeInTheDocument();
   });
 
   it('lets an admin sign digitally and records a CONSENT_DIGITALLY_SIGNED audit', async () => {
-    seedAuth('admin', 'admin@example.com');
     renderWithRole('admin', 'admin@example.com', { status: 'pending' });
-    expect(screen.queryByText(/You do not have permission/i)).not.toBeInTheDocument();
+    // When consent data exists with can_sign_after in the past, the component
+    // advances directly to the signing UI.
+    expect(await screen.findByRole('button', { name: /Sign Digitally/i })).toBeInTheDocument();
 
     const user = userEvent.setup();
     await user.click(screen.getByRole('button', { name: /Sign Digitally/i }));
@@ -186,9 +193,10 @@ describe('InformedConsentWorkflow permissions', () => {
   });
 
   it('lets a vet upload a scanned signed consent and records a CONSENT_SCAN_UPLOADED audit', async () => {
-    seedAuth('vet', 'vet@example.com');
     renderWithRole('vet', 'vet@example.com', { status: 'pending' });
-    expect(screen.queryByText(/You do not have permission/i)).not.toBeInTheDocument();
+    // When consent data exists with can_sign_after in the past, the component
+    // advances directly to the signing UI.
+    expect(await screen.findByRole('button', { name: /Upload Scanned Signed Consent/i })).toBeInTheDocument();
 
     const user = userEvent.setup();
     const fileInput = screen.getByTestId('scanned-consent-input');
@@ -209,15 +217,17 @@ describe('InformedConsentWorkflow permissions', () => {
     expect(consents[0].signature_method).toBe('scanned');
   });
 
-  it('logs permission decisions for debugging', () => {
+  it('logs permission decisions for debugging', async () => {
     const infoSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
-    seedAuth('admin', 'admin@example.com');
     renderWithRole('admin', 'admin@example.com');
+    await screen.findByText(/Informed Consent Required/i);
     const permissionLogs = infoSpy.mock.calls.filter((call) =>
       String(call[0]).includes('[InformedConsentWorkflow] permission decision')
     );
-    expect(permissionLogs.length).toBeGreaterThanOrEqual(2);
-    const decisionPayload = permissionLogs[0][1] as Record<string, unknown>;
+    // Filter out the initial render where role is still null (logged as 'none')
+    const validLogs = permissionLogs.filter((call) => (call[1] as Record<string, unknown>).role !== 'none');
+    expect(validLogs.length).toBeGreaterThanOrEqual(1);
+    const decisionPayload = validLogs[0][1] as Record<string, unknown>;
     expect(decisionPayload.role).toBe('admin');
     expect(decisionPayload.resourceId).toBe(1);
     expect(decisionPayload.decision).toBe(true);
@@ -225,8 +235,8 @@ describe('InformedConsentWorkflow permissions', () => {
   });
 
   it('lets an admin download the blank PDF before the cooling-off period starts', async () => {
-    seedAuth('admin', 'admin@example.com');
     renderWithRole('admin', 'admin@example.com');
+    await screen.findByText(/Informed Consent Required/i);
 
     const downloadBtn = screen.getByRole('button', { name: /Download Blank PDF/i });
     expect(downloadBtn).toBeInTheDocument();
@@ -243,8 +253,8 @@ describe('InformedConsentWorkflow permissions', () => {
   });
 
   it('lets a vet download the blank PDF while reviewing the consent before cooling-off', async () => {
-    seedAuth('vet', 'vet@example.com');
     renderWithRole('vet', 'vet@example.com');
+    await screen.findByText(/Informed Consent Required/i);
 
     const user = userEvent.setup();
     await user.click(screen.getByRole('button', { name: /Begin Informed Consent Process/i }));

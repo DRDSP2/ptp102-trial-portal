@@ -131,6 +131,10 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
 
           <div className="text-center text-xs text-muted-foreground pt-4 border-t">
             <p>This page will automatically check for approval status every 5 seconds.</p>
+            <p className="mt-1">
+              If the button above does not open your email client, contact{' '}
+              <span className="font-medium">drdsp@pm.me</span>
+            </p>
           </div>
         </CardContent>
       </Card>

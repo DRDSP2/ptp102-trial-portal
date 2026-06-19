@@ -112,7 +112,20 @@ async function computeAuditHash(entry: Omit<AuditLogEntry, 'clientHash' | 'previ
     .join('');
 }
 
+let currentAuditUser: { userId: string; userEmail: string; userRole: 'admin' | 'vet' | 'unknown' } | null = null;
+
+export function setCurrentAuditUser(email: string, role: 'admin' | 'vet' | 'unknown') {
+  currentAuditUser = { userId: email, userEmail: email, userRole: role };
+}
+
+export function clearCurrentAuditUser() {
+  currentAuditUser = null;
+}
+
 function getCurrentUserForAudit(): { userId: string; userEmail: string; userRole: 'admin' | 'vet' | 'unknown' } {
+  if (currentAuditUser) {
+    return currentAuditUser;
+  }
   if (typeof window === 'undefined') {
     return { userId: 'unknown', userEmail: 'unknown', userRole: 'unknown' };
   }

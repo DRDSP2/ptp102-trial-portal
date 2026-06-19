@@ -150,7 +150,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
         const message = (resp?.error as string) ?? 'Profile setup failed';
         const detail = resp?.detail ? ` (${String(resp.detail)})` : '';
         console.error('Profile creation error:', { error: profileError, response: resp });
-        setError(`Account created but profile setup failed: ${message}${detail}. Please contact support.`);
+        setError(`Account created but profile setup failed: ${message}${detail}. Please contact support at drdsp@pm.me.`);
         return;
       }
 

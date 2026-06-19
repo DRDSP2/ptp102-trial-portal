@@ -64,14 +64,13 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
         auth.requestVetApproval(normalizedEmail);
         setError('Your account is pending admin approval. Redirecting...');
         setTimeout(() => {
-          localStorage.setItem('pending_vet_email', normalizedEmail);
           window.location.reload();
         }, 1500);
         return;
       }
 
       if (userData.verification_status === 'rejected') {
-        setError('Your account was rejected. Please contact support@byrockvets.com');
+        setError('Your account was rejected. Please contact support at drdsp@pm.me');
         setIsLoading(false);
         return;
       }

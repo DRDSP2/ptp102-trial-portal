@@ -10,6 +10,8 @@ export function PendingApprovalPage() {
   useEffect(() => {
     if (auth.role !== 'vet') {
       navigate('/', { replace: true });
+    } else if (!auth.pendingApproval) {
+      navigate('/dashboard', { replace: true });
     }
   }, [auth, navigate]);
 

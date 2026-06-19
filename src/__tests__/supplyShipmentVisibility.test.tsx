@@ -1,4 +1,19 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+
+vi.mock('@/lib/supabase/client', () => ({
+  supabase: {
+    auth: {
+      getSession: vi.fn(),
+      onAuthStateChange: vi.fn(),
+      signInWithPassword: vi.fn(),
+      signOut: vi.fn(),
+    },
+    from: vi.fn(),
+    functions: {
+      invoke: vi.fn(),
+    },
+  },
+}));
 import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
@@ -7,13 +22,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { DashboardPage } from '@/pages/DashboardPage';
 import createSupplyShipmentAction from '@/actions/createSupplyShipment';
 import type { ReactNode } from 'react';
-
-function seedAuth(role: 'admin' | 'vet', email: string) {
-  localStorage.setItem(
-    'laminitis_auth_state',
-    JSON.stringify({ role, email, termsAccepted: true, pendingApproval: false })
-  );
-}
+import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 
 function seedVets() {
   localStorage.setItem(
@@ -132,6 +141,7 @@ async function createShipmentForVet(vetId: number, vetEmail: string, batchLotNum
 describe('Supply shipment visibility between admin and vet clinic', () => {
   beforeEach(() => {
     localStorage.clear();
+    clearAuthMocks();
     seedVets();
   });
 
@@ -150,6 +160,7 @@ describe('Supply shipment visibility between admin and vet clinic', () => {
     await createShipmentForVet(1, 'alice@example.com', 'BATCH-ADMIN-001');
     renderDashboard('admin', 'admin@example.com');
 
+    await screen.findByText('Admin');
     const user = userEvent.setup();
     await user.click(screen.getByRole('tab', { name: /Supply/i }));
 
@@ -165,6 +176,7 @@ describe('Supply shipment visibility between admin and vet clinic', () => {
     await createShipmentForVet(1, 'alice@example.com', 'BATCH-VET-001');
     renderDashboard('vet', 'alice@example.com');
 
+    await screen.findByRole('tab', { name: /Supply/i });
     const user = userEvent.setup();
     await user.click(screen.getByRole('tab', { name: /Supply/i }));
 
@@ -179,6 +191,7 @@ describe('Supply shipment visibility between admin and vet clinic', () => {
     await createShipmentForVet(2, 'bob@example.com', 'BATCH-BOB-001');
     renderDashboard('vet', 'alice@example.com');
 
+    await screen.findByRole('tab', { name: /Supply/i });
     const user = userEvent.setup();
     await user.click(screen.getByRole('tab', { name: /Supply/i }));
 
