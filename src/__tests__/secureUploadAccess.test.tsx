@@ -38,7 +38,7 @@ describe('secure upload access control', () => {
   });
 
   it('denies users without a role', () => {
-    expect(getUserRole(makeUser('u1', null), ownPath)).toBeNull();
+    expect(getUserRole(makeUser('u1', null))).toBeNull();
   });
 });
 
