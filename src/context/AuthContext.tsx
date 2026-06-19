@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
-import { getVetByEmail, recordLogoutAudit } from '@/lib/uibakeryDataMock';
+import { recordLogoutAudit } from '@/lib/uibakeryDataMock';
 
 type AuthRole = 'vet' | 'admin' | null;
 
@@ -111,9 +111,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         let pendingApproval = false;
 
         if (role === 'vet' && email) {
-          const vet = await getVetByEmail(email);
-          termsAccepted = vet?.tc_accepted ?? false;
-          pendingApproval = vet?.verification_status === 'pending';
+          try {
+            const { data: vet } = await supabase
+              .from('veterinarians')
+              .select('tc_accepted, verification_status')
+              .eq('email', email)
+              .maybeSingle();
+            termsAccepted = vet?.tc_accepted ?? false;
+            pendingApproval = vet?.verification_status === 'pending';
+          } catch {
+            // leave defaults
+          }
         } else if (role === 'admin') {
           termsAccepted = true;
           pendingApproval = false;
@@ -153,7 +161,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (role === 'vet' && email) {
         try {
-          const vet = await getVetByEmail(email);
+          const { data: vet } = await supabase
+            .from('veterinarians')
+            .select('tc_accepted, verification_status')
+            .eq('email', email)
+            .maybeSingle();
           termsAccepted = vet?.tc_accepted ?? false;
           pendingApproval = vet?.verification_status === 'pending';
         } catch {
