@@ -21,6 +21,7 @@ type ReasonForChangeDialogProps = {
   testIdPrefix?: string;
   onConfirm: (reason: string) => void;
   onCancel?: () => void;
+  isLoading?: boolean;
 };
 
 export function ReasonForChangeDialog({
@@ -32,6 +33,7 @@ export function ReasonForChangeDialog({
   testIdPrefix = 'reason-for-change',
   onConfirm,
   onCancel,
+  isLoading = false,
 }: ReasonForChangeDialogProps) {
   const [reason, setReason] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -79,15 +81,18 @@ export function ReasonForChangeDialog({
               placeholder="e.g. Corrected data entry error per source document verification."
               rows={4}
               aria-invalid={!!error}
+              disabled={isLoading}
             />
             {error && <p className="text-sm text-destructive">{error}</p>}
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={handleCancel} data-testid={`${testIdPrefix}-cancel`}>
+          <Button variant="outline" onClick={handleCancel} data-testid={`${testIdPrefix}-cancel`} disabled={isLoading}>
             Cancel
           </Button>
-          <Button onClick={handleConfirm} data-testid={`${testIdPrefix}-confirm`}>Confirm Change</Button>
+          <Button onClick={handleConfirm} data-testid={`${testIdPrefix}-confirm`} disabled={isLoading}>
+            {isLoading ? 'Processing...' : 'Confirm Change'}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

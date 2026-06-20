@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useMutateAction } from '@uibakery/data';
 import { supabase } from '@/lib/supabase/client';
 import recordSecureUploadAction from '@/actions/recordSecureUpload';
+import createAuditLogAction from '@/actions/createAuditLog';
 import { PRIVATE_BUCKET, type UploadCategory } from '@/lib/upload/config';
 import { buildStoragePath } from '@/lib/upload/path';
 import { validateUpload } from '@/lib/upload/validation';
@@ -30,6 +31,7 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [recordUpload] = useMutateAction(recordSecureUploadAction);
+  const [createAuditLog] = useMutateAction(createAuditLogAction);
 
   const upload = useCallback(
     async (file: File): Promise<string> => {
@@ -45,7 +47,6 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
           throw new Error('You must be signed in to upload files');
         }
         const userId = sessionData.session.user.id;
-
         // 2. Client-side size + mime checks. These are NOT a security boundary
         //    (anyone can bypass them by calling the API directly); they exist
         //    to fail fast with a friendly error before consuming bandwidth.
@@ -98,6 +99,22 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
           mimeType: file.type,
         });
 
+        // 6. Audit-log the upload
+        await createAuditLog({
+          action: 'UPLOAD',
+          entityType: entityType as any,
+          entityId: typeof entityId === 'string' ? parseInt(entityId, 10) || null : entityId,
+          fieldName: 'storage_path',
+          newValue: JSON.stringify({
+            storagePath,
+            fileName: file.name,
+            fileSize: file.size,
+            mimeType: file.type,
+            category,
+          }),
+          reasonForChange: `File uploaded via secure upload: ${file.name}`,
+        }).catch(() => {});
+
         return storagePath;
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
@@ -107,7 +124,7 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
         setIsUploading(false);
       }
     },
-    [category, entityType, entityId, recordUpload],
+    [category, entityType, entityId, recordUpload, createAuditLog],
   );
 
   return { upload, isUploading, error };

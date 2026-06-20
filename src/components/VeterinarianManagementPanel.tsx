@@ -5,7 +5,7 @@ import approveInvestigatorQualificationAction from '@/actions/approveInvestigato
 import rejectInvestigatorQualificationAction from '@/actions/rejectInvestigatorQualification';
 import updateVetVerificationStatusAction from '@/actions/updateVetVerificationStatus';
 import sendEmailNotificationAction from '@/actions/sendEmailNotification';
-import { useVeterinarians, useMutateVeterinarian, useDeleteVeterinarian } from '@/hooks/useVeterinarians';
+import { useVeterinarians, useMutateVeterinarian, useDeleteVeterinarian, useClinics } from '@/hooks/useVeterinarians';
 import { supabase } from '@/lib/supabase/client';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
-import { CheckCircle, XCircle, Trash2, Eye, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2, Mail } from 'lucide-react';
+import { CheckCircle, XCircle, Trash2, Eye, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2, Mail, Loader2 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -79,9 +79,10 @@ type InvestigatorQualification = {
 };
 
 export function VeterinarianManagementPanel() {
-  const { vets, loading: loadingVets, error: errorVets, load: refreshVets } = useVeterinarians();
-  const { mutate: approveOrRejectVet } = useMutateVeterinarian();
+  const { vets, loading: loadingVets, error: errorVets, load: refreshVets, optimisticUpdate } = useVeterinarians();
+  const { mutate: approveOrRejectVet, mutating: isMutating } = useMutateVeterinarian();
   const { remove: deleteVet } = useDeleteVeterinarian();
+  const { load: loadClinics, createIfNotExists } = useClinics();
   const [allQuals, _loadingQuals] = useLoadAction(loadAllInvestigatorQualificationsAction, [], {});
   const [approveQual] = useMutateAction(approveInvestigatorQualificationAction);
   const [rejectQual] = useMutateAction(rejectInvestigatorQualificationAction);
@@ -92,6 +93,8 @@ export function VeterinarianManagementPanel() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [reasonDialogOpen, setReasonDialogOpen] = useState(false);
   const [pendingVetAction, setPendingVetAction] = useState<{ id: number; action: 'approve' | 'reject' } | null>(null);
+  const [actionStatus, setActionStatus] = useState<{ id: number; status: 'loading' | 'success' | 'error' | null }>({ id: 0, status: null });
+  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
 
   const qualsList: InvestigatorQualification[] = allQuals || [];
 
@@ -123,8 +126,25 @@ export function VeterinarianManagementPanel() {
     if (!pendingVetAction) return;
     const { id, action } = pendingVetAction;
     const vet = vets.find((v: Veterinarian) => v.id === id);
+    const nextStatus = action === 'approve' ? 'approved' : 'rejected';
+    
+    // Optimistic update
+    optimisticUpdate(id, { verification_status: nextStatus, approved_at: action === 'approve' ? new Date().toISOString() : null });
+    setActionStatus({ id, status: 'loading' });
+    
     try {
       await approveOrRejectVet(id, action, reason);
+      
+      // On approval, create/link clinic record
+      if (action === 'approve' && vet?.hospital_affiliation) {
+        try {
+          await createIfNotExists(vet.hospital_affiliation);
+          await loadClinics();
+        } catch (e) {
+          console.error('Clinic link failed (non-critical):', e);
+        }
+      }
+      
       if (vet) {
         const notifType = action === 'approve' ? NotificationType.VET_APPROVED : NotificationType.VET_REJECTED;
         const prefix = action === 'approve' ? '✅' : '❌';
@@ -140,15 +160,22 @@ export function VeterinarianManagementPanel() {
           }
         ).catch(err => console.error('Email notification failed (non-critical):', err));
       }
-      alert(`Veterinarian ${action === 'approve' ? 'approved' : 'rejected'} successfully.`);
+      
+      setActionStatus({ id, status: 'success' });
+      // Auto-dismiss success after 3 seconds
+      setTimeout(() => setActionStatus({ id: 0, status: null }), 3000);
+      
+      // Reconcile with server
       await refreshVets();
     } catch (error) {
       console.error(`Failed to ${action} veterinarian:`, error);
-      alert(`Failed to ${action} veterinarian. Please try again.`);
+      setActionStatus({ id, status: 'error' });
+      // Revert optimistic update
+      await refreshVets();
     } finally {
       setPendingVetAction(null);
     }
-  }, [pendingVetAction, vets, approveOrRejectVet, sendEmail, refreshVets]);
+  }, [pendingVetAction, vets, approveOrRejectVet, sendEmail, refreshVets, optimisticUpdate, createIfNotExists, loadClinics]);
 
   const handleDelete = useCallback(async (id: number) => {
     if (window.confirm('Are you sure you want to permanently delete this veterinarian? This action cannot be undone.')) {
@@ -936,10 +963,10 @@ export function VeterinarianManagementPanel() {
                                   </h4>
                                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     {[
-                                      { label: 'Drug Storage', url: selectedQual.drug_storage_photo_url, status: selectedQual.drug_storage_photo_status, key: 'drug_storage' },
-                                      { label: 'Emergency Equipment', url: selectedQual.emergency_equipment_photo_url, status: selectedQual.emergency_equipment_photo_status, key: 'emergency' },
-                                      { label: 'Equine Housing / Stall', url: selectedQual.housing_photo_url, status: selectedQual.housing_photo_status, key: 'housing' },
-                                      { label: 'Feed Storage & Diet', url: selectedQual.feed_photo_url, status: selectedQual.feed_photo_status, key: 'feed' },
+                                      { label: 'Drug Storage', url: selectedQual.drug_storage_photo_url, status: selectedQual.drug_storage_photo_status, key: 'drug_storage', filename: selectedQual.drug_storage_photo_url?.split('/').pop() },
+                                      { label: 'Emergency Equipment', url: selectedQual.emergency_equipment_photo_url, status: selectedQual.emergency_equipment_photo_status, key: 'emergency', filename: selectedQual.emergency_equipment_photo_url?.split('/').pop() },
+                                      { label: 'Equine Housing / Stall', url: selectedQual.housing_photo_url, status: selectedQual.housing_photo_status, key: 'housing', filename: selectedQual.housing_photo_url?.split('/').pop() },
+                                      { label: 'Feed Storage & Diet', url: selectedQual.feed_photo_url, status: selectedQual.feed_photo_status, key: 'feed', filename: selectedQual.feed_photo_url?.split('/').pop() },
                                     ].map((photo) => (
                                       <div key={photo.key} className="border rounded-lg p-2 space-y-2">
                                         <div className="flex items-center justify-between">
@@ -952,7 +979,29 @@ export function VeterinarianManagementPanel() {
                                         </div>
                                         {photo.url ? (
                                           <>
-                                            <img src={photo.url} alt={photo.label} className="w-full h-20 object-cover rounded border" />
+                                            {imgErrors[photo.key] ? (
+                                              <div className="w-full h-20 bg-slate-100 rounded border flex flex-col items-center justify-center gap-1">
+                                                <p className="text-xs text-muted-foreground text-center px-2">
+                                                  {photo.filename || 'Image unavailable'}
+                                                </p>
+                                                <a
+                                                  href={photo.url}
+                                                  target="_blank"
+                                                  rel="noreferrer"
+                                                  className="text-xs text-blue-600 hover:underline"
+                                                >
+                                                  Download
+                                                </a>
+                                              </div>
+                                            ) : (
+                                              <img
+                                                src={photo.url}
+                                                alt={photo.label}
+                                                className="w-full h-20 object-cover rounded border"
+                                                onError={() => setImgErrors((prev) => ({ ...prev, [photo.key]: true }))}
+                                                loading="lazy"
+                                              />
+                                            )}
                                             <div className="flex gap-1">
                                               <Button size="sm" variant="outline" className="flex-1 text-[10px] h-7" type="button" onClick={async () => {
                                                 try {
@@ -1085,7 +1134,7 @@ export function VeterinarianManagementPanel() {
 
                         {vet.verification_status === 'pending' && (
                           <>
-                            <Button
+                                     <Button
                               data-testid="approve-vet"
                               data-vet-email={vet.email}
                               variant="ghost"
@@ -1093,8 +1142,13 @@ export function VeterinarianManagementPanel() {
                               onClick={() => handleApprove(vet.id)}
                               type="button"
                               className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                              disabled={actionStatus.id === vet.id && actionStatus.status === 'loading'}
                             >
-                              <CheckCircle className="h-4 w-4" />
+                              {actionStatus.id === vet.id && actionStatus.status === 'loading' ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <CheckCircle className="h-4 w-4" />
+                              )}
                             </Button>
                             <Button
                               variant="ghost"
@@ -1102,9 +1156,25 @@ export function VeterinarianManagementPanel() {
                               onClick={() => handleReject(vet.id)}
                               type="button"
                               className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              disabled={actionStatus.id === vet.id && actionStatus.status === 'loading'}
                             >
-                              <XCircle className="h-4 w-4" />
+                              {actionStatus.id === vet.id && actionStatus.status === 'loading' ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <XCircle className="h-4 w-4" />
+                              )}
                             </Button>
+                            {actionStatus.id === vet.id && actionStatus.status === 'success' && (
+                              <Badge variant="outline" className="text-green-700 border-green-300">
+                                <CheckCircle className="h-3 w-3 mr-1" />
+                                Updated
+                              </Badge>
+                            )}
+                            {actionStatus.id === vet.id && actionStatus.status === 'error' && (
+                              <Badge variant="destructive" className="text-[10px]">
+                                Failed
+                              </Badge>
+                            )}
                           </>
                         )}
 
@@ -1143,6 +1213,7 @@ export function VeterinarianManagementPanel() {
         description={`Please provide a reason for ${pendingVetAction?.action === 'approve' ? 'approving' : 'rejecting'} this veterinarian. This will be recorded in the audit trail.`}
         testIdPrefix="vet-approval-reason"
         onConfirm={executeVetAction}
+        isLoading={isMutating}
       />
     </Card>
   );

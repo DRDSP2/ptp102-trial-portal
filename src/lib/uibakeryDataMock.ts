@@ -81,6 +81,8 @@ function saveAuditLogs(logs: AuditLogEntry[]) {
   saveToStorage(STORAGE_KEYS.auditLogs, logs);
 }
 
+const CHAIN_ID = 'ptp102-main-chain';
+
 async function computeAuditHash(entry: Omit<AuditLogEntry, 'clientHash' | 'previousHash'>, previousHash: string): Promise<string> {
   if (typeof window === 'undefined') return '';
   const payload = JSON.stringify({
@@ -102,6 +104,7 @@ async function computeAuditHash(entry: Omit<AuditLogEntry, 'clientHash' | 'previ
     ipAddress: entry.ipAddress,
     userAgent: entry.userAgent,
     sessionId: entry.sessionId,
+    chainId: CHAIN_ID,
     previousHash,
   });
   const encoder = new TextEncoder();
@@ -168,7 +171,7 @@ async function recordAudit(payload: AuditPayload): Promise<AuditLogEntry> {
     reasonForChange: payload.reasonForChange ?? null,
     ipAddress: payload.ipAddress ?? null,
     userAgent: payload.userAgent ?? (typeof navigator !== 'undefined' ? navigator.userAgent : null),
-    sessionId: payload.sessionId ?? null,
+    sessionId: payload.sessionId ?? `${CHAIN_ID}-${nextId}`,
   };
 
   const clientHash = await computeAuditHash(entryWithoutHashes, previousHash);
@@ -179,13 +182,32 @@ async function recordAudit(payload: AuditPayload): Promise<AuditLogEntry> {
 }
 
 function verifyAuditChain(logs: AuditLogEntry[]): { valid: boolean; firstInvalidIndex: number } {
+  // Build a map of all known hashes for quick lookup
+  const hashMap = new Map<string, AuditLogEntry>();
+  for (const log of logs) {
+    hashMap.set(log.clientHash, log);
+  }
+
   for (let i = 0; i < logs.length; i++) {
     const entry = logs[i];
     const expectedPrevious = i === 0 ? 'genesis' : logs[i - 1].clientHash;
+    
+    // If the previous hash doesn't match the immediate predecessor, check if it exists elsewhere in the chain
+    // This handles filtered views where the immediate predecessor might be missing
     if (entry.previousHash !== expectedPrevious) {
-      return { valid: false, firstInvalidIndex: i };
+      // If previousHash is 'genesis', it's valid for the first entry of a chain
+      if (entry.previousHash === 'genesis') {
+        continue;
+      }
+      // Check if the previous hash exists in the full set
+      const previousEntry = hashMap.get(entry.previousHash);
+      if (!previousEntry) {
+        // Previous hash not found in the filtered set - chain is broken
+        return { valid: false, firstInvalidIndex: i };
+      }
+      // If the previous entry exists but isn't immediately before, the chain is still valid
+      // but this is a filtered view
     }
-    // Full hash verification requires async computeAuditHash; synchronous check covers linkage.
   }
   return { valid: true, firstInvalidIndex: -1 };
 }

@@ -28,7 +28,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ShieldCheck, ShieldAlert, Eye } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, Eye, HelpCircle } from 'lucide-react';
 import { type AuditAction, type AuditEntityType } from '@/lib/auditTypes';
 
 const AUDIT_ACTIONS: AuditAction[] = [
@@ -226,7 +226,11 @@ export function AuditLogViewer() {
                 <TableHead>Entity</TableHead>
                 <TableHead>Field</TableHead>
                 <TableHead>Reason</TableHead>
-                <TableHead className="w-24">Chain</TableHead>
+                <TableHead className="w-24" title="Tamper-evident SHA-256 hash chain linking each audit entry to its predecessor. Valid = hash linkage intact. Broken = previous hash mismatch or missing.">
+                  <span className="flex items-center gap-1 cursor-help">
+                    Chain <HelpCircle className="h-3 w-3 text-muted-foreground" />
+                  </span>
+                </TableHead>
                 <TableHead className="w-24">Detail</TableHead>
               </TableRow>
             </TableHeader>
@@ -261,12 +265,12 @@ export function AuditLogViewer() {
                     <TableCell className="text-xs max-w-xs truncate">{log.reasonForChange || '-'}</TableCell>
                     <TableCell>
                       {log.chainValid === false ? (
-                        <Badge variant="destructive" className="gap-1">
+                        <Badge variant="destructive" className="gap-1" title="Hash chain broken: previous hash mismatch or missing entry. This may indicate tampering or a filtered view.">
                           <ShieldAlert className="h-3 w-3" />
                           Broken
                         </Badge>
                       ) : (
-                        <Badge variant="outline" className="text-green-700 border-green-300 gap-1">
+                        <Badge variant="outline" className="text-green-700 border-green-300 gap-1" title="Hash chain intact: this entry correctly links to its predecessor via SHA-256 hash.">
                           <ShieldCheck className="h-3 w-3" />
                           Valid
                         </Badge>

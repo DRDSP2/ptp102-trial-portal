@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, useCallback, type ReactNode } from 'react';
 import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
 import { recordLogoutAudit, setCurrentAuditUser, clearCurrentAuditUser } from '@/lib/uibakeryDataMock';
@@ -14,6 +14,8 @@ type AuthState = {
   user: User | null;
 };
 
+type SessionScope = 'admin' | 'vet' | null;
+
 type AuthContextType = AuthState & {
   loginVet: (email: string, password?: string) => Promise<void>;
   requestVetApproval: (email: string) => void;
@@ -21,6 +23,8 @@ type AuthContextType = AuthState & {
   rejectVet: () => void;
   loginAdmin: (email: string, password?: string) => Promise<void>;
   logout: () => Promise<void>;
+  sessionScope: SessionScope;
+  setSessionScope: (scope: SessionScope) => void;
 };
 
 const emptyState: AuthState = {
@@ -42,8 +46,27 @@ function roleFromUser(user: User | null): AuthRole {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const SESSION_SCOPE_KEY = 'ptp102_session_scope';
+
+function getStoredSessionScope(): SessionScope {
+  if (typeof window === 'undefined') return null;
+  const raw = window.localStorage.getItem(SESSION_SCOPE_KEY);
+  if (raw === 'admin' || raw === 'vet') return raw;
+  return null;
+}
+
+function setStoredSessionScope(scope: SessionScope) {
+  if (typeof window === 'undefined') return;
+  if (scope) {
+    window.localStorage.setItem(SESSION_SCOPE_KEY, scope);
+  } else {
+    window.localStorage.removeItem(SESSION_SCOPE_KEY);
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>(emptyState);
+  const [sessionScope, setSessionScopeState] = useState<SessionScope>(getStoredSessionScope);
 
   useEffect(() => {
     let mounted = true;
@@ -57,10 +80,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
 
         const user = data.session.user;
-        const role = roleFromUser(user);
+        const rawRole = roleFromUser(user);
         const email = user.email ?? null;
         let termsAccepted = false;
         let pendingApproval = false;
+
+        // Respect session scope
+        const scope = getStoredSessionScope();
+        const role: AuthRole = scope && rawRole === scope ? rawRole : scope ? null : rawRole;
 
         if (role === 'vet' && email) {
           try {
@@ -108,10 +135,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const user = session.user;
-      const role = roleFromUser(user);
+      const rawRole = roleFromUser(user);
       const email = user.email ?? null;
       let termsAccepted = false;
       let pendingApproval = false;
+
+      // Respect session scope: if a scope is set, only allow that role
+      const scope = getStoredSessionScope();
+      const role: AuthRole = scope && rawRole === scope ? rawRole : scope ? null : rawRole;
 
       if (role === 'vet' && email) {
         try {
@@ -145,11 +176,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const setSessionScope = useCallback((scope: SessionScope) => {
+    setSessionScopeState(scope);
+    setStoredSessionScope(scope);
+  }, []);
+
   const value = useMemo<AuthContextType>(
     () => ({
       ...state,
+      sessionScope,
+      setSessionScope,
       loginVet: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
+        setStoredSessionScope('vet');
+        setSessionScopeState('vet');
         if (password) {
           const { error } = await supabase.auth.signInWithPassword({
             email: normalizedEmail,
@@ -188,6 +228,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
       loginAdmin: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
+        setStoredSessionScope('admin');
+        setSessionScopeState('admin');
         if (password) {
           const { error } = await supabase.auth.signInWithPassword({
             email: normalizedEmail,
@@ -221,6 +263,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         // logout takes effect immediately and does not wait on network or
         // audit I/O. The audit + Supabase sign-out are best-effort.
         setState({ ...emptyState, isLoading: false });
+        setStoredSessionScope(null);
+        setSessionScopeState(null);
 
         // Best-effort audit (never block sign-out on it).
         recordLogoutAudit(auditEmail, auditRole).catch(() => {
@@ -234,7 +278,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         supabase.auth.signOut().catch(() => {});
       },
     }),
-    [state],
+    [state, sessionScope],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

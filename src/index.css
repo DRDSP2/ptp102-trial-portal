@@ -9,11 +9,34 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    min-width: 320px;
+  }
+
+  /* Mobile responsiveness: ensure tables and cards reflow */
+  @media (max-width: 640px) {
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
+  /* Ensure touch targets are at least 44px */
+  button, a, input, select, textarea, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent text overflow on small screens */
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 }
 

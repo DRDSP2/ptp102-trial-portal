@@ -42,16 +42,25 @@ export function useVeterinarians() {
     }
   }, []);
 
-  return { vets, loading, error, load };
+  // Optimistic update helper: immediately patch local state, then refetch
+  const optimisticUpdate = useCallback((id: number, patch: Partial<VetRecord>) => {
+    setVets((prev) =>
+      prev.map((v) => (v.id === id ? { ...v, ...patch } : v))
+    );
+  }, []);
+
+  return { vets, setVets, loading, error, load, optimisticUpdate };
 }
 
 type VetAction = 'approve' | 'reject';
 
 export function useMutateVeterinarian() {
   const [mutating, setMutating] = useState(false);
+  const [lastError, setLastError] = useState<Error | null>(null);
 
   const mutate = useCallback(async (id: number, action: VetAction, reason?: string) => {
     setMutating(true);
+    setLastError(null);
     try {
       const payload: Record<string, unknown> = {
         verification_status: action === 'approve' ? 'approved' : 'rejected',
@@ -66,19 +75,25 @@ export function useMutateVeterinarian() {
       if (updateError) throw updateError;
 
       await supabase.from('audit_logs').insert({
-        action: `vet_${action}d`,
+        action: action === 'approve' ? 'APPROVE' : 'REJECT',
         entity_type: 'veterinarian',
         entity_id: id,
         new_value: JSON.stringify({ verification_status: payload.verification_status }),
         timestamp: new Date().toISOString(),
         reason_for_change: reason ?? null,
       }).catch(() => {});
+
+      return { success: true };
+    } catch (error) {
+      const err = error instanceof Error ? error : new Error(String(error));
+      setLastError(err);
+      throw err;
     } finally {
       setMutating(false);
     }
   }, []);
 
-  return { mutate, mutating };
+  return { mutate, mutating, lastError };
 }
 
 export function useDeleteVeterinarian() {
@@ -98,4 +113,53 @@ export function useDeleteVeterinarian() {
   }, []);
 
   return { remove, deleting };
+}
+
+export function useClinics() {
+  const [clinics, setClinics] = useState<{ id: number; name: string }[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('clinics')
+        .select('id, name')
+        .order('name', { ascending: true });
+      if (error) throw error;
+      setClinics((data ?? []) as { id: number; name: string }[]);
+    } catch (err) {
+      console.error('Failed to load clinics:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const createIfNotExists = useCallback(async (name: string) => {
+    try {
+      // Check if clinic exists
+      const { data: existing } = await supabase
+        .from('clinics')
+        .select('id')
+        .eq('name', name)
+        .maybeSingle();
+      
+      if (existing) return existing.id;
+
+      // Create new clinic
+      const { data: inserted, error } = await supabase
+        .from('clinics')
+        .insert({ name, created_at: new Date().toISOString() })
+        .select('id')
+        .single();
+      
+      if (error) throw error;
+      return inserted.id;
+    } catch (err) {
+      console.error('Failed to create clinic:', err);
+      return null;
+    }
+  }, []);
+
+  return { clinics, loading, load, createIfNotExists };
 }
