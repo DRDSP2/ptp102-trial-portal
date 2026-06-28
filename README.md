@@ -24,12 +24,14 @@ cp .env.local.example .env.local
 # Required:
 #   VITE_SUPABASE_URL
 #   VITE_SUPABASE_ANON_KEY
+#   VITE_COMPUTE_API_URL=/compute
 #   SUPABASE_SERVICE_ROLE_KEY   (server-side only; never expose to browser)
 
 # 3. Start the local API server (mirrors Vercel /api/* on :3001)
 npm run dev:server
 
-# 4. In a second shell, start Vite (proxies /api -> :3001)
+# 4. Start the FastAPI compute service on :8000, then Vite
+#    Vite proxies /api -> :3001 and /compute -> :8000
 npm run dev
 
 # Tests, lint, build

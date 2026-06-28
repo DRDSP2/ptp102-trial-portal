@@ -51,6 +51,7 @@ ls dist/        # index.html + assets/* should exist
 - Build command: `npm install && npm run build` (or `npm ci && npm run build`)
 - Output directory: `dist`
 - ENS binding: `byrock.eth` → 4EVERLAND IPNS hash (auto-pinned on each deploy)
+- Environment: set `VITE_COMPUTE_API_URL=/compute` so Hoof X-Ray analysis calls the production FastAPI proxy.
 
 > **IPFS routing note:** The Supabase password-recovery link used by
 > `scripts/seedAdmin.ts` points to `https://byrock.eth.limo/` (the root)
@@ -70,6 +71,7 @@ ls dist/        # index.html + assets/* should exist
 - Production branch: `main`
 - Build command: `npm run build`
 - Output directory: `dist`
+- Environment: set `VITE_COMPUTE_API_URL=/compute` so Hoof X-Ray analysis uses the same production proxy path.
 
 Both projects rebuild automatically on every push to `main`.
 

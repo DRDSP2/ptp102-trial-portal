@@ -14,7 +14,7 @@ import { VeterinarianManagementPanel } from '@/components/VeterinarianManagement
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText, Image } from 'lucide-react';
 import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
 import { AuditLogViewer } from '@/components/AuditLogViewer';
@@ -24,6 +24,7 @@ import { AdminSupplyPanel } from '@/components/AdminSupplyPanel';
 import { AdverseEventReporter } from '@/components/AdverseEventReporter';
 import { VetShipmentPanel } from '@/components/VetShipmentPanel';
 import { InvestigatorOnboardingWizard } from '@/components/InvestigatorOnboardingWizard';
+import { HoofXrayPortal } from '@/components/HoofXrayPortal';
 import { useLoadAction } from '@uibakery/data';
 import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
 import { useAuth } from '@/context/AuthContext';
@@ -86,7 +87,7 @@ export function DashboardPage() {
       <div className="container mx-auto p-6 max-w-7xl">
         {isAdmin ? (
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full max-w-4xl grid-cols-2 sm:grid-cols-4 lg:grid-cols-7">
+            <TabsList className="grid w-full max-w-4xl grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
               <TabsTrigger value="overview">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Overview
@@ -110,6 +111,10 @@ export function DashboardPage() {
               <TabsTrigger value="supply">
                 <Package className="mr-2 h-4 w-4" />
                 Supply
+              </TabsTrigger>
+              <TabsTrigger value="xray">
+                <Image className="mr-2 h-4 w-4" />
+                X-Ray
               </TabsTrigger>
               <TabsTrigger value="audit">
                 <ScrollText className="mr-2 h-4 w-4" />
@@ -180,6 +185,9 @@ export function DashboardPage() {
             <TabsContent value="supply" className="mt-6 space-y-6">
               <AdminSupplyPanel />
             </TabsContent>
+            <TabsContent value="xray" className="mt-6">
+              <HoofXrayPortal />
+            </TabsContent>
             <TabsContent value="audit" className="mt-6">
               <AuditLogViewer />
             </TabsContent>
@@ -196,7 +204,7 @@ export function DashboardPage() {
           <>
             <AdverseEventReporter vetEmail={auth.email} vetName={auth.email?.split('@')[0] ?? 'Vet'} />
             <Tabs defaultValue="patients" className="w-full">
-              <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+              <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
               <TabsTrigger value="patients">
                 <Users className="mr-2 h-4 w-4" />
                 Patients
@@ -216,6 +224,10 @@ export function DashboardPage() {
               <TabsTrigger value="supply">
                 <Package className="mr-2 h-4 w-4" />
                 Supply
+              </TabsTrigger>
+              <TabsTrigger value="xray">
+                <Image className="mr-2 h-4 w-4" />
+                X-Ray
               </TabsTrigger>
             </TabsList>
 
@@ -281,6 +293,9 @@ export function DashboardPage() {
             </TabsContent>
             <TabsContent value="supply" className="mt-6">
               <VetShipmentPanel vetEmail={auth.email ?? ''} />
+            </TabsContent>
+            <TabsContent value="xray" className="mt-6">
+              <HoofXrayPortal />
             </TabsContent>
             <TabsContent value="audit" className="mt-6">
               <AuditLogViewer />
