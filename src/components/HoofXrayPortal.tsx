@@ -58,6 +58,14 @@ type XrayRecord = {
   enrolled_by_vet_email?: string;
 };
 
+const toArray = <T,>(value: T[] | null | undefined): T[] => Array.isArray(value) ? value : [];
+
+const getDisplayText = (value: unknown, fallback = '-'): string => {
+  if (typeof value === 'string' && value.trim().length > 0) return value;
+  if (typeof value === 'number' && Number.isFinite(value)) return String(value);
+  return fallback;
+};
+
 export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   const auth = useAuth();
   const isAdmin = auth.role === 'admin';
@@ -84,10 +92,10 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   );
 
   useEffect(() => {
-    if (xraysData) {
-      setXrayList(xraysData || []);
-    }
+    setXrayList(toArray<XrayRecord>(xraysData as XrayRecord[] | null | undefined));
   }, [xraysData]);
+
+  const patientList = toArray<any>(patients as any[] | null | undefined);
 
   const [createHoofXray] = useMutateAction(createHoofXrayAction);
   const [createLandmark] = useMutateAction(createXrayLandmarkAction);
@@ -335,16 +343,16 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {!patientId && patients && (
-              <Select value={selectedPatient?.toString() || ''} onValueChange={(v) => setSelectedPatient(v ? Number(v) : null)}>
+            {!patientId && (
+              <Select value={selectedPatient?.toString() || 'all'} onValueChange={(v) => setSelectedPatient(v === 'all' ? null : Number(v))}>
                 <SelectTrigger className="w-[220px]">
                   <SelectValue placeholder="Select patient" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">All patients</SelectItem>
-                  {patients.map((p: any) => (
+                  <SelectItem value="all">All patients</SelectItem>
+                  {patientList.map((p: any) => (
                     <SelectItem key={p.id} value={String(p.id)}>
-                      {p.horse_name}
+                      {getDisplayText(p?.horse_name, 'Unknown patient')}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -388,17 +396,17 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
                     <TableBody>
                       {xrayList.map((xray) => (
                         <TableRow key={xray.id}>
-                          <TableCell className="font-medium">{xray.horse_name || 'Unknown'}</TableCell>
+                          <TableCell className="font-medium">{getDisplayText(xray?.horse_name, 'Unknown')}</TableCell>
                           <TableCell>
-                            <Badge variant="outline" className="capitalize">{xray.hoof_side}</Badge>
+                            <Badge variant="outline" className="capitalize">{getDisplayText(xray?.hoof_side, 'Unknown')}</Badge>
                           </TableCell>
-                          <TableCell>{xray.taken_date ? new Date(xray.taken_date).toLocaleDateString() : '-'}</TableCell>
+                          <TableCell>{xray?.taken_date ? new Date(xray.taken_date).toLocaleDateString() : '-'}</TableCell>
                           <TableCell>
-                            <Badge variant="outline" className={getSeverityColor(xray.analysis_status === 'completed' ? xray.overall_severity : null)}>
-                              {xray.analysis_status || 'pending'}
+                            <Badge variant="outline" className={getSeverityColor(xray?.analysis_status === 'completed' ? xray?.overall_severity : null)}>
+                              {getDisplayText(xray?.analysis_status, 'pending')}
                             </Badge>
                           </TableCell>
-                          <TableCell>{xray.score ?? '-'}</TableCell>
+                          <TableCell>{xray?.score ?? '-'}</TableCell>
                           <TableCell className="text-right">
                             <Button variant="ghost" size="sm" onClick={() => openXray(xray)}>
                               <ChevronRight className="h-4 w-4" />
