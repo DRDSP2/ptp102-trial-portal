@@ -20,6 +20,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { useMutateAction } from '@uibakery/data';
 import { AuthProvider } from '@/context/AuthContext';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { AppShell } from '@/components/AppShell';
 import createSupplyShipmentAction from '@/actions/createSupplyShipment';
 import type { ReactNode } from 'react';
 import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
@@ -93,7 +94,9 @@ function renderDashboard(role: 'admin' | 'vet', email: string) {
   render(
     <MemoryRouter>
       <AuthProvider>
-        <DashboardPage />
+        <AppShell>
+          <DashboardPage />
+        </AppShell>
       </AuthProvider>
     </MemoryRouter>
   );

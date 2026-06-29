@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, useCallback, type ReactNode } from 'react';
 import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
-import { recordLogoutAudit, setCurrentAuditUser, clearCurrentAuditUser } from '@/lib/uibakeryDataMock';
+import { recordLoginAudit, recordLogoutAudit, setCurrentAuditUser, clearCurrentAuditUser } from '@/lib/uibakeryDataMock';
 
 type AuthRole = 'vet' | 'admin' | null;
 
@@ -196,6 +196,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             password,
           });
           if (error) throw error;
+          // Best-effort LOGIN audit — never block sign-in on it.
+          recordLoginAudit(normalizedEmail, 'vet').catch(() => {});
           return;
         }
 
@@ -242,6 +244,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             await supabase.auth.signOut();
             throw new Error('This account does not have admin access.');
           }
+          // Best-effort LOGIN audit — never block sign-in on it.
+          recordLoginAudit(normalizedEmail, 'admin').catch(() => {});
           return;
         }
 

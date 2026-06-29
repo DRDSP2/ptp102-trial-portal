@@ -6,9 +6,12 @@ import deletePatientAction from '@/actions/deletePatient';
 import { Patient } from '@/types/patient';
 import { PatientEnrollmentForm } from '@/components/PatientEnrollmentForm';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { toast } from 'sonner';
+import { StatusBadge } from '@/components/StatusBadge';
 import { Eye, Trash2, FileText, Loader2, Pencil, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { generatePatientTrialReport } from '@/lib/reportGenerator';
@@ -41,6 +44,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
   const [screenPatient, setScreenPatient] = useState<Patient | null>(null);
   const [screenAction, setScreenAction] = useState<'approve' | 'reject' | 'awaiting_details' | null>(null);
   const [screenNotes, setScreenNotes] = useState('');
+  const [screenError, setScreenError] = useState<string | null>(null);
   
   const [completeData, loadingComplete, completeError] = useLoadAction(
     loadCompletePatientTrialDataAction,
@@ -61,7 +65,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
 
     if (completeError) {
       console.error('Error loading complete data:', completeError);
-      alert('Failed to load patient data. Please try again.');
+      toast.error('Failed to load patient data. Please try again.');
       setExportingPatientId(null);
       setPatientIdForExport(null);
       return;
@@ -73,11 +77,11 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
 
       generatePatientTrialReport(patientData, patientName)
         .then(() => {
-          alert(`PDF exported successfully for ${patientName}`);
+          toast.success(`PDF exported successfully for ${patientName}`);
         })
         .catch((err) => {
           console.error('Export failed:', err);
-          alert('Export failed. Please try again.');
+          toast.error('Export failed. Please try again.');
         })
         .finally(() => {
           setExportingPatientId(null);
@@ -85,59 +89,6 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
         });
     }
   }, [completeData, completeError, exportingPatientId, loadingComplete, patients]);
-
-  const getStatusBadge = (status: string, screeningStatus?: string) => {
-    const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
-      screening: 'secondary',
-      enrolled: 'default',
-      completed: 'outline',
-      withdrawn: 'destructive',
-    };
-
-    if (screeningStatus === 'pending_screening') {
-      return (
-        <div className="flex flex-wrap gap-1">
-          <Badge variant="secondary">{status}</Badge>
-          <Badge variant="outline" className="bg-orange-100 text-orange-800 border-orange-300">
-            Pending Screening
-          </Badge>
-        </div>
-      );
-    }
-
-    if (screeningStatus === 'approved') {
-      return (
-        <div className="flex flex-wrap gap-1">
-          <Badge variant={variants[status] || 'default'}>{status}</Badge>
-          <Badge variant="outline" className="bg-green-100 text-green-800 border-green-300">
-            Approved
-          </Badge>
-        </div>
-      );
-    }
-
-    if (screeningStatus === 'rejected') {
-      return (
-        <div className="flex flex-wrap gap-1">
-          <Badge variant={variants[status] || 'destructive'}>{status}</Badge>
-          <Badge variant="destructive">Rejected</Badge>
-        </div>
-      );
-    }
-
-    if (screeningStatus === 'awaiting_details') {
-      return (
-        <div className="flex flex-wrap gap-1">
-          <Badge variant={variants[status] || 'secondary'}>{status}</Badge>
-          <Badge variant="outline" className="bg-amber-100 text-amber-800 border-amber-300">
-            Awaiting Details
-          </Badge>
-        </div>
-      );
-    }
-
-    return <Badge variant={variants[status] || 'default'}>{status}</Badge>;
-  };
 
   const handleDeleteClick = (patient: Patient) => {
     setPatientToDelete(patient);
@@ -186,11 +137,25 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
     setScreenPatient(patient);
     setScreenAction(action);
     setScreenNotes('');
+    setScreenError(null);
     setScreenDialogOpen(true);
+  };
+
+  const friendlyScreeningError = (error: unknown, verb: string): string => {
+    const raw = error instanceof Error ? error.message : String(error ?? '');
+    const lower = raw.toLowerCase();
+    if (lower.includes('row-level security') || lower.includes('rls') || lower.includes('policy')) {
+      return `Permission denied — only an admin can ${verb} a patient. Sign in as an admin and retry.`;
+    }
+    if (lower.includes('jwt') || lower.includes('not authenticated')) {
+      return 'Your admin session has expired. Please sign in again and retry.';
+    }
+    return raw || `Failed to ${verb} patient. Please try again.`;
   };
 
   const handleScreenConfirm = async () => {
     if (!screenPatient || !screenAction) return;
+    setScreenError(null);
     const adminEmail = auth.email ?? 'Unknown Admin';
     try {
       if (screenAction === 'approve') {
@@ -210,7 +175,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
         }
       } else if (screenAction === 'reject') {
         if (!screenNotes.trim()) {
-          alert('Rejection notes are required');
+          setScreenError('Rejection notes are required.');
           return;
         }
         await rejectPatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes, reasonForChange: screenNotes });
@@ -229,7 +194,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
         }
       } else if (screenAction === 'awaiting_details') {
         if (!screenNotes.trim()) {
-          alert('Please describe what details are missing');
+          setScreenError('Please describe what details are missing.');
           return;
         }
         await requestDetails({ patientId: screenPatient.id, adminEmail, notes: screenNotes, messageToVet: screenNotes, reasonForChange: screenNotes });
@@ -254,7 +219,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
       refresh();
     } catch (error) {
       console.error('Screening action failed:', error);
-      alert(`Failed to ${screenAction} patient. Please try again.`);
+      setScreenError(friendlyScreeningError(error, screenAction === 'approve' ? 'approve' : screenAction === 'reject' ? 'reject' : 'request details for'));
     }
   };
 
@@ -263,6 +228,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
     setScreenPatient(null);
     setScreenAction(null);
     setScreenNotes('');
+    setScreenError(null);
   };
 
   if (loading) {
@@ -274,7 +240,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
   }
 
   if (!patients || patients.length === 0) {
-    return <div className="text-center py-8 text-muted-foreground">No patients found.</div>;
+    return <div className="text-center py-8 text-muted-foreground">No patients match the current filter.</div>;
   }
 
   const patientsList: Patient[] = patients;
@@ -308,7 +274,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                     />
                   ) : (
                     <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center border-2 border-slate-300">
-                      <svg className="h-6 w-6 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-6 w-6 text-slate-500" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/>
                       </svg>
                     </div>
@@ -324,29 +290,31 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                 <TableCell className="hidden md:table-cell">{patient.age}</TableCell>
                 <TableCell className="hidden md:table-cell">{patient.sex}</TableCell>
                 <TableCell className="hidden lg:table-cell">{patient.owner_name}</TableCell>
-                <TableCell>{getStatusBadge(patient.trial_status, (patient as any).screening_status)}</TableCell>
+                <TableCell><StatusBadge trialStatus={patient.trial_status} screeningStatus={(patient as any).screening_status} /></TableCell>
                 <TableCell className="hidden sm:table-cell">{new Date(patient.enrollment_date).toLocaleDateString()}</TableCell>
                 <TableCell className="text-right">
                   <div className="flex items-center justify-end gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => onViewDetails(patient)} type="button">
+                    <Button variant="ghost" size="sm" onClick={() => onViewDetails(patient)} type="button" aria-label={`View ${patient.horse_name}`}>
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => handleEditClick(patient)} 
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleEditClick(patient)}
                       type="button"
                       className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                      aria-label={`Edit ${patient.horse_name}`}
                     >
                       <Pencil className="h-4 w-4" />
                     </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      onClick={() => handleExportPatientPDF(patient)} 
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleExportPatientPDF(patient)}
                       type="button"
                       disabled={exportingPatientId === patient.id}
                       className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                      aria-label={`Export PDF for ${patient.horse_name}`}
                     >
                       {exportingPatientId === patient.id ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -366,6 +334,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                               className="text-green-600 hover:text-green-700 hover:bg-green-50"
                               disabled={isApproving || isRejecting || isRequesting}
                               title="Admit"
+                              aria-label={`Admit ${patient.horse_name}`}
                             >
                               <CheckCircle2 className="h-4 w-4" />
                             </Button>
@@ -377,6 +346,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                               className="text-amber-600 hover:text-amber-700 hover:bg-amber-50"
                               disabled={isApproving || isRejecting || isRequesting}
                               title="Awaiting Further Details"
+                              aria-label={`Request details for ${patient.horse_name}`}
                             >
                               <AlertCircle className="h-4 w-4" />
                             </Button>
@@ -388,17 +358,19 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                               className="text-red-600 hover:text-red-700 hover:bg-red-50"
                               disabled={isApproving || isRejecting || isRequesting}
                               title="Reject"
+                              aria-label={`Reject ${patient.horse_name}`}
                             >
                               <XCircle className="h-4 w-4" />
                             </Button>
                           </>
                         )}
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => handleDeleteClick(patient)} 
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDeleteClick(patient)}
                           type="button"
                           className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          aria-label={`Delete ${patient.horse_name}`}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -445,6 +417,11 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
+            {screenError && (
+              <Alert variant="destructive">
+                <AlertDescription>{screenError}</AlertDescription>
+              </Alert>
+            )}
             <label className="text-sm font-medium">
               {screenAction === 'approve'
                 ? 'Admission Notes (optional)'
@@ -501,26 +478,30 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
         </DialogContent>
       </Dialog>
 
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Patient</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete <strong>{patientToDelete?.horse_name}</strong>? 
-              This will permanently remove all associated data including treatments, assessments, lab results, and clinical notes. 
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Patient</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete <strong>{patientToDelete?.horse_name}</strong>?
+              This will permanently remove all associated data including treatments, assessments, lab results, and clinical notes.
               This action cannot be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={handleDeleteCancel} type="button" disabled={isDeleting}>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleDeleteCancel} disabled={isDeleting}>
               Cancel
-            </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm} type="button" disabled={isDeleting}>
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              disabled={isDeleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
               {isDeleting ? 'Deleting...' : 'Delete Patient'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

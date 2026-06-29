@@ -5,6 +5,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
 import { PendingApprovalPage } from '@/pages/PendingApprovalPage';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { AppShell } from '@/components/AppShell';
 import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 import { supabase } from '@/lib/supabase/client';
 
@@ -59,7 +60,9 @@ describe('Vet approval flow — no stale localStorage cache', () => {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <AppShell>
+                    <DashboardPage />
+                  </AppShell>
                 </ProtectedRoute>
               }
             />
@@ -88,7 +91,9 @@ describe('Vet approval flow — no stale localStorage cache', () => {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <AppShell>
+                    <DashboardPage />
+                  </AppShell>
                 </ProtectedRoute>
               }
             />

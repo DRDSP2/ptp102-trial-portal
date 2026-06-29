@@ -1,4 +1,5 @@
 import { createBrowserClient } from '@supabase/ssr';
+import type { Database } from '@/types/db';
 
 // Some IPFS gateways (notably *.eth.limo) send `clear-site-data: "cookies"`
 // on every response, which would wipe a cookie-backed Supabase session on
@@ -82,7 +83,7 @@ export const createClient = () => {
     return buildStubClient();
   }
 
-  return createBrowserClient(supabaseUrl, supabaseKey, {
+  return createBrowserClient<Database>(supabaseUrl, supabaseKey, {
     cookies: localStorageCookieAdapter,
   });
 };

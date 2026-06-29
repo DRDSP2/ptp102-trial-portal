@@ -19,6 +19,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { AppShell } from '@/components/AppShell';
 import { CaseWorkspace } from '@/components/CaseWorkspace';
 import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 
@@ -110,7 +111,9 @@ describe('Admin navigation and role preservation', () => {
     render(
       <MemoryRouter>
         <AuthProvider>
-          <DashboardPage />
+          <AppShell>
+            <DashboardPage />
+          </AppShell>
         </AuthProvider>
       </MemoryRouter>
     );
@@ -129,7 +132,9 @@ describe('Admin navigation and role preservation', () => {
     render(
       <MemoryRouter>
         <AuthProvider>
-          <DashboardPage />
+          <AppShell>
+            <DashboardPage />
+          </AppShell>
         </AuthProvider>
       </MemoryRouter>
     );
@@ -148,7 +153,9 @@ describe('Admin navigation and role preservation', () => {
     render(
       <MemoryRouter>
         <AuthProvider>
-          <DashboardPage />
+          <AppShell>
+            <DashboardPage />
+          </AppShell>
         </AuthProvider>
       </MemoryRouter>
     );

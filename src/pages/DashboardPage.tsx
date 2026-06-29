@@ -5,16 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { PatientsList } from '@/components/PatientsList';
 import { PatientEnrollmentForm } from '@/components/PatientEnrollmentForm';
-import { ByrockLogo } from '@/components/ByrockLogo';
-import { RegulatoryBanner } from '@/components/RegulatoryBanner';
 import { VeterinarianManagementPanel } from '@/components/VeterinarianManagementPanel';
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, LogOut, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText, Image } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText, Image } from 'lucide-react';
 import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
 import { AuditLogViewer } from '@/components/AuditLogViewer';
@@ -50,42 +47,12 @@ export function DashboardPage() {
     navigate(`/patient/${patient.id}`);
   };
 
-  const handleLogout = () => {
-    auth.logout();
-    navigate('/');
-  };
-
   const userEmail = auth.email ?? 'Unknown';
   const isAdmin = auth.role === 'admin';
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <RegulatoryBanner />
-      <header className="bg-white border-b border-slate-200 px-6 py-4">
-        <div className="container mx-auto max-w-7xl flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <ByrockLogo variant="icon" height={32} />
-            <div>
-              <p className="text-sm font-medium text-slate-900">PTP-102 Laminitis Trial</p>
-              <p className="text-xs text-slate-500">{userEmail}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            {isAdmin && (
-              <Badge variant="secondary" className="bg-blue-100 text-blue-900">
-                <Shield className="mr-1 h-3 w-3" />
-                Admin
-              </Badge>
-            )}
-            <Button variant="outline" size="sm" onClick={handleLogout}>
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      <div className="container mx-auto p-6 max-w-7xl">
-        {isAdmin ? (
+    <div className="container mx-auto p-6 max-w-7xl">
+      {isAdmin ? (
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full max-w-4xl grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
               <TabsTrigger value="overview">
@@ -304,6 +271,5 @@ export function DashboardPage() {
           </>
         )}
       </div>
-    </div>
-  );
+   );
 }

@@ -20,10 +20,10 @@ const loginSchema = z.object({
 
 type AdminLoginScreenProps = {
   onSuccess: (email: string) => void;
-  onBackToVet: () => void;
+  onBackToAccessSelection: () => void;
 };
 
-export function AdminLoginScreen({ onSuccess, onBackToVet }: AdminLoginScreenProps) {
+export function AdminLoginScreen({ onSuccess, onBackToAccessSelection }: AdminLoginScreenProps) {
   const auth = useAuth();
   const [updateLastLogin] = useMutateAction(updateAdminLastLoginAction);
   const [isLoading, setIsLoading] = useState(false);
@@ -115,8 +115,8 @@ export function AdminLoginScreen({ onSuccess, onBackToVet }: AdminLoginScreenPro
                 <Button type="submit" size="lg" disabled={isLoading} className="w-full">
                   {isLoading ? 'Logging in...' : 'Login as Admin'}
                 </Button>
-                <Button type="button" variant="outline" size="lg" onClick={onBackToVet} className="w-full">
-                  Back to Veterinarian Login
+                <Button type="button" variant="outline" size="lg" onClick={onBackToAccessSelection} className="w-full">
+                  Back to Access Selection
                 </Button>
               </div>
             </form>

@@ -11,6 +11,13 @@ import {
 import { buildStatisticalXml, buildFullXml, generateDefineXml, type XmlExportPatient } from '@/lib/xmlExport';
 import { buildSubmissionPackage, type ExportFile } from '@/lib/submissionPackage';
 import { normalizeObelGrade } from '@/lib/obelGrade';
+import { flags } from '@/lib/featureFlags';
+import { supabasePatientsRepository } from '@/data/patients/supabaseRepository';
+import { supabaseTreatmentsRepository } from '@/data/treatments/supabaseRepository';
+import { supabaseClinicalAssessmentsRepository } from '@/data/clinicalAssessments/supabaseRepository';
+import { supabaseClinicalNotesRepository } from '@/data/clinicalNotes/supabaseRepository';
+import { supabaseLabResultsRepository } from '@/data/labResults/supabaseRepository';
+import { supabaseAuditRepository } from '@/data/audit/supabaseAuditRepository';
 
 // =============================================================================
 // UIBAKERY DATA MOCK — Enhanced for 4EVERLAND Deployment
@@ -178,6 +185,14 @@ async function recordAudit(payload: AuditPayload): Promise<AuditLogEntry> {
   const entry: AuditLogEntry = { ...entryWithoutHashes, clientHash, previousHash };
   logs.push(entry);
   saveAuditLogs(logs);
+  // Dual-write: persist to the real audit_logs table when Supabase is
+  // configured. Best-effort and non-blocking — audit infrastructure must
+  // never throw back into the user action that triggered it. The
+  // localStorage write above remains the read source for the
+  // AuditLogViewer and existing tests.
+  void supabaseAuditRepository.append(entry).catch(() => {
+    // swallow — see comment above
+  });
   return entry;
 }
 
@@ -393,6 +408,15 @@ function getPatients(): LocalPatient[] {
   return loadFromStorage<LocalPatient[]>(STORAGE_KEYS.patients, stored);
 }
 
+/**
+ * Internal: exposed only for src/data/patients/mockRepository.ts so the new
+ * repository layer can read the same in-memory state the mock React hooks
+ * use. Do NOT import this from feature code — go through getPatientsRepository().
+ */
+export function __internalGetPatientsForRepo(): LocalPatient[] {
+  return getPatients();
+}
+
 function savePatients(patients: LocalPatient[]) {
   saveToStorage(STORAGE_KEYS.patients, patients);
 }
@@ -496,6 +520,29 @@ export async function recordLogoutAudit(
   const normalizedEmail = (email ?? 'unknown').toLowerCase();
   await recordAudit({
     action: 'LOGOUT',
+    entityType: role === 'admin' ? 'admin' : 'veterinarian',
+    entityId: null,
+    userId: normalizedEmail,
+    userEmail: normalizedEmail,
+    userRole: role,
+  });
+}
+
+/**
+ * Records a LOGIN audit event. Called from AuthContext.loginVet() and
+ * loginAdmin() after a successful Supabase signInWithPassword so the
+ * audit row carries the user's email and role. Also writes directly to
+ * the real audit_logs table via the Supabase repository (best-effort) so
+ * logins are captured even when the mock localStorage layer is bypassed
+ * by the real auth path.
+ */
+export async function recordLoginAudit(
+  email: string | null,
+  role: 'admin' | 'vet' | 'unknown',
+): Promise<void> {
+  const normalizedEmail = (email ?? 'unknown').toLowerCase();
+  await recordAudit({
+    action: 'LOGIN',
     entityType: role === 'admin' ? 'admin' : 'veterinarian',
     entityId: null,
     userId: normalizedEmail,
@@ -1578,6 +1625,35 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
     if (name === 'loadPatients') {
       const loadParams = _params as { status?: string | null } | undefined;
       const status = loadParams?.status;
+
+      // Feature-flagged Supabase path (VITE_USE_SUPABASE_PATIENTS=true).
+      // Falls back to the mock branch below on the FIRST error so a
+      // transient network blip doesn't blank the UI; persistent errors
+      // surface through the existing setData([]) downstream.
+      if (flags.patients) {
+        let cancelled = false;
+        supabasePatientsRepository
+          .list({ status: status ?? null })
+          .then((rows) => {
+            if (cancelled) return;
+            setData(rows as unknown[]);
+            setLoading(false);
+          })
+          .catch((err: unknown) => {
+            console.error('[supabase patients] list failed, falling back to mock', err);
+            if (cancelled) return;
+            const patients = getPatients();
+            const filtered = status && status !== 'all'
+              ? patients.filter((p) => p.trial_status === status || p.screening_status === status)
+              : patients;
+            setData(filtered as unknown[]);
+            setLoading(false);
+          });
+        return () => {
+          cancelled = true;
+        };
+      }
+
       const patients = getPatients();
       const filtered = status && status !== 'all'
         ? patients.filter((p) => p.trial_status === status || p.screening_status === status)
@@ -2334,6 +2410,50 @@ export function useMutateAction(actionName: ActionFactory | string) {
         // Patients
         // -------------------------------------------------------------------
         if (name === 'createPatient') {
+          // Supabase-backed path (flag on). Writes patients row via the
+          // typed repository; audit trail still recorded in localStorage
+          // because audit_logs migration is intentionally out of scope.
+          if (flags.patients) {
+            const p = params as Record<string, unknown> | undefined;
+            const created = await supabasePatientsRepository.create({
+              horseName: String(p?.horseName ?? ''),
+              age: Number(p?.age ?? 0),
+              breed: String(p?.breed ?? ''),
+              weight: Number(p?.weight ?? 0),
+              sex: String(p?.sex ?? ''),
+              ownerName: String(p?.ownerName ?? ''),
+              ownerContact: String(p?.ownerContact ?? ''),
+              enrollmentDate: (p?.enrollmentDate as string | null) ?? null,
+              trialStatus: (p?.trialStatus as string | null) ?? null,
+              eligibilityVerified: (p?.eligibilityVerified as boolean | null) ?? null,
+              consentDate: (p?.consentDate as string | null) ?? null,
+              digitalPulse: (p?.digitalPulse as string | null) ?? null,
+              hoofWallTemperature: (p?.hoofWallTemperature as string | null) ?? null,
+              coronaryBandCondition: (p?.coronaryBandCondition as string | null) ?? null,
+              hoofTesterResponse: (p?.hoofTesterResponse as string | null) ?? null,
+              stance: (p?.stance as string | null) ?? null,
+              gait: (p?.gait as string | null) ?? null,
+              enrollmentHeartRate: (p?.enrollmentHeartRate as number | null) ?? null,
+              enrollmentRespiratoryRate: (p?.enrollmentRespiratoryRate as number | null) ?? null,
+              enrollmentTemperature: (p?.enrollmentTemperature as number | null) ?? null,
+              bodyConditionScore: (p?.bodyConditionScore as number | null) ?? null,
+              profilePictureUrl: (p?.profilePictureUrl as string | null) ?? null,
+              enrolledByVetEmail: (p?.enrolledByVetEmail as string | null) ?? null,
+            });
+            await recordAudit({
+              action: 'CREATE',
+              entityType: 'patient',
+              entityId: created.id,
+              patientId: created.id,
+              newValue: JSON.stringify({
+                horse_name: created.horse_name,
+                owner_name: created.owner_name,
+                trial_status: created.trial_status,
+                enrolled_by_vet_email: created.enrolled_by_vet_email,
+              }),
+            });
+            return [created];
+          }
           const newPatient = createLocalPatient(params as LocalPatientParams);
           await recordAudit({
             action: 'CREATE',
@@ -2387,6 +2507,51 @@ export function useMutateAction(actionName: ActionFactory | string) {
           if (!onlyLockChange) {
             assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
           }
+
+          // Supabase-backed path. Lock guard above still runs against the
+          // localStorage lock state because data_lock_status is not yet
+          // enforced server-side.
+          if (flags.patients && p?.patientId != null) {
+            const before = await supabasePatientsRepository.getById(p.patientId);
+            const updated = await supabasePatientsRepository.update({
+              patientId: p.patientId,
+              horseName: p.horseName as string | undefined,
+              age: p.age as number | undefined,
+              breed: p.breed as string | undefined,
+              weight: p.weight as number | undefined,
+              sex: p.sex as string | undefined,
+              ownerName: p.ownerName as string | undefined,
+              ownerContact: p.ownerContact as string | undefined,
+              trialStatus: p.trialStatus as string | undefined,
+              eligibilityVerified: p.eligibilityVerified as boolean | undefined,
+              consentDate: p.consentDate as string | null | undefined,
+              digitalPulse: p.digitalPulse as string | null | undefined,
+              hoofWallTemperature: p.hoofWallTemperature as string | null | undefined,
+              coronaryBandCondition: p.coronaryBandCondition as string | null | undefined,
+              hoofTesterResponse: p.hoofTesterResponse as string | null | undefined,
+              stance: p.stance as string | null | undefined,
+              gait: p.gait as string | null | undefined,
+              enrollmentHeartRate: p.enrollmentHeartRate as number | null | undefined,
+              enrollmentRespiratoryRate: p.enrollmentRespiratoryRate as number | null | undefined,
+              enrollmentTemperature: p.enrollmentTemperature as number | null | undefined,
+              bodyConditionScore: p.bodyConditionScore as number | null | undefined,
+              profilePictureUrl: p.profilePictureUrl as string | null | undefined,
+            });
+            const changedFields = Object.entries(p)
+              .filter(([k, v]) => k !== 'patientId' && k !== 'reasonForChange' && (before as unknown as Record<string, unknown>)?.[k] !== v);
+            await recordAudit({
+              action: 'UPDATE',
+              entityType: 'patient',
+              entityId: updated.id,
+              patientId: updated.id,
+              newValue: JSON.stringify(Object.fromEntries(changedFields)),
+              oldValue: JSON.stringify(before),
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              reasonForChange: (p as any)?.reasonForChange ?? null,
+            });
+            return [updated];
+          }
+
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (patient) {
@@ -2409,8 +2574,46 @@ export function useMutateAction(actionName: ActionFactory | string) {
         }
 
         if (name === 'updatePatientFlag') {
-          const p = params as { patientId?: number; flagName?: string; flagValue?: unknown; reasonForChange?: string | null } | undefined;
+          // Two payload shapes are accepted:
+          //   (a) { patientId, isFlagged, flagReason, flaggedBy } — used by
+          //       MasterTrialsTable / the action SQL. Operates on the
+          //       canonical is_flagged set of columns.
+          //   (b) { patientId, flagName, flagValue } — legacy generic shape
+          //       used by older tests. Sets an arbitrary boolean column on
+          //       the localStorage row. Not supported in the Supabase
+          //       branch.
+          const p = params as {
+            patientId?: number;
+            isFlagged?: boolean;
+            flagReason?: string | null;
+            flaggedBy?: string | null;
+            flagName?: string;
+            flagValue?: unknown;
+            reasonForChange?: string | null;
+          } | undefined;
           assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
+
+          if (flags.patients && p?.patientId != null && typeof p?.isFlagged === 'boolean') {
+            const before = await supabasePatientsRepository.getById(p.patientId);
+            const updated = await supabasePatientsRepository.updateFlag({
+              patientId: p.patientId,
+              isFlagged: p.isFlagged,
+              flagReason: p.flagReason ?? null,
+              flaggedBy: p.flaggedBy ?? null,
+            });
+            await recordAudit({
+              action: 'UPDATE',
+              entityType: 'patient',
+              entityId: updated.id,
+              patientId: updated.id,
+              fieldName: 'is_flagged',
+              oldValue: JSON.stringify(before?.is_flagged ?? null),
+              newValue: JSON.stringify(updated.is_flagged),
+              reasonForChange: p?.reasonForChange ?? null,
+            });
+            return [updated];
+          }
+
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (patient && p?.flagName) {
@@ -2507,6 +2710,39 @@ export function useMutateAction(actionName: ActionFactory | string) {
         // -------------------------------------------------------------------
         if (name === 'approvePatientScreening' || name === 'rejectPatientScreening' || name === 'requestPatientDetails') {
           const p = params as { patientId?: number; adminEmail?: string; notes?: string | null; messageToVet?: string | null; reasonForChange?: string | null } | undefined;
+          const newStatus = name === 'approvePatientScreening' ? 'approved' : name === 'rejectPatientScreening' ? 'rejected' : 'awaiting_details';
+          const newTrialStatus = name === 'approvePatientScreening' ? 'enrolled' : name === 'rejectPatientScreening' ? 'withdrawn' : 'screening';
+          const auditAction = name === 'approvePatientScreening' ? 'APPROVE' : name === 'rejectPatientScreening' ? 'REJECT' : 'UPDATE';
+
+          // Feature-flagged Supabase path. When VITE_USE_SUPABASE_PATIENTS is
+          // ON, the list reads from the real patients table, so the screening
+          // write MUST go to the same table — otherwise the status visible to
+          // the user never changes (Flow 3 root cause). RLS patients_update
+          // permits admin; a vet JWT is denied and the error surfaces.
+          if (flags.patients && p?.patientId != null) {
+            const before = await supabasePatientsRepository.getById(p.patientId);
+            const updated = await supabasePatientsRepository.updateScreening({
+              patientId: p.patientId,
+              screeningStatus: newStatus as 'approved' | 'rejected' | 'awaiting_details',
+              trialStatus: newTrialStatus as 'enrolled' | 'withdrawn' | 'screening',
+              notes: p?.notes ?? null,
+              adminEmail: (p?.adminEmail ?? '').toLowerCase(),
+            });
+            await recordAudit({
+              action: auditAction,
+              entityType: 'patient',
+              entityId: updated.id,
+              patientId: updated.id,
+              fieldName: 'screening_status',
+              oldValue: before
+                ? JSON.stringify({ screening_status: before.screening_status, trial_status: before.trial_status })
+                : null,
+              newValue: JSON.stringify({ screening_status: newStatus, trial_status: newTrialStatus, notes: p?.notes }),
+              reasonForChange: p?.reasonForChange ?? p?.notes ?? null,
+            });
+            return [updated];
+          }
+
           const patients = getPatients();
           const patient = patients.find((pt) => pt.id === p?.patientId);
           if (!patient) return [];
@@ -2514,8 +2750,6 @@ export function useMutateAction(actionName: ActionFactory | string) {
           const now = new Date().toISOString();
           const admin = p?.adminEmail ?? LOCAL_ADMIN.email;
           const actionName = name === 'approvePatientScreening' ? 'Admit' : name === 'rejectPatientScreening' ? 'Reject' : 'Awaiting Further Details';
-          const newStatus = name === 'approvePatientScreening' ? 'approved' : name === 'rejectPatientScreening' ? 'rejected' : 'awaiting_details';
-          const newTrialStatus = name === 'approvePatientScreening' ? 'enrolled' : name === 'rejectPatientScreening' ? 'withdrawn' : 'screening';
           const oldStatus = patient.screening_status;
           const oldTrialStatus = patient.trial_status;
 
@@ -2546,7 +2780,7 @@ export function useMutateAction(actionName: ActionFactory | string) {
 
           savePatients(patients);
           await recordAudit({
-            action: name === 'approvePatientScreening' ? 'APPROVE' : name === 'rejectPatientScreening' ? 'REJECT' : 'UPDATE',
+            action: auditAction,
             entityType: 'patient',
             entityId: patient.id,
             patientId: patient.id,
@@ -2614,6 +2848,38 @@ export function useMutateAction(actionName: ActionFactory | string) {
             reasonForChange?: string | null;
           };
           assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
+
+          // Supabase-backed path (VITE_USE_SUPABASE_CLINICAL_NOTES=true).
+          if (flags.clinicalNotes && p?.patientId != null) {
+            const inserted = await supabaseClinicalNotesRepository.create({
+              patientId: p.patientId,
+              veterinarianName: p.veterinarianName ?? 'Unknown',
+              noteType: p.noteType ?? 'observation',
+              noteContent: p.noteContent ?? '',
+              protocolHour: p.protocolHour ?? null,
+              videoUrl: p.videoUrl ?? null,
+              videoFileName: p.videoFileName ?? null,
+              videoUploadedAt: p.videoUploadedAt ?? null,
+              ocrDocumentUrl: p.ocrDocumentUrl ?? null,
+              ocrDocumentFileName: p.ocrDocumentFileName ?? null,
+              ocrDocumentMimeType: p.ocrDocumentMimeType ?? null,
+              ocrExtractedText: p.ocrExtractedText ?? null,
+              ocrProcessedAt: p.ocrProcessedAt ?? null,
+            });
+            await recordAudit({
+              action: 'CREATE',
+              entityType: 'clinical_note',
+              entityId: inserted.id,
+              patientId: inserted.patient_id,
+              newValue: JSON.stringify({
+                note_type: inserted.note_type,
+                note_content: inserted.note_content,
+                protocol_hour: inserted.protocol_hour,
+              }),
+            });
+            return [inserted];
+          }
+
           const notes = getNotes();
           const newNote: LocalNote = {
             id: notes.length > 0 ? Math.max(...notes.map((n) => n.id)) + 1 : 1,
@@ -2664,6 +2930,80 @@ export function useMutateAction(actionName: ActionFactory | string) {
           assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
           const patientId = p?.patientId ?? 0;
           const protocolHour = p?.protocolHour ?? null;
+
+          // Supabase-backed path (VITE_USE_SUPABASE_TREATMENTS=true).
+          // Two writes are performed sequentially (instead of the action's
+          // CTE) because PostgREST cannot express a single multi-table
+          // CTE INSERT/UPDATE: first the treatments row, then a
+          // best-effort patients.protocol_start_time update when this is
+          // an Hour-0 dose. The patient update relies on the patients RLS
+          // policy allowing the same vet to update their own row, which
+          // was verified in migration 1792000000.
+          if (flags.treatments && patientId > 0) {
+            const inserted = await supabaseTreatmentsRepository.create({
+              patientId,
+              administrationDatetime: p?.administrationDatetime ?? new Date().toISOString(),
+              dosageMg: Number(p?.dosageMg ?? 0),
+              route: p?.route ?? 'IV',
+              veterinarianName: p?.veterinarianName ?? 'Unknown',
+              batchNumber: p?.batchNumber ?? null,
+              immediateReactions: p?.immediateReactions ?? null,
+              notes: p?.notes ?? null,
+              protocolHour,
+              totalVolumeMl: p?.totalVolumeMl ?? null,
+            });
+
+            if (protocolHour === 0) {
+              // protocol_start_time is not in PatientUpdateInput because
+              // it isn't part of the patient enrollment form payload, so
+              // perform this one-column UPDATE inline via the supabase
+              // client. RLS allows the same vet (or admin) to update.
+              try {
+                const patient = await supabasePatientsRepository.getById(patientId);
+                if (patient && !patient.protocol_start_time) {
+                  const startTime = p?.administrationDatetime ?? new Date().toISOString();
+                  const { supabase } = await import('@/lib/supabase/client');
+                  const { error: psErr } = await supabase
+                    .from('patients')
+                    .update({ protocol_start_time: startTime })
+                    .eq('id', patientId);
+                  if (psErr) {
+                    console.error('[supabase treatments] failed to set protocol_start_time', psErr);
+                  } else {
+                    await recordAudit({
+                      action: 'UPDATE',
+                      entityType: 'patient',
+                      entityId: patientId,
+                      patientId,
+                      fieldName: 'protocol_start_time',
+                      oldValue: null,
+                      newValue: startTime,
+                      reasonForChange: 'First PTP-102 dose administered; 72-hour protocol clock started',
+                    });
+                  }
+                }
+              } catch (err) {
+                console.error('[supabase treatments] protocol_start_time guard failed', err);
+              }
+            }
+
+            await recordAudit({
+              action: 'CREATE',
+              entityType: 'treatment',
+              entityId: inserted.id,
+              patientId: inserted.patient_id,
+              newValue: JSON.stringify({
+                dosage_mg: inserted.dosage_mg,
+                route: inserted.route,
+                protocol_hour: inserted.protocol_hour,
+                administration_datetime: inserted.administration_datetime,
+                total_volume_ml: inserted.total_volume_ml,
+                batch_number: inserted.batch_number,
+              }),
+            });
+            return [inserted];
+          }
+
           const treatments = getTreatments();
           const newTreatment: LocalTreatment = {
             id: treatments.length > 0 ? Math.max(...treatments.map((t) => t.id)) + 1 : 1,
@@ -2747,6 +3087,39 @@ export function useMutateAction(actionName: ActionFactory | string) {
             reasonForChange?: string | null;
           };
           assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
+
+          // Supabase-backed path (VITE_USE_SUPABASE_CLINICAL_ASSESSMENTS=true).
+          if (flags.clinicalAssessments && p?.patientId != null) {
+            const inserted = await supabaseClinicalAssessmentsRepository.create({
+              patientId: p.patientId,
+              assessmentDatetime: p.assessmentDatetime ?? new Date().toISOString(),
+              veterinarianName: p.veterinarianName ?? 'Unknown',
+              protocolHour: p.protocolHour ?? null,
+              obelGrade: normalizeObelGrade(p.obelGrade),
+              painScore: p.painScore ?? null,
+              mobilityScore: p.mobilityScore ?? null,
+              digitalPulseScore: p.digitalPulseScore ?? null,
+              hoofTemperature: p.hoofTemperature ?? null,
+              heartRate: p.heartRate ?? null,
+              respiratoryRate: p.respiratoryRate ?? null,
+              temperature: p.temperature ?? null,
+              clinicalNotes: p.clinicalNotes ?? null,
+            });
+            await recordAudit({
+              action: 'CREATE',
+              entityType: 'clinical_assessment',
+              entityId: inserted.id,
+              patientId: inserted.patient_id,
+              newValue: JSON.stringify({
+                obel_grade: inserted.obel_grade,
+                pain_score: inserted.pain_score,
+                protocol_hour: inserted.protocol_hour,
+                assessment_datetime: inserted.assessment_datetime,
+              }),
+            });
+            return [inserted];
+          }
+
           const assessments = getAssessments();
           const newAssessment: LocalAssessment = {
             id: assessments.length > 0 ? Math.max(...assessments.map((a) => a.id)) + 1 : 1,
@@ -2809,6 +3182,47 @@ export function useMutateAction(actionName: ActionFactory | string) {
             reasonForChange?: string | null;
           };
           assertLockAllowsWrite(p?.patientId ?? null, { reasonForChange: p?.reasonForChange });
+
+          // Supabase-backed path (VITE_USE_SUPABASE_LAB_RESULTS=true).
+          if (flags.labResults && p?.patientId != null) {
+            const inserted = await supabaseLabResultsRepository.create({
+              patientId: p.patientId,
+              testDatetime: p.testDatetime ?? new Date().toISOString(),
+              protocolHour: p.protocolHour ?? null,
+              wbc: p.wbc ?? null,
+              rbc: p.rbc ?? null,
+              hemoglobin: p.hemoglobin ?? null,
+              hematocrit: p.hematocrit ?? null,
+              platelets: p.platelets ?? null,
+              glucose: p.glucose ?? null,
+              creatinine: p.creatinine ?? null,
+              bun: p.bun ?? null,
+              alt: p.alt ?? null,
+              ast: p.ast ?? null,
+              alkalinePhosphatase: p.alkalinePhosphatase ?? null,
+              totalProtein: p.totalProtein ?? null,
+              albumin: p.albumin ?? null,
+              serumAmyloidA: p.serumAmyloidA ?? null,
+              fibrinogen: p.fibrinogen ?? null,
+              lactate: p.lactate ?? null,
+              additionalNotes: p.additionalNotes ?? null,
+            });
+            await recordAudit({
+              action: 'CREATE',
+              entityType: 'lab_result',
+              entityId: inserted.id,
+              patientId: inserted.patient_id,
+              newValue: JSON.stringify({
+                protocol_hour: inserted.protocol_hour,
+                wbc: inserted.wbc,
+                serum_amyloid_a: inserted.serum_amyloid_a,
+                fibrinogen: inserted.fibrinogen,
+                test_datetime: inserted.test_datetime,
+              }),
+            });
+            return [inserted];
+          }
+
           const labResults = getLabResults();
           const newResult: LocalLabResult = {
             id: labResults.length > 0 ? Math.max(...labResults.map((l) => l.id)) + 1 : 1,

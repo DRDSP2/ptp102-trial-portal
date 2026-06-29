@@ -15,7 +15,7 @@ function sendEmailNotification() {
         template_id: 'template_notifications',
         user_id: 'YOUR_EMAILJS_PUBLIC_KEY',
         template_params: {
-          to_email: 'phyto2002@gmail.com',
+          to_email: 'drdsp@pm.me',
           subject: {{params.subject}},
           message: {{params.message}},
           activity_type: {{params.activityType}},

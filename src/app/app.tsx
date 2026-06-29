@@ -1,6 +1,8 @@
 import '@/index.css';
 
+import { useEffect } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { AuthSelectionPage } from '@/pages/AuthSelectionPage';
 import { VetLoginPage } from '@/pages/VetLoginPage';
@@ -12,11 +14,24 @@ import { DashboardPage } from '@/pages/DashboardPage';
 import { PatientCasePage } from '@/pages/PatientCasePage';
 import { AuditLogPage } from '@/pages/AuditLogPage';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
+import { AppShell } from '@/components/AppShell';
+import { Toaster } from '@/components/ui/sonner';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <AuthProvider>
-        <HashRouter>
+        <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<AuthSelectionPage />} />
             <Route path="/vet/login" element={<VetLoginPage />} />
@@ -28,7 +43,9 @@ function App() {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <AppShell>
+                    <DashboardPage />
+                  </AppShell>
                 </ProtectedRoute>
               }
             />
@@ -36,7 +53,9 @@ function App() {
               path="/patient/:patientId"
               element={
                 <ProtectedRoute>
-                  <PatientCasePage />
+                  <AppShell>
+                    <PatientCasePage />
+                  </AppShell>
                 </ProtectedRoute>
               }
             />
@@ -44,12 +63,15 @@ function App() {
               path="/admin/audit-log"
               element={
                 <ProtectedRoute>
-                  <AuditLogPage />
+                  <AppShell>
+                    <AuditLogPage />
+                  </AppShell>
                 </ProtectedRoute>
               }
             />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+          <Toaster />
         </HashRouter>
       </AuthProvider>
   );

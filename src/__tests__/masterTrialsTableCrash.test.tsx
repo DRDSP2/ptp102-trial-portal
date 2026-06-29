@@ -19,6 +19,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { AppShell } from '@/components/AppShell';
 import { seedAuth, clearAuthMocks } from './utils/supabaseMock';
 
 /**
@@ -109,7 +110,9 @@ describe('MasterTrialsTable — Trial Data tab does not crash on missing vet ema
     render(
       <MemoryRouter>
         <AuthProvider>
-          <DashboardPage />
+          <AppShell>
+            <DashboardPage />
+          </AppShell>
         </AuthProvider>
       </MemoryRouter>,
     );

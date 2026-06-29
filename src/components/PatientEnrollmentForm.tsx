@@ -145,8 +145,31 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
 
   const auth = useAuth();
 
+  const friendlyWriteError = (error: unknown, verb: 'create' | 'update'): string => {
+    const raw = error instanceof Error ? error.message : String(error ?? '');
+    const lower = raw.toLowerCase();
+    if (lower.includes('row-level security') || lower.includes('rls') || lower.includes('policy')) {
+      return 'Your session may have expired or you are not signed in. Please sign in again, then retry — only the signed-in vet (or an admin) can enroll a patient.';
+    }
+    if (lower.includes('jwt') || lower.includes('not authenticated') || lower.includes('unauthenticated')) {
+      return 'You are no longer signed in. Please sign in again and retry.';
+    }
+    if (lower.includes('network') || lower.includes('fetch') || lower.includes('failed to fetch')) {
+      return 'Network problem while saving the patient. Check your connection and try again.';
+    }
+    return raw || `Failed to ${verb} patient. Please try again.`;
+  };
+
   const onSubmit = async (values: z.infer<typeof patientSchema>) => {
     setSubmitError(null);
+
+    if (!isEditMode && !auth.email) {
+      setSubmitError(
+        'You must be signed in as a veterinarian to enroll a patient. Please sign in and try again.',
+      );
+      return;
+    }
+
     try {
       const patientPayload = {
         horseName: values.horseName,
@@ -171,7 +194,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
         enrollmentTemperature: values.enrollmentTemperature ? parseFloat(values.enrollmentTemperature) : null,
         bodyConditionScore: values.bodyConditionScore ? parseFloat(values.bodyConditionScore) : null,
         profilePictureUrl: values.profilePictureUrl || null,
-        enrolledByVetEmail: auth.email ?? null,
+        enrolledByVetEmail: auth.email ? auth.email.toLowerCase().trim() : null,
       };
 
       if (isEditMode && patient) {
@@ -199,7 +222,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
       onSuccess();
     } catch (error) {
       console.error(`Failed to ${isEditMode ? 'update' : 'create'} patient:`, error);
-      setSubmitError(error instanceof Error ? error.message : `Failed to ${isEditMode ? 'update' : 'create'} patient. Please try again.`);
+      setSubmitError(friendlyWriteError(error, isEditMode ? 'update' : 'create'));
     }
   };
 
@@ -229,7 +252,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                       />
                     ) : (
                       <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
-                        <Loader2 className="h-8 w-8 text-slate-400 animate-spin" />
+                        <Loader2 className="h-8 w-8 text-slate-500 animate-spin" />
                       </div>
                     )}
                     <Button
@@ -244,7 +267,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                   </div>
                 ) : (
                   <div className="w-32 h-32 rounded-full bg-slate-200 flex items-center justify-center border-4 border-white shadow-lg">
-                    <svg className="h-16 w-16 text-slate-400" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-16 w-16 text-slate-500" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/>
                     </svg>
                   </div>
@@ -484,8 +507,8 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="faint">Faint / Barely palpable (Normal)</SelectItem>
-                        <SelectItem value="bounding">🔴 Bounding / Strong (Laminitis)</SelectItem>
-                        <SelectItem value="bilateral_bounding">🔴 Bilateral bounding in forelimbs (Laminitis)</SelectItem>
+                        <SelectItem value="bounding">Bounding / Strong (Laminitis)</SelectItem>
+                        <SelectItem value="bilateral_bounding">Bilateral bounding in forelimbs (Laminitis)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">Normal: Faint or barely palpable</FormDescription>
@@ -508,8 +531,8 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="cool_to_warm">Cool to slightly warm (Normal)</SelectItem>
-                        <SelectItem value="warm">🔴 Noticeably warm (Laminitis)</SelectItem>
-                        <SelectItem value="hot_coronary">🔴 Hot at coronary band (Laminitis)</SelectItem>
+                        <SelectItem value="warm">Noticeably warm (Laminitis)</SelectItem>
+                        <SelectItem value="hot_coronary">Hot at coronary band (Laminitis)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">Normal: Cool to slightly warm</FormDescription>
@@ -532,9 +555,9 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="smooth">Smooth contour (Normal)</SelectItem>
-                        <SelectItem value="swelling">🔴 Swelling (Laminitis)</SelectItem>
-                        <SelectItem value="tenderness">🔴 Tenderness (Laminitis)</SelectItem>
-                        <SelectItem value="depression">🔴 Palpable depression (Laminitis)</SelectItem>
+                        <SelectItem value="swelling">Swelling (Laminitis)</SelectItem>
+                        <SelectItem value="tenderness">Tenderness (Laminitis)</SelectItem>
+                        <SelectItem value="depression">Palpable depression (Laminitis)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">Normal: Smooth contour</FormDescription>
@@ -557,8 +580,8 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="no_response">No response (Normal)</SelectItem>
-                        <SelectItem value="toe_positive">🔴 Positive at toe region (Laminitis)</SelectItem>
-                        <SelectItem value="dorsal_toe_positive">🔴 Positive at dorsal toe (Laminitis)</SelectItem>
+                        <SelectItem value="toe_positive">Positive at toe region (Laminitis)</SelectItem>
+                        <SelectItem value="dorsal_toe_positive">Positive at dorsal toe (Laminitis)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">Normal: No response</FormDescription>
@@ -581,8 +604,8 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="normal">Normal weight-bearing (Normal)</SelectItem>
-                        <SelectItem value="sawhorse">🔴 Sawhorse stance (Laminitis)</SelectItem>
-                        <SelectItem value="forelimbs_forward">🔴 Forelimbs stretched forward (Laminitis)</SelectItem>
+                        <SelectItem value="sawhorse">Sawhorse stance (Laminitis)</SelectItem>
+                        <SelectItem value="forelimbs_forward">Forelimbs stretched forward (Laminitis)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">Normal: Normal weight-bearing</FormDescription>
@@ -605,9 +628,9 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="normal">Normal (Normal)</SelectItem>
-                        <SelectItem value="short_stilted">🔴 Short / Stilted (Laminitis)</SelectItem>
-                        <SelectItem value="reluctant">🔴 Reluctant to move (Laminitis)</SelectItem>
-                        <SelectItem value="worse_hard_ground">🔴 Worse on hard ground (Laminitis)</SelectItem>
+                        <SelectItem value="short_stilted">Short / Stilted (Laminitis)</SelectItem>
+                        <SelectItem value="reluctant">Reluctant to move (Laminitis)</SelectItem>
+                        <SelectItem value="worse_hard_ground">Worse on hard ground (Laminitis)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription className="text-xs">Normal: Normal gait</FormDescription>
@@ -625,7 +648,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                     <FormControl>
                       <Input type="number" placeholder="28-44 normal" {...field} />
                     </FormControl>
-                    <FormDescription className="text-xs">Normal: 28-44 bpm; 🔴 Laminitis: ≥60 bpm</FormDescription>
+                    <FormDescription className="text-xs">Normal: 28-44 bpm; Laminitis: ≥60 bpm</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -670,7 +693,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
                     <FormControl>
                       <Input type="number" step="0.1" placeholder="1-9 scale" {...field} />
                     </FormControl>
-                    <FormDescription className="text-xs">Normal: 4-6/9 ideal; 🔴 Risk: ≥7/9</FormDescription>
+                    <FormDescription className="text-xs">Normal: 4-6/9 ideal; Risk: ≥7/9</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -680,7 +703,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
         </Tabs>
 
         {submitError && (
-          <Alert variant="destructive">
+          <Alert variant="destructive" role="alert" aria-live="polite">
             <AlertDescription>{submitError}</AlertDescription>
           </Alert>
         )}

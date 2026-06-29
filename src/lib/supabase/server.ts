@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import type { Database } from '@/types/db';
 
 export function createServiceClient() {
   const supabaseUrl =
@@ -12,7 +13,7 @@ export function createServiceClient() {
     );
   }
 
-  return createClient(supabaseUrl, serviceRoleKey, {
+  return createClient<Database>(supabaseUrl, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,

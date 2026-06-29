@@ -25,13 +25,25 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
   const [showReject, setShowReject] = useState(false);
   const [showAwaiting, setShowAwaiting] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
+  const [actionError, setActionError] = useState<string | null>(null);
   const [approvePatient, isApproving] = useMutateAction(approvePatientScreeningAction);
   const [rejectPatient, isRejecting] = useMutateAction(rejectPatientScreeningAction);
   const [requestDetails, isRequesting] = useMutateAction(requestPatientDetailsAction);
 
-
+  const friendlyScreeningError = (error: unknown, verb: string): string => {
+    const raw = error instanceof Error ? error.message : String(error ?? '');
+    const lower = raw.toLowerCase();
+    if (lower.includes('row-level security') || lower.includes('rls') || lower.includes('policy')) {
+      return `Permission denied — only an admin can ${verb} a patient. Sign in as an admin and retry.`;
+    }
+    if (lower.includes('jwt') || lower.includes('not authenticated')) {
+      return 'Your admin session has expired. Please sign in again and retry.';
+    }
+    return raw || `Failed to ${verb} patient. Please try again.`;
+  };
 
   const handleApprove = async () => {
+    setActionError(null);
     try {
       await approvePatient({
         patientId: patient.id,
@@ -43,12 +55,14 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
       onUpdate();
     } catch (error) {
       console.error('Failed to approve patient:', error);
+      setActionError(friendlyScreeningError(error, 'approve'));
     }
   };
 
   const handleReject = async () => {
+    setActionError(null);
     if (!notes.trim()) {
-      alert('Please provide rejection notes');
+      setActionError('Please provide rejection notes before confirming.');
       return;
     }
     try {
@@ -62,12 +76,14 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
       onUpdate();
     } catch (error) {
       console.error('Failed to reject patient:', error);
+      setActionError(friendlyScreeningError(error, 'reject'));
     }
   };
 
   const handleAwaitingDetails = async () => {
+    setActionError(null);
     if (!notes.trim()) {
-      alert('Please describe what details are missing');
+      setActionError('Please describe what details are missing.');
       return;
     }
     try {
@@ -82,6 +98,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
       onUpdate();
     } catch (error) {
       console.error('Failed to request details:', error);
+      setActionError(friendlyScreeningError(error, 'request details for'));
     }
   };
 
@@ -243,6 +260,12 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
             This patient is pending admin screening. Review all fields and attachments, then choose an action.
           </AlertDescription>
         </Alert>
+
+        {actionError && (
+          <Alert variant="destructive">
+            <AlertDescription>{actionError}</AlertDescription>
+          </Alert>
+        )}
 
         {showDetails && (
           <div className="bg-white p-4 rounded-lg border border-orange-200 space-y-4">
