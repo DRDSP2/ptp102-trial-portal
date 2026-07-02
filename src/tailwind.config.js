@@ -222,5 +222,12 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('daisyui')],
+  daisyui: {
+    themes: ['corporate', 'dark'],
+    base: false,
+    styled: true,
+    utils: true,
+    logs: false,
+  },
 };

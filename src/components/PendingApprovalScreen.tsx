@@ -44,17 +44,17 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-300 flex flex-col items-center justify-center p-4">
       <div className="mb-6">
         <ByrockLogo variant="full" height={60} />
       </div>
       <Card data-testid="vet-pending-approval" className="max-w-md w-full shadow-xl">
-        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
+        <CardHeader className="bg-neutral text-neutral-content rounded-t-lg">
           <div className="flex items-center gap-3">
             <Clock className="h-8 w-8 text-yellow-400" />
             <div>
               <CardTitle className="text-2xl">Pending Approval</CardTitle>
-              <p className="text-slate-300 text-sm mt-1">PTP-102 Trial Access</p>
+              <p className="text-neutral-content/60 text-sm mt-1">PTP-102 Trial Access</p>
             </div>
           </div>
         </CardHeader>
@@ -73,18 +73,18 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-base-200 rounded-lg">
               <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-slate-600" />
-                <span className="text-sm font-medium text-slate-700">Account Email</span>
+                <Mail className="h-4 w-4 text-base-content/60" />
+                <span className="text-sm font-medium text-base-content/80">Account Email</span>
               </div>
               <Badge variant="outline" className="font-mono text-xs">{email}</Badge>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+            <div className="flex items-center justify-between p-3 bg-base-200 rounded-lg">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-green-600" />
-                <span className="text-sm font-medium text-slate-700">Status</span>
+                <span className="text-sm font-medium text-base-content/80">Status</span>
               </div>
               <Badge
                 className={

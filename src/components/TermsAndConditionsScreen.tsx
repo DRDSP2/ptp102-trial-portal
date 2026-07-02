@@ -222,7 +222,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
   const hasErrors = Object.keys(formErrors).length > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-300 flex flex-col items-center justify-center p-4">
       <div className="hidden print:block w-full max-w-4xl">
         <PrintConsent values={form.getValues()} printedAt={consentPrintedAt} />
       </div>
@@ -231,12 +231,12 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
           <ByrockLogo variant="full" height={48} />
         </div>
         <Card className="max-w-4xl w-full shadow-xl">
-        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
+        <CardHeader className="bg-neutral text-neutral-content rounded-t-lg">
           <div className="flex items-center gap-3">
             <AlertTriangle className="h-8 w-8 text-yellow-400" />
             <div>
               <CardTitle className="text-2xl">PTP-102 Laminitis Trial - Terms & Conditions</CardTitle>
-              <p className="text-slate-300 text-sm mt-1">Investigational Drug Use Agreement</p>
+              <p className="text-neutral-content/60 text-sm mt-1">Investigational Drug Use Agreement</p>
             </div>
           </div>
         </CardHeader>
@@ -277,11 +277,11 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
             </Alert>
           )}
 
-          <ScrollArea className="h-64 border rounded-lg p-4 bg-white">
+          <ScrollArea className="h-64 border rounded-lg p-4 bg-base-100">
             <div className="space-y-4 text-sm">
               <section>
                 <h4 className="font-semibold text-base mb-2">1. INVESTIGATIONAL STATUS</h4>
-                <p className="text-slate-700">
+                <p className="text-base-content/80">
                   PTP-102 is an investigational veterinary pharmaceutical product currently under clinical evaluation. This drug has not been approved by the FDA,
                   USDA, or any other regulatory authority for veterinary use. The safety and efficacy profiles are still being established through controlled
                   clinical trials.
@@ -290,10 +290,10 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
 
               <section>
                 <h4 className="font-semibold text-base mb-2">2. RISK ACKNOWLEDGMENT</h4>
-                <p className="text-slate-700">
+                <p className="text-base-content/80">
                   As the treating veterinarian, you acknowledge that administration of PTP-102 carries inherent risks including, but not limited to:
                 </p>
-                <ul className="list-disc list-inside ml-4 mt-2 space-y-1 text-slate-700">
+                <ul className="list-disc list-inside ml-4 mt-2 space-y-1 text-base-content/80">
                   <li>Unknown adverse reactions or side effects</li>
                   <li>Drug interactions with concurrent medications</li>
                   <li>Potential lack of therapeutic efficacy</li>
@@ -304,7 +304,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
 
               <section>
                 <h4 className="font-semibold text-base mb-2">3. TOXICITY RESEARCH</h4>
-                <p className="text-slate-700">
+                <p className="text-base-content/80">
                   While robust toxicity research has been conducted in humans demonstrating excellent tolerance, species-specific responses in equines may differ.
                   The available safety data cannot guarantee the absence of adverse effects in horses with laminitis.
                 </p>
@@ -312,10 +312,10 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
 
               <section>
                 <h4 className="font-semibold text-base mb-2">4. LIABILITY</h4>
-                <p className="text-slate-700">
+                <p className="text-base-content/80">
                   By accepting these terms, you acknowledge that:
                 </p>
-                <ul className="list-disc list-inside ml-4 mt-2 space-y-1 text-slate-700">
+                <ul className="list-disc list-inside ml-4 mt-2 space-y-1 text-base-content/80">
                   <li>You assume full professional liability for the administration of PTP-102</li>
                   <li>You will obtain informed consent from horse owners prior to enrollment</li>
                   <li>You will immediately report any adverse events or unexpected outcomes</li>
@@ -326,7 +326,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
 
               <section>
                 <h4 className="font-semibold text-base mb-2">5. PROTOCOL COMPLIANCE</h4>
-                <p className="text-slate-700">
+                <p className="text-base-content/80">
                   You agree to follow all trial protocols, maintain accurate records, report data truthfully, and participate in any required safety monitoring or
                   follow-up assessments.
                 </p>
@@ -334,7 +334,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
 
               <section>
                 <h4 className="font-semibold text-base mb-2">6. DATA USE</h4>
-                <p className="text-slate-700">
+                <p className="text-base-content/80">
                   Clinical data collected during this trial may be used for regulatory submissions, scientific publications, and continuing research. Patient
                   identifiers will be protected in accordance with applicable privacy regulations.
                 </p>
@@ -402,9 +402,9 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                             {passwordChecks.length ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
-                            <span className={passwordChecks.length ? 'text-green-600' : 'text-slate-500'}>
+                            <span className={passwordChecks.length ? 'text-green-600' : 'text-base-content/50'}>
                               At least 10 characters
                             </span>
                           </div>
@@ -412,9 +412,9 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                             {passwordChecks.uppercase ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
-                            <span className={passwordChecks.uppercase ? 'text-green-600' : 'text-slate-500'}>
+                            <span className={passwordChecks.uppercase ? 'text-green-600' : 'text-base-content/50'}>
                               Uppercase letter
                             </span>
                           </div>
@@ -422,9 +422,9 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                             {passwordChecks.lowercase ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
-                            <span className={passwordChecks.lowercase ? 'text-green-600' : 'text-slate-500'}>
+                            <span className={passwordChecks.lowercase ? 'text-green-600' : 'text-base-content/50'}>
                               Lowercase letter
                             </span>
                           </div>
@@ -432,9 +432,9 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                             {passwordChecks.number ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
-                            <span className={passwordChecks.number ? 'text-green-600' : 'text-slate-500'}>
+                            <span className={passwordChecks.number ? 'text-green-600' : 'text-base-content/50'}>
                               Number
                             </span>
                           </div>
@@ -493,14 +493,14 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                 />
               </div>
 
-              <div className="space-y-4 border-t pt-4 bg-slate-50 p-4 rounded-lg">
-                <p className="text-sm font-semibold text-slate-700 mb-3">Required Acknowledgments *</p>
+              <div className="space-y-4 border-t pt-4 bg-base-200 p-4 rounded-lg">
+                <p className="text-sm font-semibold text-base-content/80 mb-3">Required Acknowledgments *</p>
                 
                 <FormField
                   control={form.control}
                   name="investigationalAcknowledged"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-base-100">
                       <FormControl>
                         <Checkbox data-testid="vet-registration-investigational-acknowledged" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
@@ -521,7 +521,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   control={form.control}
                   name="riskAccepted"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-base-100">
                       <FormControl>
                         <Checkbox data-testid="vet-registration-risk-accepted" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
@@ -542,7 +542,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   control={form.control}
                   name="liabilityAcknowledged"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-base-100">
                       <FormControl>
                         <Checkbox data-testid="vet-registration-liability-acknowledged" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
@@ -563,7 +563,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                   control={form.control}
                   name="noConflictOfInterest"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-white">
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-3 border rounded-lg bg-base-100">
                       <FormControl>
                         <Checkbox data-testid="vet-registration-no-conflict-of-interest" checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>

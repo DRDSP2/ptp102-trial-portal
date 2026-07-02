@@ -67,6 +67,7 @@
     "@vercel/node": "^5.8.17",
     "@vitejs/plugin-react": "^4.5.0",
     "autoprefixer": "10.4.20",
+    "daisyui": "^4.12.24",
     "dotenv": "^17.4.2",
     "eslint": "9.11.1",
     "eslint-plugin-react-hooks": "5.1.0-rc.0",

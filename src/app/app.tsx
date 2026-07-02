@@ -29,7 +29,8 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <AuthProvider>
+    <div data-theme="corporate">
+      <AuthProvider>
         <HashRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <ScrollToTop />
           <Routes>
@@ -74,6 +75,7 @@ function App() {
           <Toaster />
         </HashRouter>
       </AuthProvider>
+    </div>
   );
 }
 

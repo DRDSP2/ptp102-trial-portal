@@ -63,17 +63,17 @@ export function PasswordResetRequestScreen({ onBackToLogin, onResetRequested }: 
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-300 flex flex-col items-center justify-center p-4">
       <div className="mb-6">
         <ByrockLogo variant="full" height={60} />
       </div>
       <Card className="max-w-md w-full shadow-xl">
-        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
+        <CardHeader className="bg-neutral text-neutral-content rounded-t-lg">
           <div className="flex items-center gap-3">
             <KeyRound className="h-8 w-8 text-blue-400" />
             <div>
               <CardTitle className="text-2xl">Reset Password</CardTitle>
-              <p className="text-slate-300 text-sm mt-1">Request password reset</p>
+              <p className="text-neutral-content/60 text-sm mt-1">Request password reset</p>
             </div>
           </div>
         </CardHeader>
@@ -87,7 +87,7 @@ export function PasswordResetRequestScreen({ onBackToLogin, onResetRequested }: 
             </Alert>
           ) : (
             <>
-              <p className="text-sm text-slate-600">
+              <p className="text-sm text-base-content/60">
                 Enter your email address and we'll help you reset your password.
               </p>
 

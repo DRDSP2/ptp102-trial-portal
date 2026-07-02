@@ -58,17 +58,17 @@ export function AdminLoginScreen({ onSuccess, onBackToAccessSelection }: AdminLo
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-300 flex flex-col items-center justify-center p-4">
       <div className="mb-6">
         <ByrockLogo variant="full" height={60} />
       </div>
       <Card className="max-w-md w-full shadow-xl">
-        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
+        <CardHeader className="bg-neutral text-neutral-content rounded-t-lg">
           <div className="flex items-center gap-3">
             <Shield className="h-8 w-8 text-blue-400" />
             <div>
               <CardTitle className="text-2xl">Admin Access</CardTitle>
-              <p className="text-slate-300 text-sm mt-1">PTP-102 Trial Management</p>
+              <p className="text-neutral-content/60 text-sm mt-1">PTP-102 Trial Management</p>
             </div>
           </div>
         </CardHeader>

@@ -77,17 +77,17 @@ export function PasswordResetScreen({ resetToken, onSuccess }: PasswordResetScre
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-base-200 to-base-300 flex flex-col items-center justify-center p-4">
       <div className="mb-6">
         <ByrockLogo variant="full" height={60} />
       </div>
       <Card className="max-w-md w-full shadow-xl">
-        <CardHeader className="bg-slate-900 text-white rounded-t-lg">
+        <CardHeader className="bg-neutral text-neutral-content rounded-t-lg">
           <div className="flex items-center gap-3">
             <Lock className="h-8 w-8 text-blue-400" />
             <div>
               <CardTitle className="text-2xl">Set New Password</CardTitle>
-              <p className="text-slate-300 text-sm mt-1">Create a secure password</p>
+              <p className="text-neutral-content/60 text-sm mt-1">Create a secure password</p>
             </div>
           </div>
         </CardHeader>
@@ -117,7 +117,7 @@ export function PasswordResetScreen({ resetToken, onSuccess }: PasswordResetScre
                             {passwordChecks.length ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
                             <span className={passwordChecks.length ? 'text-green-600' : 'text-slate-500'}>
                               At least 10 characters
@@ -127,7 +127,7 @@ export function PasswordResetScreen({ resetToken, onSuccess }: PasswordResetScre
                             {passwordChecks.uppercase ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
                             <span className={passwordChecks.uppercase ? 'text-green-600' : 'text-slate-500'}>
                               Uppercase letter
@@ -137,7 +137,7 @@ export function PasswordResetScreen({ resetToken, onSuccess }: PasswordResetScre
                             {passwordChecks.lowercase ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
                             <span className={passwordChecks.lowercase ? 'text-green-600' : 'text-slate-500'}>
                               Lowercase letter
@@ -147,7 +147,7 @@ export function PasswordResetScreen({ resetToken, onSuccess }: PasswordResetScre
                             {passwordChecks.number ? (
                               <Check className="h-3 w-3 text-green-600" />
                             ) : (
-                              <X className="h-3 w-3 text-slate-400" />
+                              <X className="h-3 w-3 text-base-content/40" />
                             )}
                             <span className={passwordChecks.number ? 'text-green-600' : 'text-slate-500'}>
                               Number

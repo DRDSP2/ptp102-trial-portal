@@ -38,7 +38,7 @@ export function AppShell({ children }: AppShellProps) {
   const showBreadcrumb = !isDashboard;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-base-200">
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
@@ -48,13 +48,13 @@ export function AppShell({ children }: AppShellProps) {
 
       <RegulatoryBanner />
 
-      <header className="bg-white border-b border-slate-200 px-6 py-4">
+      <header className="bg-base-100 border-b border-base-300 px-6 py-4">
         <div className="container mx-auto max-w-7xl flex items-center justify-between">
           <div className="flex items-center gap-4">
             <ByrockLogo variant="icon" height={32} />
             <div>
-              <p className="text-sm font-medium text-slate-900">PTP-102 Laminitis Trial</p>
-              <p className="text-xs text-slate-500">{userEmail}</p>
+              <p className="text-sm font-medium text-base-content">PTP-102 Laminitis Trial</p>
+              <p className="text-xs text-base-content/60">{userEmail}</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -72,7 +72,7 @@ export function AppShell({ children }: AppShellProps) {
       </header>
 
       {showBreadcrumb && (
-        <div className="bg-white border-b border-slate-100 px-6 py-2">
+        <div className="bg-base-100 border-b border-base-200 px-6 py-2">
           <div className="container mx-auto max-w-7xl">
             <Breadcrumb>
               <BreadcrumbList>

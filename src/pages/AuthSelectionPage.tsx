@@ -9,7 +9,7 @@ export function AuthSelectionPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-base-200">
       {/* Top Logo Bar */}
       <div className="bg-black py-4 px-4 flex justify-center">
         <ByrockLogo variant="icon" height={32} />
@@ -23,12 +23,12 @@ export function AuthSelectionPage() {
         <div className="mb-4">
           <ByrockLogo variant="full" height={60} />
         </div>
-        <Card className="max-w-md mx-auto shadow-xl border border-slate-200 w-full">
-          <CardHeader className="bg-slate-900 text-white rounded-t-lg">
+        <Card className="max-w-md mx-auto shadow-xl border border-base-300 w-full">
+          <CardHeader className="bg-neutral text-neutral-content rounded-t-lg">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-xl">PTP-102 Trial Portal</CardTitle>
-                <p className="text-slate-300 text-sm mt-1">Select access type to continue</p>
+                <p className="text-base-content/60 text-sm mt-1">Select access type to continue</p>
               </div>
               <ByrockLogo variant="icon" height={32} />
             </div>
@@ -47,7 +47,7 @@ export function AuthSelectionPage() {
       </div>
 
       {/* Footer */}
-      <footer className="text-center py-6 text-slate-400 text-sm">
+      <footer className="text-center py-6 text-base-content/50 text-sm">
         <p>Byrock Technologies Ltd. — Redefining Equine Health</p>
         <p className="mt-1 text-xs">PTP-102 is an investigational new animal drug (INAD) under FDA CVM review.</p>
       </footer>
