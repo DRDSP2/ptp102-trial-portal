@@ -79,8 +79,9 @@ describe('CapTableViewer', () => {
     );
     await waitFor(() => expect(screen.getByText('Cap Table')).toBeInTheDocument());
 
-    expect(screen.getByText('Show Full')).toBeInTheDocument();
-    await userEvent.click(screen.getByText('Show Full'));
+    const showFullButton = screen.getByRole('button', { name: /show full/i });
+    expect(showFullButton).toBeInTheDocument();
+    await userEvent.click(showFullButton);
 
     await waitFor(() => {
       expect(screen.getByText('Full Investor View')).toBeInTheDocument();
