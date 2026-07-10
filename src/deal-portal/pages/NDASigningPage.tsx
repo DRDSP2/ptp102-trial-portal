@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm, type Resolver } from 'react-hook-form';
+import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/context/AuthContext';
@@ -155,8 +155,7 @@ export function NDASigningPage() {
     mode: 'onChange',
   });
 
-  const watchedValues = form.watch();
-  const hasAffiliates = watchedValues.hasAffiliates;
+  const hasAffiliates = useWatch({ control: form.control, name: 'hasAffiliates', defaultValue: false });
 
   const goToStep = async (target: 1 | 2 | 3 | 4) => {
     setError(null);
@@ -183,7 +182,7 @@ export function NDASigningPage() {
         setError('Please complete all required fields before continuing.');
         return;
       }
-      if (step === 1 && hasAffiliates && !watchedValues.affiliateNames) {
+      if (step === 1 && hasAffiliates && !form.getValues('affiliateNames')) {
         setError('Please list affiliate names or uncheck the affiliates box.');
         return;
       }
@@ -376,7 +375,7 @@ The parties agree that this Agreement may be executed by electronic signature, w
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Entity Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select entity type" />
@@ -503,7 +502,7 @@ The parties agree that this Agreement may be executed by electronic signature, w
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Estimated Number of Representatives</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Select range" />
@@ -621,12 +620,19 @@ The parties agree that this Agreement may be executed by electronic signature, w
               {step === 4 && (
                 <div className="space-y-6">
                   <div className="rounded border bg-slate-50 p-4 text-sm space-y-1">
-                    <p><strong>Counterparty:</strong> {watchedValues.companyName}</p>
-                    <p><strong>Entity Type:</strong> {watchedValues.counterpartyEntityType}</p>
-                    <p><strong>Jurisdiction:</strong> {watchedValues.counterpartyJurisdiction}</p>
-                    <p><strong>Contact:</strong> {watchedValues.counterpartyContactName}, {watchedValues.counterpartyContactTitle}</p>
-                    <p><strong>Project:</strong> {watchedValues.projectPurpose}</p>
-                    <p><strong>Regions:</strong> {watchedValues.projectRegions?.map((r) => REGIONS.find((x) => x.value === r)?.label || r).join(', ')}</p>
+                    {(() => {
+                      const values = form.getValues();
+                      return (
+                        <>
+                          <p><strong>Counterparty:</strong> {values.companyName}</p>
+                          <p><strong>Entity Type:</strong> {values.counterpartyEntityType}</p>
+                          <p><strong>Jurisdiction:</strong> {values.counterpartyJurisdiction}</p>
+                          <p><strong>Contact:</strong> {values.counterpartyContactName}, {values.counterpartyContactTitle}</p>
+                          <p><strong>Project:</strong> {values.projectPurpose}</p>
+                          <p><strong>Regions:</strong> {values.projectRegions?.map((r) => REGIONS.find((x) => x.value === r)?.label || r).join(', ')}</p>
+                        </>
+                      );
+                    })()}
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
