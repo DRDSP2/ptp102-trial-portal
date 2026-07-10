@@ -26,3 +26,12 @@ if (typeof globalThis.DOMMatrix === 'undefined') {
   }
   globalThis.DOMMatrix = DOMMatrixStub as unknown as typeof DOMMatrix;
 }
+
+// Radix UI primitives (Select, Popover, etc.) use ResizeObserver in jsdom.
+if (typeof globalThis.ResizeObserver === 'undefined') {
+  globalThis.ResizeObserver = class ResizeObserverStub {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+}

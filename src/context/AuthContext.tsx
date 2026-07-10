@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState, useCallback, type ReactNode } from 'react';
-import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js';
+import type { AuthChangeEvent, Session, User, SupabaseClient } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
 import { recordLoginAudit, recordLogoutAudit, setCurrentAuditUser, clearCurrentAuditUser } from '@/lib/uibakeryDataMock';
+import type { DealProfile, DealTier } from '@/types/roles';
 
 type AuthRole = 'vet' | 'admin' | null;
 
@@ -17,6 +18,8 @@ type AuthState = {
 type SessionScope = 'admin' | 'vet' | null;
 
 type AuthContextType = AuthState & {
+  user: User | null;
+  loading: boolean;
   loginVet: (email: string, password?: string) => Promise<void>;
   requestVetApproval: (email: string) => void;
   approveVet: () => void;
@@ -25,6 +28,15 @@ type AuthContextType = AuthState & {
   logout: () => Promise<void>;
   sessionScope: SessionScope;
   setSessionScope: (scope: SessionScope) => void;
+  // Deal portal
+  dealProfile: DealProfile | null;
+  dealTier: DealTier;
+  isInvestor: boolean;
+  isLicensee: boolean;
+  hasDealAccess: (minimumTier: DealTier) => boolean;
+  refreshDealProfile: () => Promise<void>;
+  // Exposed for hooks/components that need the injected client in tests
+  client: SupabaseClient;
 };
 
 const emptyState: AuthState = {
@@ -64,16 +76,24 @@ function setStoredSessionScope(scope: SessionScope) {
   }
 }
 
-export function AuthProvider({ children }: { children: ReactNode }) {
+export function AuthProvider({
+  children,
+  overrideClient,
+}: {
+  children: ReactNode;
+  overrideClient?: SupabaseClient;
+}) {
+  const client = overrideClient ?? supabase;
   const [state, setState] = useState<AuthState>(emptyState);
   const [sessionScope, setSessionScopeState] = useState<SessionScope>(getStoredSessionScope);
+  const [dealProfile, setDealProfile] = useState<DealProfile | null>(null);
 
   useEffect(() => {
     let mounted = true;
 
     async function hydrate() {
       try {
-        const { data, error } = await supabase.auth.getSession();
+        const { data, error } = await client.auth.getSession();
         if (error || !data.session) {
           if (mounted) setState({ ...emptyState, isLoading: false });
           return;
@@ -91,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (role === 'vet' && email) {
           try {
-            const { data: vet } = await supabase
+            const { data: vet } = await client
               .from('veterinarians')
               .select('tc_accepted, verification_status')
               .eq('email', email)
@@ -128,7 +148,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event: AuthChangeEvent, session: Session | null) => {
+    } = client.auth.onAuthStateChange(async (_event: AuthChangeEvent, session: Session | null) => {
       if (!session) {
         if (mounted) setState({ ...emptyState, isLoading: false });
         return;
@@ -146,7 +166,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (role === 'vet' && email) {
         try {
-          const { data: vet } = await supabase
+          const { data: vet } = await client
             .from('veterinarians')
             .select('tc_accepted, verification_status')
             .eq('email', email)
@@ -181,17 +201,67 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setStoredSessionScope(scope);
   }, []);
 
+  const fetchDealProfile = useCallback(
+    async (userId: string) => {
+      const { data, error } = await client
+        .from('deal_profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle();
+      if (error) {
+        console.error('fetchDealProfile error:', error);
+      }
+      setDealProfile((data as DealProfile | null) || null);
+    },
+    [client],
+  );
+
+  useEffect(() => {
+    if (state.user) {
+      fetchDealProfile(state.user.id);
+    } else {
+      setDealProfile(null);
+    }
+  }, [state.user, fetchDealProfile]);
+
+  const dealTier = dealProfile?.tier || 'none';
+  const isInvestor = dealProfile?.role === 'investor';
+  const isLicensee = dealProfile?.role?.startsWith('licensee_') || false;
+
+  const hasDealAccess = useCallback(
+    (minimumTier: DealTier): boolean => {
+      const tiers: DealTier[] = ['none', 'evaluation', 'diligence', 'exclusive'];
+      return tiers.indexOf(dealTier) >= tiers.indexOf(minimumTier);
+    },
+    [dealTier],
+  );
+
+  const refreshDealProfile = useCallback(async () => {
+    if (state.user) {
+      await fetchDealProfile(state.user.id);
+    }
+  }, [state.user, fetchDealProfile]);
+
   const value = useMemo<AuthContextType>(
     () => ({
       ...state,
+      user: state.user,
+      loading: state.isLoading,
       sessionScope,
       setSessionScope,
+      dealProfile,
+      dealTier,
+      isInvestor,
+      isLicensee,
+      hasDealAccess,
+      refreshDealProfile,
+      client,
       loginVet: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
         setStoredSessionScope('vet');
         setSessionScopeState('vet');
         if (password) {
-          const { error } = await supabase.auth.signInWithPassword({
+          const { error } = await client.auth.signInWithPassword({
             email: normalizedEmail,
             password,
           });
@@ -233,15 +303,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setStoredSessionScope('admin');
         setSessionScopeState('admin');
         if (password) {
-          const { error } = await supabase.auth.signInWithPassword({
+          const { error } = await client.auth.signInWithPassword({
             email: normalizedEmail,
             password,
           });
           if (error) throw error;
-          const user = (await supabase.auth.getSession()).data.session?.user;
+          const user = (await client.auth.getSession()).data.session?.user;
           const role = roleFromUser(user ?? null);
           if (role !== 'admin') {
-            await supabase.auth.signOut();
+            await client.auth.signOut();
             throw new Error('This account does not have admin access.');
           }
           // Best-effort LOGIN audit — never block sign-in on it.
@@ -279,10 +349,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         // Fire sign-out in the background; clear local state immediately so the UI
         // does not wait on a network round-trip.
-        supabase.auth.signOut().catch(() => {});
+        client.auth.signOut().catch(() => {});
       },
     }),
-    [state, sessionScope],
+    [state, sessionScope, dealProfile, dealTier, isInvestor, isLicensee, hasDealAccess, refreshDealProfile],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

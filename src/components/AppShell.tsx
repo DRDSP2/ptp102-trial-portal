@@ -14,6 +14,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Shield, LogOut } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type AppShellProps = {
   children: ReactNode;
@@ -36,6 +37,8 @@ export function AppShell({ children }: AppShellProps) {
   const isPatientCase = location.pathname.startsWith('/patient/');
   const isAuditLog = location.pathname === '/admin/audit-log';
   const showBreadcrumb = !isDashboard;
+  const isDealRoute = location.pathname.startsWith('/deal/');
+  const showDealNav = auth.dealProfile && isDealRoute;
 
   return (
     <div className="min-h-screen bg-base-200">
@@ -70,6 +73,39 @@ export function AppShell({ children }: AppShellProps) {
           </div>
         </div>
       </header>
+
+      {showDealNav && (
+        <nav className="bg-base-100 border-b border-base-200 px-6 py-2">
+          <div className="container mx-auto max-w-7xl flex gap-2 overflow-x-auto">
+            {[
+              { label: 'Overview', path: '/deal/overview', tier: 'evaluation' },
+              { label: 'CMC', path: '/deal/cmc', tier: 'diligence' },
+              { label: 'Trials', path: '/deal/trials/live', tier: 'diligence' },
+              { label: 'Financials', path: '/deal/financials', tier: 'diligence' },
+              { label: 'Cap Table', path: '/deal/cap-table', tier: 'diligence' },
+              { label: 'IP', path: '/deal/ip-portfolio', tier: 'diligence' },
+              { label: 'Term Sheet', path: '/deal/term-sheet', tier: 'exclusive' },
+              { label: 'Regions', path: '/deal/regions', tier: 'exclusive' },
+              ...(auth.isInvestor ? [{ label: 'Investor', path: '/deal/investor', tier: 'evaluation' }] : []),
+            ]
+              .filter((item) => auth.hasDealAccess(item.tier as any))
+              .map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    'px-3 py-1 rounded-md text-sm whitespace-nowrap',
+                    location.pathname === item.path
+                      ? 'bg-primary text-primary-foreground'
+                      : 'hover:bg-base-200',
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+          </div>
+        </nav>
+      )}
 
       {showBreadcrumb && (
         <div className="bg-base-100 border-b border-base-200 px-6 py-2">
