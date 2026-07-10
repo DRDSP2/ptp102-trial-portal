@@ -176,9 +176,9 @@ export function NDASigningPage() {
           'projectRegions',
         ],
         3: [],
-        4: [],
+        4: NDA_ACKNOWLEDGEMENTS.map((ack) => ack.id as keyof NDAValues),
       };
-      const ok = await form.trigger(fieldsToValidate[step] as (keyof NDAValues)[]);
+      const ok = await form.trigger(fieldsToValidate[target] as (keyof NDAValues)[]);
       if (!ok) {
         setError('Please complete all required fields before continuing.');
         return;

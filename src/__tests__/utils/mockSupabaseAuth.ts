@@ -86,9 +86,13 @@ export function mockSupabaseAuth(
 export function createMockSupabaseAuth({
   tier = 'none',
   role = 'licensee_eval',
+  ndaSigned = false,
+  templateVersion = 'v2.0-cencora',
 }: {
   tier?: 'none' | 'evaluation' | 'diligence' | 'exclusive';
   role?: 'investor' | 'licensee_eval' | 'licensee_diligence' | 'licensee_exclusive';
+  ndaSigned?: boolean;
+  templateVersion?: string;
 } = {}) {
   const user = createMockUser({
     id: 'deal-mock-user-id',
@@ -128,13 +132,23 @@ export function createMockSupabaseAuth({
       };
     }
     if (table === 'ndas') {
+      const ndaData = ndaSigned
+        ? {
+            signed_at: new Date().toISOString(),
+            expires_at: new Date(Date.now() + 6 * 365 * 24 * 60 * 60 * 1000).toISOString(),
+            template_version: templateVersion,
+          }
+        : null;
       return {
         select: vi.fn(() => ({
           eq: vi.fn(() => ({
             eq: vi.fn(() => ({
               order: vi.fn(() => ({
                 limit: vi.fn(() => ({
-                  single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
+                  single: vi.fn().mockResolvedValue({
+                    data: ndaData,
+                    error: ndaSigned ? null : { code: 'PGRST116' },
+                  }),
                 })),
               })),
             })),
