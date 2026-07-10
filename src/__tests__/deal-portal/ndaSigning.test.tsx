@@ -83,6 +83,7 @@ function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: {
 }
 
 async function fillStep1(user: ReturnType<typeof userEvent.setup>) {
+  await waitFor(() => expect(screen.getByLabelText(/Counterparty Legal Name/i)).toBeInTheDocument());
   await user.type(screen.getByLabelText(/Counterparty Legal Name/i), 'TestCo Ltd');
   await user.click(screen.getByRole('combobox', { name: /Entity Type/i }));
   await user.click(screen.getByRole('option', { name: /Corporation/i }));

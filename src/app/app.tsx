@@ -16,6 +16,7 @@ import { AuditLogPage } from '@/pages/AuditLogPage';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
 import { AppShell } from '@/components/AppShell';
 import { Toaster } from '@/components/ui/sonner';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { DealSignupPage } from '@/deal-portal/pages/DealSignupPage';
 import { NDASigningPage } from '@/deal-portal/pages/NDASigningPage';
 import { DealTermsAcceptancePage } from '@/deal-portal/pages/DealTermsAcceptancePage';
@@ -89,7 +90,7 @@ function App() {
             />
             {/* Deal Portal — Public */}
             <Route path="/deal/signup" element={<DealSignupPage />} />
-            <Route path="/deal/nda" element={<NDASigningPage />} />
+            <Route path="/deal/nda" element={<ErrorBoundary><NDASigningPage /></ErrorBoundary>} />
             <Route path="/deal/terms" element={<DealTermsAcceptancePage />} />
 
             {/* Deal Portal — Evaluation Tier */}

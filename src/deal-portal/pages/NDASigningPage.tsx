@@ -144,7 +144,7 @@ const defaultValues: Partial<NDAValues> = {
 
 export function NDASigningPage() {
   const navigate = useNavigate();
-  const { user, client } = useAuth();
+  const { user, client, loading: authLoading, refreshDealProfile } = useAuth();
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -261,6 +261,8 @@ export function NDASigningPage() {
         action_detail: 'NDA v2.0 signed',
       });
 
+      // Refresh the auth context so downstream gated routes see the new tier.
+      await refreshDealProfile();
       navigate('/deal/overview');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'NDA signing failed');
@@ -330,6 +332,14 @@ This Agreement constitutes the entire agreement between the parties concerning t
 
 14. ELECTRONIC SIGNATURE
 The parties agree that this Agreement may be executed by electronic signature, which shall have the same legal effect as an original handwritten signature.`;
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 py-12 px-4 flex items-center justify-center">
+        <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 py-12 px-4">

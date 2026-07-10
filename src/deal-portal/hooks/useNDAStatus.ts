@@ -17,7 +17,8 @@ export function useNDAStatus() {
 
   const fetchNDA = useCallback(async () => {
     if (!user) {
-      // Stay in loading state until a user is present; NDAGate handles unauthenticated redirects.
+      // No user yet; NDAGate handles unauthenticated redirects.
+      setNda((current) => (current.loading ? current : { ...current, loading: false }));
       return;
     }
     setNda((current) => ({ ...current, loading: true }));
