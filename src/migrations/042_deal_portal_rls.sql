@@ -2,7 +2,7 @@
 
 CREATE OR REPLACE FUNCTION is_admin()
 RETURNS boolean AS $$
-  SELECT EXISTS (SELECT 1 FROM admin_users WHERE user_id = auth.uid());
+  SELECT (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin';
 $$ LANGUAGE sql SECURITY DEFINER;
 
 CREATE OR REPLACE FUNCTION is_investor()
