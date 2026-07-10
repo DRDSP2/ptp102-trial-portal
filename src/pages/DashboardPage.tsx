@@ -11,10 +11,14 @@ import { VeterinarianManagementPanel } from '@/components/VeterinarianManagement
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText, Image } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText, Image, Handshake } from 'lucide-react';
 import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
 import { AuditLogViewer } from '@/components/AuditLogViewer';
+import { AdminDealUsersPanel } from '@/admin/components/AdminDealUsersPanel';
+import { AdminDocumentManager } from '@/admin/components/AdminDocumentManager';
+import { AdminDealPaymentsPanel } from '@/admin/components/AdminDealPaymentsPanel';
+import { AdminDealCompliancePanel } from '@/admin/components/AdminDealCompliancePanel';
 import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
 import { AdminSupplyPanel } from '@/components/AdminSupplyPanel';
@@ -54,7 +58,7 @@ export function DashboardPage() {
     <div className="container mx-auto p-6 max-w-7xl">
       {isAdmin ? (
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full max-w-4xl grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
+            <TabsList className="grid w-full max-w-5xl grid-cols-2 sm:grid-cols-5 lg:grid-cols-9">
               <TabsTrigger value="overview">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Overview
@@ -86,6 +90,10 @@ export function DashboardPage() {
               <TabsTrigger value="audit">
                 <ScrollText className="mr-2 h-4 w-4" />
                 Audit
+              </TabsTrigger>
+              <TabsTrigger value="deal">
+                <Handshake className="mr-2 h-4 w-4" />
+                Deal Room
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="mt-6 space-y-6">
@@ -157,6 +165,28 @@ export function DashboardPage() {
             </TabsContent>
             <TabsContent value="audit" className="mt-6">
               <AuditLogViewer />
+            </TabsContent>
+            <TabsContent value="deal" className="mt-6">
+              <Tabs defaultValue="users">
+                <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-4">
+                  <TabsTrigger value="users">Users</TabsTrigger>
+                  <TabsTrigger value="documents">Documents</TabsTrigger>
+                  <TabsTrigger value="payments">Payments</TabsTrigger>
+                  <TabsTrigger value="compliance">Compliance</TabsTrigger>
+                </TabsList>
+                <TabsContent value="users" className="mt-4">
+                  <AdminDealUsersPanel />
+                </TabsContent>
+                <TabsContent value="documents" className="mt-4">
+                  <AdminDocumentManager />
+                </TabsContent>
+                <TabsContent value="payments" className="mt-4">
+                  <AdminDealPaymentsPanel />
+                </TabsContent>
+                <TabsContent value="compliance" className="mt-4">
+                  <AdminDealCompliancePanel />
+                </TabsContent>
+              </Tabs>
             </TabsContent>
           </Tabs>
         ) : qualLoading ? (

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ByrockLogo } from '@/components/ByrockLogo';
 import { HeroSection } from '@/components/HeroSection';
-import { Shield, UserPlus } from 'lucide-react';
+import { Shield, UserPlus, Handshake } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export function AuthSelectionPage() {
@@ -41,6 +41,10 @@ export function AuthSelectionPage() {
             <Button size="lg" variant="outline" className="w-full" onClick={() => navigate('/admin/login')}>
               <Shield className="mr-2 h-5 w-5" />
               Admin Access
+            </Button>
+            <Button size="lg" variant="outline" className="w-full" onClick={() => navigate('/deal/signup')}>
+              <Handshake className="mr-2 h-5 w-5" />
+              Company / Investor Access
             </Button>
           </CardContent>
         </Card>

@@ -30,6 +30,8 @@ import { RegionMarketplacePage } from '@/deal-portal/pages/RegionMarketplacePage
 import { InvestorDashboardPage } from '@/deal-portal/pages/InvestorDashboardPage';
 import { AdminDealUsersPanel } from '@/admin/components/AdminDealUsersPanel';
 import { AdminDocumentManager } from '@/admin/components/AdminDocumentManager';
+import { AdminDealPaymentsPanel } from '@/admin/components/AdminDealPaymentsPanel';
+import { AdminDealCompliancePanel } from '@/admin/components/AdminDealCompliancePanel';
 import { ProtectedDealRoute } from '@/deal-portal/components/ProtectedDealRoute';
 
 function ScrollToTop() {
@@ -187,6 +189,26 @@ function App() {
                 <ProtectedRoute requiredRole="admin">
                   <AppShell>
                     <AdminDocumentManager />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/deal-payments"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AppShell>
+                    <AdminDealPaymentsPanel />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/deal-compliance"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AppShell>
+                    <AdminDealCompliancePanel />
                   </AppShell>
                 </ProtectedRoute>
               }
