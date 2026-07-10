@@ -16,6 +16,21 @@ import { AuditLogPage } from '@/pages/AuditLogPage';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
 import { AppShell } from '@/components/AppShell';
 import { Toaster } from '@/components/ui/sonner';
+import { DealSignupPage } from '@/deal-portal/pages/DealSignupPage';
+import { NDASigningPage } from '@/deal-portal/pages/NDASigningPage';
+import { DealTermsAcceptancePage } from '@/deal-portal/pages/DealTermsAcceptancePage';
+import { DealOverviewPage } from '@/deal-portal/pages/DealOverviewPage';
+import { CMCDataRoomPage } from '@/deal-portal/pages/CMCDataRoomPage';
+import { LiveTrialDashboardPage } from '@/deal-portal/pages/LiveTrialDashboardPage';
+import { FinancialDashboardPage } from '@/deal-portal/pages/FinancialDashboardPage';
+import { CapTablePage } from '@/deal-portal/pages/CapTablePage';
+import { IPPortfolioPage } from '@/deal-portal/pages/IPPortfolioPage';
+import { TermSheetNegotiationPage } from '@/deal-portal/pages/TermSheetNegotiationPage';
+import { RegionMarketplacePage } from '@/deal-portal/pages/RegionMarketplacePage';
+import { InvestorDashboardPage } from '@/deal-portal/pages/InvestorDashboardPage';
+import { AdminDealUsersPanel } from '@/admin/components/AdminDealUsersPanel';
+import { AdminDocumentManager } from '@/admin/components/AdminDocumentManager';
+import { ProtectedDealRoute } from '@/deal-portal/components/ProtectedDealRoute';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -70,6 +85,113 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Deal Portal — Public */}
+            <Route path="/deal/signup" element={<DealSignupPage />} />
+            <Route path="/deal/nda" element={<NDASigningPage />} />
+            <Route path="/deal/terms" element={<DealTermsAcceptancePage />} />
+
+            {/* Deal Portal — Evaluation Tier */}
+            <Route
+              path="/deal/overview"
+              element={
+                <ProtectedDealRoute minimumTier="evaluation">
+                  <DealOverviewPage />
+                </ProtectedDealRoute>
+              }
+            />
+
+            {/* Deal Portal — Diligence Tier */}
+            <Route
+              path="/deal/cmc"
+              element={
+                <ProtectedDealRoute minimumTier="diligence">
+                  <CMCDataRoomPage />
+                </ProtectedDealRoute>
+              }
+            />
+            <Route
+              path="/deal/trials/live"
+              element={
+                <ProtectedDealRoute minimumTier="diligence">
+                  <LiveTrialDashboardPage />
+                </ProtectedDealRoute>
+              }
+            />
+            <Route
+              path="/deal/financials"
+              element={
+                <ProtectedDealRoute minimumTier="diligence">
+                  <FinancialDashboardPage />
+                </ProtectedDealRoute>
+              }
+            />
+            <Route
+              path="/deal/cap-table"
+              element={
+                <ProtectedDealRoute minimumTier="diligence">
+                  <CapTablePage />
+                </ProtectedDealRoute>
+              }
+            />
+            <Route
+              path="/deal/ip-portfolio"
+              element={
+                <ProtectedDealRoute minimumTier="diligence">
+                  <IPPortfolioPage />
+                </ProtectedDealRoute>
+              }
+            />
+
+            {/* Deal Portal — Exclusive Tier */}
+            <Route
+              path="/deal/term-sheet"
+              element={
+                <ProtectedDealRoute minimumTier="exclusive">
+                  <TermSheetNegotiationPage />
+                </ProtectedDealRoute>
+              }
+            />
+            <Route
+              path="/deal/regions"
+              element={
+                <ProtectedDealRoute minimumTier="exclusive">
+                  <RegionMarketplacePage />
+                </ProtectedDealRoute>
+              }
+            />
+
+            {/* Deal Portal — Investor */}
+            <Route
+              path="/deal/investor"
+              element={
+                <ProtectedDealRoute minimumTier="evaluation" requireRole="investor">
+                  <InvestorDashboardPage />
+                </ProtectedDealRoute>
+              }
+            />
+
+            {/* Admin Deal Management */}
+            <Route
+              path="/admin/deal-users"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AppShell>
+                    <AdminDealUsersPanel />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/deal-documents"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AppShell>
+                    <AdminDocumentManager />
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           <Toaster />

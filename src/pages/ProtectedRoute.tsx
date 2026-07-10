@@ -4,9 +4,10 @@ import type { ReactNode } from 'react';
 
 type ProtectedRouteProps = {
   children: ReactNode;
+  requiredRole?: 'admin' | 'vet';
 };
 
-export function ProtectedRoute({ children }: ProtectedRouteProps) {
+export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   const auth = useAuth();
   const location = useLocation();
 
@@ -16,6 +17,10 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (!auth.role) {
     return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  if (requiredRole && auth.role !== requiredRole) {
+    return <Navigate to="/" replace />;
   }
 
   if (auth.role === 'vet' && auth.pendingApproval) {

@@ -83,6 +83,88 @@ export function mockSupabaseAuth(
   return mockSupabase;
 }
 
+export function createMockSupabaseAuth({
+  tier = 'none',
+  role = 'licensee_eval',
+}: {
+  tier?: 'none' | 'evaluation' | 'diligence' | 'exclusive';
+  role?: 'investor' | 'licensee_eval' | 'licensee_diligence' | 'licensee_exclusive';
+} = {}) {
+  const user = createMockUser({
+    id: 'deal-mock-user-id',
+    app_metadata: { role: 'deal' },
+    user_metadata: { role: 'deal' },
+    email: 'deal@example.com',
+  });
+  const session = createMockSession({ user });
+
+  const dealProfile = {
+    id: 'dp-1',
+    user_id: user.id,
+    company: 'MockCo',
+    role,
+    tier,
+    nda_signed_at: null,
+    nda_expires_at: null,
+    stripe_customer_id: null,
+    region_of_interest: null,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
+  const mockFrom = vi.fn((table: string) => {
+    if (table === 'deal_profiles') {
+      return {
+        select: vi.fn(() => ({
+          eq: vi.fn(() => ({
+            single: vi.fn().mockResolvedValue({ data: dealProfile, error: null }),
+            maybeSingle: vi.fn().mockResolvedValue({ data: dealProfile, error: null }),
+          })),
+        })),
+        update: vi.fn(() => ({
+          eq: vi.fn().mockResolvedValue({ data: null, error: null }),
+        })),
+        insert: vi.fn().mockResolvedValue({ data: null, error: null }),
+      };
+    }
+    if (table === 'ndas') {
+      return {
+        select: vi.fn(() => ({
+          eq: vi.fn(() => ({
+            eq: vi.fn(() => ({
+              order: vi.fn(() => ({
+                limit: vi.fn(() => ({
+                  single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
+                })),
+              })),
+            })),
+          })),
+        })),
+      };
+    }
+    return {
+      select: vi.fn(() => ({
+        eq: vi.fn(() => ({
+          single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
+          maybeSingle: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
+        })),
+      })),
+    };
+  });
+
+  return {
+    auth: {
+      getSession: vi.fn().mockResolvedValue({ data: { session }, error: null }),
+      onAuthStateChange: vi.fn().mockReturnValue({
+        data: { subscription: { unsubscribe: vi.fn() } },
+      }),
+      signInWithPassword: vi.fn().mockResolvedValue({ data: null, error: null }),
+      signOut: vi.fn().mockResolvedValue({ error: null }),
+    },
+    from: mockFrom,
+  };
+}
+
 export function mockSupabaseAuthWithoutSession() {
   return {
     auth: {
