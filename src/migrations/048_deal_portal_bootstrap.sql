@@ -2,7 +2,53 @@
 -- Run via Supabase Dashboard -> SQL Editor.
 
 -- ---------------------------------------------------------------------------
--- Helper functions used by deal-portal RLS policies
+-- 1. Tables first (functions below reference these)
+-- ---------------------------------------------------------------------------
+
+-- Deal profiles: tracks company, role, tier and NDA status for deal users
+CREATE TABLE IF NOT EXISTS deal_profiles (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  company text,
+  role text DEFAULT 'licensee_eval' CHECK (role IN ('investor','licensee_eval','licensee_diligence','licensee_exclusive')),
+  tier text DEFAULT 'none' CHECK (tier IN ('none','evaluation','diligence','exclusive')),
+  nda_signed_at timestamptz,
+  nda_expires_at timestamptz,
+  stripe_customer_id text,
+  region_of_interest text,
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now(),
+  UNIQUE(user_id)
+);
+
+-- Deal access audit trail
+CREATE TABLE IF NOT EXISTS deal_access_logs (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id),
+  document_id uuid,
+  document_type text,
+  action text NOT NULL CHECK (action IN ('view','download','share','edit','propose_term_sheet')),
+  ip_address inet,
+  user_agent text,
+  watermarked_snapshot_path text,
+  created_at timestamptz DEFAULT now()
+);
+
+-- CMC / deal-room documents table (admin document manager)
+CREATE TABLE IF NOT EXISTS cmc_documents (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  category text NOT NULL CHECK (category IN ('regulatory','cmc','manufacturing','development_plan')),
+  title text NOT NULL,
+  file_path text,
+  version text,
+  access_tier_min text DEFAULT 'diligence' CHECK (access_tier_min IN ('evaluation','diligence','exclusive')),
+  uploaded_by uuid REFERENCES auth.users(id),
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+-- ---------------------------------------------------------------------------
+-- 2. Helper functions used by deal-portal RLS policies
 -- ---------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION is_admin()
 RETURNS boolean AS $$
@@ -30,23 +76,8 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- ---------------------------------------------------------------------------
--- Deal profiles: tracks company, role, tier and NDA status for deal users
+-- 3. RLS policies
 -- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS deal_profiles (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  company text,
-  role text DEFAULT 'licensee_eval' CHECK (role IN ('investor','licensee_eval','licensee_diligence','licensee_exclusive')),
-  tier text DEFAULT 'none' CHECK (tier IN ('none','evaluation','diligence','exclusive')),
-  nda_signed_at timestamptz,
-  nda_expires_at timestamptz,
-  stripe_customer_id text,
-  region_of_interest text,
-  created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now(),
-  UNIQUE(user_id)
-);
-
 ALTER TABLE deal_profiles ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Users view own profile" ON deal_profiles;
@@ -65,21 +96,6 @@ DROP POLICY IF EXISTS "Users insert own profile" ON deal_profiles;
 CREATE POLICY "Users insert own profile" ON deal_profiles FOR INSERT
   WITH CHECK (user_id = auth.uid());
 
--- ---------------------------------------------------------------------------
--- Deal access audit trail
--- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS deal_access_logs (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES auth.users(id),
-  document_id uuid,
-  document_type text,
-  action text NOT NULL CHECK (action IN ('view','download','share','edit','propose_term_sheet')),
-  ip_address inet,
-  user_agent text,
-  watermarked_snapshot_path text,
-  created_at timestamptz DEFAULT now()
-);
-
 ALTER TABLE deal_access_logs ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Users view own logs" ON deal_access_logs;
@@ -94,21 +110,6 @@ DROP POLICY IF EXISTS "Authenticated insert logs" ON deal_access_logs;
 CREATE POLICY "Authenticated insert logs" ON deal_access_logs FOR INSERT
   WITH CHECK (auth.uid() = user_id);
 
--- ---------------------------------------------------------------------------
--- CMC / deal-room documents table (admin document manager)
--- ---------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS cmc_documents (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  category text NOT NULL CHECK (category IN ('regulatory','cmc','manufacturing','development_plan')),
-  title text NOT NULL,
-  file_path text,
-  version text,
-  access_tier_min text DEFAULT 'diligence' CHECK (access_tier_min IN ('evaluation','diligence','exclusive')),
-  uploaded_by uuid REFERENCES auth.users(id),
-  created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now()
-);
-
 ALTER TABLE cmc_documents ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Diligence+ view CMC docs" ON cmc_documents;
@@ -120,7 +121,7 @@ CREATE POLICY "Admin manage CMC docs" ON cmc_documents FOR ALL
   USING ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
 
 -- ---------------------------------------------------------------------------
--- Storage bucket for deal room documents
+-- 4. Storage bucket for deal room documents
 -- ---------------------------------------------------------------------------
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
