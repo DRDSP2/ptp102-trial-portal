@@ -79,7 +79,7 @@ describe('CapTableViewer', () => {
     );
     await waitFor(() => expect(screen.getByText('Cap Table')).toBeInTheDocument());
 
-    const showFullButton = screen.getByRole('button', { name: /show full/i });
+    const showFullButton = await screen.findByRole('button', { name: /show full/i });
     expect(showFullButton).toBeInTheDocument();
     await userEvent.click(showFullButton);
 

@@ -24,7 +24,12 @@ export function CapTableViewer() {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Cap Table</CardTitle>
         {canViewFull && (
-          <Button variant="outline" size="sm" onClick={() => setShowFull((s) => !s)}>
+          <Button
+            variant="outline"
+            size="sm"
+            aria-label={showFull ? 'Show anonymised view' : 'Show full investor view'}
+            onClick={() => setShowFull((s) => !s)}
+          >
             {showFull ? 'Show Anonymised' : 'Show Full'}
           </Button>
         )}
