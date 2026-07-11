@@ -11,7 +11,6 @@ import { NDA_ACKNOWLEDGEMENTS } from '@/deal-portal/lib/ndaAcknowledgements';
 function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: { ndaSigned?: boolean; templateVersion?: string } = {}) {
   const base = createMockSupabaseAuth({ tier: 'none', ndaSigned, templateVersion });
   let lastNdaInsert: Record<string, unknown> | null = null;
-  let lastProfileUpdate: Record<string, unknown> | null = null;
 
   const mockFrom = vi.fn((table: string) => {
     if (table === 'ndas') {
@@ -27,6 +26,7 @@ function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: {
                           signed_at: '2026-07-10T10:00:00.000Z',
                           expires_at: '2032-07-10T10:00:00.000Z',
                           template_version: templateVersion,
+                          approval_status: 'approved',
                         }
                       : null,
                     error: ndaSigned ? null : { code: 'PGRST116' },
@@ -50,10 +50,7 @@ function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: {
             maybeSingle: vi.fn().mockResolvedValue({ data: { id: 'dp-1', tier: 'none' }, error: null }),
           })),
         })),
-        update: vi.fn((payload: Record<string, unknown>) => {
-          lastProfileUpdate = payload;
-          return { eq: vi.fn().mockResolvedValue({ data: null, error: null }) };
-        }),
+        update: vi.fn(() => ({ eq: vi.fn().mockResolvedValue({ data: null, error: null }) })),
         insert: vi.fn().mockResolvedValue({ data: null, error: null }),
       };
     }
@@ -72,13 +69,20 @@ function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: {
     };
   });
 
-  return {
-    mock: {
-      ...base,
-      from: mockFrom,
+  const mockWithStorage = {
+    ...base,
+    from: mockFrom,
+    storage: {
+      from: vi.fn(() => ({
+        upload: vi.fn().mockResolvedValue({ data: { path: 'ndas/mock/nda.pdf' }, error: null }),
+        getPublicUrl: vi.fn().mockReturnValue({ data: { publicUrl: 'https://mock.test/nda.pdf' } }),
+      })),
     },
+  };
+
+  return {
+    mock: mockWithStorage,
     getLastNdaInsert: () => lastNdaInsert,
-    getLastProfileUpdate: () => lastProfileUpdate,
   };
 }
 

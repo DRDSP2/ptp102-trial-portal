@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 import { useForm, useWatch, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -27,6 +27,11 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { NDA_ACKNOWLEDGEMENTS } from '@/deal-portal/lib/ndaAcknowledgements';
+import { generateNdaPdf } from '@/deal-portal/lib/ndaPdf';
+import {
+  sendNdaPendingAdminEmail,
+  sendNdaPendingInvestorEmail,
+} from '@/deal-portal/lib/ndaEmail';
 import type { Region } from '@/deal-portal/types/dealPortal';
 
 const REGIONS: { value: Region; label: string }[] = [
@@ -143,11 +148,11 @@ const defaultValues: Partial<NDAValues> = {
 };
 
 export function NDASigningPage() {
-  const navigate = useNavigate();
-  const { user, client, loading: authLoading, refreshDealProfile } = useAuth();
+  const { user, client, loading: authLoading } = useAuth();
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const form = useForm<NDAValues>({
     resolver: zodResolver(ndaSchema) as Resolver<NDAValues>,
@@ -206,12 +211,47 @@ export function NDASigningPage() {
         ackRecord[ack.id] = values[ack.id as keyof NDAValues] as boolean;
       }
 
+      // Generate the signed PDF (investor signature only at this stage)
+      const pdfBlob = await generateNdaPdf({
+        companyName: values.companyName,
+        counterpartyEntityType: values.counterpartyEntityType,
+        counterpartyJurisdiction: values.counterpartyJurisdiction,
+        counterpartyAddress: values.counterpartyAddress,
+        counterpartyContactEmail: values.counterpartyContactEmail,
+        counterpartyContactName: values.counterpartyContactName,
+        counterpartyContactTitle: values.counterpartyContactTitle,
+        projectPurpose: values.projectPurpose,
+        projectRegions: values.projectRegions,
+        signerName: values.signerName,
+        signerTitle: values.signerTitle,
+        signatureDate: values.signatureDate,
+        electronicSignature: values.electronicSignature,
+      });
+
+      const pdfPath = `ndas/${user.id}/${Date.now()}_nda.pdf`;
+      const { error: uploadError } = await client.storage
+        .from('deal-room-documents')
+        .upload(pdfPath, pdfBlob, { contentType: 'application/pdf' });
+
+      if (uploadError) {
+        setError('Failed to store signed NDA PDF: ' + uploadError.message);
+        return;
+      }
+
+      const { data: publicUrlData } = client.storage
+        .from('deal-room-documents')
+        .getPublicUrl(pdfPath);
+      const pdfUrl = publicUrlData.publicUrl;
+
       const { error: dbError } = await client.from('ndas').insert({
         user_id: user.id,
         template_version: 'v2.0-byrock',
         company_name: values.companyName,
         signed_at: signedAt,
         status: 'signed',
+        approval_status: 'pending',
+        investor_email: values.counterpartyContactEmail,
+        signed_pdf_path: pdfPath,
         counterparty_entity_type: values.counterpartyEntityType,
         counterparty_jurisdiction: values.counterpartyJurisdiction,
         counterparty_address: values.counterpartyAddress,
@@ -238,31 +278,30 @@ export function NDASigningPage() {
         return;
       }
 
-      // Upgrade tier to evaluation once NDA is executed
-      const { error: profileError } = await client
-        .from('deal_profiles')
-        .update({
-          tier: 'evaluation',
-          nda_signed_at: signedAt,
-        })
-        .eq('user_id', user.id);
-
-      if (profileError) {
-        setError(profileError.message);
-        return;
-      }
-
       // Audit log entry
       await client.from('deal_access_logs').insert({
         user_id: user.id,
         action: 'view',
         document_type: 'nda',
-        action_detail: 'NDA v2.0 signed',
+        action_detail: 'NDA v2.0 signed and pending approval',
       });
 
-      // Refresh the auth context so downstream gated routes see the new tier.
-      await refreshDealProfile();
-      navigate('/deal/overview');
+      const reviewUrl = `${window.location.origin}/#/deal/users`;
+
+      await Promise.all([
+        sendNdaPendingAdminEmail({
+          investorEmail: values.counterpartyContactEmail,
+          companyName: values.companyName,
+          reviewUrl,
+          pdfUrl,
+        }),
+        sendNdaPendingInvestorEmail({
+          toEmail: values.counterpartyContactEmail,
+          companyName: values.companyName,
+        }),
+      ]);
+
+      setSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'NDA signing failed');
     } finally {
@@ -336,6 +375,26 @@ The parties agree that this Agreement may be executed by electronic signature, w
     return (
       <div className="min-h-screen bg-slate-50 py-12 px-4 flex items-center justify-center">
         <p className="text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-slate-50 py-12 px-4">
+        <Card className="max-w-3xl mx-auto">
+          <CardHeader>
+            <CardTitle>NDA Submitted for Review</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p>
+              Thank you for signing the Mutual Non-Disclosure Agreement. Your Byrock deal portal application is being reviewed and we will inform you once it has been approved or declined in the coming days.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              A copy of your signed NDA has been emailed to {form.getValues('counterpartyContactEmail')}.
+            </p>
+          </CardContent>
+        </Card>
       </div>
     );
   }

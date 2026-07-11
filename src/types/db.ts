@@ -1875,6 +1875,118 @@ export type Database = {
         }
         Relationships: []
       }
+      deal_profiles: {
+        Row: {
+          id: string
+          user_id: string
+          company: string | null
+          role: string
+          tier: string
+          nda_signed_at: string | null
+          nda_expires_at: string | null
+          stripe_customer_id: string | null
+          region_of_interest: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          company?: string | null
+          role?: string
+          tier?: string
+          nda_signed_at?: string | null
+          nda_expires_at?: string | null
+          stripe_customer_id?: string | null
+          region_of_interest?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          company?: string | null
+          role?: string
+          tier?: string
+          nda_signed_at?: string | null
+          nda_expires_at?: string | null
+          stripe_customer_id?: string | null
+          region_of_interest?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ndas: {
+        Row: {
+          id: string
+          user_id: string
+          template_version: string
+          company_name: string | null
+          signed_at: string | null
+          expires_at: string | null
+          signature_provider: string
+          signature_envelope_id: string | null
+          status: string
+          approval_status: string | null
+          admin_signed_at: string | null
+          admin_signature: string | null
+          signed_pdf_path: string | null
+          investor_email: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          template_version?: string
+          company_name?: string | null
+          signed_at?: string | null
+          expires_at?: string | null
+          signature_provider?: string
+          signature_envelope_id?: string | null
+          status?: string
+          approval_status?: string | null
+          admin_signed_at?: string | null
+          admin_signature?: string | null
+          signed_pdf_path?: string | null
+          investor_email?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          template_version?: string
+          company_name?: string | null
+          signed_at?: string | null
+          expires_at?: string | null
+          signature_provider?: string
+          signature_envelope_id?: string | null
+          status?: string
+          approval_status?: string | null
+          admin_signed_at?: string | null
+          admin_signature?: string | null
+          signed_pdf_path?: string | null
+          investor_email?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ndas_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

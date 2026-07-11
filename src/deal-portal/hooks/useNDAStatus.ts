@@ -24,14 +24,14 @@ export function useNDAStatus() {
     setNda((current) => ({ ...current, loading: true }));
     const { data, error } = await client
       .from('ndas')
-      .select('signed_at, expires_at, template_version')
+      .select('signed_at, expires_at, template_version, approval_status')
       .eq('user_id', user.id)
       .eq('status', 'signed')
       .order('signed_at', { ascending: false })
       .limit(1)
       .single();
     setNda({
-      signed: !!data && !error,
+      signed: !!data && !error && data.approval_status === 'approved',
       expiresAt: data?.expires_at || null,
       templateVersion: data?.template_version || null,
       loading: false,

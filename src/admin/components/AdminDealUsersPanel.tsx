@@ -4,28 +4,97 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { approveNda, denyNda } from '@/deal-portal/lib/ndaApproval';
 import type { DealProfile, DealTier } from '@/types/roles';
 
+type NdaSummary = {
+  id: string;
+  user_id: string;
+  company_name: string | null;
+  approval_status: string | null;
+  signed_pdf_path: string | null;
+  investor_email: string | null;
+};
 
 export function AdminDealUsersPanel() {
   const { client } = useAuth();
   const [profiles, setProfiles] = useState<DealProfile[]>([]);
+  const [ndas, setNdas] = useState<NdaSummary[]>([]);
   const [loading, setLoading] = useState(true);
+  const [processing, setProcessing] = useState<Record<string, boolean>>({});
 
-  const fetchProfiles = useCallback(async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
-    const { data } = await client.from('deal_profiles').select('*').order('created_at', { ascending: false });
-    setProfiles((data as DealProfile[]) || []);
+    const [{ data: profileData }, { data: ndaData }] = await Promise.all([
+      client.from('deal_profiles').select('*').order('created_at', { ascending: false }),
+      client.from('ndas').select('id, user_id, company_name, approval_status, signed_pdf_path, investor_email').eq('status', 'signed'),
+    ]);
+    setProfiles((profileData as DealProfile[]) || []);
+    setNdas((ndaData as NdaSummary[]) || []);
     setLoading(false);
   }, [client]);
 
   useEffect(() => {
-    fetchProfiles();
-  }, [fetchProfiles]);
+    fetchData();
+  }, [fetchData]);
 
   const updateTier = async (userId: string, tier: DealTier) => {
     await client.from('deal_profiles').update({ tier }).eq('user_id', userId);
-    await fetchProfiles();
+    await fetchData();
+  };
+
+  const handleApprove = async (profile: DealProfile) => {
+    const nda = getNdaForUser(profile.user_id);
+    if (!nda?.investor_email) {
+      alert('Investor email not found on NDA record.');
+      return;
+    }
+    setProcessing((p) => ({ ...p, [profile.user_id]: true }));
+    try {
+      const baseUrl = window.location.origin;
+      await approveNda({
+        client,
+        userId: profile.user_id,
+        investorEmail: nda.investor_email,
+        baseUrl,
+      });
+      await fetchData();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Approval failed');
+    } finally {
+      setProcessing((p) => ({ ...p, [profile.user_id]: false }));
+    }
+  };
+
+  const handleDeny = async (profile: DealProfile) => {
+    const nda = getNdaForUser(profile.user_id);
+    if (!nda?.investor_email) {
+      alert('Investor email not found on NDA record.');
+      return;
+    }
+    if (!confirm('Decline this NDA application?')) return;
+    setProcessing((p) => ({ ...p, [profile.user_id]: true }));
+    try {
+      await denyNda({
+        client,
+        userId: profile.user_id,
+        investorEmail: nda.investor_email,
+        companyName: profile.company || nda.investor_email,
+      });
+      await fetchData();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Decline failed');
+    } finally {
+      setProcessing((p) => ({ ...p, [profile.user_id]: false }));
+    }
+  };
+
+  const getNdaForUser = (userId: string) => ndas.find((n) => n.user_id === userId);
+
+  const viewPdfUrl = (path: string | null) => {
+    if (!path) return null;
+    return client.storage.from('deal-room-documents').getPublicUrl(path).data.publicUrl;
   };
 
   if (loading) return <div className="p-8 text-center">Loading deal users...</div>;
@@ -38,42 +107,87 @@ export function AdminDealUsersPanel() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User ID</TableHead>
                 <TableHead>Company</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead>Tier</TableHead>
-                <TableHead>Region of Interest</TableHead>
+                <TableHead>NDA Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {profiles.map((profile) => (
-                <TableRow key={profile.id}>
-                  <TableCell className="font-mono text-xs">{profile.user_id}</TableCell>
-                  <TableCell>{profile.company || '—'}</TableCell>
-                  <TableCell className="capitalize">{profile.role.replace(/_/g, ' ')}</TableCell>
-                  <TableCell>
-                    <Badge>{profile.tier}</Badge>
-                  </TableCell>
-                  <TableCell className="uppercase">{profile.region_of_interest || '—'}</TableCell>
-                  <TableCell>
-                    <Select
-                      onValueChange={(value) => updateTier(profile.user_id, value as DealTier)}
-                      defaultValue={profile.tier}
-                    >
-                      <SelectTrigger className="w-32">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">None</SelectItem>
-                        <SelectItem value="evaluation">Evaluation</SelectItem>
-                        <SelectItem value="diligence">Diligence</SelectItem>
-                        <SelectItem value="exclusive">Exclusive</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {profiles.map((profile) => {
+                const nda = getNdaForUser(profile.user_id);
+                const isPending = nda?.approval_status === 'pending';
+                const isApproved = nda?.approval_status === 'approved';
+                const pdfUrl = viewPdfUrl(nda?.signed_pdf_path || null);
+                return (
+                  <TableRow key={profile.id}>
+                    <TableCell className="font-medium">{profile.company || '—'}</TableCell>
+                    <TableCell className="capitalize">{profile.role.replace(/_/g, ' ')}</TableCell>
+                    <TableCell>
+                      <Badge>{profile.tier}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      {nda ? (
+                        <div className="flex items-center gap-2">
+                          <Badge variant={isPending ? 'secondary' : isApproved ? 'default' : 'destructive'}>
+                            {nda.approval_status || 'signed'}
+                          </Badge>
+                          {pdfUrl && (
+                            <a
+                              href={pdfUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-blue-600 hover:underline"
+                            >
+                              View PDF
+                            </a>
+                          )}
+                        </div>
+                      ) : (
+                        <span className="text-sm text-muted-foreground">Not signed</span>
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Select
+                          onValueChange={(value) => updateTier(profile.user_id, value as DealTier)}
+                          defaultValue={profile.tier}
+                        >
+                          <SelectTrigger className="w-32">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="none">None</SelectItem>
+                            <SelectItem value="evaluation">Evaluation</SelectItem>
+                            <SelectItem value="diligence">Diligence</SelectItem>
+                            <SelectItem value="exclusive">Exclusive</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {isPending && (
+                          <>
+                            <Button
+                              size="sm"
+                              onClick={() => handleApprove(profile)}
+                              disabled={processing[profile.user_id]}
+                            >
+                              Approve NDA
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleDeny(profile)}
+                              disabled={processing[profile.user_id]}
+                            >
+                              Decline
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </CardContent>
