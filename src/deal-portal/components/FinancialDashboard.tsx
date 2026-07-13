@@ -7,6 +7,10 @@ export function FinancialDashboard() {
 
   if (loading) return <div className="p-8 text-center">Loading financial model...</div>;
 
+  if (projections.length === 0) {
+    return <div className="p-8 text-center text-slate-500">No financial projections available yet.</div>;
+  }
+
   const revenueData = projections.map((p) => ({ year: p.year, revenue: (p.revenue || 0) / 1e6, cogs: (p.cogs || 0) / 1e6 }));
   const marginData = projections.map((p) => ({ year: p.year, margin: p.gross_margin_percent }));
 
@@ -24,7 +28,7 @@ export function FinancialDashboard() {
         <Card>
           <CardContent className="p-4">
             <div className="text-xs text-slate-500">Cost per Treatment</div>
-            <div className="text-xl font-bold">${projections[0]?.cost_per_treatment.toFixed(2)}</div>
+            <div className="text-xl font-bold">${projections[0]?.cost_per_treatment?.toFixed(2) ?? '—'}</div>
           </CardContent>
         </Card>
         <Card>
