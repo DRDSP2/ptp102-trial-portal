@@ -22,25 +22,29 @@ export function DealTermsAcceptance() {
     setError(null);
     setIsSaving(true);
     try {
-      if (user) {
-        const { data: existingConsent } = await client
-          .from('deal_access_logs')
-          .select('id')
-          .eq('user_id', user.id)
-          .eq('action', 'terms_consent')
-          .eq('document_type', 'deal_terms')
-          .maybeSingle();
-
-        if (!existingConsent) {
-          const { error: consentError } = await client.from('deal_access_logs').insert({
-            user_id: user.id,
-            action: 'terms_consent',
-            document_type: 'deal_terms',
-            action_detail: `${CONSENT_VERSION}: Terms of Service and Privacy Policy accepted for ${LEGAL_ENTITY}`,
-          });
-          if (consentError) throw consentError;
-        }
+      if (!user) {
+        navigate('/deal/signup');
+        return;
       }
+
+      const { data: existingConsent } = await client
+        .from('deal_access_logs')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('action', 'terms_consent')
+        .eq('document_type', 'deal_terms')
+        .maybeSingle();
+
+      if (!existingConsent) {
+        const { error: consentError } = await client.from('deal_access_logs').insert({
+          user_id: user.id,
+          action: 'terms_consent',
+          document_type: 'deal_terms',
+          action_detail: `${CONSENT_VERSION}: Terms of Service and Privacy Policy accepted for ${LEGAL_ENTITY}`,
+        });
+        if (consentError) throw consentError;
+      }
+
       navigate('/deal/nda');
     } catch {
       setError('We could not record your consent. Please try again.');
