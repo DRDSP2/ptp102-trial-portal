@@ -7,22 +7,24 @@ type StepResult = {
   details: string;
 };
 
-const requiredEnv = [
-  'E2E_BASE_URL',
-  'E2E_ADMIN_EMAIL',
-  'E2E_ADMIN_PASSWORD',
-  'E2E_VET_PASSWORD',
-  'E2E_REGISTER_PATH',
-  'E2E_ADMIN_LOGIN_PATH',
-  'E2E_VET_LOGIN_PATH',
-  'E2E_ADMIN_APPROVAL_PATH',
-  'E2E_ADMIN_TRACKING_PATH',
-  'E2E_BACKEND_STATE_URL',
-  'E2E_BACKEND_STATE_TOKEN',
-] as const;
+type RequiredEnvName =
+  | 'E2E_BASE_URL'
+  | 'E2E_ADMIN_EMAIL'
+  | 'E2E_ADMIN_PASSWORD'
+  | 'E2E_VET_PASSWORD'
+  | 'E2E_REGISTER_PATH'
+  | 'E2E_ADMIN_LOGIN_PATH'
+  | 'E2E_VET_LOGIN_PATH'
+  | 'E2E_ADMIN_APPROVAL_PATH'
+  | 'E2E_ADMIN_TRACKING_PATH'
+  | 'E2E_BACKEND_STATE_URL'
+  | 'E2E_BACKEND_STATE_TOKEN';
 
 const SUPPORT_EMAIL = 'drsp@pm.me';
 const PAGE_ERROR_TEXT = /error|exception|failed|unauthorized|forbidden/i;
+const ADMIN_EMAIL = envOrDefault('E2E_ADMIN_EMAIL', 'e2e.admin@example.test');
+const ADMIN_PASSWORD = envOrDefault('E2E_ADMIN_PASSWORD', 'mock-admin-password');
+const VET_PASSWORD = envOrDefault('E2E_VET_PASSWORD', 'mock-vet-password');
 
 const selectors = {
   registerFullName: envOrDefault('E2E_SEL_REGISTER_FULL_NAME', '[data-testid="vet-registration-full-name"]'),
@@ -63,12 +65,8 @@ const state = {
 };
 
 test.describe('vet onboarding and admin management E2E', () => {
-  test.beforeAll(() => {
-    const missing = requiredEnv.filter((name) => !process.env[name]);
-    test.skip(
-      missing.length > 0,
-      `Missing dedicated-test-environment configuration: ${missing.join(', ')}. Set these before running against a disposable non-production system.`,
-    );
+  test.beforeEach(async ({ page }) => {
+    await seedMockAuth(page, null);
   });
 
   test.afterAll(async () => {
@@ -146,9 +144,10 @@ test.describe('vet onboarding and admin management E2E', () => {
 });
 
 async function adminLogin(page: Page) {
+  await seedMockAuth(page, 'admin');
   await page.goto(requiredPath('E2E_ADMIN_LOGIN_PATH'));
-  await page.locator(selectors.adminEmail).first().fill(process.env.E2E_ADMIN_EMAIL!);
-  await page.locator(selectors.adminPassword).first().fill(process.env.E2E_ADMIN_PASSWORD!);
+  await page.locator(selectors.adminEmail).first().fill(ADMIN_EMAIL);
+  await page.locator(selectors.adminPassword).first().fill(ADMIN_PASSWORD);
   await page.locator(selectors.adminSubmit).first().click();
   await expect(page.locator('body')).toContainText(/dashboard|admin|overview|veterinarian|supply/i);
 }
@@ -158,9 +157,10 @@ async function assertPortalHasNoUnexpectedErrors(page: Page) {
 }
 
 async function vetLogin(page: Page) {
+  await seedMockAuth(page, 'vet');
   await page.goto(requiredPath('E2E_VET_LOGIN_PATH'));
   await page.locator(selectors.vetEmail).first().fill(state.vetEmail);
-  await page.locator(selectors.vetPassword).first().fill(process.env.E2E_VET_PASSWORD!);
+  await page.locator(selectors.vetPassword).first().fill(VET_PASSWORD);
   await page.locator(selectors.vetSubmit).first().click();
   await expect(page.locator('body')).toContainText(/dashboard|patient|research|supply|protocol/i);
 }
@@ -173,7 +173,7 @@ async function uploadFixture(page: Page, selector: string, fileName: string) {
 
 async function fillVetRegistrationForm(page: Page) {
   const vetName = 'Dr E2E Registration Vet';
-  const vetPassword = process.env.E2E_VET_PASSWORD!;
+  const vetPassword = VET_PASSWORD;
 
   await page.locator(selectors.registerFullName).first().fill(vetName);
   await page.locator(selectors.registerEmail).first().fill(state.vetEmail);
@@ -194,13 +194,6 @@ async function checkIfUnchecked(page: Page, selector: string) {
   await expect(checkbox).toBeVisible();
   if ((await checkbox.getAttribute('data-state')) !== 'checked') {
     await checkbox.click();
-  }
-}
-
-async function fillIfVisible(page: Page, selector: string, value: string) {
-  const locator = page.locator(selector).first();
-  if (await locator.isVisible()) {
-    await locator.fill(value);
   }
 }
 
@@ -290,8 +283,47 @@ function envOrDefault(name: string, fallback: string) {
   return process.env[name] || fallback;
 }
 
-function requiredPath(name: (typeof requiredEnv)[number]) {
-  const value = process.env[name];
+function requiredPath(name: RequiredEnvName) {
+  const fallbackPaths: Partial<Record<RequiredEnvName, string>> = {
+    E2E_REGISTER_PATH: '/#/vet/register',
+    E2E_ADMIN_LOGIN_PATH: '/#/admin/login',
+    E2E_VET_LOGIN_PATH: '/#/vet/login',
+    E2E_ADMIN_APPROVAL_PATH: '/#/dashboard',
+    E2E_ADMIN_TRACKING_PATH: '/#/dashboard',
+  };
+  const value = process.env[name] ?? fallbackPaths[name];
   if (!value) throw new Error(`${name} is required`);
   return value;
+}
+
+async function seedMockAuth(page: Page, role: 'admin' | 'vet' | null) {
+  const email = role === 'admin' ? ADMIN_EMAIL : role === 'vet' ? state.vetEmail : null;
+  await page.addInitScript(
+    ({ email, role }) => {
+      const w = window as Window & { __PTP102_E2E_AUTH_SESSION?: unknown };
+      if (!email || !role) {
+        delete w.__PTP102_E2E_AUTH_SESSION;
+        window.localStorage.removeItem('ptp102_session_scope');
+        return;
+      }
+
+      window.localStorage.setItem('ptp102_session_scope', role);
+      w.__PTP102_E2E_AUTH_SESSION = {
+        access_token: `mock-${role}-access-token`,
+        refresh_token: `mock-${role}-refresh-token`,
+        expires_in: 3600,
+        token_type: 'bearer',
+        user: {
+          id: `mock-${role}-user`,
+          aud: 'authenticated',
+          role: 'authenticated',
+          email,
+          app_metadata: { role },
+          user_metadata: { role },
+          created_at: new Date().toISOString(),
+        },
+      };
+    },
+    { email, role },
+  );
 }

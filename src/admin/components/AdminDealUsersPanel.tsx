@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { approveNda, denyNda } from '@/deal-portal/lib/ndaApproval';
+import { createDealRoomSignedUrl } from '@/deal-portal/lib/storage';
 import { LoaderCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import type { DealProfile, DealTier } from '@/types/roles';
@@ -36,6 +37,7 @@ export function AdminDealUsersPanel() {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState<Record<string, boolean>>({});
   const [denyTarget, setDenyTarget] = useState<DealProfile | null>(null);
+  const [openingPdf, setOpeningPdf] = useState<Record<string, boolean>>({});
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -107,9 +109,20 @@ export function AdminDealUsersPanel() {
 
   const getNdaForUser = (userId: string) => ndas.find((n) => n.user_id === userId);
 
-  const viewPdfUrl = (path: string | null) => {
-    if (!path) return null;
-    return client.storage.from('deal-room-documents').getPublicUrl(path).data.publicUrl;
+  const handleViewPdf = async (nda: NdaSummary) => {
+    if (!nda.signed_pdf_path) {
+      toast.error('No signed PDF is attached to this NDA record.');
+      return;
+    }
+    setOpeningPdf((p) => ({ ...p, [nda.id]: true }));
+    try {
+      const signedUrl = await createDealRoomSignedUrl(client, nda.signed_pdf_path);
+      window.open(signedUrl, '_blank', 'noopener,noreferrer');
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Unable to open NDA PDF');
+    } finally {
+      setOpeningPdf((p) => ({ ...p, [nda.id]: false }));
+    }
   };
 
   if (loading) return <div className="p-8 text-center">Loading deal users...</div>;
@@ -134,7 +147,6 @@ export function AdminDealUsersPanel() {
                 const nda = getNdaForUser(profile.user_id);
                 const isPending = nda?.approval_status === 'pending';
                 const isApproved = nda?.approval_status === 'approved';
-                const pdfUrl = viewPdfUrl(nda?.signed_pdf_path || null);
                 return (
                   <TableRow key={profile.id} className={processing[profile.user_id] ? 'opacity-60' : undefined}>
                     <TableCell className="font-medium">{profile.company || '—'}</TableCell>
@@ -148,15 +160,17 @@ export function AdminDealUsersPanel() {
                           <Badge variant={isPending ? 'secondary' : isApproved ? 'default' : 'destructive'}>
                             {nda.approval_status || 'signed'}
                           </Badge>
-                          {pdfUrl && (
-                            <a
-                              href={pdfUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs text-blue-600 hover:underline"
+                          {nda.signed_pdf_path && (
+                            <Button
+                              type="button"
+                              variant="link"
+                              size="sm"
+                              className="h-auto p-0 text-xs"
+                              onClick={() => handleViewPdf(nda)}
+                              disabled={openingPdf[nda.id]}
                             >
-                              View PDF
-                            </a>
+                              {openingPdf[nda.id] ? 'Opening...' : 'View PDF'}
+                            </Button>
                           )}
                         </div>
                       ) : (

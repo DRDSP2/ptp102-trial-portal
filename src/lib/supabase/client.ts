@@ -51,20 +51,76 @@ function readEnv(name: string): string {
 }
 
 function buildStubClient() {
+  const getMockSession = () => {
+    if (typeof window === 'undefined') return null;
+    return (window as Window & { __PTP102_E2E_AUTH_SESSION?: unknown }).__PTP102_E2E_AUTH_SESSION ?? null;
+  };
+
+  const getMockVets = () => {
+    if (typeof window === 'undefined') return [];
+    try {
+      return JSON.parse(window.localStorage.getItem('ptp102_mock_vets') || '[]');
+    } catch {
+      return [];
+    }
+  };
+
+  const saveMockVets = (vets: unknown[]) => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem('ptp102_mock_vets', JSON.stringify(vets));
+  };
+
+  const makeQuery = (table: string) => {
+    let rows = table === 'veterinarians' ? getMockVets() : [];
+    const query = {
+      select: () => query,
+      order: () => query,
+      eq: (field: string, value: unknown) => {
+        rows = rows.filter((row: Record<string, unknown>) => row[field] === value);
+        return query;
+      },
+      maybeSingle: async () => ({ data: rows[0] ?? null, error: null }),
+      update: (payload: Record<string, unknown>) => ({
+        eq: async (field: string, value: unknown) => {
+          if (table === 'veterinarians') {
+            const vets = getMockVets();
+            const updated = vets.map((vet: Record<string, unknown>) =>
+              vet[field] === value ? { ...vet, ...payload, updated_at: new Date().toISOString() } : vet,
+            );
+            saveMockVets(updated);
+          }
+          return { data: null, error: null };
+        },
+      }),
+      insert: async () => ({ data: null, error: null }),
+      delete: () => ({
+        eq: async (field: string, value: unknown) => {
+          if (table === 'veterinarians') {
+            saveMockVets(getMockVets().filter((vet: Record<string, unknown>) => vet[field] !== value));
+          }
+          return { data: null, error: null };
+        },
+      }),
+      then: (resolve: (value: { data: unknown[]; error: null }) => void) => resolve({ data: rows, error: null }),
+    };
+    return query;
+  };
+
   // Returned only when env vars are missing at build time. Keeps tests
   // and non-Supabase code paths working without crashing.
   return {
     auth: {
-      getSession: async () => ({ data: { session: null }, error: null }),
+      getSession: async () => ({ data: { session: getMockSession() }, error: null }),
       onAuthStateChange: () => ({
         data: { subscription: { unsubscribe: () => {} } },
       }),
       signInWithPassword: async () => ({
-        data: null,
-        error: new Error('Supabase not configured'),
+        data: { session: getMockSession() },
+        error: null,
       }),
       signOut: async () => ({ error: null }),
     },
+    from: makeQuery,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
 }
