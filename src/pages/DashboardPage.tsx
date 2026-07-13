@@ -26,6 +26,7 @@ import { AdverseEventReporter } from '@/components/AdverseEventReporter';
 import { VetShipmentPanel } from '@/components/VetShipmentPanel';
 import { InvestigatorOnboardingWizard } from '@/components/InvestigatorOnboardingWizard';
 import { HoofXrayPortal } from '@/components/HoofXrayPortal';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useLoadAction } from '@uibakery/data';
 import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
 import { useAuth } from '@/context/AuthContext';
@@ -161,7 +162,9 @@ export function DashboardPage() {
               <AdminSupplyPanel />
             </TabsContent>
             <TabsContent value="xray" className="mt-6">
-              <HoofXrayPortal />
+              <ErrorBoundary>
+                <HoofXrayPortal />
+              </ErrorBoundary>
             </TabsContent>
             <TabsContent value="audit" className="mt-6">
               <AuditLogViewer />
@@ -292,7 +295,9 @@ export function DashboardPage() {
               <VetShipmentPanel vetEmail={auth.email ?? ''} />
             </TabsContent>
             <TabsContent value="xray" className="mt-6">
-              <HoofXrayPortal />
+              <ErrorBoundary>
+                <HoofXrayPortal />
+              </ErrorBoundary>
             </TabsContent>
             <TabsContent value="audit" className="mt-6">
               <AuditLogViewer />

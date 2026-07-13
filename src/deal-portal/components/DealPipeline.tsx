@@ -1,13 +1,16 @@
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { useAuth } from '@/context/AuthContext';
 
-const pipeline = [
-  { region: 'North America', licensee: 'BigPharma Inc.', status: 'term_sheet', stage: 'Negotiation' },
-  { region: 'EU', licensee: 'EuroVet SA', status: 'due_diligence', stage: 'Diligence' },
-  { region: 'UK', licensee: null, status: 'available', stage: 'Evaluation' },
-  { region: 'APAC', licensee: 'AsiaEquine Pte', status: 'term_sheet', stage: 'Negotiation' },
-];
+interface PipelineEntry {
+  id: string;
+  region: string;
+  licensee: string | null;
+  status: string;
+  stage: string;
+}
 
 const statusStyles: Record<string, string> = {
   available: 'bg-slate-100 text-slate-700',
@@ -18,6 +21,21 @@ const statusStyles: Record<string, string> = {
 };
 
 export function DealPipeline() {
+  const { client } = useAuth();
+  const [pipeline, setPipeline] = useState<PipelineEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    client.from('deal_pipeline_entries').select('*').order('created_at').then(({ data }) => {
+      setPipeline((data as PipelineEntry[]) || []);
+      setLoading(false);
+    });
+  }, [client]);
+
+  if (loading) return <div className="p-4 text-center text-sm text-slate-500">Loading pipeline...</div>;
+
+  if (pipeline.length === 0) return null;
+
   return (
     <Card>
       <CardHeader>
@@ -35,12 +53,12 @@ export function DealPipeline() {
           </TableHeader>
           <TableBody>
             {pipeline.map((deal) => (
-              <TableRow key={deal.region}>
+              <TableRow key={deal.id}>
                 <TableCell>{deal.region}</TableCell>
                 <TableCell>{deal.licensee || '—'}</TableCell>
                 <TableCell>{deal.stage}</TableCell>
                 <TableCell>
-                  <Badge variant="secondary" className={statusStyles[deal.status]}>
+                  <Badge variant="secondary" className={statusStyles[deal.status] || ''}>
                     {deal.status.replace('_', ' ')}
                   </Badge>
                 </TableCell>

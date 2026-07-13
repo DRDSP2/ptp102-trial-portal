@@ -1,13 +1,30 @@
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { useAuth } from '@/context/AuthContext';
 
-const team = [
-  { name: 'Dr. Daniel Shanahan-Prendergast', role: 'Director / IP Lead', initials: 'DS' },
-  { name: 'Dr. Pamela Tiebler', role: 'Clinical Lead', initials: 'PT' },
-  { name: 'Dr. Alex Byrne', role: 'Regulatory & CMC', initials: 'AB' },
-  { name: "Sarah O'Connor", role: 'Operations', initials: 'SO' },
-];
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  initials: string;
+}
 
 export function TeamDirectory() {
+  const { client } = useAuth();
+  const [members, setMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    client.from('deal_team_members').select('*').order('created_at').then(({ data }) => {
+      setMembers((data as TeamMember[]) || []);
+      setLoading(false);
+    });
+  }, [client]);
+
+  if (loading) return <div className="p-4 text-center text-sm text-slate-500">Loading team...</div>;
+
+  if (members.length === 0) return null;
+
   return (
     <Card>
       <CardHeader>
@@ -15,8 +32,8 @@ export function TeamDirectory() {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {team.map((member) => (
-            <div key={member.name} className="flex items-center gap-3 border rounded-lg p-3">
+          {members.map((member) => (
+            <div key={member.id} className="flex items-center gap-3 border rounded-lg p-3">
               <div className="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold text-slate-700">
                 {member.initials}
               </div>
