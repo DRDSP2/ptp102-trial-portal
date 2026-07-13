@@ -22,7 +22,7 @@ export function InvestorGovernance() {
             </div>
             <p>
               The Founder Agreement establishes the roles of Dr. Daniel Shanahan-Prendergast and Dr. Pamela
-              Tiebler, assigns pre-existing IP to Byrock Clinical Ltd, and defines a four-year vesting
+              Tiebler, assigns pre-existing IP to Byrock Technologies Ltd, and defines a four-year vesting
               schedule with a one-year cliff.
             </p>
           </TabsContent>

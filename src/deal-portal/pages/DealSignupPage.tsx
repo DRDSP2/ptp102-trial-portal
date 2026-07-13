@@ -21,6 +21,13 @@ const signupSchema = z.object({
 
 type SignupValues = z.infer<typeof signupSchema>;
 
+function friendlySignupError(message?: string) {
+  if (message?.toLowerCase().includes('already')) {
+    return 'An account already exists for this email. Please sign in instead.';
+  }
+  return 'We could not create your account. Please check your details and try again.';
+}
+
 export function DealSignupPage() {
   const navigate = useNavigate();
   const { client } = useAuth();
@@ -52,7 +59,7 @@ export function DealSignupPage() {
       });
 
       if (authError) {
-        setError(authError.message);
+        setError(friendlySignupError(authError.message));
         return;
       }
 
@@ -68,7 +75,7 @@ export function DealSignupPage() {
 
       navigate('/deal/terms');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Signup failed');
+      setError(friendlySignupError(err instanceof Error ? err.message : undefined));
     } finally {
       setIsSubmitting(false);
     }
@@ -150,6 +157,9 @@ export function DealSignupPage() {
               )}
               <Button type="submit" className="w-full" disabled={isSubmitting}>
                 {isSubmitting ? 'Creating account...' : 'Continue to Terms'}
+              </Button>
+              <Button type="button" variant="link" className="w-full" onClick={() => navigate('/deal/login')}>
+                Already have an account? Sign in
               </Button>
             </form>
           </Form>

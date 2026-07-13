@@ -108,7 +108,10 @@ export function TermSheetBuilder({ editable = true, onPropose, initialValues }: 
                     <Input
                       type="number"
                       step="0.01"
-                      {...field}
+                      name={field.name}
+                      ref={field.ref}
+                      onBlur={field.onBlur}
+                      value={Number.isFinite(field.value) ? field.value * 100 : ''}
                       disabled={!editable}
                       onChange={(e) => field.onChange(Number(e.target.value) / 100)}
                     />

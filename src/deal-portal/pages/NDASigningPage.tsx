@@ -278,6 +278,21 @@ export function NDASigningPage() {
         return;
       }
 
+      if (values.projectRegions.length > 0) {
+        const { data: profile } = await client
+          .from('deal_profiles')
+          .select('region_of_interest')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (!profile?.region_of_interest) {
+          await client
+            .from('deal_profiles')
+            .update({ region_of_interest: values.projectRegions[0] })
+            .eq('user_id', user.id);
+        }
+      }
+
       // Audit log entry
       await client.from('deal_access_logs').insert({
         user_id: user.id,

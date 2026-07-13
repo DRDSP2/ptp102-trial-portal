@@ -108,7 +108,7 @@ describe('MasterTrialsTable — Trial Data tab does not crash on missing vet ema
     const user = userEvent.setup();
 
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider>
           <AppShell>
             <DashboardPage />

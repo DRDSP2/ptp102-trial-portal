@@ -8,7 +8,7 @@ import { createMockSupabaseAuth } from '@/__tests__/utils/mockSupabaseAuth';
 
 function renderWithRouter(children: React.ReactNode, initialEntries = ['/']) {
   return render(
-    <MemoryRouter initialEntries={initialEntries}>
+    <MemoryRouter initialEntries={initialEntries} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route path="/" element={children} />
         <Route path="/deal/signup" element={<div data-testid="signup">Signup</div>} />

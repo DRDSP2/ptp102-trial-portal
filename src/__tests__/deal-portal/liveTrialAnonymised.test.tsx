@@ -51,7 +51,7 @@ describe('LiveTrialDashboard', () => {
   it('renders anonymised trial data without vet PII', async () => {
     const mockAuth = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mockAuth as never}>
           <LiveTrialDashboard />
         </AuthProvider>

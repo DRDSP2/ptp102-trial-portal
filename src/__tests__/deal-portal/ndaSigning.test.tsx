@@ -31,6 +31,17 @@ function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: {
                       : null,
                     error: ndaSigned ? null : { code: 'PGRST116' },
                   }),
+                  maybeSingle: vi.fn().mockResolvedValue({
+                    data: ndaSigned
+                      ? {
+                          signed_at: '2026-07-10T10:00:00.000Z',
+                          expires_at: '2032-07-10T10:00:00.000Z',
+                          template_version: templateVersion,
+                          approval_status: 'approved',
+                        }
+                      : null,
+                    error: null,
+                  }),
                 })),
               })),
             })),
@@ -130,7 +141,7 @@ describe('NDA v2.0 Signing', () => {
     const user = userEvent.setup();
     const { mock } = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mock as never}>
           <NDASigningPage />
         </AuthProvider>
@@ -166,7 +177,7 @@ describe('NDA v2.0 Signing', () => {
     const user = userEvent.setup();
     const { mock, getLastNdaInsert } = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mock as never}>
           <NDASigningPage />
         </AuthProvider>
@@ -191,7 +202,7 @@ describe('NDA v2.0 Signing', () => {
     const user = userEvent.setup();
     const { mock, getLastNdaInsert } = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mock as never}>
           <NDASigningPage />
         </AuthProvider>
@@ -217,7 +228,7 @@ describe('NDA v2.0 Signing', () => {
     const user = userEvent.setup();
     const { mock, getLastNdaInsert } = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mock as never}>
           <NDASigningPage />
         </AuthProvider>
@@ -242,7 +253,7 @@ describe('NDA v2.0 Signing', () => {
     const user = userEvent.setup();
     const { mock } = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mock as never}>
           <NDASigningPage />
         </AuthProvider>
@@ -267,7 +278,7 @@ describe('NDA v2.0 Gate', () => {
   it('redirects to /deal/nda when templateVersion is v1.0', async () => {
     const { mock } = buildMockAuth({ ndaSigned: true, templateVersion: 'v1.0' });
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mock as never}>
           <Routes>
             <Route path="/" element={<NDAGate><div data-testid="gated-content">Gated</div></NDAGate>} />
@@ -283,7 +294,7 @@ describe('NDA v2.0 Gate', () => {
   it('allows access when templateVersion is v2.0-byrock', async () => {
     const { mock } = buildMockAuth({ ndaSigned: true, templateVersion: 'v2.0-byrock' });
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={['/']} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mock as never}>
           <Routes>
             <Route path="/" element={<NDAGate><div data-testid="gated-content">Gated</div></NDAGate>} />

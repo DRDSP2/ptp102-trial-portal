@@ -15,9 +15,16 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Shield, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import type { DealTier } from '@/types/roles';
 
 type AppShellProps = {
   children: ReactNode;
+};
+
+type DealNavItem = {
+  label: string;
+  path: string;
+  tier: DealTier;
 };
 
 export function AppShell({ children }: AppShellProps) {
@@ -38,7 +45,7 @@ export function AppShell({ children }: AppShellProps) {
   const isAuditLog = location.pathname === '/admin/audit-log';
   const showBreadcrumb = !isDashboard;
   const isDealRoute = location.pathname.startsWith('/deal/');
-  const showDealNav = auth.dealProfile && isDealRoute;
+  const showDealNav = isDealRoute && (auth.dealProfile || isAdmin);
 
   return (
     <div className="min-h-screen bg-base-200">
@@ -77,7 +84,7 @@ export function AppShell({ children }: AppShellProps) {
       {showDealNav && (
         <nav className="bg-base-100 border-b border-base-200 px-6 py-2">
           <div className="container mx-auto max-w-7xl flex gap-2 overflow-x-auto">
-            {[
+            {([
               { label: 'Overview', path: '/deal/overview', tier: 'evaluation' },
               { label: 'CMC', path: '/deal/cmc', tier: 'diligence' },
               { label: 'Trials', path: '/deal/trials/live', tier: 'diligence' },
@@ -86,9 +93,9 @@ export function AppShell({ children }: AppShellProps) {
               { label: 'IP', path: '/deal/ip-portfolio', tier: 'diligence' },
               { label: 'Term Sheet', path: '/deal/term-sheet', tier: 'exclusive' },
               { label: 'Regions', path: '/deal/regions', tier: 'exclusive' },
-              ...(auth.isInvestor ? [{ label: 'Investor', path: '/deal/investor', tier: 'evaluation' }] : []),
-            ]
-              .filter((item) => auth.hasDealAccess(item.tier as any))
+              ...(auth.isInvestor ? [{ label: 'Investor', path: '/deal/investor', tier: 'evaluation' } satisfies DealNavItem] : []),
+            ] satisfies DealNavItem[])
+              .filter((item) => isAdmin || auth.hasDealAccess(item.tier))
               .map((item) => (
                 <Link
                   key={item.path}

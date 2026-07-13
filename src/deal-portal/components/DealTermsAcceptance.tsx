@@ -1,17 +1,51 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+
+const CONSENT_VERSION = 'deal-terms-v1.0';
+const LEGAL_ENTITY = 'Byrock Technologies Ltd';
 
 export function DealTermsAcceptance() {
   const navigate = useNavigate();
+  const { user, client } = useAuth();
   const [tosAccepted, setTosAccepted] = useState(false);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleContinue = () => {
-    if (tosAccepted && privacyAccepted) {
+  const handleContinue = async () => {
+    if (!tosAccepted || !privacyAccepted) return;
+    setError(null);
+    setIsSaving(true);
+    try {
+      if (user) {
+        const { data: existingConsent } = await client
+          .from('deal_access_logs')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('action', 'terms_consent')
+          .eq('document_type', 'deal_terms')
+          .maybeSingle();
+
+        if (!existingConsent) {
+          const { error: consentError } = await client.from('deal_access_logs').insert({
+            user_id: user.id,
+            action: 'terms_consent',
+            document_type: 'deal_terms',
+            action_detail: `${CONSENT_VERSION}: Terms of Service and Privacy Policy accepted for ${LEGAL_ENTITY}`,
+          });
+          if (consentError) throw consentError;
+        }
+      }
       navigate('/deal/nda');
+    } catch {
+      setError('We could not record your consent. Please try again.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -25,14 +59,14 @@ export function DealTermsAcceptance() {
           <strong>Terms of Service</strong>
           <p className="mt-2">
             The Service is for authorised veterinary pharmaceutical, device, and
-            clinical-trial partners. By accessing the Byrock Clinical Ltd deal
+            clinical-trial partners. By accessing the Byrock Technologies Ltd deal
             room you agree to keep all materials strictly confidential, not to
             reproduce or distribute documents without written permission, and to
             use information solely for the purpose of evaluating a potential
-            transaction with Byrock Clinical Ltd.
+            transaction with Byrock Technologies Ltd, Augustine House, Oliver Bond Street, Dublin 8, Ireland.
           </p>
           <p className="mt-2">
-            Byrock Clinical Ltd reserves the right to revoke access at any time
+            Byrock Technologies Ltd reserves the right to revoke access at any time
             for violation of these terms or applicable law.
           </p>
         </div>
@@ -68,11 +102,16 @@ export function DealTermsAcceptance() {
         </div>
         <Button
           onClick={handleContinue}
-          disabled={!tosAccepted || !privacyAccepted}
+          disabled={!tosAccepted || !privacyAccepted || isSaving}
           className="w-full"
         >
-          Continue to NDA
+          {isSaving ? 'Recording consent...' : 'Continue to NDA'}
         </Button>
+        {error && (
+          <Alert variant="destructive">
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
       </CardContent>
     </Card>
   );

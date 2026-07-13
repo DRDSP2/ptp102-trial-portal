@@ -59,7 +59,7 @@ describe('CMCDataRoom', () => {
   it('renders milestones and documents for diligence users', async () => {
     const mockAuth = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mockAuth as never}>
           <CMCDataRoom />
         </AuthProvider>
@@ -70,6 +70,8 @@ describe('CMCDataRoom', () => {
 
     expect(screen.getByText('API synthesis route finalised')).toBeInTheDocument();
     expect(screen.getByText('Assay method validation')).toBeInTheDocument();
+    expect(screen.getByText('Manufacturing Dossier')).toBeInTheDocument();
+    expect(screen.getByText(/Module 3: Quality/i)).toBeInTheDocument();
     expect(screen.getByText('CMC Development Plan')).toBeInTheDocument();
     expect(screen.getByText('Module 3 Outline')).toBeInTheDocument();
   });

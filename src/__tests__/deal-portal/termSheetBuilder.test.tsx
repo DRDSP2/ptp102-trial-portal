@@ -10,7 +10,7 @@ describe('TermSheetBuilder', () => {
     const onPropose = vi.fn();
     const mockAuth = createMockSupabaseAuth({ tier: 'exclusive' });
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mockAuth as never}>
           <TermSheetBuilder editable onPropose={onPropose} />
         </AuthProvider>
@@ -40,5 +40,34 @@ describe('TermSheetBuilder', () => {
       }),
       expect.anything(),
     );
+  });
+
+  it('shows stored fractional royalty rates as percentages and saves fractions', async () => {
+    const onPropose = vi.fn();
+    const mockAuth = createMockSupabaseAuth({ tier: 'exclusive' });
+    render(
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <AuthProvider overrideClient={mockAuth as never}>
+          <TermSheetBuilder
+            editable
+            onPropose={onPropose}
+            initialValues={{ royalty_rate: 0.05 }}
+          />
+        </AuthProvider>
+      </MemoryRouter>,
+    );
+
+    const royaltyInput = await screen.findByLabelText('Royalty Rate (%)');
+    expect(royaltyInput).toHaveValue(5);
+
+    fireEvent.change(royaltyInput, { target: { value: '7.5' } });
+    fireEvent.submit(screen.getByTestId('term-sheet-form'));
+
+    await waitFor(() => {
+      expect(onPropose).toHaveBeenCalledWith(
+        expect.objectContaining({ royalty_rate: 0.075 }),
+        expect.anything(),
+      );
+    });
   });
 });

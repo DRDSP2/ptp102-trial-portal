@@ -149,6 +149,10 @@ export function createMockSupabaseAuth({
                     data: ndaData,
                     error: ndaSigned ? null : { code: 'PGRST116' },
                   }),
+                  maybeSingle: vi.fn().mockResolvedValue({
+                    data: ndaData,
+                    error: null,
+                  }),
                 })),
               })),
             })),

@@ -13,10 +13,12 @@ export function ProtectedDealRoute({
   minimumTier,
   requireRole,
 }: ProtectedDealRouteProps) {
-  const { user, dealProfile, dealTier, hasDealAccess, isInvestor, isLicensee, isLoading } = useAuth();
+  const { user, role, dealProfile, dealTier, hasDealAccess, isInvestor, isLicensee, isLoading } = useAuth();
+  const isAdmin = role === 'admin';
 
-  if (isLoading || (user && !dealProfile)) return <div className="p-8 text-center">Loading...</div>;
+  if (isLoading || (user && !dealProfile && !isAdmin)) return <div className="p-8 text-center">Loading...</div>;
   if (!user) return <Navigate to="/deal/signup" replace />;
+  if (isAdmin) return <>{children}</>;
   if (!dealProfile) return <Navigate to="/deal/signup" replace />;
   if (!hasDealAccess(minimumTier)) {
     // Users without any tier haven't completed the NDA yet.

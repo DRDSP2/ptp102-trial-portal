@@ -109,7 +109,7 @@ describe('Admin navigation and role preservation', () => {
     seedAuth('admin', 'admin@example.com');
     seedShipments();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider>
           <AppShell>
             <DashboardPage />
@@ -130,7 +130,7 @@ describe('Admin navigation and role preservation', () => {
     seedShipments();
     const user = userEvent.setup();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider>
           <AppShell>
             <DashboardPage />
@@ -151,7 +151,7 @@ describe('Admin navigation and role preservation', () => {
     seedAuth('admin', 'admin@example.com');
     const user = userEvent.setup();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider>
           <AppShell>
             <DashboardPage />
@@ -171,7 +171,7 @@ describe('Admin navigation and role preservation', () => {
     seedAuth('admin', 'admin@example.com');
     seedPatient();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider>
           <CaseWorkspace patientId={1} onBack={() => {}} />
         </AuthProvider>

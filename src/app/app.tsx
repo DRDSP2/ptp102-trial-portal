@@ -1,6 +1,6 @@
 import '@/index.css';
 
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
@@ -10,30 +10,36 @@ import { VetRegisterPage } from '@/pages/VetRegisterPage';
 import { VetResetPage } from '@/pages/VetResetPage';
 import { AdminLoginPage } from '@/pages/AdminLoginPage';
 import { PendingApprovalPage } from '@/pages/PendingApprovalPage';
-import { DashboardPage } from '@/pages/DashboardPage';
-import { PatientCasePage } from '@/pages/PatientCasePage';
-import { AuditLogPage } from '@/pages/AuditLogPage';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
 import { AppShell } from '@/components/AppShell';
 import { Toaster } from '@/components/ui/sonner';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { DealSignupPage } from '@/deal-portal/pages/DealSignupPage';
-import { NDASigningPage } from '@/deal-portal/pages/NDASigningPage';
+import { DealLoginPage } from '@/deal-portal/pages/DealLoginPage';
 import { DealTermsAcceptancePage } from '@/deal-portal/pages/DealTermsAcceptancePage';
-import { DealOverviewPage } from '@/deal-portal/pages/DealOverviewPage';
-import { CMCDataRoomPage } from '@/deal-portal/pages/CMCDataRoomPage';
-import { LiveTrialDashboardPage } from '@/deal-portal/pages/LiveTrialDashboardPage';
-import { FinancialDashboardPage } from '@/deal-portal/pages/FinancialDashboardPage';
-import { CapTablePage } from '@/deal-portal/pages/CapTablePage';
-import { IPPortfolioPage } from '@/deal-portal/pages/IPPortfolioPage';
-import { TermSheetNegotiationPage } from '@/deal-portal/pages/TermSheetNegotiationPage';
-import { RegionMarketplacePage } from '@/deal-portal/pages/RegionMarketplacePage';
-import { InvestorDashboardPage } from '@/deal-portal/pages/InvestorDashboardPage';
-import { AdminDealUsersPanel } from '@/admin/components/AdminDealUsersPanel';
-import { AdminDocumentManager } from '@/admin/components/AdminDocumentManager';
-import { AdminDealPaymentsPanel } from '@/admin/components/AdminDealPaymentsPanel';
-import { AdminDealCompliancePanel } from '@/admin/components/AdminDealCompliancePanel';
 import { ProtectedDealRoute } from '@/deal-portal/components/ProtectedDealRoute';
+
+const DashboardPage = lazy(() => import('@/pages/DashboardPage').then((m) => ({ default: m.DashboardPage })));
+const PatientCasePage = lazy(() => import('@/pages/PatientCasePage').then((m) => ({ default: m.PatientCasePage })));
+const AuditLogPage = lazy(() => import('@/pages/AuditLogPage').then((m) => ({ default: m.AuditLogPage })));
+const AdminDealUsersPanel = lazy(() => import('@/admin/components/AdminDealUsersPanel').then((m) => ({ default: m.AdminDealUsersPanel })));
+const AdminDocumentManager = lazy(() => import('@/admin/components/AdminDocumentManager').then((m) => ({ default: m.AdminDocumentManager })));
+const AdminDealPaymentsPanel = lazy(() => import('@/admin/components/AdminDealPaymentsPanel').then((m) => ({ default: m.AdminDealPaymentsPanel })));
+const AdminDealCompliancePanel = lazy(() => import('@/admin/components/AdminDealCompliancePanel').then((m) => ({ default: m.AdminDealCompliancePanel })));
+const NDASigningPage = lazy(() => import('@/deal-portal/pages/NDASigningPage').then((m) => ({ default: m.NDASigningPage })));
+const DealOverviewPage = lazy(() => import('@/deal-portal/pages/DealOverviewPage').then((m) => ({ default: m.DealOverviewPage })));
+const CMCDataRoomPage = lazy(() => import('@/deal-portal/pages/CMCDataRoomPage').then((m) => ({ default: m.CMCDataRoomPage })));
+const LiveTrialDashboardPage = lazy(() => import('@/deal-portal/pages/LiveTrialDashboardPage').then((m) => ({ default: m.LiveTrialDashboardPage })));
+const FinancialDashboardPage = lazy(() => import('@/deal-portal/pages/FinancialDashboardPage').then((m) => ({ default: m.FinancialDashboardPage })));
+const CapTablePage = lazy(() => import('@/deal-portal/pages/CapTablePage').then((m) => ({ default: m.CapTablePage })));
+const IPPortfolioPage = lazy(() => import('@/deal-portal/pages/IPPortfolioPage').then((m) => ({ default: m.IPPortfolioPage })));
+const TermSheetNegotiationPage = lazy(() => import('@/deal-portal/pages/TermSheetNegotiationPage').then((m) => ({ default: m.TermSheetNegotiationPage })));
+const RegionMarketplacePage = lazy(() => import('@/deal-portal/pages/RegionMarketplacePage').then((m) => ({ default: m.RegionMarketplacePage })));
+const InvestorDashboardPage = lazy(() => import('@/deal-portal/pages/InvestorDashboardPage').then((m) => ({ default: m.InvestorDashboardPage })));
+
+function LazyPage({ children, label = 'Loading...' }: { children: ReactNode; label?: string }) {
+  return <Suspense fallback={<div className="p-8 text-center">{label}</div>}>{children}</Suspense>;
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -63,7 +69,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppShell>
-                    <DashboardPage />
+                    <LazyPage><DashboardPage /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }
@@ -73,7 +79,7 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppShell>
-                    <PatientCasePage />
+                    <LazyPage><PatientCasePage /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }
@@ -83,14 +89,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppShell>
-                    <AuditLogPage />
+                    <LazyPage><AuditLogPage /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }
             />
             {/* Deal Portal — Public */}
             <Route path="/deal/signup" element={<DealSignupPage />} />
-            <Route path="/deal/nda" element={<ErrorBoundary><NDASigningPage /></ErrorBoundary>} />
+            <Route path="/deal/login" element={<DealLoginPage />} />
+            <Route path="/deal/nda" element={<ErrorBoundary><LazyPage label="Loading deal room..."><NDASigningPage /></LazyPage></ErrorBoundary>} />
             <Route path="/deal/terms" element={<DealTermsAcceptancePage />} />
 
             {/* Deal Portal — Evaluation Tier */}
@@ -98,7 +105,7 @@ function App() {
               path="/deal/overview"
               element={
                 <ProtectedDealRoute minimumTier="evaluation">
-                  <DealOverviewPage />
+                  <LazyPage label="Loading deal room..."><DealOverviewPage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -108,7 +115,7 @@ function App() {
               path="/deal/cmc"
               element={
                 <ProtectedDealRoute minimumTier="diligence">
-                  <CMCDataRoomPage />
+                  <LazyPage label="Loading deal room..."><CMCDataRoomPage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -116,7 +123,7 @@ function App() {
               path="/deal/trials/live"
               element={
                 <ProtectedDealRoute minimumTier="diligence">
-                  <LiveTrialDashboardPage />
+                  <LazyPage label="Loading deal room..."><LiveTrialDashboardPage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -124,7 +131,7 @@ function App() {
               path="/deal/financials"
               element={
                 <ProtectedDealRoute minimumTier="diligence">
-                  <FinancialDashboardPage />
+                  <LazyPage label="Loading deal room..."><FinancialDashboardPage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -132,7 +139,7 @@ function App() {
               path="/deal/cap-table"
               element={
                 <ProtectedDealRoute minimumTier="diligence">
-                  <CapTablePage />
+                  <LazyPage label="Loading deal room..."><CapTablePage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -140,7 +147,7 @@ function App() {
               path="/deal/ip-portfolio"
               element={
                 <ProtectedDealRoute minimumTier="diligence">
-                  <IPPortfolioPage />
+                  <LazyPage label="Loading deal room..."><IPPortfolioPage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -150,7 +157,7 @@ function App() {
               path="/deal/term-sheet"
               element={
                 <ProtectedDealRoute minimumTier="exclusive">
-                  <TermSheetNegotiationPage />
+                  <LazyPage label="Loading deal room..."><TermSheetNegotiationPage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -158,7 +165,7 @@ function App() {
               path="/deal/regions"
               element={
                 <ProtectedDealRoute minimumTier="exclusive">
-                  <RegionMarketplacePage />
+                  <LazyPage label="Loading deal room..."><RegionMarketplacePage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -168,7 +175,7 @@ function App() {
               path="/deal/investor"
               element={
                 <ProtectedDealRoute minimumTier="evaluation" requireRole="investor">
-                  <InvestorDashboardPage />
+                  <LazyPage label="Loading deal room..."><InvestorDashboardPage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />
@@ -179,7 +186,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="admin">
                   <AppShell>
-                    <AdminDealUsersPanel />
+                    <LazyPage><AdminDealUsersPanel /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }
@@ -189,7 +196,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="admin">
                   <AppShell>
-                    <AdminDocumentManager />
+                    <LazyPage><AdminDocumentManager /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }
@@ -199,7 +206,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="admin">
                   <AppShell>
-                    <AdminDealPaymentsPanel />
+                    <LazyPage><AdminDealPaymentsPanel /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }
@@ -209,7 +216,7 @@ function App() {
               element={
                 <ProtectedRoute requiredRole="admin">
                   <AppShell>
-                    <AdminDealCompliancePanel />
+                    <LazyPage><AdminDealCompliancePanel /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }

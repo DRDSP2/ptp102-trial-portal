@@ -4,6 +4,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useCMCData } from '@/deal-portal/hooks/useCMCData';
 import { CMCTimeline } from './CMCTimeline';
 import { FileText } from 'lucide-react';
+import { ManufacturingDossier } from './ManufacturingDossier';
+import { RegulatoryPackageViewer } from './RegulatoryPackageViewer';
 
 const categoryLabels: Record<string, string> = {
   regulatory: 'Regulatory',
@@ -20,6 +22,8 @@ export function CMCDataRoom() {
   return (
     <div className="space-y-8">
       <CMCTimeline milestones={milestones} />
+      <ManufacturingDossier />
+      <RegulatoryPackageViewer />
 
       <Card>
         <CardHeader>

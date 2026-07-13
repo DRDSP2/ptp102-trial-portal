@@ -53,7 +53,7 @@ describe('AdminDocumentManager', () => {
   it('renders documents and allows archive action', async () => {
     const mockAuth = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mockAuth as never}>
           <AdminDocumentManager />
         </AuthProvider>

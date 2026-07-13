@@ -92,7 +92,7 @@ function seedQualification(vetId: number, vetEmail: string) {
 function renderDashboard(role: 'admin' | 'vet', email: string) {
   seedAuth(role, email);
   render(
-    <MemoryRouter>
+    <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AuthProvider>
         <AppShell>
           <DashboardPage />

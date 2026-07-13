@@ -5,7 +5,19 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { approveNda, denyNda } from '@/deal-portal/lib/ndaApproval';
+import { LoaderCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import type { DealProfile, DealTier } from '@/types/roles';
 
 type NdaSummary = {
@@ -23,6 +35,7 @@ export function AdminDealUsersPanel() {
   const [ndas, setNdas] = useState<NdaSummary[]>([]);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState<Record<string, boolean>>({});
+  const [denyTarget, setDenyTarget] = useState<DealProfile | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -47,7 +60,7 @@ export function AdminDealUsersPanel() {
   const handleApprove = async (profile: DealProfile) => {
     const nda = getNdaForUser(profile.user_id);
     if (!nda?.investor_email) {
-      alert('Investor email not found on NDA record.');
+      toast.error('NDA approval is missing the investor email.');
       return;
     }
     setProcessing((p) => ({ ...p, [profile.user_id]: true }));
@@ -60,8 +73,9 @@ export function AdminDealUsersPanel() {
         baseUrl,
       });
       await fetchData();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : 'Approval failed');
+      toast.success('NDA approved and countersigned.');
+    } catch (_err) {
+      toast.error('NDA approval failed. Please try again or check the audit log.');
     } finally {
       setProcessing((p) => ({ ...p, [profile.user_id]: false }));
     }
@@ -70,10 +84,9 @@ export function AdminDealUsersPanel() {
   const handleDeny = async (profile: DealProfile) => {
     const nda = getNdaForUser(profile.user_id);
     if (!nda?.investor_email) {
-      alert('Investor email not found on NDA record.');
+      toast.error('NDA decline is missing the investor email.');
       return;
     }
-    if (!confirm('Decline this NDA application?')) return;
     setProcessing((p) => ({ ...p, [profile.user_id]: true }));
     try {
       await denyNda({
@@ -83,10 +96,12 @@ export function AdminDealUsersPanel() {
         companyName: profile.company || nda.investor_email,
       });
       await fetchData();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : 'Decline failed');
+      toast.success('NDA application declined.');
+    } catch (_err) {
+      toast.error('NDA decline failed. Please try again.');
     } finally {
       setProcessing((p) => ({ ...p, [profile.user_id]: false }));
+      setDenyTarget(null);
     }
   };
 
@@ -121,7 +136,7 @@ export function AdminDealUsersPanel() {
                 const isApproved = nda?.approval_status === 'approved';
                 const pdfUrl = viewPdfUrl(nda?.signed_pdf_path || null);
                 return (
-                  <TableRow key={profile.id}>
+                  <TableRow key={profile.id} className={processing[profile.user_id] ? 'opacity-60' : undefined}>
                     <TableCell className="font-medium">{profile.company || '—'}</TableCell>
                     <TableCell className="capitalize">{profile.role.replace(/_/g, ' ')}</TableCell>
                     <TableCell>
@@ -148,7 +163,13 @@ export function AdminDealUsersPanel() {
                         <span className="text-sm text-muted-foreground">Not signed</span>
                       )}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="relative">
+                      {processing[profile.user_id] && (
+                        <div className="absolute inset-0 z-10 flex items-center justify-center rounded bg-background/80 text-xs font-medium">
+                          <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                          Updating NDA...
+                        </div>
+                      )}
                       <div className="flex items-center gap-2 flex-wrap">
                         <Select
                           onValueChange={(value) => updateTier(profile.user_id, value as DealTier)}
@@ -176,7 +197,7 @@ export function AdminDealUsersPanel() {
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => handleDeny(profile)}
+                              onClick={() => setDenyTarget(profile)}
                               disabled={processing[profile.user_id]}
                             >
                               Decline
@@ -192,6 +213,22 @@ export function AdminDealUsersPanel() {
           </Table>
         </CardContent>
       </Card>
+      <AlertDialog open={!!denyTarget} onOpenChange={(open) => !open && setDenyTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Decline this NDA application?</AlertDialogTitle>
+            <AlertDialogDescription>
+              The applicant will be notified and their pending NDA approval will be declined.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={() => denyTarget && handleDeny(denyTarget)}>
+              Decline NDA
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

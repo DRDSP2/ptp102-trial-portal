@@ -29,7 +29,7 @@ export function useNDAStatus() {
       .eq('status', 'signed')
       .order('signed_at', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
     setNda({
       signed: !!data && !error && data.approval_status === 'approved',
       expiresAt: data?.expires_at || null,

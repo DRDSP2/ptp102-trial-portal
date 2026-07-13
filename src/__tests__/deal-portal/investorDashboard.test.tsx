@@ -43,7 +43,7 @@ describe('InvestorDashboard', () => {
   it('renders investor updates and KPIs', async () => {
     const mockAuth = buildMockAuth();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mockAuth as never}>
           <InvestorDashboard />
         </AuthProvider>

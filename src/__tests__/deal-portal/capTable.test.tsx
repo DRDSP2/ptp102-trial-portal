@@ -54,7 +54,7 @@ describe('CapTableViewer', () => {
   it('hides shareholder names in anonymised mode for diligence users', async () => {
     const mockAuth = buildMockAuth({ role: 'licensee_eval', tier: 'diligence' });
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mockAuth as never}>
           <CapTableViewer />
         </AuthProvider>
@@ -71,7 +71,7 @@ describe('CapTableViewer', () => {
   it('reveals full names and ESOP grants for investors', async () => {
     const mockAuth = buildMockAuth({ role: 'investor', tier: 'evaluation' });
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AuthProvider overrideClient={mockAuth as never}>
           <CapTableViewer />
         </AuthProvider>
