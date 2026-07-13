@@ -1,26 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
-const slides = [
-  { title: 'The Problem', content: 'Equine lameness and inflammatory conditions are misdiagnosed, fragmented, and expensive...' },
-  { title: 'Our Solution', content: 'PTP-102 is an integrated equine clinical platform that standardises biomarker assessment...' },
-  { title: 'Market Opportunity', content: 'Target equine population: ~12.7M. Laminitis case rate: 10%. Global TAM: ~1.2M cases...' },
-  { title: 'Our Product', content: 'Lameness assessment module, biomarker analytics, regulatory documentation, partner portal...' },
-  { title: 'Business Model', content: 'Licensing + SaaS subscriptions + Trial & consulting services...' },
-  { title: 'Traction', content: 'Year 1 revenue potential: ~$598.6M. Gross margin: ~96.5%. Operating margin: ~18-20%...' },
-  { title: 'Go-To-Market', content: 'Targeted outreach to equine hospitals, strategic licensing, scientific publication...' },
-  { title: 'The Team', content: 'Dr. Daniel Shanahan-Prendergast (Director/IP Lead), Dr. Pamela Tiebler (Clinical Lead)...' },
-  { title: 'Financial Projections', content: 'Year 1: $598.6M → Year 4: $915.5M. See full model in Financial Dashboard...' },
-  { title: 'The Ask', content: 'Licence partnerships (territory-specific). Tranche A: ~$25.6M for manufacturing scale-up...' },
-  { title: 'CMC & Regulatory', content: 'API: Methylated tirilazad. Target: Conditional approval 3Q28. Non-CMC cost: ~$519k...' },
-];
+interface Slide {
+  id: string;
+  slide_number: number;
+  title: string;
+  content: string;
+}
 
 export function PitchDeckViewer() {
+  const { client } = useAuth();
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [current, setCurrent] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    client.from('pitch_deck_slides').select('*').order('slide_number').then(({ data }) => {
+      setSlides((data as Slide[]) || []);
+      setLoading(false);
+    });
+  }, [client]);
+
   const next = () => setCurrent((c) => Math.min(c + 1, slides.length - 1));
   const prev = () => setCurrent((c) => Math.max(c - 1, 0));
+
+  if (loading) return <div className="p-8 text-center text-slate-500">Loading pitch deck...</div>;
+
+  if (slides.length === 0) return null;
 
   return (
     <Card className="max-w-3xl mx-auto">

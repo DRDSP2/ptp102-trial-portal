@@ -15,6 +15,16 @@ interface AnonymisedTrialEvent {
   event_timestamp: string;
 }
 
+function computeStats(events: AnonymisedTrialEvent[]) {
+  const uniqueHorses = new Set(events.filter((e) => e.horse_id).map((e) => e.horse_id));
+  const enrolled = uniqueHorses.size;
+  const responded = events.filter((e) => e.outcome && e.outcome !== 'pending').length;
+  const totalWithOutcome = events.filter((e) => e.outcome !== null).length;
+  const responseRate = totalWithOutcome > 0 ? Math.round((responded / totalWithOutcome) * 100) : 0;
+  const adverseEvents = events.filter((e) => e.outcome?.toLowerCase().includes('adverse')).length;
+  return { enrolled, responseRate, adverseEvents };
+}
+
 export function LiveTrialDashboard() {
   const { client } = useAuth();
   const [events, setEvents] = useState<AnonymisedTrialEvent[]>([]);
@@ -45,6 +55,8 @@ export function LiveTrialDashboard() {
 
   if (loading) return <div className="p-8 text-center">Loading trial data...</div>;
 
+  const stats = computeStats(events);
+
   return (
     <div className="space-y-6">
       <Card>
@@ -59,15 +71,19 @@ export function LiveTrialDashboard() {
         <CardContent>
           <div className="grid grid-cols-3 gap-4 mb-6">
             <div className="bg-slate-50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold">8</div>
+              <div className="text-2xl font-bold">{stats.enrolled}</div>
               <div className="text-xs text-slate-500">Horses Enrolled</div>
             </div>
             <div className="bg-slate-50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-green-600">100%</div>
+              <div className={`text-2xl font-bold ${stats.responseRate >= 80 ? 'text-green-600' : 'text-amber-600'}`}>
+                {stats.responseRate}%
+              </div>
               <div className="text-xs text-slate-500">Response Rate</div>
             </div>
             <div className="bg-slate-50 p-4 rounded-lg text-center">
-              <div className="text-2xl font-bold text-green-600">0</div>
+              <div className={`text-2xl font-bold ${stats.adverseEvents === 0 ? 'text-green-600' : 'text-red-600'}`}>
+                {stats.adverseEvents}
+              </div>
               <div className="text-xs text-slate-500">Adverse Events</div>
             </div>
           </div>
