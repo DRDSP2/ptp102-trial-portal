@@ -15,28 +15,46 @@ const documents = [
   { id: 'd2', category: 'regulatory', title: 'Module 3 Outline', file_path: null, version: 'v0.5', access_tier_min: 'exclusive', uploaded_by: null, created_at: new Date().toISOString() },
 ];
 
+const dossierSections = [
+  { id: 'ds1', title: 'Site Master File (SMF)', description: 'Facility overview', sort_order: 1 },
+  { id: 'ds2', title: 'Drug Master File (DMF)', description: 'API synthesis', sort_order: 2 },
+];
+
+const regulatoryModules = [
+  { id: 'rm1', module_number: 3, title: 'Quality (CMC)', items: ['Drug substance', 'Drug product'], sort_order: 3 },
+];
+
 function buildMockAuth() {
   const base = createMockSupabaseAuth({ tier: 'diligence' });
+  const resolved = (data: unknown) => Promise.resolve({ data, error: null });
   return {
     ...base,
     from: vi.fn((table: string) => {
       if (table === 'cmc_milestones') {
         return {
           select: vi.fn(() => ({
-            order: vi.fn(() => ({
-              data: milestones,
-              error: null,
-            })),
+            order: vi.fn(() => resolved(milestones)),
           })),
         };
       }
       if (table === 'cmc_documents') {
         return {
           select: vi.fn(() => ({
-            order: vi.fn(() => ({
-              data: documents,
-              error: null,
-            })),
+            order: vi.fn(() => resolved(documents)),
+          })),
+        };
+      }
+      if (table === 'manufacturing_dossier_sections') {
+        return {
+          select: vi.fn(() => ({
+            order: vi.fn(() => resolved(dossierSections)),
+          })),
+        };
+      }
+      if (table === 'regulatory_modules') {
+        return {
+          select: vi.fn(() => ({
+            order: vi.fn(() => resolved(regulatoryModules)),
           })),
         };
       }
@@ -45,10 +63,7 @@ function buildMockAuth() {
       }
       return {
         select: vi.fn(() => ({
-          eq: vi.fn(() => ({
-            single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
-            maybeSingle: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
-          })),
+          order: vi.fn(() => resolved([])),
         })),
       };
     }),
@@ -67,10 +82,10 @@ describe('CMCDataRoom', () => {
     );
 
     await waitFor(() => expect(screen.getByText('CMC Development Timeline')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Manufacturing Dossier')).toBeInTheDocument());
 
     expect(screen.getByText('API synthesis route finalised')).toBeInTheDocument();
     expect(screen.getByText('Assay method validation')).toBeInTheDocument();
-    expect(screen.getByText('Manufacturing Dossier')).toBeInTheDocument();
     expect(screen.getByText(/Module 3: Quality/i)).toBeInTheDocument();
     expect(screen.getByText('CMC Development Plan')).toBeInTheDocument();
     expect(screen.getByText('Module 3 Outline')).toBeInTheDocument();
