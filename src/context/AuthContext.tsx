@@ -352,7 +352,7 @@ export function AuthProvider({
         client.auth.signOut().catch(() => {});
       },
     }),
-    [state, sessionScope, dealProfile, dealTier, isInvestor, isLicensee, hasDealAccess, refreshDealProfile],
+    [state, sessionScope, dealProfile, dealTier, isInvestor, isLicensee, hasDealAccess, refreshDealProfile, client],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
