@@ -175,3 +175,31 @@ export interface NDARow {
   status: 'pending' | 'signed' | 'expired' | 'revoked';
   created_at: string;
 }
+
+export interface LicenceRequest {
+  id: string;
+  term_sheet_id: string;
+  request_type: string;
+  region: string | null;
+  requested_by: string;
+  status: 'pending' | 'approved' | 'rejected';
+  notes: string | null;
+  signed_document_url: string | null;
+  approved_at: string | null;
+  approved_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Certificate {
+  id: string;
+  licence_id: string;
+  holder_user_id: string;
+  region: string;
+  certificate_number: string;
+  issued_at: string;
+  expires_at: string | null;
+  document_path: string | null;
+  status: 'active' | 'revoked' | 'expired';
+  created_at: string;
+}

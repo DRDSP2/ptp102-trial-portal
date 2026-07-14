@@ -36,6 +36,7 @@ const IPPortfolioPage = lazy(() => import('@/deal-portal/pages/IPPortfolioPage')
 const TermSheetNegotiationPage = lazy(() => import('@/deal-portal/pages/TermSheetNegotiationPage').then((m) => ({ default: m.TermSheetNegotiationPage })));
 const RegionMarketplacePage = lazy(() => import('@/deal-portal/pages/RegionMarketplacePage').then((m) => ({ default: m.RegionMarketplacePage })));
 const InvestorDashboardPage = lazy(() => import('@/deal-portal/pages/InvestorDashboardPage').then((m) => ({ default: m.InvestorDashboardPage })));
+const LicenceCertificatePage = lazy(() => import('@/deal-portal/pages/LicenceCertificatePage').then((m) => ({ default: m.LicenceCertificatePage })));
 
 function LazyPage({ children, label = 'Loading...' }: { children: ReactNode; label?: string }) {
   return <Suspense fallback={<div className="p-8 text-center">{label}</div>}>{children}</Suspense>;
@@ -166,6 +167,14 @@ function App() {
               element={
                 <ProtectedDealRoute minimumTier="exclusive">
                   <LazyPage label="Loading deal room..."><RegionMarketplacePage /></LazyPage>
+                </ProtectedDealRoute>
+              }
+            />
+            <Route
+              path="/deal/licences"
+              element={
+                <ProtectedDealRoute minimumTier="exclusive">
+                  <LazyPage label="Loading deal room..."><LicenceCertificatePage /></LazyPage>
                 </ProtectedDealRoute>
               }
             />

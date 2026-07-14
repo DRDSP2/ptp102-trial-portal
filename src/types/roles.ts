@@ -32,4 +32,6 @@ export type {
   RegionMarketplace,
   TermSheet,
   TermSheetVersion,
+  LicenceRequest,
+  Certificate,
 } from '@/deal-portal/types/dealPortal';

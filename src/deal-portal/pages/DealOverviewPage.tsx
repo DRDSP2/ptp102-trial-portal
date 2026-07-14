@@ -15,6 +15,7 @@ import {
   FileSignature,
   Globe,
   LineChart,
+  ScrollText,
 } from 'lucide-react';
 
 interface SectionDef {
@@ -33,6 +34,7 @@ const sections: SectionDef[] = [
   { path: '/deal/trials/live', label: 'Live Trials', icon: Activity, description: 'Real-time trial dashboard — LAM-00007', tier: 'diligence' },
   { path: '/deal/term-sheet', label: 'Term Sheet', icon: FileSignature, description: 'Term negotiation, redline comparison', tier: 'exclusive' },
   { path: '/deal/regions', label: 'Marketplace', icon: Globe, description: 'Regional licensing opportunities', tier: 'exclusive' },
+  { path: '/deal/licences', label: 'Licences & Certificates', icon: ScrollText, description: 'Request licence issuance, download certificates', tier: 'exclusive' },
   { path: '/deal/investor', label: 'Investor Dashboard', icon: LineChart, description: 'Investor updates, governance docs, pipeline overview', tier: 'evaluation' },
 ];
 

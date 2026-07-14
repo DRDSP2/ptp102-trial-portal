@@ -1,0 +1,183 @@
+-- Licence request + certificate issuance lifecycle (deal_room_transactions model)
+-- Phase A: licence_requests (request/approval pattern)
+-- Phase B: certificates (issued on approval) + issuance RPC
+-- Phase C: signed document URL stored on certificates / licence_requests
+
+-- ---------------------------------------------------------------------------
+-- 1. licence_requests: a formal request to issue a licence for a negotiated
+--    term sheet. Modelled on deal_room_transactions: request_type, status
+--    (default 'pending'), approved_by, approved_at, signed_document_url.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS licence_requests (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  term_sheet_id uuid NOT NULL REFERENCES term_sheets(id) ON DELETE CASCADE,
+  request_type text NOT NULL DEFAULT 'licence',
+  region text,
+  requested_by uuid NOT NULL REFERENCES auth.users(id),
+  status text NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending', 'approved', 'rejected')),
+  notes text,
+  signed_document_url text,
+  approved_at timestamptz,
+  approved_by uuid REFERENCES auth.users(id),
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE licences ADD COLUMN IF NOT EXISTS licence_request_id uuid REFERENCES licence_requests(id);
+
+-- ---------------------------------------------------------------------------
+-- 2. certificates: created when a licence request is approved (Phase B)
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS certificates (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  licence_id uuid NOT NULL REFERENCES licences(id) ON DELETE CASCADE,
+  holder_user_id uuid NOT NULL REFERENCES auth.users(id),
+  region text NOT NULL,
+  certificate_number text NOT NULL UNIQUE,
+  issued_at timestamptz DEFAULT now(),
+  expires_at timestamptz,
+  document_path text,
+  status text NOT NULL DEFAULT 'active'
+    CHECK (status IN ('active', 'revoked', 'expired')),
+  created_at timestamptz DEFAULT now()
+);
+
+-- ---------------------------------------------------------------------------
+-- 3. Private storage bucket for generated certificate PDFs
+-- ---------------------------------------------------------------------------
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('licence-certificates', 'licence-certificates', false, 5242880, ARRAY['application/pdf'])
+ON CONFLICT (id) DO NOTHING;
+
+-- ---------------------------------------------------------------------------
+-- 4. Row Level Security
+-- ---------------------------------------------------------------------------
+ALTER TABLE licence_requests ENABLE ROW LEVEL SECURITY;
+ALTER TABLE certificates ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Requester or admin view licence requests" ON licence_requests;
+CREATE POLICY "Requester or admin view licence requests" ON licence_requests FOR SELECT
+  USING (requested_by = auth.uid() OR is_admin());
+
+DROP POLICY IF EXISTS "Requester create own licence requests" ON licence_requests;
+CREATE POLICY "Requester create own licence requests" ON licence_requests FOR INSERT
+  WITH CHECK (requested_by = auth.uid());
+
+DROP POLICY IF EXISTS "Admin approve licence requests" ON licence_requests;
+CREATE POLICY "Admin approve licence requests" ON licence_requests FOR UPDATE
+  USING (is_admin());
+
+DROP POLICY IF EXISTS "Holder or admin view certificates" ON certificates;
+CREATE POLICY "Holder or admin view certificates" ON certificates FOR SELECT
+  USING (holder_user_id = auth.uid() OR is_admin());
+
+DROP POLICY IF EXISTS "Admin manage certificates" ON certificates;
+CREATE POLICY "Admin manage certificates" ON certificates FOR ALL
+  USING (is_admin());
+
+-- storage objects for the certificate bucket
+DROP POLICY IF EXISTS "Admin upload certificates" ON storage.objects;
+CREATE POLICY "Admin upload certificates" ON storage.objects FOR INSERT
+  WITH CHECK (bucket_id = 'licence-certificates' AND is_admin());
+
+DROP POLICY IF EXISTS "Cert holder or admin read certificates" ON storage.objects;
+CREATE POLICY "Cert holder or admin read certificates" ON storage.objects FOR SELECT
+  USING (
+    bucket_id = 'licence-certificates'
+    AND (is_admin() OR EXISTS (
+      SELECT 1 FROM certificates c
+      WHERE c.document_path = storage.objects.name
+        AND c.holder_user_id = auth.uid()
+    ))
+  );
+
+DROP POLICY IF EXISTS "Admin delete certificates" ON storage.objects;
+CREATE POLICY "Admin delete certificates" ON storage.objects FOR DELETE
+  USING (bucket_id = 'licence-certificates' AND is_admin());
+
+-- ---------------------------------------------------------------------------
+-- 5. Issuance RPC (admin only): approve/reject a licence request.
+--    On approve: mark term sheet executed, insert licence + certificate rows.
+--    The certificate PDF is generated by the generate-licence-certificate edge
+--    function, which sets certificates.document_path afterwards.
+--    Licences are issued independently of Stripe payment (fee_paid = false).
+-- ---------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION issue_licence(
+  p_request_id uuid,
+  p_approve boolean,
+  p_notes text DEFAULT NULL
+)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_request licence_requests;
+  v_ts term_sheets;
+  v_licence_id uuid;
+  v_cert_id uuid;
+  v_cert_number text;
+  v_expiry timestamptz;
+  v_region text;
+BEGIN
+  SELECT * INTO v_request FROM licence_requests WHERE id = p_request_id;
+  IF NOT FOUND THEN
+    RETURN jsonb_build_object('ok', false, 'error', 'request_not_found');
+  END IF;
+  IF v_request.status <> 'pending' THEN
+    RETURN jsonb_build_object('ok', false, 'error', 'request_not_pending', 'status', v_request.status);
+  END IF;
+  IF NOT is_admin() THEN
+    RETURN jsonb_build_object('ok', false, 'error', 'forbidden');
+  END IF;
+
+  IF NOT p_approve THEN
+    UPDATE licence_requests
+      SET status = 'rejected',
+          approved_at = now(),
+          approved_by = auth.uid(),
+          notes = coalesce(p_notes, notes),
+          updated_at = now()
+      WHERE id = p_request_id;
+    RETURN jsonb_build_object('ok', true, 'status', 'rejected');
+  END IF;
+
+  SELECT * INTO v_ts FROM term_sheets WHERE id = v_request.term_sheet_id;
+  v_region := coalesce(v_ts.region, 'global');
+  v_expiry := now() + (coalesce(v_ts.exclusivity_months, 6) || ' months')::interval;
+
+  UPDATE licence_requests
+    SET status = 'approved',
+        approved_at = now(),
+        approved_by = auth.uid(),
+        notes = coalesce(p_notes, notes),
+        updated_at = now()
+    WHERE id = p_request_id;
+
+  UPDATE term_sheets SET status = 'executed', updated_at = now() WHERE id = v_request.term_sheet_id;
+
+  INSERT INTO licences (term_sheet_id, licence_request_id, region, status, starts_at, expires_at, fee_paid)
+  VALUES (v_request.term_sheet_id, p_request_id, v_region, 'active', now(), v_expiry, false)
+  RETURNING id INTO v_licence_id;
+
+  v_cert_number := 'BYR-' || upper(v_region) || '-' || to_char(now(), 'YYYY') || '-'
+    || substr(md5(p_request_id::text || clock_timestamp()::text), 1, 6);
+
+  INSERT INTO certificates (licence_id, holder_user_id, region, certificate_number, issued_at, expires_at, status)
+  VALUES (v_licence_id, v_ts.prospect_user_id, v_region, v_cert_number, now(), v_expiry, 'active')
+  RETURNING id INTO v_cert_id;
+
+  RETURN jsonb_build_object(
+    'ok', true,
+    'status', 'approved',
+    'licence_id', v_licence_id,
+    'certificate_id', v_cert_id,
+    'certificate_number', v_cert_number,
+    'region', v_region
+  );
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION issue_licence(uuid, boolean, text) TO authenticated;
