@@ -1,0 +1,24 @@
+-- 1796000002: close anonymous read via the trial_events_deal_room view
+--
+-- Investigation (static, against 046 + LiveTrialDashboard.tsx):
+--   - 046 creates `trial_events_deal_room` as a plain VIEW selecting anonymised
+--     rows from `trial_events` (strips vet_name/owner_name). Its own comment
+--     claims "RLS on the view is handled by the underlying table policy", but
+--     the view is NOT security_invoker, so it executes as the view OWNER
+--     (postgres) and BYPASSES RLS on trial_events. Under Supabase defaults the
+--     anon key has SELECT on public relations, so any unauthenticated caller
+--     could read all anonymised trial events (trial_id, horse_id, event_type,
+--     dose, outcome, pain_score, timestamps) with no approved NDA.
+--   - LiveTrialDashboard.tsx consumes the view via the authenticated `client`
+--     (useAuth) for NDA-gated deal users — the intended audience.
+--
+-- Fix (preferred, minimal, idempotent): enable security_invoker so the view
+-- runs as the invoking role and is subject to trial_events RLS (migration 055:
+-- is_admin() OR (deal_profiles membership AND has_approved_nda() AND
+-- vet_name/owner_name NULL)). This denies anon and preserves the NDA-gated
+-- happy path, with no change to the anonymisation logic.
+--
+-- Revert: ALTER VIEW public.trial_events_deal_room SET (security_invoker = off);
+-- Requires Postgres 15+ (Supabase default).
+
+ALTER VIEW public.trial_events_deal_room SET (security_invoker = on);
