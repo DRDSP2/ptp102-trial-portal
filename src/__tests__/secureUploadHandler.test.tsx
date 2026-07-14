@@ -63,7 +63,41 @@ describe('secure upload handler', () => {
     expect(result.fileName).toBe('gait.mp4');
     expect(result.size).toBe(5);
     expect(result.mimeType).toBe('video/mp4');
+    expect(from).toHaveBeenCalledWith('ptp102-trial-media');
+  });
+
+  it('routes patient-note-docs to the documents bucket and enforces the 50 MB cap', async () => {
+    const { from } = mockStorage();
+    const file: ParsedFile = {
+      fieldname: 'file',
+      filename: 'referral.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.from('pdf'),
+      size: 5,
+    };
+
+    const result = await handleUpload({
+      user: makeUser('vet-1', 'vet'),
+      category: 'patient-note-docs',
+      entityType: 'clinical_notes',
+      entityId: '7',
+      file,
+    });
+
+    expect(result.path).toContain('patient-note-docs/vet-1/clinical_notes/7/');
     expect(from).toHaveBeenCalledWith('ptp102-trial-portal');
+
+    // Oversized document must be rejected before reaching storage.
+    const oversized: ParsedFile = { ...file, size: 51 * 1024 * 1024 };
+    await expect(
+      handleUpload({
+        user: makeUser('vet-1', 'vet'),
+        category: 'patient-note-docs',
+        entityType: 'clinical_notes',
+        entityId: '7',
+        file: oversized,
+      }),
+    ).rejects.toThrow(/exceeds maximum size/);
   });
 
   it('rejects files that fail category mime-type validation', async () => {
@@ -168,6 +202,7 @@ describe('upload category guard', () => {
     expect(isUploadCategory('site-files')).toBe(true);
     expect(isUploadCategory('patient-media')).toBe(true);
     expect(isUploadCategory('consent-signatures')).toBe(true);
+    expect(isUploadCategory('patient-note-docs')).toBe(true);
   });
 
   it('rejects unknown / legacy categories', () => {

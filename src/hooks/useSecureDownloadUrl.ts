@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { PRIVATE_BUCKET, SIGNED_URL_TTL_SECONDS } from '@/lib/upload/config';
+import { bucketFromPath, SIGNED_URL_TTL_SECONDS } from '@/lib/upload/config';
 
 // Direct browser → Supabase Storage signed-URL request.
 //
@@ -30,7 +30,7 @@ export function useSecureDownloadUrl(path: string | null | undefined) {
       }
 
       const { data, error: signError } = await supabase.storage
-        .from(PRIVATE_BUCKET)
+        .from(bucketFromPath(path))
         .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
 
       if (signError || !data?.signedUrl) {

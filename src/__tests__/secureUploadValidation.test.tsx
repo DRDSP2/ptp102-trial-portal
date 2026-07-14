@@ -46,6 +46,37 @@ describe('secure upload validation', () => {
     expect(result.error).toContain('exceeds maximum size');
   });
 
+  it('accepts document attachments for patient-note-docs', () => {
+    expect(validateUpload({ name: 'referral.pdf', type: 'application/pdf', size: 1024 }, 'patient-note-docs').ok).toBe(true);
+    expect(validateUpload({ name: 'scan.png', type: 'image/png', size: 1024 }, 'patient-note-docs').ok).toBe(true);
+    expect(validateUpload({ name: 'labs.csv', type: 'text/csv', size: 1024 }, 'patient-note-docs').ok).toBe(true);
+    expect(
+      validateUpload(
+        { name: 'report.xlsx', type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', size: 1024 },
+        'patient-note-docs',
+      ).ok,
+    ).toBe(true);
+    expect(
+      validateUpload({ name: 'letter.doc', type: 'application/msword', size: 1024 }, 'patient-note-docs').ok,
+    ).toBe(true);
+  });
+
+  it('keeps videos out of patient-note-docs', () => {
+    const result = validateUpload({ name: 'gait.mp4', type: 'video/mp4', size: 1024 }, 'patient-note-docs');
+    expect(result.ok).toBe(false);
+    expect(result.error).toContain('not allowed');
+  });
+
+  it('caps patient-note-docs at 50 MB', () => {
+    const oversized = UPLOAD_LIMITS['patient-note-docs'].maxBytes + 1;
+    const result = validateUpload(
+      { name: 'huge.pdf', type: 'application/pdf', size: oversized },
+      'patient-note-docs',
+    );
+    expect(result.ok).toBe(false);
+    expect(result.error).toContain('exceeds maximum size');
+  });
+
   it('rejects unknown categories', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = validateUpload({ name: 'x.txt', type: 'text/plain', size: 1 }, 'unknown-category' as any);

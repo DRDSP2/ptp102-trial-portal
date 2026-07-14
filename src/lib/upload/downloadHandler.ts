@@ -1,6 +1,6 @@
 import type { User } from '@supabase/supabase-js';
 import { createServiceClient } from '@/lib/supabase/server';
-import { PRIVATE_BUCKET, SIGNED_URL_TTL_SECONDS } from './config';
+import { bucketFromPath, SIGNED_URL_TTL_SECONDS } from './config';
 import { canAccessPath } from './access';
 
 export type DownloadResult = {
@@ -14,7 +14,7 @@ export async function handleDownload({ user, path }: { user: User; path: string 
 
   const supabase = createServiceClient();
   const { data, error } = await supabase.storage
-    .from(PRIVATE_BUCKET)
+    .from(bucketFromPath(path))
     .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
 
   if (error || !data?.signedUrl) {

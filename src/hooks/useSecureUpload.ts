@@ -3,7 +3,7 @@ import { useMutateAction } from '@uibakery/data';
 import { supabase } from '@/lib/supabase/client';
 import recordSecureUploadAction from '@/actions/recordSecureUpload';
 import createAuditLogAction from '@/actions/createAuditLog';
-import { PRIVATE_BUCKET, type UploadCategory } from '@/lib/upload/config';
+import { bucketForCategory, type UploadCategory } from '@/lib/upload/config';
 import { buildStoragePath } from '@/lib/upload/path';
 import { validateUpload } from '@/lib/upload/validation';
 
@@ -72,7 +72,7 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
         //    means a duplicate timestamp+filename collision will surface as
         //    an error rather than silently overwrite.
         const { error: uploadError } = await supabase.storage
-          .from(PRIVATE_BUCKET)
+          .from(bucketForCategory(category))
           .upload(storagePath, file, {
             contentType: file.type || 'application/octet-stream',
             cacheControl: '3600',

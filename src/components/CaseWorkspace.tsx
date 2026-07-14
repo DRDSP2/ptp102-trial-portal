@@ -28,6 +28,38 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare, FileVideo, Lock, Unlock } from 'lucide-react';
 import { VideoUploadManager } from '@/components/VideoUploadManager';
 import { useAuth } from '@/context/AuthContext';
+import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
+
+type NoteAttachmentProps = {
+  path: string;
+  fileName: string;
+};
+
+function NoteAttachment({ path, fileName }: NoteAttachmentProps) {
+  const { signedUrl, isLoading } = useSecureDownloadUrl(path);
+  return (
+    <div className="mb-3 space-y-2 rounded-md border bg-muted/30 p-3">
+      <div className="flex items-center justify-between gap-2 text-xs">
+        <span className="font-medium">Attached document: {fileName}</span>
+      </div>
+      {isLoading ? (
+        <span className="text-xs text-muted-foreground">Loading link…</span>
+      ) : signedUrl ? (
+        <a
+          href={signedUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-xs font-medium text-primary underline underline-offset-2"
+        >
+          <Download className="h-3 w-3" />
+          Open document
+        </a>
+      ) : (
+        <span className="text-xs text-muted-foreground">Document unavailable</span>
+      )}
+    </div>
+  );
+}
 
 type CaseWorkspaceProps = {
   patientId: number;
@@ -513,7 +545,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                           {note.ocr_document_url && note.ocr_document_url.trim() !== '' && (
                             <Badge variant="outline" className="gap-1">
                               <FileText className="h-3 w-3" />
-                              OCR Document
+                              Attached Document
                             </Badge>
                           )}
                         </div>
@@ -525,15 +557,10 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                       <p className="text-sm mb-3 leading-relaxed">{note.note_content}</p>
 
                       {note.ocr_document_url && note.ocr_document_url.trim() !== '' && (
-                        <div className="mb-3 space-y-2 rounded-md border bg-muted/30 p-3">
-                          <div className="flex items-center justify-between gap-2 text-xs">
-                            <span className="font-medium">OCR source: {note.ocr_document_file_name || 'Attached document'}</span>
-                            {note.ocr_processed_at && <span className="text-muted-foreground">{new Date(note.ocr_processed_at).toLocaleString()}</span>}
-                          </div>
-                          {note.ocr_extracted_text && (
-                            <p className="whitespace-pre-wrap text-xs leading-relaxed text-muted-foreground">{note.ocr_extracted_text}</p>
-                          )}
-                        </div>
+                        <NoteAttachment
+                          path={note.ocr_document_url}
+                          fileName={note.ocr_document_file_name || 'Document'}
+                        />
                       )}
                       
                       <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t">

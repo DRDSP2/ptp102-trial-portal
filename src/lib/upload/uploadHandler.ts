@@ -1,6 +1,6 @@
 import type { User } from '@supabase/supabase-js';
 import { createServiceClient } from '@/lib/supabase/server';
-import { PRIVATE_BUCKET, type UploadCategory } from './config';
+import { bucketForCategory, type UploadCategory } from './config';
 import { buildStoragePath } from './path';
 import { validateUpload } from './validation';
 import { getUserRole } from './access';
@@ -22,7 +22,7 @@ export type UploadResult = {
 };
 
 export function isUploadCategory(value: string): value is UploadCategory {
-  return ['trial-documents', 'site-files', 'patient-media', 'consent-signatures'].includes(value);
+  return ['trial-documents', 'site-files', 'patient-media', 'consent-signatures', 'patient-note-docs'].includes(value);
 }
 
 export async function handleUpload({
@@ -55,7 +55,7 @@ export async function handleUpload({
 
   const supabase = createServiceClient();
   const { error: uploadError } = await supabase.storage
-    .from(PRIVATE_BUCKET)
+    .from(bucketForCategory(category))
     .upload(storagePath, file.buffer, {
       contentType: file.mimeType,
       upsert: false,
