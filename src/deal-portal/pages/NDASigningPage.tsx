@@ -301,7 +301,7 @@ export function NDASigningPage() {
         action_detail: 'NDA v2.0 signed and pending approval',
       });
 
-      const reviewUrl = `${window.location.origin}/#/deal/users`;
+      const reviewUrl = `${window.location.origin}/#/admin/deal-users`;
 
       await Promise.all([
         sendNdaPendingAdminEmail({
