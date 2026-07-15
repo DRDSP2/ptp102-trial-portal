@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { AuthSelectionPage } from '@/pages/AuthSelectionPage';
 import { VetLoginPage } from '@/pages/VetLoginPage';
+import { VetTermsAcceptancePage } from '@/pages/VetTermsAcceptancePage';
 import { VetRegisterPage } from '@/pages/VetRegisterPage';
 import { VetResetPage } from '@/pages/VetResetPage';
 import { AdminLoginPage } from '@/pages/AdminLoginPage';
@@ -67,6 +68,7 @@ function App() {
             <Route path="/vet/forgot" element={<VetResetPage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/vet/pending" element={<PendingApprovalPage />} />
+            <Route path="/vet/terms" element={<VetTermsAcceptancePage />} />
             <Route
               path="/dashboard"
               element={

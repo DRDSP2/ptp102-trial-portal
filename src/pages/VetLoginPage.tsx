@@ -12,6 +12,8 @@ export function VetLoginPage() {
       navigate('/vet/pending', { replace: true });
     } else if (auth.role === 'vet' && auth.termsAccepted) {
       navigate('/dashboard', { replace: true });
+    } else if (auth.role === 'vet' && !auth.termsAccepted) {
+      navigate('/vet/terms', { replace: true });
     }
   }, [auth, navigate]);
 

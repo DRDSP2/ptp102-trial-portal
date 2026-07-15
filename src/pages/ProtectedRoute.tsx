@@ -28,7 +28,7 @@ export function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) 
   }
 
   if (auth.role === 'vet' && !auth.termsAccepted) {
-    return <Navigate to="/vet/login" replace />;
+    return <Navigate to="/vet/terms" replace />;
   }
 
   return <>{children}</>;

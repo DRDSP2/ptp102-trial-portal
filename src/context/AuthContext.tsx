@@ -24,6 +24,7 @@ type AuthContextType = AuthState & {
   requestVetApproval: (email: string) => void;
   approveVet: () => void;
   rejectVet: () => void;
+  acceptTerms: () => Promise<void>;
   loginAdmin: (email: string, password?: string) => Promise<void>;
   logout: () => Promise<void>;
   sessionScope: SessionScope;
@@ -297,6 +298,22 @@ export function AuthProvider({
       },
       rejectVet: () => {
         setState({ ...emptyState, isLoading: false });
+      },
+      acceptTerms: async () => {
+        // Optimistically flip local state so the UI unblocks immediately.
+        setState((current) => ({ ...current, termsAccepted: true }));
+        const email = state.email;
+        if (email && typeof client.from === 'function') {
+          const now = new Date().toISOString();
+          client
+            .from('veterinarians')
+            .update({ tc_accepted: true, tc_accepted_at: now })
+            .eq('email', email)
+            .then(({ error }: { error: { message?: string } | null }) => {
+              if (error) console.error('acceptTerms update failed:', error);
+            })
+            .catch((err: unknown) => console.error('acceptTerms update failed:', err));
+        }
       },
       loginAdmin: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
