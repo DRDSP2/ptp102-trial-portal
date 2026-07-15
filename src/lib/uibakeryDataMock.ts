@@ -196,35 +196,35 @@ async function recordAudit(payload: AuditPayload): Promise<AuditLogEntry> {
   return entry;
 }
 
-function verifyAuditChain(logs: AuditLogEntry[]): { valid: boolean; firstInvalidIndex: number } {
-  // Build a map of all known hashes for quick lookup
-  const hashMap = new Map<string, AuditLogEntry>();
-  for (const log of logs) {
-    hashMap.set(log.clientHash, log);
-  }
+function verifyAuditChain(logs: AuditLogEntry[]): { valid: boolean; invalidIds: Set<number> } {
+  // Verify against the FULL chronological chain, ordered by sequenceNumber.
+  // Each entry's previousHash must reference the clientHash of the immediately
+  // preceding entry. A break invalidates that entry and every entry after it,
+  // because subsequent previousHash values depend on the tampered link.
+  //
+  // NOTE: this must run on the complete log set, not a filtered subset. The
+  // audit UI filters by entityType/date/user, and the first visible entry's
+  // previousHash legitimately points to an excluded predecessor — verifying the
+  // subset therefore always reported a broken chain.
+  const ordered = [...logs].sort((a, b) => a.sequenceNumber - b.sequenceNumber);
+  const invalidIds = new Set<number>();
 
-  for (let i = 0; i < logs.length; i++) {
-    const entry = logs[i];
-    const expectedPrevious = i === 0 ? 'genesis' : logs[i - 1].clientHash;
-    
-    // If the previous hash doesn't match the immediate predecessor, check if it exists elsewhere in the chain
-    // This handles filtered views where the immediate predecessor might be missing
+  for (let i = 0; i < ordered.length; i++) {
+    const entry = ordered[i];
+    const expectedPrevious = i === 0 ? 'genesis' : ordered[i - 1].clientHash;
     if (entry.previousHash !== expectedPrevious) {
-      // If previousHash is 'genesis', it's valid for the first entry of a chain
-      if (entry.previousHash === 'genesis') {
-        continue;
-      }
-      // Check if the previous hash exists in the full set
-      const previousEntry = hashMap.get(entry.previousHash);
-      if (!previousEntry) {
-        // Previous hash not found in the filtered set - chain is broken
-        return { valid: false, firstInvalidIndex: i };
-      }
-      // If the previous entry exists but isn't immediately before, the chain is still valid
-      // but this is a filtered view
+      invalidIds.add(entry.id);
     }
   }
-  return { valid: true, firstInvalidIndex: -1 };
+
+  const firstBroken = ordered.findIndex((e) => invalidIds.has(e.id));
+  if (firstBroken >= 0) {
+    for (let i = firstBroken; i < ordered.length; i++) {
+      invalidIds.add(ordered[i].id);
+    }
+  }
+
+  return { valid: invalidIds.size === 0, invalidIds };
 }
 
 // ---------------------------------------------------------------------------
@@ -1813,7 +1813,14 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
         action?: string | null;
         entityType?: string | null;
       } | undefined;
-      let logs = getAuditLogs();
+      // Verify the hash chain over the FULL, unfiltered log set. Filtering by
+      // entityType/date/user removes predecessors that a filtered entry's
+      // previousHash legitimately references, which previously made every row
+      // report "Chain Broken". Validity is then mapped back onto the filtered
+      // rows by entry id.
+      const allLogs = getAuditLogs();
+      const chain = verifyAuditChain(allLogs);
+      let logs = allLogs;
       if (loadParams?.startDate) {
         const start = new Date(loadParams.startDate).getTime();
         logs = logs.filter((l) => new Date(l.timestamp).getTime() >= start);
@@ -1841,8 +1848,9 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
       if (loadParams?.entityType) {
         logs = logs.filter((l) => l.entityType === loadParams.entityType);
       }
-      const chain = verifyAuditChain(logs);
-      setData(logs.map((l, i) => ({ ...l, chainValid: chain.valid && i < chain.firstInvalidIndex })) as unknown[]);
+      setData(
+        logs.map((l) => ({ ...l, chainValid: chain.valid ? true : !chain.invalidIds.has(l.id) })) as unknown[],
+      );
       setLoading(false);
       return;
     }
