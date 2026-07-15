@@ -1,4 +1,4 @@
-export type ClinicalRole = 'vet' | 'admin';
+export type ClinicalRole = 'vet' | 'admin' | 'consultant';
 
 export type DealRole =
   | 'investor'

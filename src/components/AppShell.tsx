@@ -1,8 +1,9 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { ByrockLogo } from '@/components/ByrockLogo';
 import { RegulatoryBanner } from '@/components/RegulatoryBanner';
+import { ChangePasswordModal } from '@/components/ChangePasswordModal';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -34,6 +35,9 @@ export function AppShell({ children }: AppShellProps) {
 
   const userEmail = auth.email ?? 'Unknown';
   const isAdmin = auth.role === 'admin';
+  const isConsultant = auth.isConsultant;
+
+  const [showChangePw, setShowChangePw] = useState(false);
 
   const handleLogout = () => {
     auth.logout();
@@ -58,13 +62,13 @@ export function AppShell({ children }: AppShellProps) {
 
       <RegulatoryBanner />
 
-      <header className="bg-base-100 border-b border-base-300 px-6 py-4">
-        <div className="container mx-auto max-w-7xl flex items-center justify-between">
+      <header className="bg-base-100 border-b border-base-300 px-4 py-3 sm:px-6 sm:py-4">
+        <div className="container mx-auto max-w-7xl flex flex-wrap items-center justify-between gap-y-2">
           <div className="flex items-center gap-4">
             <ByrockLogo variant="icon" height={32} />
-            <div>
+            <div className="min-w-0">
               <p className="text-sm font-medium text-base-content">PTP-102 Laminitis Trial</p>
-              <p className="text-xs text-base-content/60">{userEmail}</p>
+              <p className="truncate text-xs text-base-content/60">{userEmail}</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -73,6 +77,17 @@ export function AppShell({ children }: AppShellProps) {
                 <Shield className="mr-1 h-3 w-3" />
                 Admin
               </Badge>
+            )}
+            {isConsultant && (
+              <Badge variant="secondary" className="bg-purple-100 text-purple-900">
+                <Shield className="mr-1 h-3 w-3" />
+                Consultant
+              </Badge>
+            )}
+            {isConsultant && (
+              <Button variant="outline" size="sm" onClick={() => setShowChangePw(true)}>
+                Change Password
+              </Button>
             )}
             <Button variant="outline" size="sm" onClick={handleLogout}>
               <LogOut className="h-4 w-4" />
@@ -149,6 +164,12 @@ export function AppShell({ children }: AppShellProps) {
       <main id="main" tabIndex={-1} className="focus:outline-none">
         {children}
       </main>
+
+      <ChangePasswordModal
+        open={auth.mustResetPassword || showChangePw}
+        forced={auth.mustResetPassword}
+        onClose={() => setShowChangePw(false)}
+      />
     </div>
   );
 }

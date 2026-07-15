@@ -42,6 +42,7 @@ export type AuditEntityType =
   | 'lab_result'
   | 'veterinarian'
   | 'admin'
+  | 'consultant'
   | 'informed_consent'
   | 'investigator_qualification'
   | 'shipment'
@@ -59,7 +60,7 @@ export type AuditLogEntry = {
   timestamp: string; // ISO-8601 with offset, e.g. 2025-11-15T08:00:00.000Z
   userId: string;
   userEmail: string;
-  userRole: 'admin' | 'vet' | 'unknown';
+  userRole: 'admin' | 'vet' | 'consultant' | 'unknown';
   action: AuditAction;
   entityType: AuditEntityType;
   entityId: number | null;

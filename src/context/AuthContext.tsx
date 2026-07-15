@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import { recordLoginAudit, recordLogoutAudit, setCurrentAuditUser, clearCurrentAuditUser } from '@/lib/uibakeryDataMock';
 import type { DealProfile, DealTier } from '@/types/roles';
 
-type AuthRole = 'vet' | 'admin' | null;
+type AuthRole = 'vet' | 'admin' | 'consultant' | null;
 
 type AuthState = {
   role: AuthRole;
@@ -13,9 +13,10 @@ type AuthState = {
   pendingApproval: boolean;
   isLoading: boolean;
   user: User | null;
+  mustResetPassword: boolean;
 };
 
-type SessionScope = 'admin' | 'vet' | null;
+type SessionScope = 'admin' | 'vet' | 'consultant' | null;
 
 type AuthContextType = AuthState & {
   user: User | null;
@@ -29,6 +30,11 @@ type AuthContextType = AuthState & {
   logout: () => Promise<void>;
   sessionScope: SessionScope;
   setSessionScope: (scope: SessionScope) => void;
+  // Consultant + staff helpers
+  isConsultant: boolean;
+  isStaff: boolean;
+  mustResetPassword: boolean;
+  changePassword: (password: string) => Promise<void>;
   // Deal portal
   dealProfile: DealProfile | null;
   dealTier: DealTier;
@@ -47,11 +53,12 @@ const emptyState: AuthState = {
   pendingApproval: false,
   isLoading: true,
   user: null,
+  mustResetPassword: false,
 };
 
 function roleFromUser(user: User | null): AuthRole {
   const role = user?.app_metadata?.role ?? user?.user_metadata?.role;
-  if (role === 'vet' || role === 'admin') {
+  if (role === 'vet' || role === 'admin' || role === 'consultant') {
     return role;
   }
   return null;
@@ -64,7 +71,7 @@ const SESSION_SCOPE_KEY = 'ptp102_session_scope';
 function getStoredSessionScope(): SessionScope {
   if (typeof window === 'undefined') return null;
   const raw = window.localStorage.getItem(SESSION_SCOPE_KEY);
-  if (raw === 'admin' || raw === 'vet') return raw;
+  if (raw === 'admin' || raw === 'vet' || raw === 'consultant') return raw;
   return null;
 }
 
@@ -109,6 +116,7 @@ export function AuthProvider({
         // Respect session scope
         const scope = getStoredSessionScope();
         const role: AuthRole = scope && rawRole === scope ? rawRole : scope ? null : rawRole;
+        const mustResetPassword = !!user?.user_metadata?.must_reset_password && role === 'consultant';
 
         if (role === 'vet' && email) {
           try {
@@ -122,7 +130,7 @@ export function AuthProvider({
           } catch {
             // leave defaults
           }
-        } else if (role === 'admin') {
+        } else if (role === 'admin' || role === 'consultant') {
           termsAccepted = true;
           pendingApproval = false;
         }
@@ -135,6 +143,7 @@ export function AuthProvider({
             pendingApproval,
             isLoading: false,
             user,
+            mustResetPassword,
           });
           if (role && email) {
             setCurrentAuditUser(email, role);
@@ -177,13 +186,15 @@ export function AuthProvider({
         } catch {
           // leave defaults
         }
-      } else if (role === 'admin') {
+      } else if (role === 'admin' || role === 'consultant') {
         termsAccepted = true;
         pendingApproval = false;
       }
 
+      const mustResetPassword = !!user?.user_metadata?.must_reset_password && role === 'consultant';
+
       if (mounted) {
-        const next = { role, email, termsAccepted, pendingApproval, isLoading: false, user };
+        const next = { role, email, termsAccepted, pendingApproval, isLoading: false, user, mustResetPassword };
         setState(next);
         if (role && email) {
           setCurrentAuditUser(email, role);
@@ -250,6 +261,8 @@ export function AuthProvider({
       loading: state.isLoading,
       sessionScope,
       setSessionScope,
+      isConsultant: state.role === 'consultant',
+      isStaff: state.role === 'admin' || state.role === 'consultant',
       dealProfile,
       dealTier,
       isInvestor,
@@ -317,8 +330,6 @@ export function AuthProvider({
       },
       loginAdmin: async (email: string, password?: string) => {
         const normalizedEmail = email.toLowerCase().trim();
-        setStoredSessionScope('admin');
-        setSessionScopeState('admin');
         if (password) {
           const { error } = await client.auth.signInWithPassword({
             email: normalizedEmail,
@@ -327,12 +338,14 @@ export function AuthProvider({
           if (error) throw error;
           const user = (await client.auth.getSession()).data.session?.user;
           const role = roleFromUser(user ?? null);
-          if (role !== 'admin') {
+          if (role !== 'admin' && role !== 'consultant') {
             await client.auth.signOut();
-            throw new Error('This account does not have admin access.');
+            throw new Error('This account does not have staff access.');
           }
+          setStoredSessionScope(role);
+          setSessionScopeState(role);
           // Best-effort LOGIN audit — never block sign-in on it.
-          recordLoginAudit(normalizedEmail, 'admin').catch(() => {});
+          recordLoginAudit(normalizedEmail, role).catch(() => {});
           return;
         }
 
@@ -348,7 +361,7 @@ export function AuthProvider({
         // Snapshot identity BEFORE clearing local state so the audit row
         // carries the real user, not 'unknown'.
         const auditEmail = state.email;
-        const auditRole: 'admin' | 'vet' | 'unknown' = state.role ?? 'unknown';
+        const auditRole: 'admin' | 'vet' | 'consultant' | 'unknown' = state.role ?? 'unknown';
 
         // Clear local UI state synchronously — the existing contract is that
         // logout takes effect immediately and does not wait on network or
@@ -367,6 +380,15 @@ export function AuthProvider({
         // Fire sign-out in the background; clear local state immediately so the UI
         // does not wait on a network round-trip.
         client.auth.signOut().catch(() => {});
+      },
+      changePassword: async (password: string) => {
+        const { error } = await client.auth.updateUser({ password });
+        if (error) throw error;
+        const { error: metaError } = await client.auth.updateUser({
+          data: { must_reset_password: false },
+        });
+        if (metaError) throw metaError;
+        setState((current) => ({ ...current, mustResetPassword: false }));
       },
     }),
     [state, sessionScope, dealProfile, dealTier, isInvestor, isLicensee, hasDealAccess, refreshDealProfile, client],

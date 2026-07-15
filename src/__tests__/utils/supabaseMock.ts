@@ -2,7 +2,12 @@ import { vi } from 'vitest';
 import { supabase } from '@/lib/supabase/client';
 import { setCurrentAuditUser, clearCurrentAuditUser } from '@/lib/uibakeryDataMock';
 
-export function seedAuth(role: 'admin' | 'vet', email: string, vetStatus?: 'pending' | 'approved' | 'rejected') {
+export function seedAuth(
+  role: 'admin' | 'vet' | 'consultant',
+  email: string,
+  vetStatus?: 'pending' | 'approved' | 'rejected',
+  mustReset = false,
+) {
   const session = {
     access_token: 'mock-token',
     refresh_token: 'mock-refresh',
@@ -10,7 +15,7 @@ export function seedAuth(role: 'admin' | 'vet', email: string, vetStatus?: 'pend
     user: {
       id: 'mock-id',
       app_metadata: { role },
-      user_metadata: { role },
+      user_metadata: mustReset ? { role, must_reset_password: true } : { role },
       email,
     },
   };

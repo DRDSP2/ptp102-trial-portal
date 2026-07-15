@@ -31,6 +31,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { useLoadAction } from '@uibakery/data';
 import loadInvestigatorQualificationAction from '@/actions/loadInvestigatorQualification';
 import { useAuth } from '@/context/AuthContext';
+import { cn } from '@/lib/utils';
 
 export function DashboardPage() {
   const auth = useAuth();
@@ -55,12 +56,13 @@ export function DashboardPage() {
 
   const userEmail = auth.email ?? 'Unknown';
   const isAdmin = auth.role === 'admin';
+  const isStaff = auth.isStaff;
 
   return (
     <div className="container mx-auto p-6 max-w-7xl">
-      {isAdmin ? (
+      {isStaff ? (
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full max-w-5xl grid-cols-2 sm:grid-cols-5 lg:grid-cols-9">
+            <TabsList className={cn('grid w-full max-w-5xl grid-cols-2 sm:grid-cols-5', isAdmin ? 'lg:grid-cols-9' : 'lg:grid-cols-8')}>
               <TabsTrigger value="overview">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Overview
@@ -93,10 +95,12 @@ export function DashboardPage() {
                 <ScrollText className="mr-2 h-4 w-4" />
                 Audit
               </TabsTrigger>
-              <TabsTrigger value="deal">
-                <Handshake className="mr-2 h-4 w-4" />
-                Deal Room
-              </TabsTrigger>
+              {isAdmin && (
+                <TabsTrigger value="deal">
+                  <Handshake className="mr-2 h-4 w-4" />
+                  Deal Room
+                </TabsTrigger>
+              )}
             </TabsList>
             <TabsContent value="overview" className="mt-6 space-y-6">
               <AdminStatisticsCards />
@@ -170,32 +174,34 @@ export function DashboardPage() {
             <TabsContent value="audit" className="mt-6">
               <AuditLogViewer />
             </TabsContent>
-            <TabsContent value="deal" className="mt-6">
-              <Tabs defaultValue="users">
-                <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-5">
-                  <TabsTrigger value="users">Users</TabsTrigger>
-                  <TabsTrigger value="documents">Documents</TabsTrigger>
-                  <TabsTrigger value="payments">Payments</TabsTrigger>
-                  <TabsTrigger value="compliance">Compliance</TabsTrigger>
-                  <TabsTrigger value="offers">Offers</TabsTrigger>
-                </TabsList>
-                <TabsContent value="users" className="mt-4">
-                  <AdminDealUsersPanel />
-                </TabsContent>
-                <TabsContent value="documents" className="mt-4">
-                  <AdminDocumentManager />
-                </TabsContent>
-                <TabsContent value="payments" className="mt-4">
-                  <AdminDealPaymentsPanel />
-                </TabsContent>
-                <TabsContent value="compliance" className="mt-4">
-                  <AdminDealCompliancePanel />
-                </TabsContent>
-                <TabsContent value="offers" className="mt-4">
-                  <AdminOfferReviewPanel />
-                </TabsContent>
-              </Tabs>
-            </TabsContent>
+            {isAdmin && (
+              <TabsContent value="deal" className="mt-6">
+                <Tabs defaultValue="users">
+                  <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-5">
+                    <TabsTrigger value="users">Users</TabsTrigger>
+                    <TabsTrigger value="documents">Documents</TabsTrigger>
+                    <TabsTrigger value="payments">Payments</TabsTrigger>
+                    <TabsTrigger value="compliance">Compliance</TabsTrigger>
+                    <TabsTrigger value="offers">Offers</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="users" className="mt-4">
+                    <AdminDealUsersPanel />
+                  </TabsContent>
+                  <TabsContent value="documents" className="mt-4">
+                    <AdminDocumentManager />
+                  </TabsContent>
+                  <TabsContent value="payments" className="mt-4">
+                    <AdminDealPaymentsPanel />
+                  </TabsContent>
+                  <TabsContent value="compliance" className="mt-4">
+                    <AdminDealCompliancePanel />
+                  </TabsContent>
+                  <TabsContent value="offers" className="mt-4">
+                    <AdminOfferReviewPanel />
+                  </TabsContent>
+                </Tabs>
+              </TabsContent>
+            )}
           </Tabs>
         ) : qualLoading ? (
           <Card>

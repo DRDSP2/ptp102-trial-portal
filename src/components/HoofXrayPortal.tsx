@@ -68,7 +68,7 @@ const getDisplayText = (value: unknown, fallback = '-'): string => {
 
 export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   const auth = useAuth();
-  const isAdmin = auth.role === 'admin';
+  const isAdmin = auth.role === 'admin' || auth.role === 'consultant';
   const [selectedPatient, setSelectedPatient] = useState<number | null>(patientId ?? null);
   const [xrayList, setXrayList] = useState<XrayRecord[]>([]);
   const [selectedXray, setSelectedXray] = useState<XrayRecord | null>(null);

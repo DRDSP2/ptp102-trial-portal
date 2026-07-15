@@ -123,9 +123,9 @@ async function computeAuditHash(entry: Omit<AuditLogEntry, 'clientHash' | 'previ
     .join('');
 }
 
-let currentAuditUser: { userId: string; userEmail: string; userRole: 'admin' | 'vet' | 'unknown' } | null = null;
+let currentAuditUser: { userId: string; userEmail: string; userRole: 'admin' | 'vet' | 'consultant' | 'unknown' } | null = null;
 
-export function setCurrentAuditUser(email: string, role: 'admin' | 'vet' | 'unknown') {
+export function setCurrentAuditUser(email: string, role: 'admin' | 'vet' | 'consultant' | 'unknown') {
   currentAuditUser = { userId: email, userEmail: email, userRole: role };
 }
 
@@ -133,7 +133,7 @@ export function clearCurrentAuditUser() {
   currentAuditUser = null;
 }
 
-function getCurrentUserForAudit(): { userId: string; userEmail: string; userRole: 'admin' | 'vet' | 'unknown' } {
+function getCurrentUserForAudit(): { userId: string; userEmail: string; userRole: 'admin' | 'vet' | 'consultant' | 'unknown' } {
   if (currentAuditUser) {
     return currentAuditUser;
   }
@@ -516,12 +516,12 @@ export async function getVetByEmail(email: string): Promise<LocalVet | undefined
  */
 export async function recordLogoutAudit(
   email: string | null,
-  role: 'admin' | 'vet' | 'unknown',
+  role: 'admin' | 'vet' | 'consultant' | 'unknown',
 ): Promise<void> {
   const normalizedEmail = (email ?? 'unknown').toLowerCase();
   await recordAudit({
     action: 'LOGOUT',
-    entityType: role === 'admin' ? 'admin' : 'veterinarian',
+    entityType: role === 'admin' ? 'admin' : role === 'consultant' ? 'consultant' : 'veterinarian',
     entityId: null,
     userId: normalizedEmail,
     userEmail: normalizedEmail,
@@ -539,12 +539,12 @@ export async function recordLogoutAudit(
  */
 export async function recordLoginAudit(
   email: string | null,
-  role: 'admin' | 'vet' | 'unknown',
+  role: 'admin' | 'vet' | 'consultant' | 'unknown',
 ): Promise<void> {
   const normalizedEmail = (email ?? 'unknown').toLowerCase();
   await recordAudit({
     action: 'LOGIN',
-    entityType: role === 'admin' ? 'admin' : 'veterinarian',
+    entityType: role === 'admin' ? 'admin' : role === 'consultant' ? 'consultant' : 'veterinarian',
     entityId: null,
     userId: normalizedEmail,
     userEmail: normalizedEmail,
