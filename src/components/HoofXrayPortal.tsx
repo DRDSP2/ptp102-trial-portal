@@ -22,7 +22,7 @@ import createXrayMeasurementAction from '@/actions/createXrayMeasurement';
 import updateHoofXrayAnalysisAction from '@/actions/updateHoofXrayAnalysis';
 import createAuditLogAction from '@/actions/createAuditLog';
 import { X, Upload, Activity, ChevronRight, Image as ImageIcon, Save, Loader2, Ruler, AlertTriangle } from 'lucide-react';
-import { SIGNED_URL_TTL_SECONDS } from '@/lib/upload/config';
+import { SIGNED_URL_TTL_SECONDS, bucketFromPath } from '@/lib/upload/config';
 
 const REQUIRED_LANDMARKS = [
   'coronary_band',
@@ -109,7 +109,8 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   });
 
   const getSignedUrl = useCallback(async (filePath: string) => {
-    const { data, error } = await supabase.storage.from('ptp102-trial-portal').createSignedUrl(filePath, SIGNED_URL_TTL_SECONDS);
+    const bucket = bucketFromPath(filePath);
+    const { data, error } = await supabase.storage.from(bucket).createSignedUrl(filePath, SIGNED_URL_TTL_SECONDS);
     if (error || !data) throw new Error(error?.message || 'Failed to get signed URL');
     return data.signedUrl;
   }, []);

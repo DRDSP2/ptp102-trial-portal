@@ -54,6 +54,7 @@ const STORAGE_KEYS = {
   protocolDeviations: 'ptp102_mock_protocol_deviations',
   adverseEvents: 'ptp102_mock_adverse_events',
   fileRecords: 'ptp102_mock_file_records',
+  hoofXrays: 'ptp102_mock_hoof_xrays',
 };
 
 // Demo / test account credentials and case seeding
@@ -573,6 +574,71 @@ function getFileRecords(): LocalFileRecord[] {
 
 function saveFileRecords(records: LocalFileRecord[]) {
   saveToStorage(STORAGE_KEYS.fileRecords, records);
+}
+
+type LocalHoofXray = {
+  id: number;
+  patient_id: number;
+  hoof_side: string;
+  file_path: string;
+  original_file_name: string;
+  image_url: string | null;
+  taken_date: string | null;
+  pixel_spacing_x: number;
+  pixel_spacing_y: number;
+  analysis_status: string;
+  overall_severity: string | null;
+  score: number | null;
+  created_at: string;
+  horse_name?: string;
+  enrolled_by_vet_email?: string | null;
+};
+
+function getHoofXrays(): LocalHoofXray[] {
+  return loadFromStorage<LocalHoofXray[]>(STORAGE_KEYS.hoofXrays, []);
+}
+
+function saveHoofXrays(rows: LocalHoofXray[]) {
+  saveToStorage(STORAGE_KEYS.hoofXrays, rows);
+}
+
+// Surface real uploaded x-rays (persisted via createHoofXray) and fall back to a
+// single seeded demo record only when a patient has no real upload yet. This
+// keeps the portal showing actual patient data while preserving first-run demo
+// content.
+function buildHoofXrays(loadParams?: {
+  patientId?: number | null;
+  isAdmin?: boolean;
+  userEmail?: string;
+}): LocalHoofXray[] {
+  const patients = getPatients();
+  const stored = getHoofXrays();
+  const matched = patients
+    .filter((p) => !loadParams?.patientId || p.id === loadParams.patientId)
+    .filter((p) => loadParams?.isAdmin || p.enrolled_by_vet_email === loadParams?.userEmail);
+  return matched.flatMap((p) => {
+    const real = stored.filter((x) => x.patient_id === p.id);
+    if (real.length > 0) return real;
+    return [
+      {
+        id: Number(`${p.id}01`),
+        patient_id: p.id,
+        hoof_side: 'left',
+        file_path: `patient-media/mock/patients/${p.id}/xray_left.jpg`,
+        original_file_name: 'xray_left.jpg',
+        image_url: null,
+        taken_date: '2026-06-01',
+        pixel_spacing_x: 0.1,
+        pixel_spacing_y: 0.1,
+        analysis_status: 'pending',
+        overall_severity: null,
+        score: null,
+        created_at: '2026-06-01T10:00:00.000Z',
+        horse_name: p.horse_name,
+        enrolled_by_vet_email: p.enrolled_by_vet_email,
+      },
+    ];
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -2054,6 +2120,14 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
       return;
     }
 
+    if (name === 'loadHoofXrays') {
+      const loadParams = _params as { patientId?: number | null; isAdmin?: boolean; userEmail?: string } | undefined;
+      const xrays = buildHoofXrays(loadParams);
+      setData(xrays as unknown[]);
+      setLoading(false);
+      return;
+    }
+
     setData(defaultValue);
     setLoading(false);
   }, [actionName, paramsKey]);
@@ -2145,6 +2219,13 @@ export function useLoadAction(actionName: ActionFactory | string, defaultValue: 
       });
       setData(enriched as unknown[]);
       return enriched;
+    }
+
+    if (name === 'loadHoofXrays') {
+      const loadParams = _params as { patientId?: number | null; isAdmin?: boolean; userEmail?: string } | undefined;
+      const xrays = buildHoofXrays(loadParams);
+      setData(xrays as unknown[]);
+      return xrays;
     }
 
     console.info(`Local preview skipped data reload for ${name}.`);
@@ -2411,6 +2492,43 @@ export function useMutateAction(actionName: ActionFactory | string) {
           };
           records.push(newRecord);
           saveFileRecords(records);
+          return [newRecord];
+        }
+
+        if (name === 'createHoofXray') {
+          const p = params as {
+            patientId?: number;
+            hoofSide?: string;
+            filePath?: string;
+            originalFileName?: string;
+            imageUrl?: string | null;
+            takenDate?: string;
+            pixelSpacingX?: number;
+            pixelSpacingY?: number;
+            userEmail?: string;
+          };
+          const patients = getPatients();
+          const patient = patients.find((pt) => pt.id === Number(p.patientId));
+          const rows = getHoofXrays();
+          const newRecord: LocalHoofXray = {
+            id: rows.length > 0 ? Math.max(...rows.map((r) => r.id)) + 1 : 1,
+            patient_id: Number(p.patientId ?? 0),
+            hoof_side: p.hoofSide ?? 'left',
+            file_path: p.filePath ?? '',
+            original_file_name: p.originalFileName ?? '',
+            image_url: p.imageUrl ?? null,
+            taken_date: p.takenDate ?? null,
+            pixel_spacing_x: Number(p.pixelSpacingX ?? 0.1),
+            pixel_spacing_y: Number(p.pixelSpacingY ?? 0.1),
+            analysis_status: 'pending',
+            overall_severity: null,
+            score: null,
+            created_at: new Date().toISOString(),
+            horse_name: patient?.horse_name,
+            enrolled_by_vet_email: p.userEmail,
+          };
+          rows.push(newRecord);
+          saveHoofXrays(rows);
           return [newRecord];
         }
 
