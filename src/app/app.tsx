@@ -37,6 +37,8 @@ const TermSheetNegotiationPage = lazy(() => import('@/deal-portal/pages/TermShee
 const RegionMarketplacePage = lazy(() => import('@/deal-portal/pages/RegionMarketplacePage').then((m) => ({ default: m.RegionMarketplacePage })));
 const InvestorDashboardPage = lazy(() => import('@/deal-portal/pages/InvestorDashboardPage').then((m) => ({ default: m.InvestorDashboardPage })));
 const LicenceCertificatePage = lazy(() => import('@/deal-portal/pages/LicenceCertificatePage').then((m) => ({ default: m.LicenceCertificatePage })));
+const OfferSubmissionPage = lazy(() => import('@/deal-portal/pages/OfferSubmissionPage').then((m) => ({ default: m.OfferSubmissionPage })));
+const AdminOfferReviewPanel = lazy(() => import('@/admin/components/AdminOfferReviewPanel').then((m) => ({ default: m.AdminOfferReviewPanel })));
 
 function LazyPage({ children, label = 'Loading...' }: { children: ReactNode; label?: string }) {
   return <Suspense fallback={<div className="p-8 text-center">{label}</div>}>{children}</Suspense>;
@@ -178,6 +180,14 @@ function App() {
                 </ProtectedDealRoute>
               }
             />
+            <Route
+              path="/deal/offers"
+              element={
+                <ProtectedDealRoute minimumTier="evaluation">
+                  <LazyPage label="Loading deal room..."><OfferSubmissionPage /></LazyPage>
+                </ProtectedDealRoute>
+              }
+            />
 
             {/* Deal Portal — Investor */}
             <Route
@@ -226,6 +236,16 @@ function App() {
                 <ProtectedRoute requiredRole="admin">
                   <AppShell>
                     <LazyPage><AdminDealCompliancePanel /></LazyPage>
+                  </AppShell>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/deal-offers"
+              element={
+                <ProtectedRoute requiredRole="admin">
+                  <AppShell>
+                    <LazyPage><AdminOfferReviewPanel /></LazyPage>
                   </AppShell>
                 </ProtectedRoute>
               }

@@ -19,6 +19,7 @@ import { AdminDealUsersPanel } from '@/admin/components/AdminDealUsersPanel';
 import { AdminDocumentManager } from '@/admin/components/AdminDocumentManager';
 import { AdminDealPaymentsPanel } from '@/admin/components/AdminDealPaymentsPanel';
 import { AdminDealCompliancePanel } from '@/admin/components/AdminDealCompliancePanel';
+import { AdminOfferReviewPanel } from '@/admin/components/AdminOfferReviewPanel';
 import { ProtocolDocumentCenter } from '@/components/ProtocolDocumentCenter';
 import { AdminComplianceDashboard } from '@/components/AdminComplianceDashboard';
 import { AdminSupplyPanel } from '@/components/AdminSupplyPanel';
@@ -171,11 +172,12 @@ export function DashboardPage() {
             </TabsContent>
             <TabsContent value="deal" className="mt-6">
               <Tabs defaultValue="users">
-                <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-4">
+                <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-5">
                   <TabsTrigger value="users">Users</TabsTrigger>
                   <TabsTrigger value="documents">Documents</TabsTrigger>
                   <TabsTrigger value="payments">Payments</TabsTrigger>
                   <TabsTrigger value="compliance">Compliance</TabsTrigger>
+                  <TabsTrigger value="offers">Offers</TabsTrigger>
                 </TabsList>
                 <TabsContent value="users" className="mt-4">
                   <AdminDealUsersPanel />
@@ -188,6 +190,9 @@ export function DashboardPage() {
                 </TabsContent>
                 <TabsContent value="compliance" className="mt-4">
                   <AdminDealCompliancePanel />
+                </TabsContent>
+                <TabsContent value="offers" className="mt-4">
+                  <AdminOfferReviewPanel />
                 </TabsContent>
               </Tabs>
             </TabsContent>

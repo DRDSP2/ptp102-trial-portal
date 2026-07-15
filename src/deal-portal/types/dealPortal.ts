@@ -203,3 +203,21 @@ export interface Certificate {
   status: 'active' | 'revoked' | 'expired';
   created_at: string;
 }
+
+export interface OfferRequest {
+  id: string;
+  applicant_id: string;
+  applicant_email: string;
+  applicant_role: string | null;
+  region: string;
+  offer_type: 'licence' | 'distribution' | 'investment';
+  amount: number | null;
+  currency: string | null;
+  message: string | null;
+  status: 'submitted' | 'under_review' | 'approved' | 'rejected';
+  reviewer_notes: string | null;
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
