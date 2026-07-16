@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { ByrockLogo } from '@/components/ByrockLogo';
-import { Shield, AlertCircle } from 'lucide-react';
+import { Shield, AlertCircle, UserCog } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const loginSchema = z.object({
@@ -117,6 +117,10 @@ export function AdminLoginScreen({ onSuccess, onBackToAccessSelection }: AdminLo
                 </Button>
                 <Button type="button" variant="outline" size="lg" onClick={onBackToAccessSelection} className="w-full">
                   Back to Access Selection
+                </Button>
+                <Button type="button" variant="ghost" size="sm" onClick={() => window.location.href = '/consultant/login'} className="w-full">
+                  <UserCog className="mr-2 h-4 w-4" />
+                  Consultant Access
                 </Button>
               </div>
             </form>
