@@ -1,0 +1,1393 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/lib/utils.ts",
+      "type": "file",
+      "name": "utils.ts",
+      "filePath": "src/lib/utils.ts",
+      "summary": "utils.ts (typescript) — 6 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/utils.ts:cn",
+      "type": "function",
+      "name": "cn",
+      "filePath": "src/lib/utils.ts",
+      "summary": "Function cn in utils.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/videoCompression.ts",
+      "type": "file",
+      "name": "videoCompression.ts",
+      "filePath": "src/lib/videoCompression.ts",
+      "summary": "videoCompression.ts (typescript) — 100 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/videoCompression.ts:compressVideo",
+      "type": "function",
+      "name": "compressVideo",
+      "filePath": "src/lib/videoCompression.ts",
+      "summary": "Function compressVideo in videoCompression.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/videoCompression.ts:convertVideoToBase64",
+      "type": "function",
+      "name": "convertVideoToBase64",
+      "filePath": "src/lib/videoCompression.ts",
+      "summary": "Function convertVideoToBase64 in videoCompression.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/xmlExport.ts",
+      "type": "file",
+      "name": "xmlExport.ts",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "xmlExport.ts (typescript) — 647 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "function",
+      "name": "escapeXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function escapeXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:toSnakeCase",
+      "type": "function",
+      "name": "toSnakeCase",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function toSnakeCase in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:sanitizeXmlTag",
+      "type": "function",
+      "name": "sanitizeXmlTag",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function sanitizeXmlTag in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:inferFieldType",
+      "type": "function",
+      "name": "inferFieldType",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function inferFieldType in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "function",
+      "name": "xmlTag",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function xmlTag in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "type": "function",
+      "name": "buildStudyHeader",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildStudyHeader in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "function",
+      "name": "serializeFlatDataset",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function serializeFlatDataset in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildSubjectRecord",
+      "type": "function",
+      "name": "buildSubjectRecord",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildSubjectRecord in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildAuditRecord",
+      "type": "function",
+      "name": "buildAuditRecord",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildAuditRecord in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildProtocolDeviationRecords",
+      "type": "function",
+      "name": "buildProtocolDeviationRecords",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildProtocolDeviationRecords in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "type": "function",
+      "name": "buildStatisticalXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildStatisticalXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildFullXml",
+      "type": "function",
+      "name": "buildFullXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildFullXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildCodeListXml",
+      "type": "function",
+      "name": "buildCodeListXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildCodeListXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildItemDefXml",
+      "type": "function",
+      "name": "buildItemDefXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildItemDefXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:buildItemGroupXml",
+      "type": "function",
+      "name": "buildItemGroupXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function buildItemGroupXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "type": "function",
+      "name": "generateDefineXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function generateDefineXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/xmlExport.ts:downloadXml",
+      "type": "function",
+      "name": "downloadXml",
+      "filePath": "src/lib/xmlExport.ts",
+      "summary": "Function downloadXml in xmlExport.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/main.tsx",
+      "type": "file",
+      "name": "main.tsx",
+      "filePath": "src/main.tsx",
+      "summary": "main.tsx (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "document:src/migrations/applied.txt",
+      "type": "document",
+      "name": "applied.txt",
+      "filePath": "src/migrations/applied.txt",
+      "summary": "applied.txt (txt) — 37 lines.",
+      "tags": [
+        "txt",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "txt"
+    },
+    {
+      "id": "file:src/pages/AdminLoginPage.tsx",
+      "type": "file",
+      "name": "AdminLoginPage.tsx",
+      "filePath": "src/pages/AdminLoginPage.tsx",
+      "summary": "AdminLoginPage.tsx (typescript) — 37 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/AdminLoginPage.tsx:AdminLoginPage",
+      "type": "function",
+      "name": "AdminLoginPage",
+      "filePath": "src/pages/AdminLoginPage.tsx",
+      "summary": "Function AdminLoginPage in AdminLoginPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/AuditLogPage.tsx",
+      "type": "file",
+      "name": "AuditLogPage.tsx",
+      "filePath": "src/pages/AuditLogPage.tsx",
+      "summary": "AuditLogPage.tsx (typescript) — 42 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/AuditLogPage.tsx:AuditLogPage",
+      "type": "function",
+      "name": "AuditLogPage",
+      "filePath": "src/pages/AuditLogPage.tsx",
+      "summary": "Function AuditLogPage in AuditLogPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/AuthSelectionPage.tsx",
+      "type": "file",
+      "name": "AuthSelectionPage.tsx",
+      "filePath": "src/pages/AuthSelectionPage.tsx",
+      "summary": "AuthSelectionPage.tsx (typescript) — 56 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/AuthSelectionPage.tsx:AuthSelectionPage",
+      "type": "function",
+      "name": "AuthSelectionPage",
+      "filePath": "src/pages/AuthSelectionPage.tsx",
+      "summary": "Function AuthSelectionPage in AuthSelectionPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/DashboardPage.tsx",
+      "type": "file",
+      "name": "DashboardPage.tsx",
+      "filePath": "src/pages/DashboardPage.tsx",
+      "summary": "DashboardPage.tsx (typescript) — 280 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/DashboardPage.tsx:DashboardPage",
+      "type": "function",
+      "name": "DashboardPage",
+      "filePath": "src/pages/DashboardPage.tsx",
+      "summary": "Function DashboardPage in DashboardPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/PatientCasePage.tsx",
+      "type": "file",
+      "name": "PatientCasePage.tsx",
+      "filePath": "src/pages/PatientCasePage.tsx",
+      "summary": "PatientCasePage.tsx (typescript) — 27 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/PatientCasePage.tsx:PatientCasePage",
+      "type": "function",
+      "name": "PatientCasePage",
+      "filePath": "src/pages/PatientCasePage.tsx",
+      "summary": "Function PatientCasePage in PatientCasePage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/PendingApprovalPage.tsx",
+      "type": "file",
+      "name": "PendingApprovalPage.tsx",
+      "filePath": "src/pages/PendingApprovalPage.tsx",
+      "summary": "PendingApprovalPage.tsx (typescript) — 35 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/PendingApprovalPage.tsx:PendingApprovalPage",
+      "type": "function",
+      "name": "PendingApprovalPage",
+      "filePath": "src/pages/PendingApprovalPage.tsx",
+      "summary": "Function PendingApprovalPage in PendingApprovalPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/ProtectedRoute.tsx",
+      "type": "file",
+      "name": "ProtectedRoute.tsx",
+      "filePath": "src/pages/ProtectedRoute.tsx",
+      "summary": "ProtectedRoute.tsx (typescript) — 30 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/ProtectedRoute.tsx:ProtectedRoute",
+      "type": "function",
+      "name": "ProtectedRoute",
+      "filePath": "src/pages/ProtectedRoute.tsx",
+      "summary": "Function ProtectedRoute in ProtectedRoute.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/VetLoginPage.tsx",
+      "type": "file",
+      "name": "VetLoginPage.tsx",
+      "filePath": "src/pages/VetLoginPage.tsx",
+      "summary": "VetLoginPage.tsx (typescript) — 31 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/VetLoginPage.tsx:VetLoginPage",
+      "type": "function",
+      "name": "VetLoginPage",
+      "filePath": "src/pages/VetLoginPage.tsx",
+      "summary": "Function VetLoginPage in VetLoginPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/VetRegisterPage.tsx",
+      "type": "file",
+      "name": "VetRegisterPage.tsx",
+      "filePath": "src/pages/VetRegisterPage.tsx",
+      "summary": "VetRegisterPage.tsx (typescript) — 24 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/VetRegisterPage.tsx:VetRegisterPage",
+      "type": "function",
+      "name": "VetRegisterPage",
+      "filePath": "src/pages/VetRegisterPage.tsx",
+      "summary": "Function VetRegisterPage in VetRegisterPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/pages/VetResetPage.tsx",
+      "type": "file",
+      "name": "VetResetPage.tsx",
+      "filePath": "src/pages/VetResetPage.tsx",
+      "summary": "VetResetPage.tsx (typescript) — 29 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/pages/VetResetPage.tsx:VetResetPage",
+      "type": "function",
+      "name": "VetResetPage",
+      "filePath": "src/pages/VetResetPage.tsx",
+      "summary": "Function VetResetPage in VetResetPage.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/setupTests.ts",
+      "type": "file",
+      "name": "setupTests.ts",
+      "filePath": "src/setupTests.ts",
+      "summary": "setupTests.ts (typescript) — 28 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/tailwind.config.js",
+      "type": "file",
+      "name": "tailwind.config.js",
+      "filePath": "src/tailwind.config.js",
+      "summary": "tailwind.config.js (javascript) — 233 lines.",
+      "tags": [
+        "javascript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "javascript"
+    },
+    {
+      "id": "file:src/types/db.ts",
+      "type": "file",
+      "name": "db.ts",
+      "filePath": "src/types/db.ts",
+      "summary": "db.ts (typescript) — 2015 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/types/patient.ts",
+      "type": "file",
+      "name": "patient.ts",
+      "filePath": "src/types/patient.ts",
+      "summary": "patient.ts (typescript) — 43 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/types/treatment.ts",
+      "type": "file",
+      "name": "treatment.ts",
+      "filePath": "src/types/treatment.ts",
+      "summary": "treatment.ts (typescript) — 78 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/types/trialOperations.ts",
+      "type": "file",
+      "name": "trialOperations.ts",
+      "filePath": "src/types/trialOperations.ts",
+      "summary": "trialOperations.ts (typescript) — 264 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/types/veterinarian.ts",
+      "type": "file",
+      "name": "veterinarian.ts",
+      "filePath": "src/types/veterinarian.ts",
+      "summary": "veterinarian.ts (typescript) — 16 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/utils/emailNotifications.ts",
+      "type": "file",
+      "name": "emailNotifications.ts",
+      "filePath": "src/utils/emailNotifications.ts",
+      "summary": "emailNotifications.ts (typescript) — 135 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/emailNotifications.ts:sendNotification",
+      "type": "function",
+      "name": "sendNotification",
+      "filePath": "src/utils/emailNotifications.ts",
+      "summary": "Function sendNotification in emailNotifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/emailNotifications.ts:formatNotificationMessage",
+      "type": "function",
+      "name": "formatNotificationMessage",
+      "filePath": "src/utils/emailNotifications.ts",
+      "summary": "Function formatNotificationMessage in emailNotifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/emailNotifications.ts:fireAuditEmail",
+      "type": "function",
+      "name": "fireAuditEmail",
+      "filePath": "src/utils/emailNotifications.ts",
+      "summary": "Function fireAuditEmail in emailNotifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/emailNotifications.ts:readViteEnv",
+      "type": "function",
+      "name": "readViteEnv",
+      "filePath": "src/utils/emailNotifications.ts",
+      "summary": "Function readViteEnv in emailNotifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/utils/passwordHash.ts",
+      "type": "file",
+      "name": "passwordHash.ts",
+      "filePath": "src/utils/passwordHash.ts",
+      "summary": "passwordHash.ts (typescript) — 11 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/passwordHash.ts:hashPassword",
+      "type": "function",
+      "name": "hashPassword",
+      "filePath": "src/utils/passwordHash.ts",
+      "summary": "Function hashPassword in passwordHash.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/passwordHash.ts:verifyPassword",
+      "type": "function",
+      "name": "verifyPassword",
+      "filePath": "src/utils/passwordHash.ts",
+      "summary": "Function verifyPassword in passwordHash.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/utils/prohibitedTermsFilter.ts",
+      "type": "file",
+      "name": "prohibitedTermsFilter.ts",
+      "filePath": "src/utils/prohibitedTermsFilter.ts",
+      "summary": "prohibitedTermsFilter.ts (typescript) — 59 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/prohibitedTermsFilter.ts:checkProhibitedTerms",
+      "type": "function",
+      "name": "checkProhibitedTerms",
+      "filePath": "src/utils/prohibitedTermsFilter.ts",
+      "summary": "Function checkProhibitedTerms in prohibitedTermsFilter.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/prohibitedTermsFilter.ts:sanitizeForDisplay",
+      "type": "function",
+      "name": "sanitizeForDisplay",
+      "filePath": "src/utils/prohibitedTermsFilter.ts",
+      "summary": "Function sanitizeForDisplay in prohibitedTermsFilter.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/lib/utils.ts",
+      "target": "function:src/lib/utils.ts:cn",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/videoCompression.ts",
+      "target": "function:src/lib/videoCompression.ts:compressVideo",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/videoCompression.ts",
+      "target": "function:src/lib/videoCompression.ts:convertVideoToBase64",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:toSnakeCase",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:sanitizeXmlTag",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:inferFieldType",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildSubjectRecord",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildAuditRecord",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildProtocolDeviationRecords",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildFullXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildCodeListXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildItemDefXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:buildItemGroupXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/xmlExport.ts",
+      "target": "function:src/lib/xmlExport.ts:downloadXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:sanitizeXmlTag",
+      "target": "function:src/lib/xmlExport.ts:toSnakeCase",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:xmlTag",
+      "target": "function:src/lib/xmlExport.ts:sanitizeXmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:xmlTag",
+      "target": "function:src/lib/xmlExport.ts:sanitizeXmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:xmlTag",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:xmlTag",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "target": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "target": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "target": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "target": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "target": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "target": "function:src/lib/xmlExport.ts:xmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "target": "function:src/lib/xmlExport.ts:sanitizeXmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "target": "function:src/lib/xmlExport.ts:sanitizeXmlTag",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "target": "function:src/lib/xmlExport.ts:inferFieldType",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:buildProtocolDeviationRecords",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildStatisticalXml",
+      "target": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:buildProtocolDeviationRecords",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:serializeFlatDataset",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildFullXml",
+      "target": "function:src/lib/xmlExport.ts:buildStudyHeader",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildCodeListXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildCodeListXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildItemDefXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildItemDefXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildItemDefXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:buildItemGroupXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:buildItemDefXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:buildCodeListXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/xmlExport.ts:generateDefineXml",
+      "target": "function:src/lib/xmlExport.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/pages/AdminLoginPage.tsx",
+      "target": "function:src/pages/AdminLoginPage.tsx:AdminLoginPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/AuditLogPage.tsx",
+      "target": "function:src/pages/AuditLogPage.tsx:AuditLogPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/AuthSelectionPage.tsx",
+      "target": "function:src/pages/AuthSelectionPage.tsx:AuthSelectionPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/DashboardPage.tsx",
+      "target": "function:src/pages/DashboardPage.tsx:DashboardPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/PatientCasePage.tsx",
+      "target": "function:src/pages/PatientCasePage.tsx:PatientCasePage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/PendingApprovalPage.tsx",
+      "target": "function:src/pages/PendingApprovalPage.tsx:PendingApprovalPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/ProtectedRoute.tsx",
+      "target": "function:src/pages/ProtectedRoute.tsx:ProtectedRoute",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/VetLoginPage.tsx",
+      "target": "function:src/pages/VetLoginPage.tsx:VetLoginPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/VetRegisterPage.tsx",
+      "target": "function:src/pages/VetRegisterPage.tsx:VetRegisterPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/pages/VetResetPage.tsx",
+      "target": "function:src/pages/VetResetPage.tsx:VetResetPage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/emailNotifications.ts",
+      "target": "function:src/utils/emailNotifications.ts:sendNotification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/emailNotifications.ts",
+      "target": "function:src/utils/emailNotifications.ts:formatNotificationMessage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/emailNotifications.ts",
+      "target": "function:src/utils/emailNotifications.ts:fireAuditEmail",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/emailNotifications.ts",
+      "target": "function:src/utils/emailNotifications.ts:readViteEnv",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/utils/emailNotifications.ts:sendNotification",
+      "target": "function:src/utils/emailNotifications.ts:formatNotificationMessage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/utils/emailNotifications.ts:fireAuditEmail",
+      "target": "function:src/utils/emailNotifications.ts:readViteEnv",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/utils/emailNotifications.ts:fireAuditEmail",
+      "target": "function:src/utils/emailNotifications.ts:readViteEnv",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/utils/emailNotifications.ts:fireAuditEmail",
+      "target": "function:src/utils/emailNotifications.ts:readViteEnv",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/utils/passwordHash.ts",
+      "target": "function:src/utils/passwordHash.ts:hashPassword",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/passwordHash.ts",
+      "target": "function:src/utils/passwordHash.ts:verifyPassword",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/prohibitedTermsFilter.ts",
+      "target": "function:src/utils/prohibitedTermsFilter.ts:checkProhibitedTerms",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/prohibitedTermsFilter.ts",
+      "target": "function:src/utils/prohibitedTermsFilter.ts:sanitizeForDisplay",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

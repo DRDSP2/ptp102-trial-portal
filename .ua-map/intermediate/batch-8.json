@@ -1,0 +1,831 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/actions/createHoofXray.ts",
+      "type": "file",
+      "name": "createHoofXray.ts",
+      "filePath": "src/actions/createHoofXray.ts",
+      "summary": "createHoofXray.ts (typescript) — 24 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createHoofXray.ts:createHoofXray",
+      "type": "function",
+      "name": "createHoofXray",
+      "filePath": "src/actions/createHoofXray.ts",
+      "summary": "Function createHoofXray in createHoofXray.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createInformedConsent.ts",
+      "type": "file",
+      "name": "createInformedConsent.ts",
+      "filePath": "src/actions/createInformedConsent.ts",
+      "summary": "createInformedConsent.ts (typescript) — 24 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createInformedConsent.ts:createInformedConsent",
+      "type": "function",
+      "name": "createInformedConsent",
+      "filePath": "src/actions/createInformedConsent.ts",
+      "summary": "Function createInformedConsent in createInformedConsent.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createMonitoringVisit.ts",
+      "type": "file",
+      "name": "createMonitoringVisit.ts",
+      "filePath": "src/actions/createMonitoringVisit.ts",
+      "summary": "createMonitoringVisit.ts (typescript) — 23 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createMonitoringVisit.ts:createMonitoringVisit",
+      "type": "function",
+      "name": "createMonitoringVisit",
+      "filePath": "src/actions/createMonitoringVisit.ts",
+      "summary": "Function createMonitoringVisit in createMonitoringVisit.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createNCIEShipment.ts",
+      "type": "file",
+      "name": "createNCIEShipment.ts",
+      "filePath": "src/actions/createNCIEShipment.ts",
+      "summary": "createNCIEShipment.ts (typescript) — 26 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createNCIEShipment.ts:createNCIEShipment",
+      "type": "function",
+      "name": "createNCIEShipment",
+      "filePath": "src/actions/createNCIEShipment.ts",
+      "summary": "Function createNCIEShipment in createNCIEShipment.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createPatient.ts",
+      "type": "file",
+      "name": "createPatient.ts",
+      "filePath": "src/actions/createPatient.ts",
+      "summary": "createPatient.ts (typescript) — 47 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createPatient.ts:createPatient",
+      "type": "function",
+      "name": "createPatient",
+      "filePath": "src/actions/createPatient.ts",
+      "summary": "Function createPatient in createPatient.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createProtocolDeviation.ts",
+      "type": "file",
+      "name": "createProtocolDeviation.ts",
+      "filePath": "src/actions/createProtocolDeviation.ts",
+      "summary": "createProtocolDeviation.ts (typescript) — 22 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createProtocolDeviation.ts:createProtocolDeviation",
+      "type": "function",
+      "name": "createProtocolDeviation",
+      "filePath": "src/actions/createProtocolDeviation.ts",
+      "summary": "Function createProtocolDeviation in createProtocolDeviation.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createProtocolVersion.ts",
+      "type": "file",
+      "name": "createProtocolVersion.ts",
+      "filePath": "src/actions/createProtocolVersion.ts",
+      "summary": "createProtocolVersion.ts (typescript) — 23 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createProtocolVersion.ts:createProtocolVersion",
+      "type": "function",
+      "name": "createProtocolVersion",
+      "filePath": "src/actions/createProtocolVersion.ts",
+      "summary": "Function createProtocolVersion in createProtocolVersion.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createSiteQualification.ts",
+      "type": "file",
+      "name": "createSiteQualification.ts",
+      "filePath": "src/actions/createSiteQualification.ts",
+      "summary": "createSiteQualification.ts (typescript) — 28 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createSiteQualification.ts:createSiteQualification",
+      "type": "function",
+      "name": "createSiteQualification",
+      "filePath": "src/actions/createSiteQualification.ts",
+      "summary": "Function createSiteQualification in createSiteQualification.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createSupplyShipment.ts",
+      "type": "file",
+      "name": "createSupplyShipment.ts",
+      "filePath": "src/actions/createSupplyShipment.ts",
+      "summary": "createSupplyShipment.ts (typescript) — 28 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createSupplyShipment.ts:createSupplyShipment",
+      "type": "function",
+      "name": "createSupplyShipment",
+      "filePath": "src/actions/createSupplyShipment.ts",
+      "summary": "Function createSupplyShipment in createSupplyShipment.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createTreatmentOutcome.ts",
+      "type": "file",
+      "name": "createTreatmentOutcome.ts",
+      "filePath": "src/actions/createTreatmentOutcome.ts",
+      "summary": "createTreatmentOutcome.ts (typescript) — 31 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createTreatmentOutcome.ts:createTreatmentOutcome",
+      "type": "function",
+      "name": "createTreatmentOutcome",
+      "filePath": "src/actions/createTreatmentOutcome.ts",
+      "summary": "Function createTreatmentOutcome in createTreatmentOutcome.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createXrayLandmark.ts",
+      "type": "file",
+      "name": "createXrayLandmark.ts",
+      "filePath": "src/actions/createXrayLandmark.ts",
+      "summary": "createXrayLandmark.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createXrayLandmark.ts:createXrayLandmark",
+      "type": "function",
+      "name": "createXrayLandmark",
+      "filePath": "src/actions/createXrayLandmark.ts",
+      "summary": "Function createXrayLandmark in createXrayLandmark.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createXrayMeasurement.ts",
+      "type": "file",
+      "name": "createXrayMeasurement.ts",
+      "filePath": "src/actions/createXrayMeasurement.ts",
+      "summary": "createXrayMeasurement.ts (typescript) — 19 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createXrayMeasurement.ts:createXrayMeasurement",
+      "type": "function",
+      "name": "createXrayMeasurement",
+      "filePath": "src/actions/createXrayMeasurement.ts",
+      "summary": "Function createXrayMeasurement in createXrayMeasurement.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/debugClinicalNotes.ts",
+      "type": "file",
+      "name": "debugClinicalNotes.ts",
+      "filePath": "src/actions/debugClinicalNotes.ts",
+      "summary": "debugClinicalNotes.ts (typescript) — 25 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/debugClinicalNotes.ts:debugClinicalNotes",
+      "type": "function",
+      "name": "debugClinicalNotes",
+      "filePath": "src/actions/debugClinicalNotes.ts",
+      "summary": "Function debugClinicalNotes in debugClinicalNotes.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/debugVeterinarianData.ts",
+      "type": "file",
+      "name": "debugVeterinarianData.ts",
+      "filePath": "src/actions/debugVeterinarianData.ts",
+      "summary": "debugVeterinarianData.ts (typescript) — 21 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/debugVeterinarianData.ts:debugVeterinarianData",
+      "type": "function",
+      "name": "debugVeterinarianData",
+      "filePath": "src/actions/debugVeterinarianData.ts",
+      "summary": "Function debugVeterinarianData in debugVeterinarianData.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/deletePatient.ts",
+      "type": "file",
+      "name": "deletePatient.ts",
+      "filePath": "src/actions/deletePatient.ts",
+      "summary": "deletePatient.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/deletePatient.ts:deletePatient",
+      "type": "function",
+      "name": "deletePatient",
+      "filePath": "src/actions/deletePatient.ts",
+      "summary": "Function deletePatient in deletePatient.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/deleteVeterinarian.ts",
+      "type": "file",
+      "name": "deleteVeterinarian.ts",
+      "filePath": "src/actions/deleteVeterinarian.ts",
+      "summary": "deleteVeterinarian.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/deleteVeterinarian.ts:deleteVeterinarian",
+      "type": "function",
+      "name": "deleteVeterinarian",
+      "filePath": "src/actions/deleteVeterinarian.ts",
+      "summary": "Function deleteVeterinarian in deleteVeterinarian.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/exportStudyFullXml.ts",
+      "type": "file",
+      "name": "exportStudyFullXml.ts",
+      "filePath": "src/actions/exportStudyFullXml.ts",
+      "summary": "exportStudyFullXml.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/exportStudyFullXml.ts:exportStudyFullXml",
+      "type": "function",
+      "name": "exportStudyFullXml",
+      "filePath": "src/actions/exportStudyFullXml.ts",
+      "summary": "Function exportStudyFullXml in exportStudyFullXml.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/exportStudyXml.ts",
+      "type": "file",
+      "name": "exportStudyXml.ts",
+      "filePath": "src/actions/exportStudyXml.ts",
+      "summary": "exportStudyXml.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/exportStudyXml.ts:exportStudyXml",
+      "type": "function",
+      "name": "exportStudyXml",
+      "filePath": "src/actions/exportStudyXml.ts",
+      "summary": "Function exportStudyXml in exportStudyXml.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/exportSubmissionPackage.ts",
+      "type": "file",
+      "name": "exportSubmissionPackage.ts",
+      "filePath": "src/actions/exportSubmissionPackage.ts",
+      "summary": "exportSubmissionPackage.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/exportSubmissionPackage.ts:exportSubmissionPackage",
+      "type": "function",
+      "name": "exportSubmissionPackage",
+      "filePath": "src/actions/exportSubmissionPackage.ts",
+      "summary": "Function exportSubmissionPackage in exportSubmissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/googleOAuthLogin.ts",
+      "type": "file",
+      "name": "googleOAuthLogin.ts",
+      "filePath": "src/actions/googleOAuthLogin.ts",
+      "summary": "googleOAuthLogin.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/googleOAuthLogin.ts:googleOAuthLogin",
+      "type": "function",
+      "name": "googleOAuthLogin",
+      "filePath": "src/actions/googleOAuthLogin.ts",
+      "summary": "Function googleOAuthLogin in googleOAuthLogin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadAdminComplianceDashboard.ts",
+      "type": "file",
+      "name": "loadAdminComplianceDashboard.ts",
+      "filePath": "src/actions/loadAdminComplianceDashboard.ts",
+      "summary": "loadAdminComplianceDashboard.ts (typescript) — 88 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadAdminComplianceDashboard.ts:loadAdminComplianceDashboard",
+      "type": "function",
+      "name": "loadAdminComplianceDashboard",
+      "filePath": "src/actions/loadAdminComplianceDashboard.ts",
+      "summary": "Function loadAdminComplianceDashboard in loadAdminComplianceDashboard.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadAdminStatistics.ts",
+      "type": "file",
+      "name": "loadAdminStatistics.ts",
+      "filePath": "src/actions/loadAdminStatistics.ts",
+      "summary": "loadAdminStatistics.ts (typescript) — 30 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadAdminStatistics.ts:loadAdminStatistics",
+      "type": "function",
+      "name": "loadAdminStatistics",
+      "filePath": "src/actions/loadAdminStatistics.ts",
+      "summary": "Function loadAdminStatistics in loadAdminStatistics.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadAdverseEvents.ts",
+      "type": "file",
+      "name": "loadAdverseEvents.ts",
+      "filePath": "src/actions/loadAdverseEvents.ts",
+      "summary": "loadAdverseEvents.ts (typescript) — 17 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadAdverseEvents.ts:loadAdverseEvents",
+      "type": "function",
+      "name": "loadAdverseEvents",
+      "filePath": "src/actions/loadAdverseEvents.ts",
+      "summary": "Function loadAdverseEvents in loadAdverseEvents.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadAllAdverseEvents.ts",
+      "type": "file",
+      "name": "loadAllAdverseEvents.ts",
+      "filePath": "src/actions/loadAllAdverseEvents.ts",
+      "summary": "loadAllAdverseEvents.ts (typescript) — 16 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadAllAdverseEvents.ts:loadAllAdverseEvents",
+      "type": "function",
+      "name": "loadAllAdverseEvents",
+      "filePath": "src/actions/loadAllAdverseEvents.ts",
+      "summary": "Function loadAllAdverseEvents in loadAllAdverseEvents.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadAllInvestigatorQualifications.ts",
+      "type": "file",
+      "name": "loadAllInvestigatorQualifications.ts",
+      "filePath": "src/actions/loadAllInvestigatorQualifications.ts",
+      "summary": "loadAllInvestigatorQualifications.ts (typescript) — 23 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadAllInvestigatorQualifications.ts:loadAllInvestigatorQualifications",
+      "type": "function",
+      "name": "loadAllInvestigatorQualifications",
+      "filePath": "src/actions/loadAllInvestigatorQualifications.ts",
+      "summary": "Function loadAllInvestigatorQualifications in loadAllInvestigatorQualifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/actions/createHoofXray.ts",
+      "target": "function:src/actions/createHoofXray.ts:createHoofXray",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createInformedConsent.ts",
+      "target": "function:src/actions/createInformedConsent.ts:createInformedConsent",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createMonitoringVisit.ts",
+      "target": "function:src/actions/createMonitoringVisit.ts:createMonitoringVisit",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createNCIEShipment.ts",
+      "target": "function:src/actions/createNCIEShipment.ts:createNCIEShipment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createPatient.ts",
+      "target": "function:src/actions/createPatient.ts:createPatient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createProtocolDeviation.ts",
+      "target": "function:src/actions/createProtocolDeviation.ts:createProtocolDeviation",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createProtocolVersion.ts",
+      "target": "function:src/actions/createProtocolVersion.ts:createProtocolVersion",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createSiteQualification.ts",
+      "target": "function:src/actions/createSiteQualification.ts:createSiteQualification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createSupplyShipment.ts",
+      "target": "function:src/actions/createSupplyShipment.ts:createSupplyShipment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createTreatmentOutcome.ts",
+      "target": "function:src/actions/createTreatmentOutcome.ts:createTreatmentOutcome",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createXrayLandmark.ts",
+      "target": "function:src/actions/createXrayLandmark.ts:createXrayLandmark",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createXrayMeasurement.ts",
+      "target": "function:src/actions/createXrayMeasurement.ts:createXrayMeasurement",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/debugClinicalNotes.ts",
+      "target": "function:src/actions/debugClinicalNotes.ts:debugClinicalNotes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/debugVeterinarianData.ts",
+      "target": "function:src/actions/debugVeterinarianData.ts:debugVeterinarianData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/deletePatient.ts",
+      "target": "function:src/actions/deletePatient.ts:deletePatient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/deleteVeterinarian.ts",
+      "target": "function:src/actions/deleteVeterinarian.ts:deleteVeterinarian",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/exportStudyFullXml.ts",
+      "target": "function:src/actions/exportStudyFullXml.ts:exportStudyFullXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/exportStudyXml.ts",
+      "target": "function:src/actions/exportStudyXml.ts:exportStudyXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/exportSubmissionPackage.ts",
+      "target": "function:src/actions/exportSubmissionPackage.ts:exportSubmissionPackage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/googleOAuthLogin.ts",
+      "target": "function:src/actions/googleOAuthLogin.ts:googleOAuthLogin",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadAdminComplianceDashboard.ts",
+      "target": "function:src/actions/loadAdminComplianceDashboard.ts:loadAdminComplianceDashboard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadAdminStatistics.ts",
+      "target": "function:src/actions/loadAdminStatistics.ts:loadAdminStatistics",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadAdverseEvents.ts",
+      "target": "function:src/actions/loadAdverseEvents.ts:loadAdverseEvents",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadAllAdverseEvents.ts",
+      "target": "function:src/actions/loadAllAdverseEvents.ts:loadAllAdverseEvents",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadAllInvestigatorQualifications.ts",
+      "target": "function:src/actions/loadAllInvestigatorQualifications.ts:loadAllInvestigatorQualifications",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

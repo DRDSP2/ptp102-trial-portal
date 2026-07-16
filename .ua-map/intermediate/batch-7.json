@@ -1,0 +1,947 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/__tests__/submissionPackage.test.ts",
+      "type": "file",
+      "name": "submissionPackage.test.ts",
+      "filePath": "src/__tests__/submissionPackage.test.ts",
+      "summary": "submissionPackage.test.ts (typescript) — 96 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/submissionPackage.test.ts:sha256",
+      "type": "function",
+      "name": "sha256",
+      "filePath": "src/__tests__/submissionPackage.test.ts",
+      "summary": "Function sha256 in submissionPackage.test.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/supplyInventory.test.tsx",
+      "type": "file",
+      "name": "supplyInventory.test.tsx",
+      "filePath": "src/__tests__/supplyInventory.test.tsx",
+      "summary": "supplyInventory.test.tsx (typescript) — 172 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/supplyShipmentVisibility.test.tsx",
+      "type": "file",
+      "name": "supplyShipmentVisibility.test.tsx",
+      "filePath": "src/__tests__/supplyShipmentVisibility.test.tsx",
+      "summary": "supplyShipmentVisibility.test.tsx (typescript) — 206 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/supplyShipmentVisibility.test.tsx:seedVets",
+      "type": "function",
+      "name": "seedVets",
+      "filePath": "src/__tests__/supplyShipmentVisibility.test.tsx",
+      "summary": "Function seedVets in supplyShipmentVisibility.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/supplyShipmentVisibility.test.tsx:seedQualification",
+      "type": "function",
+      "name": "seedQualification",
+      "filePath": "src/__tests__/supplyShipmentVisibility.test.tsx",
+      "summary": "Function seedQualification in supplyShipmentVisibility.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/supplyShipmentVisibility.test.tsx:renderDashboard",
+      "type": "function",
+      "name": "renderDashboard",
+      "filePath": "src/__tests__/supplyShipmentVisibility.test.tsx",
+      "summary": "Function renderDashboard in supplyShipmentVisibility.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/supplyShipmentVisibility.test.tsx:renderHook",
+      "type": "function",
+      "name": "renderHook",
+      "filePath": "src/__tests__/supplyShipmentVisibility.test.tsx",
+      "summary": "Function renderHook in supplyShipmentVisibility.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/supplyShipmentVisibility.test.tsx:createShipmentForVet",
+      "type": "function",
+      "name": "createShipmentForVet",
+      "filePath": "src/__tests__/supplyShipmentVisibility.test.tsx",
+      "summary": "Function createShipmentForVet in supplyShipmentVisibility.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/utils/mockSupabaseAuth.ts",
+      "type": "file",
+      "name": "mockSupabaseAuth.ts",
+      "filePath": "src/__tests__/utils/mockSupabaseAuth.ts",
+      "summary": "mockSupabaseAuth.ts (typescript) — 104 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockUser",
+      "type": "function",
+      "name": "createMockUser",
+      "filePath": "src/__tests__/utils/mockSupabaseAuth.ts",
+      "summary": "Function createMockUser in mockSupabaseAuth.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockSession",
+      "type": "function",
+      "name": "createMockSession",
+      "filePath": "src/__tests__/utils/mockSupabaseAuth.ts",
+      "summary": "Function createMockSession in mockSupabaseAuth.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/utils/mockSupabaseAuth.ts:mockSupabaseAuth",
+      "type": "function",
+      "name": "mockSupabaseAuth",
+      "filePath": "src/__tests__/utils/mockSupabaseAuth.ts",
+      "summary": "Function mockSupabaseAuth in mockSupabaseAuth.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/utils/mockSupabaseAuth.ts:mockSupabaseAuthWithoutSession",
+      "type": "function",
+      "name": "mockSupabaseAuthWithoutSession",
+      "filePath": "src/__tests__/utils/mockSupabaseAuth.ts",
+      "summary": "Function mockSupabaseAuthWithoutSession in mockSupabaseAuth.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/utils/supabaseMock.ts",
+      "type": "file",
+      "name": "supabaseMock.ts",
+      "filePath": "src/__tests__/utils/supabaseMock.ts",
+      "summary": "supabaseMock.ts (typescript) — 69 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/utils/supabaseMock.ts:seedAuth",
+      "type": "function",
+      "name": "seedAuth",
+      "filePath": "src/__tests__/utils/supabaseMock.ts",
+      "summary": "Function seedAuth in supabaseMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/utils/supabaseMock.ts:clearAuthMocks",
+      "type": "function",
+      "name": "clearAuthMocks",
+      "filePath": "src/__tests__/utils/supabaseMock.ts",
+      "summary": "Function clearAuthMocks in supabaseMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/vetApprovalFlow.test.tsx",
+      "type": "file",
+      "name": "vetApprovalFlow.test.tsx",
+      "filePath": "src/__tests__/vetApprovalFlow.test.tsx",
+      "summary": "vetApprovalFlow.test.tsx (typescript) — 115 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/vetApprovalFlow.test.tsx:mockVetStatus",
+      "type": "function",
+      "name": "mockVetStatus",
+      "filePath": "src/__tests__/vetApprovalFlow.test.tsx",
+      "summary": "Function mockVetStatus in vetApprovalFlow.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/vetReregistrationAudit.test.tsx",
+      "type": "file",
+      "name": "vetReregistrationAudit.test.tsx",
+      "filePath": "src/__tests__/vetReregistrationAudit.test.tsx",
+      "summary": "vetReregistrationAudit.test.tsx (typescript) — 103 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/whatsappNotifications.test.tsx",
+      "type": "file",
+      "name": "whatsappNotifications.test.tsx",
+      "filePath": "src/__tests__/whatsappNotifications.test.tsx",
+      "summary": "whatsappNotifications.test.tsx (typescript) — 111 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/xmlExport.test.ts",
+      "type": "file",
+      "name": "xmlExport.test.ts",
+      "filePath": "src/__tests__/xmlExport.test.ts",
+      "summary": "xmlExport.test.ts (typescript) — 279 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/acceptTermsAndConditions.ts",
+      "type": "file",
+      "name": "acceptTermsAndConditions.ts",
+      "filePath": "src/actions/acceptTermsAndConditions.ts",
+      "summary": "acceptTermsAndConditions.ts (typescript) — 41 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/acceptTermsAndConditions.ts:acceptTermsAndConditions",
+      "type": "function",
+      "name": "acceptTermsAndConditions",
+      "filePath": "src/actions/acceptTermsAndConditions.ts",
+      "summary": "Function acceptTermsAndConditions in acceptTermsAndConditions.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/addClinicalAssessment.ts",
+      "type": "file",
+      "name": "addClinicalAssessment.ts",
+      "filePath": "src/actions/addClinicalAssessment.ts",
+      "summary": "addClinicalAssessment.ts (typescript) — 34 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/addClinicalAssessment.ts:addClinicalAssessment",
+      "type": "function",
+      "name": "addClinicalAssessment",
+      "filePath": "src/actions/addClinicalAssessment.ts",
+      "summary": "Function addClinicalAssessment in addClinicalAssessment.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/addClinicalNote.ts",
+      "type": "file",
+      "name": "addClinicalNote.ts",
+      "filePath": "src/actions/addClinicalNote.ts",
+      "summary": "addClinicalNote.ts (typescript) — 33 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/addClinicalNote.ts:addClinicalNote",
+      "type": "function",
+      "name": "addClinicalNote",
+      "filePath": "src/actions/addClinicalNote.ts",
+      "summary": "Function addClinicalNote in addClinicalNote.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/addLabResult.ts",
+      "type": "file",
+      "name": "addLabResult.ts",
+      "filePath": "src/actions/addLabResult.ts",
+      "summary": "addLabResult.ts (typescript) — 40 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/addLabResult.ts:addLabResult",
+      "type": "function",
+      "name": "addLabResult",
+      "filePath": "src/actions/addLabResult.ts",
+      "summary": "Function addLabResult in addLabResult.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/addTreatment.ts",
+      "type": "file",
+      "name": "addTreatment.ts",
+      "filePath": "src/actions/addTreatment.ts",
+      "summary": "addTreatment.ts (typescript) — 44 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/addTreatment.ts:addTreatment",
+      "type": "function",
+      "name": "addTreatment",
+      "filePath": "src/actions/addTreatment.ts",
+      "summary": "Function addTreatment in addTreatment.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/adminLogin.ts",
+      "type": "file",
+      "name": "adminLogin.ts",
+      "filePath": "src/actions/adminLogin.ts",
+      "summary": "adminLogin.ts (typescript) — 20 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/adminLogin.ts:adminLogin",
+      "type": "function",
+      "name": "adminLogin",
+      "filePath": "src/actions/adminLogin.ts",
+      "summary": "Function adminLogin in adminLogin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/approveInvestigatorQualification.ts",
+      "type": "file",
+      "name": "approveInvestigatorQualification.ts",
+      "filePath": "src/actions/approveInvestigatorQualification.ts",
+      "summary": "approveInvestigatorQualification.ts (typescript) — 20 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/approveInvestigatorQualification.ts:approveInvestigatorQualification",
+      "type": "function",
+      "name": "approveInvestigatorQualification",
+      "filePath": "src/actions/approveInvestigatorQualification.ts",
+      "summary": "Function approveInvestigatorQualification in approveInvestigatorQualification.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/approvePatientScreening.ts",
+      "type": "file",
+      "name": "approvePatientScreening.ts",
+      "filePath": "src/actions/approvePatientScreening.ts",
+      "summary": "approvePatientScreening.ts (typescript) — 21 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/approvePatientScreening.ts:approvePatientScreening",
+      "type": "function",
+      "name": "approvePatientScreening",
+      "filePath": "src/actions/approvePatientScreening.ts",
+      "summary": "Function approvePatientScreening in approvePatientScreening.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/approveVeterinarian.ts",
+      "type": "file",
+      "name": "approveVeterinarian.ts",
+      "filePath": "src/actions/approveVeterinarian.ts",
+      "summary": "approveVeterinarian.ts (typescript) — 17 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/approveVeterinarian.ts:approveVeterinarian",
+      "type": "function",
+      "name": "approveVeterinarian",
+      "filePath": "src/actions/approveVeterinarian.ts",
+      "summary": "Function approveVeterinarian in approveVeterinarian.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/bulkUpdateDataLockStatus.ts",
+      "type": "file",
+      "name": "bulkUpdateDataLockStatus.ts",
+      "filePath": "src/actions/bulkUpdateDataLockStatus.ts",
+      "summary": "bulkUpdateDataLockStatus.ts (typescript) — 31 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/bulkUpdateDataLockStatus.ts:bulkUpdateDataLockStatus",
+      "type": "function",
+      "name": "bulkUpdateDataLockStatus",
+      "filePath": "src/actions/bulkUpdateDataLockStatus.ts",
+      "summary": "Function bulkUpdateDataLockStatus in bulkUpdateDataLockStatus.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/checkVeterinarianAcceptance.ts",
+      "type": "file",
+      "name": "checkVeterinarianAcceptance.ts",
+      "filePath": "src/actions/checkVeterinarianAcceptance.ts",
+      "summary": "checkVeterinarianAcceptance.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/checkVeterinarianAcceptance.ts:checkVeterinarianAcceptance",
+      "type": "function",
+      "name": "checkVeterinarianAcceptance",
+      "filePath": "src/actions/checkVeterinarianAcceptance.ts",
+      "summary": "Function checkVeterinarianAcceptance in checkVeterinarianAcceptance.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createAdverseEvent.ts",
+      "type": "file",
+      "name": "createAdverseEvent.ts",
+      "filePath": "src/actions/createAdverseEvent.ts",
+      "summary": "createAdverseEvent.ts (typescript) — 27 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createAdverseEvent.ts:createAdverseEvent",
+      "type": "function",
+      "name": "createAdverseEvent",
+      "filePath": "src/actions/createAdverseEvent.ts",
+      "summary": "Function createAdverseEvent in createAdverseEvent.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createAuditLog.ts",
+      "type": "file",
+      "name": "createAuditLog.ts",
+      "filePath": "src/actions/createAuditLog.ts",
+      "summary": "createAuditLog.ts (typescript) — 22 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createAuditLog.ts:createAuditLog",
+      "type": "function",
+      "name": "createAuditLog",
+      "filePath": "src/actions/createAuditLog.ts",
+      "summary": "Function createAuditLog in createAuditLog.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createEnrollmentEligibility.ts",
+      "type": "file",
+      "name": "createEnrollmentEligibility.ts",
+      "filePath": "src/actions/createEnrollmentEligibility.ts",
+      "summary": "createEnrollmentEligibility.ts (typescript) — 52 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createEnrollmentEligibility.ts:createEnrollmentEligibility",
+      "type": "function",
+      "name": "createEnrollmentEligibility",
+      "filePath": "src/actions/createEnrollmentEligibility.ts",
+      "summary": "Function createEnrollmentEligibility in createEnrollmentEligibility.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createFDAcorrespondence.ts",
+      "type": "file",
+      "name": "createFDAcorrespondence.ts",
+      "filePath": "src/actions/createFDAcorrespondence.ts",
+      "summary": "createFDAcorrespondence.ts (typescript) — 22 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createFDAcorrespondence.ts:createFDAcorrespondence",
+      "type": "function",
+      "name": "createFDAcorrespondence",
+      "filePath": "src/actions/createFDAcorrespondence.ts",
+      "summary": "Function createFDAcorrespondence in createFDAcorrespondence.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/createGoogleOAuthVet.ts",
+      "type": "file",
+      "name": "createGoogleOAuthVet.ts",
+      "filePath": "src/actions/createGoogleOAuthVet.ts",
+      "summary": "createGoogleOAuthVet.ts (typescript) — 33 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/createGoogleOAuthVet.ts:createGoogleOAuthVet",
+      "type": "function",
+      "name": "createGoogleOAuthVet",
+      "filePath": "src/actions/createGoogleOAuthVet.ts",
+      "summary": "Function createGoogleOAuthVet in createGoogleOAuthVet.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/__tests__/submissionPackage.test.ts",
+      "target": "function:src/__tests__/submissionPackage.test.ts:sha256",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/supplyShipmentVisibility.test.tsx",
+      "target": "function:src/__tests__/supplyShipmentVisibility.test.tsx:seedVets",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/supplyShipmentVisibility.test.tsx",
+      "target": "function:src/__tests__/supplyShipmentVisibility.test.tsx:seedQualification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/supplyShipmentVisibility.test.tsx",
+      "target": "function:src/__tests__/supplyShipmentVisibility.test.tsx:renderDashboard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/supplyShipmentVisibility.test.tsx",
+      "target": "function:src/__tests__/supplyShipmentVisibility.test.tsx:renderHook",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/supplyShipmentVisibility.test.tsx",
+      "target": "function:src/__tests__/supplyShipmentVisibility.test.tsx:createShipmentForVet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/__tests__/supplyShipmentVisibility.test.tsx:createShipmentForVet",
+      "target": "function:src/__tests__/supplyShipmentVisibility.test.tsx:renderHook",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/__tests__/utils/mockSupabaseAuth.ts",
+      "target": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/utils/mockSupabaseAuth.ts",
+      "target": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockSession",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/utils/mockSupabaseAuth.ts",
+      "target": "function:src/__tests__/utils/mockSupabaseAuth.ts:mockSupabaseAuth",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/utils/mockSupabaseAuth.ts",
+      "target": "function:src/__tests__/utils/mockSupabaseAuth.ts:mockSupabaseAuthWithoutSession",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockSession",
+      "target": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/__tests__/utils/mockSupabaseAuth.ts:mockSupabaseAuth",
+      "target": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockSession",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/__tests__/utils/mockSupabaseAuth.ts:mockSupabaseAuth",
+      "target": "function:src/__tests__/utils/mockSupabaseAuth.ts:createMockUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/__tests__/utils/supabaseMock.ts",
+      "target": "function:src/__tests__/utils/supabaseMock.ts:seedAuth",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/utils/supabaseMock.ts",
+      "target": "function:src/__tests__/utils/supabaseMock.ts:clearAuthMocks",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/vetApprovalFlow.test.tsx",
+      "target": "function:src/__tests__/vetApprovalFlow.test.tsx:mockVetStatus",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/acceptTermsAndConditions.ts",
+      "target": "function:src/actions/acceptTermsAndConditions.ts:acceptTermsAndConditions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/addClinicalAssessment.ts",
+      "target": "function:src/actions/addClinicalAssessment.ts:addClinicalAssessment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/addClinicalNote.ts",
+      "target": "function:src/actions/addClinicalNote.ts:addClinicalNote",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/addLabResult.ts",
+      "target": "function:src/actions/addLabResult.ts:addLabResult",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/addTreatment.ts",
+      "target": "function:src/actions/addTreatment.ts:addTreatment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/adminLogin.ts",
+      "target": "function:src/actions/adminLogin.ts:adminLogin",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/approveInvestigatorQualification.ts",
+      "target": "function:src/actions/approveInvestigatorQualification.ts:approveInvestigatorQualification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/approvePatientScreening.ts",
+      "target": "function:src/actions/approvePatientScreening.ts:approvePatientScreening",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/approveVeterinarian.ts",
+      "target": "function:src/actions/approveVeterinarian.ts:approveVeterinarian",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/bulkUpdateDataLockStatus.ts",
+      "target": "function:src/actions/bulkUpdateDataLockStatus.ts:bulkUpdateDataLockStatus",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/checkVeterinarianAcceptance.ts",
+      "target": "function:src/actions/checkVeterinarianAcceptance.ts:checkVeterinarianAcceptance",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createAdverseEvent.ts",
+      "target": "function:src/actions/createAdverseEvent.ts:createAdverseEvent",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createAuditLog.ts",
+      "target": "function:src/actions/createAuditLog.ts:createAuditLog",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createEnrollmentEligibility.ts",
+      "target": "function:src/actions/createEnrollmentEligibility.ts:createEnrollmentEligibility",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createFDAcorrespondence.ts",
+      "target": "function:src/actions/createFDAcorrespondence.ts:createFDAcorrespondence",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/createGoogleOAuthVet.ts",
+      "target": "function:src/actions/createGoogleOAuthVet.ts:createGoogleOAuthVet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/supplyInventory.test.tsx",
+      "target": "file:src/actions/addTreatment.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/__tests__/supplyShipmentVisibility.test.tsx",
+      "target": "file:src/__tests__/utils/supabaseMock.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/__tests__/vetApprovalFlow.test.tsx",
+      "target": "file:src/__tests__/utils/supabaseMock.ts",
+      "type": "imports",
+      "weight": 0.7
+    }
+  ]
+}

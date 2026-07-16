@@ -1,0 +1,109 @@
+[
+  {
+    "order": 1,
+    "title": "Project Overview",
+    "description": "Start with the README to understand the project purpose, stack, and deployment strategy.",
+    "nodeIds": [
+      "document:README.md",
+      "document:DEPLOYMENT.md"
+    ]
+  },
+  {
+    "order": 2,
+    "title": "Configuration & Tooling",
+    "description": "Review project configuration, build setup, and dependencies.",
+    "nodeIds": [
+      "config:package.json",
+      "config:tsconfig.json"
+    ]
+  },
+  {
+    "order": 3,
+    "title": "Application Entry Point",
+    "description": "How the React app boots and mounts in the DOM.",
+    "nodeIds": [
+      "file:src/main.tsx",
+      "file:src/app/app.tsx"
+    ]
+  },
+  {
+    "order": 4,
+    "title": "Authentication & Session",
+    "description": "Auth context and session management with Supabase.",
+    "nodeIds": [
+      "file:src/context/AuthContext.tsx"
+    ]
+  },
+  {
+    "order": 5,
+    "title": "Pages & Routing",
+    "description": "Main route components that map to hash-router URLs.",
+    "nodeIds": [
+      "file:src/pages/AdminLoginPage.tsx",
+      "file:src/pages/AuditLogPage.tsx",
+      "file:src/pages/AuthSelectionPage.tsx",
+      "file:src/pages/DashboardPage.tsx",
+      "file:src/pages/PatientCasePage.tsx"
+    ]
+  },
+  {
+    "order": 6,
+    "title": "UI Components & Forms",
+    "description": "Reusable components and form building blocks.",
+    "nodeIds": [
+      "file:src/components/AddAssessmentForm.tsx",
+      "file:src/components/AddLabResultForm.tsx",
+      "file:src/components/AddTreatmentForm.tsx",
+      "file:src/components/AdminComplianceDashboard.tsx",
+      "file:src/components/AdminFollowUpTasksPanel.tsx"
+    ]
+  },
+  {
+    "order": 7,
+    "title": "Backend API & Serverless Functions",
+    "description": "Vercel serverless API routes and Supabase edge functions.",
+    "nodeIds": [
+      "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "file:api/download.ts",
+      "file:api/register.ts",
+      "file:api/upload.ts",
+      "file:server/devApi.ts"
+    ]
+  },
+  {
+    "order": 8,
+    "title": "Hooks & Client Libraries",
+    "description": "Custom React hooks and client-side libraries for data and uploads.",
+    "nodeIds": [
+      "file:src/hooks/useAuditedMutateAction.ts",
+      "file:src/hooks/useProtocolClock.ts",
+      "file:src/hooks/useSecureDownloadUrl.ts",
+      "file:src/hooks/useSecureUpload.ts",
+      "file:src/hooks/useTreatmentCountdown.ts"
+    ]
+  },
+  {
+    "order": 9,
+    "title": "Tests & Quality",
+    "description": "Test coverage across unit, component, and E2E levels.",
+    "nodeIds": [
+      "document:e2e/fixtures/fake-consent.txt",
+      "file:e2e/patient-signup-approval.spec.ts",
+      "file:e2e/smoke-navigation.spec.ts",
+      "file:e2e/vet-admin-workflow.spec.ts",
+      "file:src/__tests__/addAssessmentForm.test.tsx"
+    ]
+  },
+  {
+    "order": 10,
+    "title": "Deployment & Infrastructure",
+    "description": "CI/CD workflows and deployment scripts.",
+    "nodeIds": [
+      "service:.github/workflows/ci.yml",
+      "file:deploy.sh",
+      "file:scripts/backfill_vet_email.ts",
+      "file:scripts/e2eSecureUpload.ts",
+      "resource:scripts/migrations_combined.sql"
+    ]
+  }
+]

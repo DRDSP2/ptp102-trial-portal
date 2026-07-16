@@ -1,0 +1,95 @@
+{
+  "nodes": [
+    {
+      "id": "service:.github/workflows/ci.yml",
+      "type": "service",
+      "name": "ci.yml",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "ci.yml (yaml) — 48 lines. 4 sections.",
+      "tags": [
+        "yaml",
+        "infra"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:.github/workflows/ci.yml:name",
+      "type": "concept",
+      "name": "name",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "Section: name",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:.github/workflows/ci.yml:on",
+      "type": "concept",
+      "name": "on",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "Section: on",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:.github/workflows/ci.yml:concurrency",
+      "type": "concept",
+      "name": "concurrency",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "Section: concurrency",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:.github/workflows/ci.yml:jobs",
+      "type": "concept",
+      "name": "jobs",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "Section: jobs",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    }
+  ],
+  "edges": [
+    {
+      "source": "service:.github/workflows/ci.yml",
+      "target": "concept:.github/workflows/ci.yml:name",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "service:.github/workflows/ci.yml",
+      "target": "concept:.github/workflows/ci.yml:on",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "service:.github/workflows/ci.yml",
+      "target": "concept:.github/workflows/ci.yml:concurrency",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "service:.github/workflows/ci.yml",
+      "target": "concept:.github/workflows/ci.yml:jobs",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

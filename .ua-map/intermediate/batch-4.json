@@ -1,0 +1,1237 @@
+{
+  "nodes": [
+    {
+      "id": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "type": "document",
+      "name": "AUTHENTICATION_TROUBLESHOOTING.md",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "AUTHENTICATION_TROUBLESHOOTING.md (markdown) — 147 lines. 22 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "moderate",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Authentication System - Troubleshooting Guide",
+      "type": "concept",
+      "name": "Authentication System - Troubleshooting Guide",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: Authentication System - Troubleshooting Guide",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Last Updated: 2025-11-07 (FIXES IMPLEMENTED)",
+      "type": "concept",
+      "name": "Last Updated: 2025-11-07 (FIXES IMPLEMENTED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: Last Updated: 2025-11-07 (FIXES IMPLEMENTED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:✅ FIXES IMPLEMENTED",
+      "type": "concept",
+      "name": "✅ FIXES IMPLEMENTED",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: ✅ FIXES IMPLEMENTED",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:1. PASSWORD HASHING (IMPLEMENTED)",
+      "type": "concept",
+      "name": "1. PASSWORD HASHING (IMPLEMENTED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 1. PASSWORD HASHING (IMPLEMENTED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:2. EMAIL NORMALIZATION (IMPLEMENTED)",
+      "type": "concept",
+      "name": "2. EMAIL NORMALIZATION (IMPLEMENTED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 2. EMAIL NORMALIZATION (IMPLEMENTED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:3. CONSOLIDATED LOGIN ACTIONS (IMPLEMENTED)",
+      "type": "concept",
+      "name": "3. CONSOLIDATED LOGIN ACTIONS (IMPLEMENTED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 3. CONSOLIDATED LOGIN ACTIONS (IMPLEMENTED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:4. IMPROVED SECURITY (IMPLEMENTED)",
+      "type": "concept",
+      "name": "4. IMPROVED SECURITY (IMPLEMENTED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 4. IMPROVED SECURITY (IMPLEMENTED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:REMAINING CONSIDERATIONS",
+      "type": "concept",
+      "name": "REMAINING CONSIDERATIONS",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: REMAINING CONSIDERATIONS",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:1. EXISTING PASSWORD MIGRATION",
+      "type": "concept",
+      "name": "1. EXISTING PASSWORD MIGRATION",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 1. EXISTING PASSWORD MIGRATION",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:2. RATE LIMITING",
+      "type": "concept",
+      "name": "2. RATE LIMITING",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 2. RATE LIMITING",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:3. SESSION MANAGEMENT",
+      "type": "concept",
+      "name": "3. SESSION MANAGEMENT",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 3. SESSION MANAGEMENT",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:4. TWO-FACTOR AUTHENTICATION",
+      "type": "concept",
+      "name": "4. TWO-FACTOR AUTHENTICATION",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: 4. TWO-FACTOR AUTHENTICATION",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:AUTHENTICATION FLOW (UPDATED)",
+      "type": "concept",
+      "name": "AUTHENTICATION FLOW (UPDATED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: AUTHENTICATION FLOW (UPDATED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Registration Flow ✅",
+      "type": "concept",
+      "name": "Registration Flow ✅",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: Registration Flow ✅",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Login Flow ✅",
+      "type": "concept",
+      "name": "Login Flow ✅",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: Login Flow ✅",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Admin Login Flow ✅",
+      "type": "concept",
+      "name": "Admin Login Flow ✅",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: Admin Login Flow ✅",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Password Reset Flow ✅",
+      "type": "concept",
+      "name": "Password Reset Flow ✅",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: Password Reset Flow ✅",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:TESTING CHECKLIST (UPDATED)",
+      "type": "concept",
+      "name": "TESTING CHECKLIST (UPDATED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: TESTING CHECKLIST (UPDATED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:✅ Completed Tests",
+      "type": "concept",
+      "name": "✅ Completed Tests",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: ✅ Completed Tests",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Remaining Tests",
+      "type": "concept",
+      "name": "Remaining Tests",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: Remaining Tests",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:DATABASE SCHEMA",
+      "type": "concept",
+      "name": "DATABASE SCHEMA",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: DATABASE SCHEMA",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:veterinarians table (UPDATED)",
+      "type": "concept",
+      "name": "veterinarians table (UPDATED)",
+      "filePath": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "summary": "Section: veterinarians table (UPDATED)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "type": "document",
+      "name": "EMAIL_NOTIFICATIONS_SETUP.md",
+      "filePath": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "summary": "EMAIL_NOTIFICATIONS_SETUP.md (markdown) — 26 lines. 6 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Email Notifications Setup Guide",
+      "type": "concept",
+      "name": "Email Notifications Setup Guide",
+      "filePath": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "summary": "Section: Email Notifications Setup Guide",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Overview",
+      "type": "concept",
+      "name": "Overview",
+      "filePath": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "summary": "Section: Overview",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:What Triggers Notifications",
+      "type": "concept",
+      "name": "What Triggers Notifications",
+      "filePath": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "summary": "Section: What Triggers Notifications",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Setup Required",
+      "type": "concept",
+      "name": "Setup Required",
+      "filePath": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "summary": "Section: Setup Required",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Step 1: Get EmailJS Account (FREE)",
+      "type": "concept",
+      "name": "Step 1: Get EmailJS Account (FREE)",
+      "filePath": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "summary": "Section: Step 1: Get EmailJS Account (FREE)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Step 2: Configure EmailJS Template",
+      "type": "concept",
+      "name": "Step 2: Configure EmailJS Template",
+      "filePath": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "summary": "Section: Step 2: Configure EmailJS Template",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:src/TEST_VET_REGISTRATION.md",
+      "type": "document",
+      "name": "TEST_VET_REGISTRATION.md",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "TEST_VET_REGISTRATION.md (markdown) — 87 lines. 14 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:Test Veterinarian Registration Flow",
+      "type": "concept",
+      "name": "Test Veterinarian Registration Flow",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: Test Veterinarian Registration Flow",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:Steps to Register as a New Veterinarian",
+      "type": "concept",
+      "name": "Steps to Register as a New Veterinarian",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: Steps to Register as a New Veterinarian",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:1. Access Selection Screen",
+      "type": "concept",
+      "name": "1. Access Selection Screen",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 1. Access Selection Screen",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:2. Navigate to Registration",
+      "type": "concept",
+      "name": "2. Navigate to Registration",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 2. Navigate to Registration",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:3. Complete Registration Form",
+      "type": "concept",
+      "name": "3. Complete Registration Form",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 3. Complete Registration Form",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:4. Review Terms & Conditions",
+      "type": "concept",
+      "name": "4. Review Terms & Conditions",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 4. Review Terms & Conditions",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:5. Required Acknowledgments",
+      "type": "concept",
+      "name": "5. Required Acknowledgments",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 5. Required Acknowledgments",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:6. Digital Signature",
+      "type": "concept",
+      "name": "6. Digital Signature",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 6. Digital Signature",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:7. Submit Registration",
+      "type": "concept",
+      "name": "7. Submit Registration",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 7. Submit Registration",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:8. Access Patient Management",
+      "type": "concept",
+      "name": "8. Access Patient Management",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: 8. Access Patient Management",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:Test Credentials Created",
+      "type": "concept",
+      "name": "Test Credentials Created",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: Test Credentials Created",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:Validation Rules",
+      "type": "concept",
+      "name": "Validation Rules",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: Validation Rules",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:Error Handling",
+      "type": "concept",
+      "name": "Error Handling",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: Error Handling",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/TEST_VET_REGISTRATION.md:Notes",
+      "type": "concept",
+      "name": "Notes",
+      "filePath": "src/TEST_VET_REGISTRATION.md",
+      "summary": "Section: Notes",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "file:src/index.css",
+      "type": "file",
+      "name": "index.css",
+      "filePath": "src/index.css",
+      "summary": "index.css (css) — 166 lines.",
+      "tags": [
+        "css",
+        "markup"
+      ],
+      "complexity": "moderate",
+      "language": "css"
+    },
+    {
+      "id": "file:src/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "src/index.html",
+      "summary": "index.html (html) — 32 lines.",
+      "tags": [
+        "html",
+        "markup"
+      ],
+      "complexity": "simple",
+      "language": "html"
+    },
+    {
+      "id": "document:src/initial.md",
+      "type": "document",
+      "name": "initial.md",
+      "filePath": "src/initial.md",
+      "summary": "initial.md (markdown) — 66 lines. 8 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Requirements",
+      "type": "concept",
+      "name": "Requirements",
+      "filePath": "src/initial.md",
+      "summary": "Section: Requirements",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Summary",
+      "type": "concept",
+      "name": "Summary",
+      "filePath": "src/initial.md",
+      "summary": "Section: Summary",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Use cases",
+      "type": "concept",
+      "name": "Use cases",
+      "filePath": "src/initial.md",
+      "summary": "Section: Use cases",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Plan",
+      "type": "concept",
+      "name": "Plan",
+      "filePath": "src/initial.md",
+      "summary": "Section: Plan",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Enroll and manage trial patients",
+      "type": "concept",
+      "name": "Enroll and manage trial patients",
+      "filePath": "src/initial.md",
+      "summary": "Section: Enroll and manage trial patients",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Record treatment administration",
+      "type": "concept",
+      "name": "Record treatment administration",
+      "filePath": "src/initial.md",
+      "summary": "Section: Record treatment administration",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Document clinical assessments",
+      "type": "concept",
+      "name": "Document clinical assessments",
+      "filePath": "src/initial.md",
+      "summary": "Section: Document clinical assessments",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/initial.md:Monitor trial progress",
+      "type": "concept",
+      "name": "Monitor trial progress",
+      "filePath": "src/initial.md",
+      "summary": "Section: Monitor trial progress",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:src/task.md",
+      "type": "document",
+      "name": "task.md",
+      "filePath": "src/task.md",
+      "summary": "task.md (markdown) — 51 lines. 10 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:Authentication System Testing & Fixes",
+      "type": "concept",
+      "name": "Authentication System Testing & Fixes",
+      "filePath": "src/task.md",
+      "summary": "Section: Authentication System Testing & Fixes",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:Immediate Actions Required",
+      "type": "concept",
+      "name": "Immediate Actions Required",
+      "filePath": "src/task.md",
+      "summary": "Section: Immediate Actions Required",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[x] Document all authentication issues",
+      "type": "concept",
+      "name": "[x] Document all authentication issues",
+      "filePath": "src/task.md",
+      "summary": "Section: [x] Document all authentication issues",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[x] Implement password hashing with bcrypt",
+      "type": "concept",
+      "name": "[x] Implement password hashing with bcrypt",
+      "filePath": "src/task.md",
+      "summary": "Section: [x] Implement password hashing with bcrypt",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[x] Consolidate login actions",
+      "type": "concept",
+      "name": "[x] Consolidate login actions",
+      "filePath": "src/task.md",
+      "summary": "Section: [x] Consolidate login actions",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[x] Add email normalization in SQL",
+      "type": "concept",
+      "name": "[x] Add email normalization in SQL",
+      "filePath": "src/task.md",
+      "summary": "Section: [x] Add email normalization in SQL",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[x] Improve error messages",
+      "type": "concept",
+      "name": "[x] Improve error messages",
+      "filePath": "src/task.md",
+      "summary": "Section: [x] Improve error messages",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[x] Fix admin login for cross-browser support",
+      "type": "concept",
+      "name": "[x] Fix admin login for cross-browser support",
+      "filePath": "src/task.md",
+      "summary": "Section: [x] Fix admin login for cross-browser support",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[ ] Migrate existing passwords (MANUAL STEP)",
+      "type": "concept",
+      "name": "[ ] Migrate existing passwords (MANUAL STEP)",
+      "filePath": "src/task.md",
+      "summary": "Section: [ ] Migrate existing passwords (MANUAL STEP)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:src/task.md:[ ] Test all flows end-to-end",
+      "type": "concept",
+      "name": "[ ] Test all flows end-to-end",
+      "filePath": "src/task.md",
+      "summary": "Section: [ ] Test all flows end-to-end",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Authentication System - Troubleshooting Guide",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Last Updated: 2025-11-07 (FIXES IMPLEMENTED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:✅ FIXES IMPLEMENTED",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:1. PASSWORD HASHING (IMPLEMENTED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:2. EMAIL NORMALIZATION (IMPLEMENTED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:3. CONSOLIDATED LOGIN ACTIONS (IMPLEMENTED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:4. IMPROVED SECURITY (IMPLEMENTED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:REMAINING CONSIDERATIONS",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:1. EXISTING PASSWORD MIGRATION",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:2. RATE LIMITING",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:3. SESSION MANAGEMENT",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:4. TWO-FACTOR AUTHENTICATION",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:AUTHENTICATION FLOW (UPDATED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Registration Flow ✅",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Login Flow ✅",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Admin Login Flow ✅",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Password Reset Flow ✅",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:TESTING CHECKLIST (UPDATED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:✅ Completed Tests",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:Remaining Tests",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:DATABASE SCHEMA",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "target": "concept:src/AUTHENTICATION_TROUBLESHOOTING.md:veterinarians table (UPDATED)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "target": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Email Notifications Setup Guide",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "target": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Overview",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "target": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:What Triggers Notifications",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "target": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Setup Required",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "target": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Step 1: Get EmailJS Account (FREE)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "target": "concept:src/EMAIL_NOTIFICATIONS_SETUP.md:Step 2: Configure EmailJS Template",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:Test Veterinarian Registration Flow",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:Steps to Register as a New Veterinarian",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:1. Access Selection Screen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:2. Navigate to Registration",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:3. Complete Registration Form",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:4. Review Terms & Conditions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:5. Required Acknowledgments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:6. Digital Signature",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:7. Submit Registration",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:8. Access Patient Management",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:Test Credentials Created",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:Validation Rules",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:Error Handling",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/TEST_VET_REGISTRATION.md",
+      "target": "concept:src/TEST_VET_REGISTRATION.md:Notes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Requirements",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Summary",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Use cases",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Plan",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Enroll and manage trial patients",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Record treatment administration",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Document clinical assessments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/initial.md",
+      "target": "concept:src/initial.md:Monitor trial progress",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:Authentication System Testing & Fixes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:Immediate Actions Required",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[x] Document all authentication issues",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[x] Implement password hashing with bcrypt",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[x] Consolidate login actions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[x] Add email normalization in SQL",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[x] Improve error messages",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[x] Fix admin login for cross-browser support",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[ ] Migrate existing passwords (MANUAL STEP)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:src/task.md",
+      "target": "concept:src/task.md:[ ] Test all flows end-to-end",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

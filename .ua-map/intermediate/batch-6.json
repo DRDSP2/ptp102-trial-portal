@@ -1,0 +1,868 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/__tests__/addAssessmentForm.test.tsx",
+      "type": "file",
+      "name": "addAssessmentForm.test.tsx",
+      "filePath": "src/__tests__/addAssessmentForm.test.tsx",
+      "summary": "addAssessmentForm.test.tsx (typescript) — 103 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/addAssessmentForm.test.tsx:renderForm",
+      "type": "function",
+      "name": "renderForm",
+      "filePath": "src/__tests__/addAssessmentForm.test.tsx",
+      "summary": "Function renderForm in addAssessmentForm.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/adminNavigation.test.tsx",
+      "type": "file",
+      "name": "adminNavigation.test.tsx",
+      "filePath": "src/__tests__/adminNavigation.test.tsx",
+      "summary": "adminNavigation.test.tsx (typescript) — 187 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/adminNavigation.test.tsx:seedShipments",
+      "type": "function",
+      "name": "seedShipments",
+      "filePath": "src/__tests__/adminNavigation.test.tsx",
+      "summary": "Function seedShipments in adminNavigation.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/adminNavigation.test.tsx:seedPatient",
+      "type": "function",
+      "name": "seedPatient",
+      "filePath": "src/__tests__/adminNavigation.test.tsx",
+      "summary": "Function seedPatient in adminNavigation.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/adverseEvent.test.tsx",
+      "type": "file",
+      "name": "adverseEvent.test.tsx",
+      "filePath": "src/__tests__/adverseEvent.test.tsx",
+      "summary": "adverseEvent.test.tsx (typescript) — 84 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/adverseEvent.test.tsx:loginVet",
+      "type": "function",
+      "name": "loginVet",
+      "filePath": "src/__tests__/adverseEvent.test.tsx",
+      "summary": "Function loginVet in adverseEvent.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/auditTrail.test.tsx",
+      "type": "file",
+      "name": "auditTrail.test.tsx",
+      "filePath": "src/__tests__/auditTrail.test.tsx",
+      "summary": "auditTrail.test.tsx (typescript) — 145 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/AuthContext.test.tsx",
+      "type": "file",
+      "name": "AuthContext.test.tsx",
+      "filePath": "src/__tests__/AuthContext.test.tsx",
+      "summary": "AuthContext.test.tsx (typescript) — 45 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/AuthContext.test.tsx:TestComponent",
+      "type": "function",
+      "name": "TestComponent",
+      "filePath": "src/__tests__/AuthContext.test.tsx",
+      "summary": "Function TestComponent in AuthContext.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/ByrockLogo.test.tsx",
+      "type": "file",
+      "name": "ByrockLogo.test.tsx",
+      "filePath": "src/__tests__/ByrockLogo.test.tsx",
+      "summary": "ByrockLogo.test.tsx (typescript) — 47 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/childTablesRepositoryFlag.test.tsx",
+      "type": "file",
+      "name": "childTablesRepositoryFlag.test.tsx",
+      "filePath": "src/__tests__/childTablesRepositoryFlag.test.tsx",
+      "summary": "childTablesRepositoryFlag.test.tsx (typescript) — 320 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/childTablesRepositoryFlag.test.tsx:thenable",
+      "type": "function",
+      "name": "thenable",
+      "filePath": "src/__tests__/childTablesRepositoryFlag.test.tsx",
+      "summary": "Function thenable in childTablesRepositoryFlag.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/childTablesRepositoryFlag.test.tsx:reset",
+      "type": "function",
+      "name": "reset",
+      "filePath": "src/__tests__/childTablesRepositoryFlag.test.tsx",
+      "summary": "Function reset in childTablesRepositoryFlag.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/contactSupport.test.tsx",
+      "type": "file",
+      "name": "contactSupport.test.tsx",
+      "filePath": "src/__tests__/contactSupport.test.tsx",
+      "summary": "contactSupport.test.tsx (typescript) — 25 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/dataLockGuard.test.tsx",
+      "type": "file",
+      "name": "dataLockGuard.test.tsx",
+      "filePath": "src/__tests__/dataLockGuard.test.tsx",
+      "summary": "dataLockGuard.test.tsx (typescript) — 246 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/dataLockGuard.test.tsx:findEnrolledPatient",
+      "type": "function",
+      "name": "findEnrolledPatient",
+      "filePath": "src/__tests__/dataLockGuard.test.tsx",
+      "summary": "Function findEnrolledPatient in dataLockGuard.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/dataLockGuard.test.tsx:setLockStatus",
+      "type": "function",
+      "name": "setLockStatus",
+      "filePath": "src/__tests__/dataLockGuard.test.tsx",
+      "summary": "Function setLockStatus in dataLockGuard.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/dataLockGuard.test.tsx:loginVet",
+      "type": "function",
+      "name": "loginVet",
+      "filePath": "src/__tests__/dataLockGuard.test.tsx",
+      "summary": "Function loginVet in dataLockGuard.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/demoData.test.tsx",
+      "type": "file",
+      "name": "demoData.test.tsx",
+      "filePath": "src/__tests__/demoData.test.tsx",
+      "summary": "demoData.test.tsx (typescript) — 70 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/hoofXray.test.tsx",
+      "type": "file",
+      "name": "hoofXray.test.tsx",
+      "filePath": "src/__tests__/hoofXray.test.tsx",
+      "summary": "hoofXray.test.tsx (typescript) — 119 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/hoofXray.test.tsx:makeUser",
+      "type": "function",
+      "name": "makeUser",
+      "filePath": "src/__tests__/hoofXray.test.tsx",
+      "summary": "Function makeUser in hoofXray.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/hoofXrayPortalNullSafe.test.tsx",
+      "type": "file",
+      "name": "hoofXrayPortalNullSafe.test.tsx",
+      "filePath": "src/__tests__/hoofXrayPortalNullSafe.test.tsx",
+      "summary": "hoofXrayPortalNullSafe.test.tsx (typescript) — 107 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/hoofXrayPortalNullSafe.test.tsx:setLoadData",
+      "type": "function",
+      "name": "setLoadData",
+      "filePath": "src/__tests__/hoofXrayPortalNullSafe.test.tsx",
+      "summary": "Function setLoadData in hoofXrayPortalNullSafe.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/informedConsentPermissions.test.tsx",
+      "type": "file",
+      "name": "informedConsentPermissions.test.tsx",
+      "filePath": "src/__tests__/informedConsentPermissions.test.tsx",
+      "summary": "informedConsentPermissions.test.tsx (typescript) — 274 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/informedConsentPermissions.test.tsx:createPatient",
+      "type": "function",
+      "name": "createPatient",
+      "filePath": "src/__tests__/informedConsentPermissions.test.tsx",
+      "summary": "Function createPatient in informedConsentPermissions.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/informedConsentPermissions.test.tsx:renderWithRole",
+      "type": "function",
+      "name": "renderWithRole",
+      "filePath": "src/__tests__/informedConsentPermissions.test.tsx",
+      "summary": "Function renderWithRole in informedConsentPermissions.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/logoutAudit.test.tsx",
+      "type": "file",
+      "name": "logoutAudit.test.tsx",
+      "filePath": "src/__tests__/logoutAudit.test.tsx",
+      "summary": "logoutAudit.test.tsx (typescript) — 66 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/logoutAudit.test.tsx:TestComponent",
+      "type": "function",
+      "name": "TestComponent",
+      "filePath": "src/__tests__/logoutAudit.test.tsx",
+      "summary": "Function TestComponent in logoutAudit.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/masterTrialsTableCrash.test.tsx",
+      "type": "file",
+      "name": "masterTrialsTableCrash.test.tsx",
+      "filePath": "src/__tests__/masterTrialsTableCrash.test.tsx",
+      "summary": "masterTrialsTableCrash.test.tsx (typescript) — 141 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/masterTrialsTableCrash.test.tsx:seedPatientsMissingVetEmail",
+      "type": "function",
+      "name": "seedPatientsMissingVetEmail",
+      "filePath": "src/__tests__/masterTrialsTableCrash.test.tsx",
+      "summary": "Function seedPatientsMissingVetEmail in masterTrialsTableCrash.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/noteOcr.test.ts",
+      "type": "file",
+      "name": "noteOcr.test.ts",
+      "filePath": "src/__tests__/noteOcr.test.ts",
+      "summary": "noteOcr.test.ts (typescript) — 79 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/obelAssessmentMigration.test.tsx",
+      "type": "file",
+      "name": "obelAssessmentMigration.test.tsx",
+      "filePath": "src/__tests__/obelAssessmentMigration.test.tsx",
+      "summary": "obelAssessmentMigration.test.tsx (typescript) — 205 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/obelAssessmentMigration.test.tsx:seedPatientAndInvalidAssessments",
+      "type": "function",
+      "name": "seedPatientAndInvalidAssessments",
+      "filePath": "src/__tests__/obelAssessmentMigration.test.tsx",
+      "summary": "Function seedPatientAndInvalidAssessments in obelAssessmentMigration.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/obelGrade.test.ts",
+      "type": "file",
+      "name": "obelGrade.test.ts",
+      "filePath": "src/__tests__/obelGrade.test.ts",
+      "summary": "obelGrade.test.ts (typescript) — 47 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/obelScoreChart.test.tsx",
+      "type": "file",
+      "name": "obelScoreChart.test.tsx",
+      "filePath": "src/__tests__/obelScoreChart.test.tsx",
+      "summary": "obelScoreChart.test.tsx (typescript) — 90 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/obelScoreChart.test.tsx:createAssessment",
+      "type": "function",
+      "name": "createAssessment",
+      "filePath": "src/__tests__/obelScoreChart.test.tsx",
+      "summary": "Function createAssessment in obelScoreChart.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/patientOpenPerformance.test.tsx",
+      "type": "file",
+      "name": "patientOpenPerformance.test.tsx",
+      "filePath": "src/__tests__/patientOpenPerformance.test.tsx",
+      "summary": "patientOpenPerformance.test.tsx (typescript) — 196 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/patientOpenPerformance.test.tsx:seedBulkData",
+      "type": "function",
+      "name": "seedBulkData",
+      "filePath": "src/__tests__/patientOpenPerformance.test.tsx",
+      "summary": "Function seedBulkData in patientOpenPerformance.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/patientOpenPerformance.test.tsx:renderHook",
+      "type": "function",
+      "name": "renderHook",
+      "filePath": "src/__tests__/patientOpenPerformance.test.tsx",
+      "summary": "Function renderHook in patientOpenPerformance.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/patientScreeningAudit.test.tsx",
+      "type": "file",
+      "name": "patientScreeningAudit.test.tsx",
+      "filePath": "src/__tests__/patientScreeningAudit.test.tsx",
+      "summary": "patientScreeningAudit.test.tsx (typescript) — 360 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/patientScreeningAudit.test.tsx:thenable",
+      "type": "function",
+      "name": "thenable",
+      "filePath": "src/__tests__/patientScreeningAudit.test.tsx",
+      "summary": "Function thenable in patientScreeningAudit.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/patientScreeningAudit.test.tsx:setFlag",
+      "type": "function",
+      "name": "setFlag",
+      "filePath": "src/__tests__/patientScreeningAudit.test.tsx",
+      "summary": "Function setFlag in patientScreeningAudit.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/patientsRepositoryFlag.test.tsx",
+      "type": "file",
+      "name": "patientsRepositoryFlag.test.tsx",
+      "filePath": "src/__tests__/patientsRepositoryFlag.test.tsx",
+      "summary": "patientsRepositoryFlag.test.tsx (typescript) — 251 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/patientsRepositoryFlag.test.tsx:thenable",
+      "type": "function",
+      "name": "thenable",
+      "filePath": "src/__tests__/patientsRepositoryFlag.test.tsx",
+      "summary": "Function thenable in patientsRepositoryFlag.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/patientsRepositoryFlag.test.tsx:setFlag",
+      "type": "function",
+      "name": "setFlag",
+      "filePath": "src/__tests__/patientsRepositoryFlag.test.tsx",
+      "summary": "Function setFlag in patientsRepositoryFlag.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/secureUploadAccess.test.tsx",
+      "type": "file",
+      "name": "secureUploadAccess.test.tsx",
+      "filePath": "src/__tests__/secureUploadAccess.test.tsx",
+      "summary": "secureUploadAccess.test.tsx (typescript) — 113 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/secureUploadAccess.test.tsx:makeUser",
+      "type": "function",
+      "name": "makeUser",
+      "filePath": "src/__tests__/secureUploadAccess.test.tsx",
+      "summary": "Function makeUser in secureUploadAccess.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/secureUploadHandler.test.tsx",
+      "type": "file",
+      "name": "secureUploadHandler.test.tsx",
+      "filePath": "src/__tests__/secureUploadHandler.test.tsx",
+      "summary": "secureUploadHandler.test.tsx (typescript) — 178 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/secureUploadHandler.test.tsx:makeUser",
+      "type": "function",
+      "name": "makeUser",
+      "filePath": "src/__tests__/secureUploadHandler.test.tsx",
+      "summary": "Function makeUser in secureUploadHandler.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/__tests__/secureUploadHandler.test.tsx:mockStorage",
+      "type": "function",
+      "name": "mockStorage",
+      "filePath": "src/__tests__/secureUploadHandler.test.tsx",
+      "summary": "Function mockStorage in secureUploadHandler.test.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/__tests__/secureUploadValidation.test.tsx",
+      "type": "file",
+      "name": "secureUploadValidation.test.tsx",
+      "filePath": "src/__tests__/secureUploadValidation.test.tsx",
+      "summary": "secureUploadValidation.test.tsx (typescript) — 55 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/__tests__/addAssessmentForm.test.tsx",
+      "target": "function:src/__tests__/addAssessmentForm.test.tsx:renderForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/adminNavigation.test.tsx",
+      "target": "function:src/__tests__/adminNavigation.test.tsx:seedShipments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/adminNavigation.test.tsx",
+      "target": "function:src/__tests__/adminNavigation.test.tsx:seedPatient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/adverseEvent.test.tsx",
+      "target": "function:src/__tests__/adverseEvent.test.tsx:loginVet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/AuthContext.test.tsx",
+      "target": "function:src/__tests__/AuthContext.test.tsx:TestComponent",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/childTablesRepositoryFlag.test.tsx",
+      "target": "function:src/__tests__/childTablesRepositoryFlag.test.tsx:thenable",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/childTablesRepositoryFlag.test.tsx",
+      "target": "function:src/__tests__/childTablesRepositoryFlag.test.tsx:reset",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/dataLockGuard.test.tsx",
+      "target": "function:src/__tests__/dataLockGuard.test.tsx:findEnrolledPatient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/dataLockGuard.test.tsx",
+      "target": "function:src/__tests__/dataLockGuard.test.tsx:setLockStatus",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/dataLockGuard.test.tsx",
+      "target": "function:src/__tests__/dataLockGuard.test.tsx:loginVet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/hoofXray.test.tsx",
+      "target": "function:src/__tests__/hoofXray.test.tsx:makeUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/hoofXrayPortalNullSafe.test.tsx",
+      "target": "function:src/__tests__/hoofXrayPortalNullSafe.test.tsx:setLoadData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/informedConsentPermissions.test.tsx",
+      "target": "function:src/__tests__/informedConsentPermissions.test.tsx:createPatient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/informedConsentPermissions.test.tsx",
+      "target": "function:src/__tests__/informedConsentPermissions.test.tsx:renderWithRole",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/__tests__/informedConsentPermissions.test.tsx:renderWithRole",
+      "target": "function:src/__tests__/informedConsentPermissions.test.tsx:createPatient",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/__tests__/logoutAudit.test.tsx",
+      "target": "function:src/__tests__/logoutAudit.test.tsx:TestComponent",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/masterTrialsTableCrash.test.tsx",
+      "target": "function:src/__tests__/masterTrialsTableCrash.test.tsx:seedPatientsMissingVetEmail",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/obelAssessmentMigration.test.tsx",
+      "target": "function:src/__tests__/obelAssessmentMigration.test.tsx:seedPatientAndInvalidAssessments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/obelScoreChart.test.tsx",
+      "target": "function:src/__tests__/obelScoreChart.test.tsx:createAssessment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/patientOpenPerformance.test.tsx",
+      "target": "function:src/__tests__/patientOpenPerformance.test.tsx:seedBulkData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/patientOpenPerformance.test.tsx",
+      "target": "function:src/__tests__/patientOpenPerformance.test.tsx:renderHook",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/patientScreeningAudit.test.tsx",
+      "target": "function:src/__tests__/patientScreeningAudit.test.tsx:thenable",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/patientScreeningAudit.test.tsx",
+      "target": "function:src/__tests__/patientScreeningAudit.test.tsx:setFlag",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/patientsRepositoryFlag.test.tsx",
+      "target": "function:src/__tests__/patientsRepositoryFlag.test.tsx:thenable",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/patientsRepositoryFlag.test.tsx",
+      "target": "function:src/__tests__/patientsRepositoryFlag.test.tsx:setFlag",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/secureUploadAccess.test.tsx",
+      "target": "function:src/__tests__/secureUploadAccess.test.tsx:makeUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/secureUploadHandler.test.tsx",
+      "target": "function:src/__tests__/secureUploadHandler.test.tsx:makeUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/__tests__/secureUploadHandler.test.tsx",
+      "target": "function:src/__tests__/secureUploadHandler.test.tsx:mockStorage",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

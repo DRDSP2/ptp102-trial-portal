@@ -1,0 +1,1191 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/components/HeroSection.tsx",
+      "type": "file",
+      "name": "HeroSection.tsx",
+      "filePath": "src/components/HeroSection.tsx",
+      "summary": "HeroSection.tsx (typescript) — 73 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/HeroSection.tsx:HeroSection",
+      "type": "function",
+      "name": "HeroSection",
+      "filePath": "src/components/HeroSection.tsx",
+      "summary": "Function HeroSection in HeroSection.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/HoofXrayPortal.tsx",
+      "type": "file",
+      "name": "HoofXrayPortal.tsx",
+      "filePath": "src/components/HoofXrayPortal.tsx",
+      "summary": "HoofXrayPortal.tsx (typescript) — 596 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/HoofXrayPortal.tsx:toArray",
+      "type": "function",
+      "name": "toArray",
+      "filePath": "src/components/HoofXrayPortal.tsx",
+      "summary": "Function toArray in HoofXrayPortal.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/HoofXrayPortal.tsx:getDisplayText",
+      "type": "function",
+      "name": "getDisplayText",
+      "filePath": "src/components/HoofXrayPortal.tsx",
+      "summary": "Function getDisplayText in HoofXrayPortal.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "type": "function",
+      "name": "HoofXrayPortal",
+      "filePath": "src/components/HoofXrayPortal.tsx",
+      "summary": "Function HoofXrayPortal in HoofXrayPortal.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/HorseImageUploader.tsx",
+      "type": "file",
+      "name": "HorseImageUploader.tsx",
+      "filePath": "src/components/HorseImageUploader.tsx",
+      "summary": "HorseImageUploader.tsx (typescript) — 152 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/HorseImageUploader.tsx:isHttpUrl",
+      "type": "function",
+      "name": "isHttpUrl",
+      "filePath": "src/components/HorseImageUploader.tsx",
+      "summary": "Function isHttpUrl in HorseImageUploader.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/HorseImageUploader.tsx:HorseImageUploader",
+      "type": "function",
+      "name": "HorseImageUploader",
+      "filePath": "src/components/HorseImageUploader.tsx",
+      "summary": "Function HorseImageUploader in HorseImageUploader.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/InformedConsentWorkflow.tsx",
+      "type": "file",
+      "name": "InformedConsentWorkflow.tsx",
+      "filePath": "src/components/InformedConsentWorkflow.tsx",
+      "summary": "InformedConsentWorkflow.tsx (typescript) — 1164 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/InformedConsentWorkflow.tsx:logPermissionDecision",
+      "type": "function",
+      "name": "logPermissionDecision",
+      "filePath": "src/components/InformedConsentWorkflow.tsx",
+      "summary": "Function logPermissionDecision in InformedConsentWorkflow.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/InformedConsentWorkflow.tsx:InformedConsentWorkflow",
+      "type": "function",
+      "name": "InformedConsentWorkflow",
+      "filePath": "src/components/InformedConsentWorkflow.tsx",
+      "summary": "Function InformedConsentWorkflow in InformedConsentWorkflow.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/InvestigatorOnboardingWizard.tsx",
+      "type": "file",
+      "name": "InvestigatorOnboardingWizard.tsx",
+      "filePath": "src/components/InvestigatorOnboardingWizard.tsx",
+      "summary": "InvestigatorOnboardingWizard.tsx (typescript) — 1362 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/InvestigatorOnboardingWizard.tsx:InvestigatorOnboardingWizard",
+      "type": "function",
+      "name": "InvestigatorOnboardingWizard",
+      "filePath": "src/components/InvestigatorOnboardingWizard.tsx",
+      "summary": "Function InvestigatorOnboardingWizard in InvestigatorOnboardingWizard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/MasterTrialsTable.tsx",
+      "type": "file",
+      "name": "MasterTrialsTable.tsx",
+      "filePath": "src/components/MasterTrialsTable.tsx",
+      "summary": "MasterTrialsTable.tsx (typescript) — 695 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/MasterTrialsTable.tsx:MasterTrialsTable",
+      "type": "function",
+      "name": "MasterTrialsTable",
+      "filePath": "src/components/MasterTrialsTable.tsx",
+      "summary": "Function MasterTrialsTable in MasterTrialsTable.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/MonitoringChecklist.tsx",
+      "type": "file",
+      "name": "MonitoringChecklist.tsx",
+      "filePath": "src/components/MonitoringChecklist.tsx",
+      "summary": "MonitoringChecklist.tsx (typescript) — 164 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/MonitoringChecklist.tsx:MonitoringChecklist",
+      "type": "function",
+      "name": "MonitoringChecklist",
+      "filePath": "src/components/MonitoringChecklist.tsx",
+      "summary": "Function MonitoringChecklist in MonitoringChecklist.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/NextDoseTimer.tsx",
+      "type": "file",
+      "name": "NextDoseTimer.tsx",
+      "filePath": "src/components/NextDoseTimer.tsx",
+      "summary": "NextDoseTimer.tsx (typescript) — 388 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/NextDoseTimer.tsx:getNextDoseInfo",
+      "type": "function",
+      "name": "getNextDoseInfo",
+      "filePath": "src/components/NextDoseTimer.tsx",
+      "summary": "Function getNextDoseInfo in NextDoseTimer.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/NextDoseTimer.tsx:formatDuration",
+      "type": "function",
+      "name": "formatDuration",
+      "filePath": "src/components/NextDoseTimer.tsx",
+      "summary": "Function formatDuration in NextDoseTimer.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/NextDoseTimer.tsx:NextDoseTimerImpl",
+      "type": "function",
+      "name": "NextDoseTimerImpl",
+      "filePath": "src/components/NextDoseTimer.tsx",
+      "summary": "Function NextDoseTimerImpl in NextDoseTimer.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/NextDoseTimer.tsx:CircleOutline",
+      "type": "function",
+      "name": "CircleOutline",
+      "filePath": "src/components/NextDoseTimer.tsx",
+      "summary": "Function CircleOutline in NextDoseTimer.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ObelGradeReference.tsx",
+      "type": "file",
+      "name": "ObelGradeReference.tsx",
+      "filePath": "src/components/ObelGradeReference.tsx",
+      "summary": "ObelGradeReference.tsx (typescript) — 450 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ObelGradeReference.tsx:ObelGradeReference",
+      "type": "function",
+      "name": "ObelGradeReference",
+      "filePath": "src/components/ObelGradeReference.tsx",
+      "summary": "Function ObelGradeReference in ObelGradeReference.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ObelScoreChart.tsx",
+      "type": "file",
+      "name": "ObelScoreChart.tsx",
+      "filePath": "src/components/ObelScoreChart.tsx",
+      "summary": "ObelScoreChart.tsx (typescript) — 175 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ObelScoreChart.tsx:ObelScoreChart",
+      "type": "function",
+      "name": "ObelScoreChart",
+      "filePath": "src/components/ObelScoreChart.tsx",
+      "summary": "Function ObelScoreChart in ObelScoreChart.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/PasswordResetRequestScreen.tsx",
+      "type": "file",
+      "name": "PasswordResetRequestScreen.tsx",
+      "filePath": "src/components/PasswordResetRequestScreen.tsx",
+      "summary": "PasswordResetRequestScreen.tsx (typescript) — 129 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PasswordResetRequestScreen.tsx:PasswordResetRequestScreen",
+      "type": "function",
+      "name": "PasswordResetRequestScreen",
+      "filePath": "src/components/PasswordResetRequestScreen.tsx",
+      "summary": "Function PasswordResetRequestScreen in PasswordResetRequestScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/PasswordResetScreen.tsx",
+      "type": "file",
+      "name": "PasswordResetScreen.tsx",
+      "filePath": "src/components/PasswordResetScreen.tsx",
+      "summary": "PasswordResetScreen.tsx (typescript) — 191 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PasswordResetScreen.tsx:PasswordResetScreen",
+      "type": "function",
+      "name": "PasswordResetScreen",
+      "filePath": "src/components/PasswordResetScreen.tsx",
+      "summary": "Function PasswordResetScreen in PasswordResetScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/PatientDetailDialog.tsx",
+      "type": "file",
+      "name": "PatientDetailDialog.tsx",
+      "filePath": "src/components/PatientDetailDialog.tsx",
+      "summary": "PatientDetailDialog.tsx (typescript) — 541 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PatientDetailDialog.tsx:PatientDetailDialog",
+      "type": "function",
+      "name": "PatientDetailDialog",
+      "filePath": "src/components/PatientDetailDialog.tsx",
+      "summary": "Function PatientDetailDialog in PatientDetailDialog.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/PatientEnrollmentForm.tsx",
+      "type": "file",
+      "name": "PatientEnrollmentForm.tsx",
+      "filePath": "src/components/PatientEnrollmentForm.tsx",
+      "summary": "PatientEnrollmentForm.tsx (typescript) — 719 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PatientEnrollmentForm.tsx:toDateInputValue",
+      "type": "function",
+      "name": "toDateInputValue",
+      "filePath": "src/components/PatientEnrollmentForm.tsx",
+      "summary": "Function toDateInputValue in PatientEnrollmentForm.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PatientEnrollmentForm.tsx:getDefaultValues",
+      "type": "function",
+      "name": "getDefaultValues",
+      "filePath": "src/components/PatientEnrollmentForm.tsx",
+      "summary": "Function getDefaultValues in PatientEnrollmentForm.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PatientEnrollmentForm.tsx:PatientEnrollmentForm",
+      "type": "function",
+      "name": "PatientEnrollmentForm",
+      "filePath": "src/components/PatientEnrollmentForm.tsx",
+      "summary": "Function PatientEnrollmentForm in PatientEnrollmentForm.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/PatientsList.tsx",
+      "type": "file",
+      "name": "PatientsList.tsx",
+      "filePath": "src/components/PatientsList.tsx",
+      "summary": "PatientsList.tsx (typescript) — 507 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PatientsList.tsx:PatientsList",
+      "type": "function",
+      "name": "PatientsList",
+      "filePath": "src/components/PatientsList.tsx",
+      "summary": "Function PatientsList in PatientsList.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/PendingApprovalScreen.tsx",
+      "type": "file",
+      "name": "PendingApprovalScreen.tsx",
+      "filePath": "src/components/PendingApprovalScreen.tsx",
+      "summary": "PendingApprovalScreen.tsx (typescript) — 142 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PendingApprovalScreen.tsx:PendingApprovalScreen",
+      "type": "function",
+      "name": "PendingApprovalScreen",
+      "filePath": "src/components/PendingApprovalScreen.tsx",
+      "summary": "Function PendingApprovalScreen in PendingApprovalScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/PrintConsent.tsx",
+      "type": "file",
+      "name": "PrintConsent.tsx",
+      "filePath": "src/components/PrintConsent.tsx",
+      "summary": "PrintConsent.tsx (typescript) — 135 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/PrintConsent.tsx:PrintConsent",
+      "type": "function",
+      "name": "PrintConsent",
+      "filePath": "src/components/PrintConsent.tsx",
+      "summary": "Function PrintConsent in PrintConsent.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ProductShipmentTrackingCard.tsx",
+      "type": "file",
+      "name": "ProductShipmentTrackingCard.tsx",
+      "filePath": "src/components/ProductShipmentTrackingCard.tsx",
+      "summary": "ProductShipmentTrackingCard.tsx (typescript) — 243 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ProductShipmentTrackingCard.tsx:ShipmentStatusBadge",
+      "type": "function",
+      "name": "ShipmentStatusBadge",
+      "filePath": "src/components/ProductShipmentTrackingCard.tsx",
+      "summary": "Function ShipmentStatusBadge in ProductShipmentTrackingCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ProductShipmentTrackingCard.tsx:ProductShipmentTrackingCard",
+      "type": "function",
+      "name": "ProductShipmentTrackingCard",
+      "filePath": "src/components/ProductShipmentTrackingCard.tsx",
+      "summary": "Function ProductShipmentTrackingCard in ProductShipmentTrackingCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ProtocolDocumentCenter.tsx",
+      "type": "file",
+      "name": "ProtocolDocumentCenter.tsx",
+      "filePath": "src/components/ProtocolDocumentCenter.tsx",
+      "summary": "ProtocolDocumentCenter.tsx (typescript) — 252 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ProtocolDocumentCenter.tsx:ProtocolDocumentCenter",
+      "type": "function",
+      "name": "ProtocolDocumentCenter",
+      "filePath": "src/components/ProtocolDocumentCenter.tsx",
+      "summary": "Function ProtocolDocumentCenter in ProtocolDocumentCenter.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ProtocolDocumentCenter.tsx:DownloadIcon",
+      "type": "function",
+      "name": "DownloadIcon",
+      "filePath": "src/components/ProtocolDocumentCenter.tsx",
+      "summary": "Function DownloadIcon in ProtocolDocumentCenter.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ProtocolInfoCard.tsx",
+      "type": "file",
+      "name": "ProtocolInfoCard.tsx",
+      "filePath": "src/components/ProtocolInfoCard.tsx",
+      "summary": "ProtocolInfoCard.tsx (typescript) — 79 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ProtocolInfoCard.tsx:ProtocolInfoCard",
+      "type": "function",
+      "name": "ProtocolInfoCard",
+      "filePath": "src/components/ProtocolInfoCard.tsx",
+      "summary": "Function ProtocolInfoCard in ProtocolInfoCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ProtocolLabelInfoCard.tsx",
+      "type": "file",
+      "name": "ProtocolLabelInfoCard.tsx",
+      "filePath": "src/components/ProtocolLabelInfoCard.tsx",
+      "summary": "ProtocolLabelInfoCard.tsx (typescript) — 274 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ProtocolLabelInfoCard.tsx:ProtocolLabelInfoCard",
+      "type": "function",
+      "name": "ProtocolLabelInfoCard",
+      "filePath": "src/components/ProtocolLabelInfoCard.tsx",
+      "summary": "Function ProtocolLabelInfoCard in ProtocolLabelInfoCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/QuickAddNote.tsx",
+      "type": "file",
+      "name": "QuickAddNote.tsx",
+      "filePath": "src/components/QuickAddNote.tsx",
+      "summary": "QuickAddNote.tsx (typescript) — 440 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/QuickAddNote.tsx:QuickAddNote",
+      "type": "function",
+      "name": "QuickAddNote",
+      "filePath": "src/components/QuickAddNote.tsx",
+      "summary": "Function QuickAddNote in QuickAddNote.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ReasonForChangeDialog.tsx",
+      "type": "file",
+      "name": "ReasonForChangeDialog.tsx",
+      "filePath": "src/components/ReasonForChangeDialog.tsx",
+      "summary": "ReasonForChangeDialog.tsx (typescript) — 100 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ReasonForChangeDialog.tsx:ReasonForChangeDialog",
+      "type": "function",
+      "name": "ReasonForChangeDialog",
+      "filePath": "src/components/ReasonForChangeDialog.tsx",
+      "summary": "Function ReasonForChangeDialog in ReasonForChangeDialog.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/RecentVetActivity.tsx",
+      "type": "file",
+      "name": "RecentVetActivity.tsx",
+      "filePath": "src/components/RecentVetActivity.tsx",
+      "summary": "RecentVetActivity.tsx (typescript) — 103 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/RecentVetActivity.tsx:RecentVetActivity",
+      "type": "function",
+      "name": "RecentVetActivity",
+      "filePath": "src/components/RecentVetActivity.tsx",
+      "summary": "Function RecentVetActivity in RecentVetActivity.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/RegulatoryBanner.tsx",
+      "type": "file",
+      "name": "RegulatoryBanner.tsx",
+      "filePath": "src/components/RegulatoryBanner.tsx",
+      "summary": "RegulatoryBanner.tsx (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/RegulatoryBanner.tsx:RegulatoryBanner",
+      "type": "function",
+      "name": "RegulatoryBanner",
+      "filePath": "src/components/RegulatoryBanner.tsx",
+      "summary": "Function RegulatoryBanner in RegulatoryBanner.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/components/HeroSection.tsx",
+      "target": "function:src/components/HeroSection.tsx:HeroSection",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/HoofXrayPortal.tsx",
+      "target": "function:src/components/HoofXrayPortal.tsx:toArray",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/HoofXrayPortal.tsx",
+      "target": "function:src/components/HoofXrayPortal.tsx:getDisplayText",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/HoofXrayPortal.tsx",
+      "target": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "target": "function:src/components/HoofXrayPortal.tsx:toArray",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "target": "function:src/components/HoofXrayPortal.tsx:toArray",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "target": "function:src/components/HoofXrayPortal.tsx:getDisplayText",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "target": "function:src/components/HoofXrayPortal.tsx:getDisplayText",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "target": "function:src/components/HoofXrayPortal.tsx:getDisplayText",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/HoofXrayPortal.tsx:HoofXrayPortal",
+      "target": "function:src/components/HoofXrayPortal.tsx:getDisplayText",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/HorseImageUploader.tsx",
+      "target": "function:src/components/HorseImageUploader.tsx:isHttpUrl",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/HorseImageUploader.tsx",
+      "target": "function:src/components/HorseImageUploader.tsx:HorseImageUploader",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/HorseImageUploader.tsx:HorseImageUploader",
+      "target": "function:src/components/HorseImageUploader.tsx:isHttpUrl",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/HorseImageUploader.tsx:HorseImageUploader",
+      "target": "function:src/components/HorseImageUploader.tsx:isHttpUrl",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/InformedConsentWorkflow.tsx",
+      "target": "function:src/components/InformedConsentWorkflow.tsx:logPermissionDecision",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/InformedConsentWorkflow.tsx",
+      "target": "function:src/components/InformedConsentWorkflow.tsx:InformedConsentWorkflow",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/InformedConsentWorkflow.tsx:InformedConsentWorkflow",
+      "target": "function:src/components/InformedConsentWorkflow.tsx:logPermissionDecision",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/InformedConsentWorkflow.tsx:InformedConsentWorkflow",
+      "target": "function:src/components/InformedConsentWorkflow.tsx:logPermissionDecision",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/InformedConsentWorkflow.tsx:InformedConsentWorkflow",
+      "target": "function:src/components/InformedConsentWorkflow.tsx:logPermissionDecision",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/InformedConsentWorkflow.tsx:InformedConsentWorkflow",
+      "target": "function:src/components/InformedConsentWorkflow.tsx:logPermissionDecision",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/InformedConsentWorkflow.tsx:InformedConsentWorkflow",
+      "target": "function:src/components/InformedConsentWorkflow.tsx:logPermissionDecision",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/InvestigatorOnboardingWizard.tsx",
+      "target": "function:src/components/InvestigatorOnboardingWizard.tsx:InvestigatorOnboardingWizard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/MasterTrialsTable.tsx",
+      "target": "function:src/components/MasterTrialsTable.tsx:MasterTrialsTable",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/MonitoringChecklist.tsx",
+      "target": "function:src/components/MonitoringChecklist.tsx:MonitoringChecklist",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/NextDoseTimer.tsx",
+      "target": "function:src/components/NextDoseTimer.tsx:getNextDoseInfo",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/NextDoseTimer.tsx",
+      "target": "function:src/components/NextDoseTimer.tsx:formatDuration",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/NextDoseTimer.tsx",
+      "target": "function:src/components/NextDoseTimer.tsx:NextDoseTimerImpl",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/NextDoseTimer.tsx",
+      "target": "function:src/components/NextDoseTimer.tsx:CircleOutline",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/NextDoseTimer.tsx:NextDoseTimerImpl",
+      "target": "function:src/components/NextDoseTimer.tsx:getNextDoseInfo",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/NextDoseTimer.tsx:NextDoseTimerImpl",
+      "target": "function:src/components/NextDoseTimer.tsx:formatDuration",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/NextDoseTimer.tsx:NextDoseTimerImpl",
+      "target": "function:src/components/NextDoseTimer.tsx:formatDuration",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/ObelGradeReference.tsx",
+      "target": "function:src/components/ObelGradeReference.tsx:ObelGradeReference",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ObelScoreChart.tsx",
+      "target": "function:src/components/ObelScoreChart.tsx:ObelScoreChart",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PasswordResetRequestScreen.tsx",
+      "target": "function:src/components/PasswordResetRequestScreen.tsx:PasswordResetRequestScreen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PasswordResetScreen.tsx",
+      "target": "function:src/components/PasswordResetScreen.tsx:PasswordResetScreen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PatientDetailDialog.tsx",
+      "target": "function:src/components/PatientDetailDialog.tsx:PatientDetailDialog",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PatientEnrollmentForm.tsx",
+      "target": "function:src/components/PatientEnrollmentForm.tsx:toDateInputValue",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PatientEnrollmentForm.tsx",
+      "target": "function:src/components/PatientEnrollmentForm.tsx:getDefaultValues",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PatientEnrollmentForm.tsx",
+      "target": "function:src/components/PatientEnrollmentForm.tsx:PatientEnrollmentForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/PatientEnrollmentForm.tsx:getDefaultValues",
+      "target": "function:src/components/PatientEnrollmentForm.tsx:toDateInputValue",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/PatientEnrollmentForm.tsx:getDefaultValues",
+      "target": "function:src/components/PatientEnrollmentForm.tsx:toDateInputValue",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/PatientEnrollmentForm.tsx:PatientEnrollmentForm",
+      "target": "function:src/components/PatientEnrollmentForm.tsx:getDefaultValues",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/PatientsList.tsx",
+      "target": "function:src/components/PatientsList.tsx:PatientsList",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PendingApprovalScreen.tsx",
+      "target": "function:src/components/PendingApprovalScreen.tsx:PendingApprovalScreen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PrintConsent.tsx",
+      "target": "function:src/components/PrintConsent.tsx:PrintConsent",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ProductShipmentTrackingCard.tsx",
+      "target": "function:src/components/ProductShipmentTrackingCard.tsx:ShipmentStatusBadge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ProductShipmentTrackingCard.tsx",
+      "target": "function:src/components/ProductShipmentTrackingCard.tsx:ProductShipmentTrackingCard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ProtocolDocumentCenter.tsx",
+      "target": "function:src/components/ProtocolDocumentCenter.tsx:ProtocolDocumentCenter",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ProtocolDocumentCenter.tsx",
+      "target": "function:src/components/ProtocolDocumentCenter.tsx:DownloadIcon",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ProtocolInfoCard.tsx",
+      "target": "function:src/components/ProtocolInfoCard.tsx:ProtocolInfoCard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ProtocolLabelInfoCard.tsx",
+      "target": "function:src/components/ProtocolLabelInfoCard.tsx:ProtocolLabelInfoCard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/QuickAddNote.tsx",
+      "target": "function:src/components/QuickAddNote.tsx:QuickAddNote",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ReasonForChangeDialog.tsx",
+      "target": "function:src/components/ReasonForChangeDialog.tsx:ReasonForChangeDialog",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/RecentVetActivity.tsx",
+      "target": "function:src/components/RecentVetActivity.tsx:RecentVetActivity",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/RegulatoryBanner.tsx",
+      "target": "function:src/components/RegulatoryBanner.tsx:RegulatoryBanner",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/PatientDetailDialog.tsx",
+      "target": "file:src/components/ReasonForChangeDialog.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/PatientsList.tsx",
+      "target": "file:src/components/PatientEnrollmentForm.tsx",
+      "type": "imports",
+      "weight": 0.7
+    }
+  ]
+}

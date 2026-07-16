@@ -1,0 +1,900 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/components/ui/tabs.tsx",
+      "type": "file",
+      "name": "tabs.tsx",
+      "filePath": "src/components/ui/tabs.tsx",
+      "summary": "tabs.tsx (typescript) — 54 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/textarea.tsx",
+      "type": "file",
+      "name": "textarea.tsx",
+      "filePath": "src/components/ui/textarea.tsx",
+      "summary": "textarea.tsx (typescript) — 23 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/tooltip.tsx",
+      "type": "file",
+      "name": "tooltip.tsx",
+      "filePath": "src/components/ui/tooltip.tsx",
+      "summary": "tooltip.tsx (typescript) — 28 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/VeterinarianLoginScreen.tsx",
+      "type": "file",
+      "name": "VeterinarianLoginScreen.tsx",
+      "filePath": "src/components/VeterinarianLoginScreen.tsx",
+      "summary": "VeterinarianLoginScreen.tsx (typescript) — 174 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VeterinarianLoginScreen.tsx:VeterinarianLoginScreen",
+      "type": "function",
+      "name": "VeterinarianLoginScreen",
+      "filePath": "src/components/VeterinarianLoginScreen.tsx",
+      "summary": "Function VeterinarianLoginScreen in VeterinarianLoginScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/VeterinarianManagementPanel.tsx",
+      "type": "file",
+      "name": "VeterinarianManagementPanel.tsx",
+      "filePath": "src/components/VeterinarianManagementPanel.tsx",
+      "summary": "VeterinarianManagementPanel.tsx (typescript) — 1220 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VeterinarianManagementPanel.tsx:VeterinarianManagementPanel",
+      "type": "function",
+      "name": "VeterinarianManagementPanel",
+      "filePath": "src/components/VeterinarianManagementPanel.tsx",
+      "summary": "Function VeterinarianManagementPanel in VeterinarianManagementPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/VetShipmentPanel.tsx",
+      "type": "file",
+      "name": "VetShipmentPanel.tsx",
+      "filePath": "src/components/VetShipmentPanel.tsx",
+      "summary": "VetShipmentPanel.tsx (typescript) — 240 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VetShipmentPanel.tsx:VetShipmentPanel",
+      "type": "function",
+      "name": "VetShipmentPanel",
+      "filePath": "src/components/VetShipmentPanel.tsx",
+      "summary": "Function VetShipmentPanel in VetShipmentPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/VetToolsHub.tsx",
+      "type": "file",
+      "name": "VetToolsHub.tsx",
+      "filePath": "src/components/VetToolsHub.tsx",
+      "summary": "VetToolsHub.tsx (typescript) — 310 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VetToolsHub.tsx:VetToolsHub",
+      "type": "function",
+      "name": "VetToolsHub",
+      "filePath": "src/components/VetToolsHub.tsx",
+      "summary": "Function VetToolsHub in VetToolsHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VetToolsHub.tsx:WeightEstimator",
+      "type": "function",
+      "name": "WeightEstimator",
+      "filePath": "src/components/VetToolsHub.tsx",
+      "summary": "Function WeightEstimator in VetToolsHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VetToolsHub.tsx:TemperatureConverter",
+      "type": "function",
+      "name": "TemperatureConverter",
+      "filePath": "src/components/VetToolsHub.tsx",
+      "summary": "Function TemperatureConverter in VetToolsHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VetToolsHub.tsx:ProtocolReference",
+      "type": "function",
+      "name": "ProtocolReference",
+      "filePath": "src/components/VetToolsHub.tsx",
+      "summary": "Function ProtocolReference in VetToolsHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/VideoUploadManager.tsx",
+      "type": "file",
+      "name": "VideoUploadManager.tsx",
+      "filePath": "src/components/VideoUploadManager.tsx",
+      "summary": "VideoUploadManager.tsx (typescript) — 265 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/VideoUploadManager.tsx:VideoUploadManager",
+      "type": "function",
+      "name": "VideoUploadManager",
+      "filePath": "src/components/VideoUploadManager.tsx",
+      "summary": "Function VideoUploadManager in VideoUploadManager.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/WhatsAppChatButton.tsx",
+      "type": "file",
+      "name": "WhatsAppChatButton.tsx",
+      "filePath": "src/components/WhatsAppChatButton.tsx",
+      "summary": "WhatsAppChatButton.tsx (typescript) — 41 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/WhatsAppChatButton.tsx:WhatsAppChatButton",
+      "type": "function",
+      "name": "WhatsAppChatButton",
+      "filePath": "src/components/WhatsAppChatButton.tsx",
+      "summary": "Function WhatsAppChatButton in WhatsAppChatButton.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/context/AuthContext.tsx",
+      "type": "file",
+      "name": "AuthContext.tsx",
+      "filePath": "src/context/AuthContext.tsx",
+      "summary": "AuthContext.tsx (typescript) — 297 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/context/AuthContext.tsx:roleFromUser",
+      "type": "function",
+      "name": "roleFromUser",
+      "filePath": "src/context/AuthContext.tsx",
+      "summary": "Function roleFromUser in AuthContext.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/context/AuthContext.tsx:getStoredSessionScope",
+      "type": "function",
+      "name": "getStoredSessionScope",
+      "filePath": "src/context/AuthContext.tsx",
+      "summary": "Function getStoredSessionScope in AuthContext.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/context/AuthContext.tsx:setStoredSessionScope",
+      "type": "function",
+      "name": "setStoredSessionScope",
+      "filePath": "src/context/AuthContext.tsx",
+      "summary": "Function setStoredSessionScope in AuthContext.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/context/AuthContext.tsx:AuthProvider",
+      "type": "function",
+      "name": "AuthProvider",
+      "filePath": "src/context/AuthContext.tsx",
+      "summary": "Function AuthProvider in AuthContext.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/context/AuthContext.tsx:useAuth",
+      "type": "function",
+      "name": "useAuth",
+      "filePath": "src/context/AuthContext.tsx",
+      "summary": "Function useAuth in AuthContext.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/audit/supabaseAuditRepository.ts",
+      "type": "file",
+      "name": "supabaseAuditRepository.ts",
+      "filePath": "src/data/audit/supabaseAuditRepository.ts",
+      "summary": "supabaseAuditRepository.ts (typescript) — 171 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/data/audit/supabaseAuditRepository.ts:isSupabaseConfigured",
+      "type": "function",
+      "name": "isSupabaseConfigured",
+      "filePath": "src/data/audit/supabaseAuditRepository.ts",
+      "summary": "Function isSupabaseConfigured in supabaseAuditRepository.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/data/audit/supabaseAuditRepository.ts:readViteEnv",
+      "type": "function",
+      "name": "readViteEnv",
+      "filePath": "src/data/audit/supabaseAuditRepository.ts",
+      "summary": "Function readViteEnv in supabaseAuditRepository.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/data/audit/supabaseAuditRepository.ts:toSnakeCase",
+      "type": "function",
+      "name": "toSnakeCase",
+      "filePath": "src/data/audit/supabaseAuditRepository.ts",
+      "summary": "Function toSnakeCase in supabaseAuditRepository.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/clinicalAssessments/repository.ts",
+      "type": "file",
+      "name": "repository.ts",
+      "filePath": "src/data/clinicalAssessments/repository.ts",
+      "summary": "repository.ts (typescript) — 34 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/clinicalAssessments/supabaseRepository.ts",
+      "type": "file",
+      "name": "supabaseRepository.ts",
+      "filePath": "src/data/clinicalAssessments/supabaseRepository.ts",
+      "summary": "supabaseRepository.ts (typescript) — 50 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/clinicalNotes/repository.ts",
+      "type": "file",
+      "name": "repository.ts",
+      "filePath": "src/data/clinicalNotes/repository.ts",
+      "summary": "repository.ts (typescript) — 29 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/clinicalNotes/supabaseRepository.ts",
+      "type": "file",
+      "name": "supabaseRepository.ts",
+      "filePath": "src/data/clinicalNotes/supabaseRepository.ts",
+      "summary": "supabaseRepository.ts (typescript) — 50 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/labResults/repository.ts",
+      "type": "file",
+      "name": "repository.ts",
+      "filePath": "src/data/labResults/repository.ts",
+      "summary": "repository.ts (typescript) — 36 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/labResults/supabaseRepository.ts",
+      "type": "file",
+      "name": "supabaseRepository.ts",
+      "filePath": "src/data/labResults/supabaseRepository.ts",
+      "summary": "supabaseRepository.ts (typescript) — 57 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/patients/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "src/data/patients/index.ts",
+      "summary": "index.ts (typescript) — 27 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/data/patients/index.ts:getPatientsRepository",
+      "type": "function",
+      "name": "getPatientsRepository",
+      "filePath": "src/data/patients/index.ts",
+      "summary": "Function getPatientsRepository in index.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/patients/mockRepository.ts",
+      "type": "file",
+      "name": "mockRepository.ts",
+      "filePath": "src/data/patients/mockRepository.ts",
+      "summary": "mockRepository.ts (typescript) — 134 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/data/patients/mockRepository.ts:toPatientRow",
+      "type": "function",
+      "name": "toPatientRow",
+      "filePath": "src/data/patients/mockRepository.ts",
+      "summary": "Function toPatientRow in mockRepository.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/data/patients/mockRepository.ts:isFilterActive",
+      "type": "function",
+      "name": "isFilterActive",
+      "filePath": "src/data/patients/mockRepository.ts",
+      "summary": "Function isFilterActive in mockRepository.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/patients/repository.ts",
+      "type": "file",
+      "name": "repository.ts",
+      "filePath": "src/data/patients/repository.ts",
+      "summary": "repository.ts (typescript) — 124 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/patients/supabaseRepository.ts",
+      "type": "file",
+      "name": "supabaseRepository.ts",
+      "filePath": "src/data/patients/supabaseRepository.ts",
+      "summary": "supabaseRepository.ts (typescript) — 188 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/data/patients/supabaseRepository.ts:isFilterActive",
+      "type": "function",
+      "name": "isFilterActive",
+      "filePath": "src/data/patients/supabaseRepository.ts",
+      "summary": "Function isFilterActive in supabaseRepository.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/treatments/repository.ts",
+      "type": "file",
+      "name": "repository.ts",
+      "filePath": "src/data/treatments/repository.ts",
+      "summary": "repository.ts (typescript) — 31 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/data/treatments/supabaseRepository.ts",
+      "type": "file",
+      "name": "supabaseRepository.ts",
+      "filePath": "src/data/treatments/supabaseRepository.ts",
+      "summary": "supabaseRepository.ts (typescript) — 52 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/env.d.ts",
+      "type": "file",
+      "name": "env.d.ts",
+      "filePath": "src/env.d.ts",
+      "summary": "env.d.ts (typescript) — 11 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/hooks/useAuditedMutateAction.ts",
+      "type": "file",
+      "name": "useAuditedMutateAction.ts",
+      "filePath": "src/hooks/useAuditedMutateAction.ts",
+      "summary": "useAuditedMutateAction.ts (typescript) — 64 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useAuditedMutateAction.ts:useAuditedMutateAction",
+      "type": "function",
+      "name": "useAuditedMutateAction",
+      "filePath": "src/hooks/useAuditedMutateAction.ts",
+      "summary": "Function useAuditedMutateAction in useAuditedMutateAction.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/components/VeterinarianLoginScreen.tsx",
+      "target": "function:src/components/VeterinarianLoginScreen.tsx:VeterinarianLoginScreen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VeterinarianManagementPanel.tsx",
+      "target": "function:src/components/VeterinarianManagementPanel.tsx:VeterinarianManagementPanel",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VetShipmentPanel.tsx",
+      "target": "function:src/components/VetShipmentPanel.tsx:VetShipmentPanel",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VetToolsHub.tsx",
+      "target": "function:src/components/VetToolsHub.tsx:VetToolsHub",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VetToolsHub.tsx",
+      "target": "function:src/components/VetToolsHub.tsx:WeightEstimator",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VetToolsHub.tsx",
+      "target": "function:src/components/VetToolsHub.tsx:TemperatureConverter",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VetToolsHub.tsx",
+      "target": "function:src/components/VetToolsHub.tsx:ProtocolReference",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VideoUploadManager.tsx",
+      "target": "function:src/components/VideoUploadManager.tsx:VideoUploadManager",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/WhatsAppChatButton.tsx",
+      "target": "function:src/components/WhatsAppChatButton.tsx:WhatsAppChatButton",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/context/AuthContext.tsx",
+      "target": "function:src/context/AuthContext.tsx:roleFromUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/context/AuthContext.tsx",
+      "target": "function:src/context/AuthContext.tsx:getStoredSessionScope",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/context/AuthContext.tsx",
+      "target": "function:src/context/AuthContext.tsx:setStoredSessionScope",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/context/AuthContext.tsx",
+      "target": "function:src/context/AuthContext.tsx:AuthProvider",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/context/AuthContext.tsx",
+      "target": "function:src/context/AuthContext.tsx:useAuth",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/context/AuthContext.tsx:AuthProvider",
+      "target": "function:src/context/AuthContext.tsx:roleFromUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/context/AuthContext.tsx:AuthProvider",
+      "target": "function:src/context/AuthContext.tsx:getStoredSessionScope",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/context/AuthContext.tsx:AuthProvider",
+      "target": "function:src/context/AuthContext.tsx:setStoredSessionScope",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/context/AuthContext.tsx:AuthProvider",
+      "target": "function:src/context/AuthContext.tsx:setStoredSessionScope",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/context/AuthContext.tsx:AuthProvider",
+      "target": "function:src/context/AuthContext.tsx:setStoredSessionScope",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/context/AuthContext.tsx:AuthProvider",
+      "target": "function:src/context/AuthContext.tsx:roleFromUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/context/AuthContext.tsx:AuthProvider",
+      "target": "function:src/context/AuthContext.tsx:setStoredSessionScope",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/data/audit/supabaseAuditRepository.ts",
+      "target": "function:src/data/audit/supabaseAuditRepository.ts:isSupabaseConfigured",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/data/audit/supabaseAuditRepository.ts",
+      "target": "function:src/data/audit/supabaseAuditRepository.ts:readViteEnv",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/data/audit/supabaseAuditRepository.ts",
+      "target": "function:src/data/audit/supabaseAuditRepository.ts:toSnakeCase",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/data/audit/supabaseAuditRepository.ts:isSupabaseConfigured",
+      "target": "function:src/data/audit/supabaseAuditRepository.ts:readViteEnv",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/data/patients/index.ts",
+      "target": "function:src/data/patients/index.ts:getPatientsRepository",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/data/patients/mockRepository.ts",
+      "target": "function:src/data/patients/mockRepository.ts:toPatientRow",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/data/patients/mockRepository.ts",
+      "target": "function:src/data/patients/mockRepository.ts:isFilterActive",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/data/patients/supabaseRepository.ts",
+      "target": "function:src/data/patients/supabaseRepository.ts:isFilterActive",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useAuditedMutateAction.ts",
+      "target": "function:src/hooks/useAuditedMutateAction.ts:useAuditedMutateAction",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/VeterinarianLoginScreen.tsx",
+      "target": "file:src/context/AuthContext.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/VetToolsHub.tsx",
+      "target": "file:src/components/ui/tabs.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/clinicalAssessments/supabaseRepository.ts",
+      "target": "file:src/data/clinicalAssessments/repository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/clinicalNotes/supabaseRepository.ts",
+      "target": "file:src/data/clinicalNotes/repository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/labResults/supabaseRepository.ts",
+      "target": "file:src/data/labResults/repository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/patients/index.ts",
+      "target": "file:src/data/patients/mockRepository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/patients/index.ts",
+      "target": "file:src/data/patients/repository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/patients/index.ts",
+      "target": "file:src/data/patients/supabaseRepository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/patients/mockRepository.ts",
+      "target": "file:src/data/patients/repository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/patients/supabaseRepository.ts",
+      "target": "file:src/data/patients/repository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/data/treatments/supabaseRepository.ts",
+      "target": "file:src/data/treatments/repository.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/hooks/useAuditedMutateAction.ts",
+      "target": "file:src/context/AuthContext.tsx",
+      "type": "imports",
+      "weight": 0.7
+    }
+  ]
+}

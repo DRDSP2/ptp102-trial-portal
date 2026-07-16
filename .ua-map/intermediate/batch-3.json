@@ -1,0 +1,2581 @@
+{
+  "nodes": [
+    {
+      "id": "config:.env.local.example",
+      "type": "config",
+      "name": ".env.local.example",
+      "filePath": ".env.local.example",
+      "summary": ".env.local.example (config) — 30 lines.",
+      "tags": [
+        "config",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "config"
+    },
+    {
+      "id": "config:.env.production",
+      "type": "config",
+      "name": ".env.production",
+      "filePath": ".env.production",
+      "summary": ".env.production (config) — 1 lines.",
+      "tags": [
+        "config",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "config"
+    },
+    {
+      "id": "concept:.env.production:VITE_COMPUTE_API_URL",
+      "type": "concept",
+      "name": "VITE_COMPUTE_API_URL",
+      "filePath": ".env.production",
+      "summary": "variable VITE_COMPUTE_API_URL",
+      "tags": [
+        "config",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "config"
+    },
+    {
+      "id": "document:DEPLOYMENT.md",
+      "type": "document",
+      "name": "DEPLOYMENT.md",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "DEPLOYMENT.md (markdown) — 413 lines. 35 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "complex",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:PTP-102 Trial App — Deployment Guide",
+      "type": "concept",
+      "name": "PTP-102 Trial App — Deployment Guide",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: PTP-102 Trial App — Deployment Guide",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Production URL",
+      "type": "concept",
+      "name": "Production URL",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Production URL",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Hosting model",
+      "type": "concept",
+      "name": "Hosting model",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Hosting model",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Why a localStorage session adapter?",
+      "type": "concept",
+      "name": "Why a localStorage session adapter?",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Why a localStorage session adapter?",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Build & deploy",
+      "type": "concept",
+      "name": "Build & deploy",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Build & deploy",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Local build",
+      "type": "concept",
+      "name": "Local build",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Local build",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:4EVERLAND project settings",
+      "type": "concept",
+      "name": "4EVERLAND project settings",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: 4EVERLAND project settings",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Cloudflare Pages project settings",
+      "type": "concept",
+      "name": "Cloudflare Pages project settings",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Cloudflare Pages project settings",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Verification checklist",
+      "type": "concept",
+      "name": "Verification checklist",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Verification checklist",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Authentication",
+      "type": "concept",
+      "name": "Authentication",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Authentication",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Test fixtures (non-production)",
+      "type": "concept",
+      "name": "Test fixtures (non-production)",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Test fixtures (non-production)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Production credentials",
+      "type": "concept",
+      "name": "Production credentials",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Production credentials",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Vet onboarding",
+      "type": "concept",
+      "name": "Vet onboarding",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Vet onboarding",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Registration flow (IPFS / static deployments)",
+      "type": "concept",
+      "name": "Registration flow (IPFS / static deployments)",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Registration flow (IPFS / static deployments)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Supabase setup",
+      "type": "concept",
+      "name": "Supabase setup",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Supabase setup",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Edge Function deployment",
+      "type": "concept",
+      "name": "Edge Function deployment",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Edge Function deployment",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Allowed origins",
+      "type": "concept",
+      "name": "Allowed origins",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Allowed origins",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Email confirmation (recommended)",
+      "type": "concept",
+      "name": "Email confirmation (recommended)",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Email confirmation (recommended)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Storage bucket and RLS",
+      "type": "concept",
+      "name": "Storage bucket and RLS",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Storage bucket and RLS",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Path scheme",
+      "type": "concept",
+      "name": "Path scheme",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Path scheme",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Required RLS policies",
+      "type": "concept",
+      "name": "Required RLS policies",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Required RLS policies",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Verifying the bucket end-to-end",
+      "type": "concept",
+      "name": "Verifying the bucket end-to-end",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Verifying the bucket end-to-end",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Why direct browser upload (no /api/upload)",
+      "type": "concept",
+      "name": "Why direct browser upload (no /api/upload)",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Why direct browser upload (no /api/upload)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:IPFS / ENS considerations",
+      "type": "concept",
+      "name": "IPFS / ENS considerations",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: IPFS / ENS considerations",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:URL stability",
+      "type": "concept",
+      "name": "URL stability",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: URL stability",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:SPA routing",
+      "type": "concept",
+      "name": "SPA routing",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: SPA routing",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Security headers",
+      "type": "concept",
+      "name": "Security headers",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Security headers",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Data layer (current state)",
+      "type": "concept",
+      "name": "Data layer (current state)",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Data layer (current state)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Troubleshooting",
+      "type": "concept",
+      "name": "Troubleshooting",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Troubleshooting",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Build fails on the deploy provider",
+      "type": "concept",
+      "name": "Build fails on the deploy provider",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Build fails on the deploy provider",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Auth works locally but fails on `byrock.eth.limo`",
+      "type": "concept",
+      "name": "Auth works locally but fails on `byrock.eth.limo`",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Auth works locally but fails on `byrock.eth.limo`",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Build-pinned 4EVERLAND URL changed",
+      "type": "concept",
+      "name": "Build-pinned 4EVERLAND URL changed",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Build-pinned 4EVERLAND URL changed",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Data disappeared after refresh",
+      "type": "concept",
+      "name": "Data disappeared after refresh",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Data disappeared after refresh",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Outstanding security tasks",
+      "type": "concept",
+      "name": "Outstanding security tasks",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Outstanding security tasks",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:DEPLOYMENT.md:Documentation map",
+      "type": "concept",
+      "name": "Documentation map",
+      "filePath": "DEPLOYMENT.md",
+      "summary": "Section: Documentation map",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:E2E_VET_ADMIN_WORKFLOW.md",
+      "type": "document",
+      "name": "E2E_VET_ADMIN_WORKFLOW.md",
+      "filePath": "E2E_VET_ADMIN_WORKFLOW.md",
+      "summary": "E2E_VET_ADMIN_WORKFLOW.md (markdown) — 96 lines. 6 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:E2E_VET_ADMIN_WORKFLOW.md:Vet/Admin End-to-End Workflow Test",
+      "type": "concept",
+      "name": "Vet/Admin End-to-End Workflow Test",
+      "filePath": "E2E_VET_ADMIN_WORKFLOW.md",
+      "summary": "Section: Vet/Admin End-to-End Workflow Test",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:E2E_VET_ADMIN_WORKFLOW.md:What it covers",
+      "type": "concept",
+      "name": "What it covers",
+      "filePath": "E2E_VET_ADMIN_WORKFLOW.md",
+      "summary": "Section: What it covers",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:E2E_VET_ADMIN_WORKFLOW.md:Required safe environment",
+      "type": "concept",
+      "name": "Required safe environment",
+      "filePath": "E2E_VET_ADMIN_WORKFLOW.md",
+      "summary": "Section: Required safe environment",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:E2E_VET_ADMIN_WORKFLOW.md:Backend state endpoint contract",
+      "type": "concept",
+      "name": "Backend state endpoint contract",
+      "filePath": "E2E_VET_ADMIN_WORKFLOW.md",
+      "summary": "Section: Backend state endpoint contract",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:E2E_VET_ADMIN_WORKFLOW.md:Commands",
+      "type": "concept",
+      "name": "Commands",
+      "filePath": "E2E_VET_ADMIN_WORKFLOW.md",
+      "summary": "Section: Commands",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:E2E_VET_ADMIN_WORKFLOW.md:Regression recommendations",
+      "type": "concept",
+      "name": "Regression recommendations",
+      "filePath": "E2E_VET_ADMIN_WORKFLOW.md",
+      "summary": "Section: Regression recommendations",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:PTP102_Platform_Snapshot.md",
+      "type": "document",
+      "name": "PTP102_Platform_Snapshot.md",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "PTP102_Platform_Snapshot.md (markdown) — 216 lines. 26 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "moderate",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:PTP-102 Laminitis Trial Portal — Complete Feature Snapshot",
+      "type": "concept",
+      "name": "PTP-102 Laminitis Trial Portal — Complete Feature Snapshot",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: PTP-102 Laminitis Trial Portal — Complete Feature Snapshot",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:1. Frontend Feature Overview",
+      "type": "concept",
+      "name": "1. Frontend Feature Overview",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: 1. Frontend Feature Overview",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Authentication & Access Control",
+      "type": "concept",
+      "name": "Authentication & Access Control",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Authentication & Access Control",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Dashboard (Admin View)",
+      "type": "concept",
+      "name": "Dashboard (Admin View)",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Dashboard (Admin View)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Dashboard (Veterinarian View)",
+      "type": "concept",
+      "name": "Dashboard (Veterinarian View)",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Dashboard (Veterinarian View)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Patient Case Workspace (Per-Horse View)",
+      "type": "concept",
+      "name": "Patient Case Workspace (Per-Horse View)",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Patient Case Workspace (Per-Horse View)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Header & Context",
+      "type": "concept",
+      "name": "Header & Context",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Header & Context",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Compliance Gates",
+      "type": "concept",
+      "name": "Compliance Gates",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Compliance Gates",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Clinical Tabs",
+      "type": "concept",
+      "name": "Clinical Tabs",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Clinical Tabs",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Side Panels",
+      "type": "concept",
+      "name": "Side Panels",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Side Panels",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Admin Compliance Dashboard",
+      "type": "concept",
+      "name": "Admin Compliance Dashboard",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Admin Compliance Dashboard",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Regulatory & Safety Features",
+      "type": "concept",
+      "name": "Regulatory & Safety Features",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Regulatory & Safety Features",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Communication & Support",
+      "type": "concept",
+      "name": "Communication & Support",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Communication & Support",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:2. Security Features & FDA Readiness",
+      "type": "concept",
+      "name": "2. Security Features & FDA Readiness",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: 2. Security Features & FDA Readiness",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Authentication & Access Security",
+      "type": "concept",
+      "name": "Authentication & Access Security",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Authentication & Access Security",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Data Integrity & Audit Trails (21 CFR Part 11 Foundation)",
+      "type": "concept",
+      "name": "Data Integrity & Audit Trails (21 CFR Part 11 Foundation)",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Data Integrity & Audit Trails (21 CFR Part 11 Foundation)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:FDA CVM Compliance Framework",
+      "type": "concept",
+      "name": "FDA CVM Compliance Framework",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: FDA CVM Compliance Framework",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Clinical Data Validation",
+      "type": "concept",
+      "name": "Clinical Data Validation",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Clinical Data Validation",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Video & Media Security",
+      "type": "concept",
+      "name": "Video & Media Security",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Video & Media Security",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:3. End-of-Trial FDA Reporting: One-Click Complete Export",
+      "type": "concept",
+      "name": "3. End-of-Trial FDA Reporting: One-Click Complete Export",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: 3. End-of-Trial FDA Reporting: One-Click Complete Export",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:The Report Generator (`src/lib/reportGenerator.ts`)",
+      "type": "concept",
+      "name": "The Report Generator (`src/lib/reportGenerator.ts`)",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: The Report Generator (`src/lib/reportGenerator.ts`)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:What Gets Exported",
+      "type": "concept",
+      "name": "What Gets Exported",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: What Gets Exported",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Regulatory Markings",
+      "type": "concept",
+      "name": "Regulatory Markings",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Regulatory Markings",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:How It Works for Colleagues",
+      "type": "concept",
+      "name": "How It Works for Colleagues",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: How It Works for Colleagues",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:Data Model Summary for FDA Review",
+      "type": "concept",
+      "name": "Data Model Summary for FDA Review",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: Data Model Summary for FDA Review",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:PTP102_Platform_Snapshot.md:4. Known Gaps & Recommended Next Steps",
+      "type": "concept",
+      "name": "4. Known Gaps & Recommended Next Steps",
+      "filePath": "PTP102_Platform_Snapshot.md",
+      "summary": "Section: 4. Known Gaps & Recommended Next Steps",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "README.md (markdown) — 232 lines. 13 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "moderate",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:PTP-102 Veterinary Laminitis Trials",
+      "type": "concept",
+      "name": "PTP-102 Veterinary Laminitis Trials",
+      "filePath": "README.md",
+      "summary": "Section: PTP-102 Veterinary Laminitis Trials",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Quick start",
+      "type": "concept",
+      "name": "Quick start",
+      "filePath": "README.md",
+      "summary": "Section: Quick start",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Stack",
+      "type": "concept",
+      "name": "Stack",
+      "filePath": "README.md",
+      "summary": "Section: Stack",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Project layout",
+      "type": "concept",
+      "name": "Project layout",
+      "filePath": "README.md",
+      "summary": "Section: Project layout",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Routes (HashRouter)",
+      "type": "concept",
+      "name": "Routes (HashRouter)",
+      "filePath": "README.md",
+      "summary": "Section: Routes (HashRouter)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Data layer",
+      "type": "concept",
+      "name": "Data layer",
+      "filePath": "README.md",
+      "summary": "Section: Data layer",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:A. Supabase (real backend)",
+      "type": "concept",
+      "name": "A. Supabase (real backend)",
+      "filePath": "README.md",
+      "summary": "Section: A. Supabase (real backend)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:B. UIBakery localStorage mock",
+      "type": "concept",
+      "name": "B. UIBakery localStorage mock",
+      "filePath": "README.md",
+      "summary": "Section: B. UIBakery localStorage mock",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Database migrations — important caveat",
+      "type": "concept",
+      "name": "Database migrations — important caveat",
+      "filePath": "README.md",
+      "summary": "Section: Database migrations — important caveat",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Stubbed / incomplete features",
+      "type": "concept",
+      "name": "Stubbed / incomplete features",
+      "filePath": "README.md",
+      "summary": "Section: Stubbed / incomplete features",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:E2E secure-upload script",
+      "type": "concept",
+      "name": "E2E secure-upload script",
+      "filePath": "README.md",
+      "summary": "Section: E2E secure-upload script",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Documentation index",
+      "type": "concept",
+      "name": "Documentation index",
+      "filePath": "README.md",
+      "summary": "Section: Documentation index",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:README.md:Conventions",
+      "type": "concept",
+      "name": "Conventions",
+      "filePath": "README.md",
+      "summary": "Section: Conventions",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:SPEC_password_recovery.md",
+      "type": "document",
+      "name": "SPEC_password_recovery.md",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "SPEC_password_recovery.md (markdown) — 160 lines. 22 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "moderate",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Password Recovery — Implementation Spec",
+      "type": "concept",
+      "name": "Password Recovery — Implementation Spec",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Password Recovery — Implementation Spec",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Overview",
+      "type": "concept",
+      "name": "Overview",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Overview",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Storage",
+      "type": "concept",
+      "name": "Storage",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Storage",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Table: `recovery_tokens`",
+      "type": "concept",
+      "name": "Table: `recovery_tokens`",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Table: `recovery_tokens`",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Edge Function: `recovery-request`",
+      "type": "concept",
+      "name": "Edge Function: `recovery-request`",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Edge Function: `recovery-request`",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Route",
+      "type": "concept",
+      "name": "Route",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Route",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Request",
+      "type": "concept",
+      "name": "Request",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Request",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Logic",
+      "type": "concept",
+      "name": "Logic",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Logic",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Rate Limiting",
+      "type": "concept",
+      "name": "Rate Limiting",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Rate Limiting",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Edge Function: `recovery-complete`",
+      "type": "concept",
+      "name": "Edge Function: `recovery-complete`",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Edge Function: `recovery-complete`",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Session Invalidation",
+      "type": "concept",
+      "name": "Session Invalidation",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Session Invalidation",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Admin-Initiated Recovery",
+      "type": "concept",
+      "name": "Admin-Initiated Recovery",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Admin-Initiated Recovery",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Location",
+      "type": "concept",
+      "name": "Location",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Location",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Implementation",
+      "type": "concept",
+      "name": "Implementation",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Implementation",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Audit",
+      "type": "concept",
+      "name": "Audit",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Audit",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Email Sending (Deferred)",
+      "type": "concept",
+      "name": "Email Sending (Deferred)",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Email Sending (Deferred)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Error Handling",
+      "type": "concept",
+      "name": "Error Handling",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Error Handling",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Files to Create/Modify",
+      "type": "concept",
+      "name": "Files to Create/Modify",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Files to Create/Modify",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:SPEC_password_recovery.md:Migration",
+      "type": "concept",
+      "name": "Migration",
+      "filePath": "SPEC_password_recovery.md",
+      "summary": "Section: Migration",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "config:components.json",
+      "type": "config",
+      "name": "components.json",
+      "filePath": "components.json",
+      "summary": "components.json (json) — 21 lines. 7 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:components.json:$schema",
+      "type": "concept",
+      "name": "$schema",
+      "filePath": "components.json",
+      "summary": "Section: $schema",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:components.json:style",
+      "type": "concept",
+      "name": "style",
+      "filePath": "components.json",
+      "summary": "Section: style",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:components.json:rsc",
+      "type": "concept",
+      "name": "rsc",
+      "filePath": "components.json",
+      "summary": "Section: rsc",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:components.json:tsx",
+      "type": "concept",
+      "name": "tsx",
+      "filePath": "components.json",
+      "summary": "Section: tsx",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:components.json:tailwind",
+      "type": "concept",
+      "name": "tailwind",
+      "filePath": "components.json",
+      "summary": "Section: tailwind",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:components.json:aliases",
+      "type": "concept",
+      "name": "aliases",
+      "filePath": "components.json",
+      "summary": "Section: aliases",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:components.json:iconLibrary",
+      "type": "concept",
+      "name": "iconLibrary",
+      "filePath": "components.json",
+      "summary": "Section: iconLibrary",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "file:deploy.sh",
+      "type": "file",
+      "name": "deploy.sh",
+      "filePath": "deploy.sh",
+      "summary": "deploy.sh (shell) — 49 lines.",
+      "tags": [
+        "shell",
+        "script"
+      ],
+      "complexity": "simple",
+      "language": "shell"
+    },
+    {
+      "id": "file:frontend-preview.html",
+      "type": "file",
+      "name": "frontend-preview.html",
+      "filePath": "frontend-preview.html",
+      "summary": "frontend-preview.html (html) — 429 lines.",
+      "tags": [
+        "html",
+        "markup"
+      ],
+      "complexity": "complex",
+      "language": "html"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "package.json (json) — 87 lines. 8 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:name",
+      "type": "concept",
+      "name": "name",
+      "filePath": "package.json",
+      "summary": "Section: name",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:packageManager",
+      "type": "concept",
+      "name": "packageManager",
+      "filePath": "package.json",
+      "summary": "Section: packageManager",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:private",
+      "type": "concept",
+      "name": "private",
+      "filePath": "package.json",
+      "summary": "Section: private",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:version",
+      "type": "concept",
+      "name": "version",
+      "filePath": "package.json",
+      "summary": "Section: version",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:type",
+      "type": "concept",
+      "name": "type",
+      "filePath": "package.json",
+      "summary": "Section: type",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:scripts",
+      "type": "concept",
+      "name": "scripts",
+      "filePath": "package.json",
+      "summary": "Section: scripts",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:dependencies",
+      "type": "concept",
+      "name": "dependencies",
+      "filePath": "package.json",
+      "summary": "Section: dependencies",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:package.json:devDependencies",
+      "type": "concept",
+      "name": "devDependencies",
+      "filePath": "package.json",
+      "summary": "Section: devDependencies",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "config:tsconfig.json",
+      "type": "config",
+      "name": "tsconfig.json",
+      "filePath": "tsconfig.json",
+      "summary": "tsconfig.json (json) — 24 lines. 3 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:tsconfig.json:compilerOptions",
+      "type": "concept",
+      "name": "compilerOptions",
+      "filePath": "tsconfig.json",
+      "summary": "Section: compilerOptions",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:tsconfig.json:include",
+      "type": "concept",
+      "name": "include",
+      "filePath": "tsconfig.json",
+      "summary": "Section: include",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:tsconfig.json:exclude",
+      "type": "concept",
+      "name": "exclude",
+      "filePath": "tsconfig.json",
+      "summary": "Section: exclude",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "config:vercel.json",
+      "type": "config",
+      "name": "vercel.json",
+      "filePath": "vercel.json",
+      "summary": "vercel.json (json) — 29 lines. 2 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:vercel.json:rewrites",
+      "type": "concept",
+      "name": "rewrites",
+      "filePath": "vercel.json",
+      "summary": "Section: rewrites",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:vercel.json:headers",
+      "type": "concept",
+      "name": "headers",
+      "filePath": "vercel.json",
+      "summary": "Section: headers",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "config:version.yml",
+      "type": "config",
+      "name": "version.yml",
+      "filePath": "version.yml",
+      "summary": "version.yml (yaml) — 5 lines. 5 sections.",
+      "tags": [
+        "yaml",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:version.yml:internalType",
+      "type": "concept",
+      "name": "internalType",
+      "filePath": "version.yml",
+      "summary": "Section: internalType",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:version.yml:projectName",
+      "type": "concept",
+      "name": "projectName",
+      "filePath": "version.yml",
+      "summary": "Section: projectName",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:version.yml:uiBakeryVersion",
+      "type": "concept",
+      "name": "uiBakeryVersion",
+      "filePath": "version.yml",
+      "summary": "Section: uiBakeryVersion",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:version.yml:modelVersion",
+      "type": "concept",
+      "name": "modelVersion",
+      "filePath": "version.yml",
+      "summary": "Section: modelVersion",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    },
+    {
+      "id": "concept:version.yml:fileSystemVersion",
+      "type": "concept",
+      "name": "fileSystemVersion",
+      "filePath": "version.yml",
+      "summary": "Section: fileSystemVersion",
+      "tags": [
+        "yaml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "yaml"
+    }
+  ],
+  "edges": [
+    {
+      "source": "config:.env.production",
+      "target": "concept:.env.production:VITE_COMPUTE_API_URL",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:PTP-102 Trial App — Deployment Guide",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Production URL",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Hosting model",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Why a localStorage session adapter?",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Build & deploy",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Local build",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:4EVERLAND project settings",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Cloudflare Pages project settings",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Verification checklist",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Authentication",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Test fixtures (non-production)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Production credentials",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Vet onboarding",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Registration flow (IPFS / static deployments)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Supabase setup",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Edge Function deployment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Allowed origins",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Email confirmation (recommended)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Storage bucket and RLS",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Path scheme",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Required RLS policies",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Verifying the bucket end-to-end",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Why direct browser upload (no /api/upload)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:IPFS / ENS considerations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:URL stability",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:SPA routing",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Security headers",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Data layer (current state)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Troubleshooting",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Build fails on the deploy provider",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Auth works locally but fails on `byrock.eth.limo`",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Build-pinned 4EVERLAND URL changed",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Data disappeared after refresh",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Outstanding security tasks",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:DEPLOYMENT.md",
+      "target": "concept:DEPLOYMENT.md:Documentation map",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:E2E_VET_ADMIN_WORKFLOW.md",
+      "target": "concept:E2E_VET_ADMIN_WORKFLOW.md:Vet/Admin End-to-End Workflow Test",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:E2E_VET_ADMIN_WORKFLOW.md",
+      "target": "concept:E2E_VET_ADMIN_WORKFLOW.md:What it covers",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:E2E_VET_ADMIN_WORKFLOW.md",
+      "target": "concept:E2E_VET_ADMIN_WORKFLOW.md:Required safe environment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:E2E_VET_ADMIN_WORKFLOW.md",
+      "target": "concept:E2E_VET_ADMIN_WORKFLOW.md:Backend state endpoint contract",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:E2E_VET_ADMIN_WORKFLOW.md",
+      "target": "concept:E2E_VET_ADMIN_WORKFLOW.md:Commands",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:E2E_VET_ADMIN_WORKFLOW.md",
+      "target": "concept:E2E_VET_ADMIN_WORKFLOW.md:Regression recommendations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:PTP-102 Laminitis Trial Portal — Complete Feature Snapshot",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:1. Frontend Feature Overview",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Authentication & Access Control",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Dashboard (Admin View)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Dashboard (Veterinarian View)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Patient Case Workspace (Per-Horse View)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Header & Context",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Compliance Gates",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Clinical Tabs",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Side Panels",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Admin Compliance Dashboard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Regulatory & Safety Features",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Communication & Support",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:2. Security Features & FDA Readiness",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Authentication & Access Security",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Data Integrity & Audit Trails (21 CFR Part 11 Foundation)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:FDA CVM Compliance Framework",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Clinical Data Validation",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Video & Media Security",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:3. End-of-Trial FDA Reporting: One-Click Complete Export",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:The Report Generator (`src/lib/reportGenerator.ts`)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:What Gets Exported",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Regulatory Markings",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:How It Works for Colleagues",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:Data Model Summary for FDA Review",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:PTP102_Platform_Snapshot.md",
+      "target": "concept:PTP102_Platform_Snapshot.md:4. Known Gaps & Recommended Next Steps",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:PTP-102 Veterinary Laminitis Trials",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Quick start",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Stack",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Project layout",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Routes (HashRouter)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Data layer",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:A. Supabase (real backend)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:B. UIBakery localStorage mock",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Database migrations — important caveat",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Stubbed / incomplete features",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:E2E secure-upload script",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Documentation index",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:README.md",
+      "target": "concept:README.md:Conventions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Password Recovery — Implementation Spec",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Overview",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Storage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Table: `recovery_tokens`",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Edge Function: `recovery-request`",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Route",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Request",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Logic",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Rate Limiting",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Edge Function: `recovery-complete`",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Route",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Request",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Logic",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Session Invalidation",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Admin-Initiated Recovery",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Location",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Implementation",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Audit",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Email Sending (Deferred)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Error Handling",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Files to Create/Modify",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:SPEC_password_recovery.md",
+      "target": "concept:SPEC_password_recovery.md:Migration",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:components.json",
+      "target": "concept:components.json:$schema",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:components.json",
+      "target": "concept:components.json:style",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:components.json",
+      "target": "concept:components.json:rsc",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:components.json",
+      "target": "concept:components.json:tsx",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:components.json",
+      "target": "concept:components.json:tailwind",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:components.json",
+      "target": "concept:components.json:aliases",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:components.json",
+      "target": "concept:components.json:iconLibrary",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:name",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:packageManager",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:private",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:version",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:type",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:scripts",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:dependencies",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:package.json",
+      "target": "concept:package.json:devDependencies",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:tsconfig.json",
+      "target": "concept:tsconfig.json:compilerOptions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:tsconfig.json",
+      "target": "concept:tsconfig.json:include",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:tsconfig.json",
+      "target": "concept:tsconfig.json:exclude",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:vercel.json",
+      "target": "concept:vercel.json:rewrites",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:vercel.json",
+      "target": "concept:vercel.json:headers",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:version.yml",
+      "target": "concept:version.yml:internalType",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:version.yml",
+      "target": "concept:version.yml:projectName",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:version.yml",
+      "target": "concept:version.yml:uiBakeryVersion",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:version.yml",
+      "target": "concept:version.yml:modelVersion",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:version.yml",
+      "target": "concept:version.yml:fileSystemVersion",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

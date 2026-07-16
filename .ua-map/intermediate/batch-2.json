@@ -1,0 +1,227 @@
+{
+  "nodes": [
+    {
+      "id": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "type": "resource",
+      "name": "20250626_hoof_xray_tables.sql",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "20250626_hoof_xray_tables.sql (sql) — 110 lines.",
+      "tags": [
+        "sql",
+        "data"
+      ],
+      "complexity": "moderate",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:public",
+      "type": "concept",
+      "name": "public",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "table public",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_hoof_xrays_patient",
+      "type": "concept",
+      "name": "idx_hoof_xrays_patient",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_hoof_xrays_patient",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_hoof_xrays_vet",
+      "type": "concept",
+      "name": "idx_hoof_xrays_vet",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_hoof_xrays_vet",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_hoof_xrays_scan_date",
+      "type": "concept",
+      "name": "idx_hoof_xrays_scan_date",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_hoof_xrays_scan_date",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_landmarks_xray",
+      "type": "concept",
+      "name": "idx_xray_landmarks_xray",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_xray_landmarks_xray",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_measurements_xray",
+      "type": "concept",
+      "name": "idx_xray_measurements_xray",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_xray_measurements_xray",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_user",
+      "type": "concept",
+      "name": "idx_xray_audit_log_user",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_xray_audit_log_user",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_xray",
+      "type": "concept",
+      "name": "idx_xray_audit_log_xray",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_xray_audit_log_xray",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_action",
+      "type": "concept",
+      "name": "idx_xray_audit_log_action",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_xray_audit_log_action",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_created",
+      "type": "concept",
+      "name": "idx_xray_audit_log_created",
+      "filePath": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "summary": "index idx_xray_audit_log_created",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    }
+  ],
+  "edges": [
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:public",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:public",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:public",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:public",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_hoof_xrays_patient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_hoof_xrays_vet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_hoof_xrays_scan_date",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_landmarks_xray",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_measurements_xray",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_user",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_xray",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_action",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:supabase/migrations/20250626_hoof_xray_tables.sql",
+      "target": "concept:supabase/migrations/20250626_hoof_xray_tables.sql:idx_xray_audit_log_created",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

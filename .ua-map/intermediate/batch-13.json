@@ -1,0 +1,993 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/components/ResearchHub.tsx",
+      "type": "file",
+      "name": "ResearchHub.tsx",
+      "filePath": "src/components/ResearchHub.tsx",
+      "summary": "ResearchHub.tsx (typescript) — 360 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ResearchHub.tsx:ResearchHub",
+      "type": "function",
+      "name": "ResearchHub",
+      "filePath": "src/components/ResearchHub.tsx",
+      "summary": "Function ResearchHub in ResearchHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ResearchHub.tsx:AlertBanner",
+      "type": "function",
+      "name": "AlertBanner",
+      "filePath": "src/components/ResearchHub.tsx",
+      "summary": "Function AlertBanner in ResearchHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ResearchHub.tsx:ResearchDocCard",
+      "type": "function",
+      "name": "ResearchDocCard",
+      "filePath": "src/components/ResearchHub.tsx",
+      "summary": "Function ResearchDocCard in ResearchHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/SecureFileUploadButton.tsx",
+      "type": "file",
+      "name": "SecureFileUploadButton.tsx",
+      "filePath": "src/components/SecureFileUploadButton.tsx",
+      "summary": "SecureFileUploadButton.tsx (typescript) — 80 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/SecureFileUploadButton.tsx:SecureFileUploadButton",
+      "type": "function",
+      "name": "SecureFileUploadButton",
+      "filePath": "src/components/SecureFileUploadButton.tsx",
+      "summary": "Function SecureFileUploadButton in SecureFileUploadButton.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/StatusBadge.tsx",
+      "type": "file",
+      "name": "StatusBadge.tsx",
+      "filePath": "src/components/StatusBadge.tsx",
+      "summary": "StatusBadge.tsx (typescript) — 73 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/StatusBadge.tsx:StatusBadge",
+      "type": "function",
+      "name": "StatusBadge",
+      "filePath": "src/components/StatusBadge.tsx",
+      "summary": "Function StatusBadge in StatusBadge.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/StorageConditionsCard.tsx",
+      "type": "file",
+      "name": "StorageConditionsCard.tsx",
+      "filePath": "src/components/StorageConditionsCard.tsx",
+      "summary": "StorageConditionsCard.tsx (typescript) — 244 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/StorageConditionsCard.tsx:StorageConfirmationStatusBadge",
+      "type": "function",
+      "name": "StorageConfirmationStatusBadge",
+      "filePath": "src/components/StorageConditionsCard.tsx",
+      "summary": "Function StorageConfirmationStatusBadge in StorageConditionsCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/StorageConditionsCard.tsx:StorageConditionsCard",
+      "type": "function",
+      "name": "StorageConditionsCard",
+      "filePath": "src/components/StorageConditionsCard.tsx",
+      "summary": "Function StorageConditionsCard in StorageConditionsCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/TermsAndConditionsScreen.tsx",
+      "type": "file",
+      "name": "TermsAndConditionsScreen.tsx",
+      "filePath": "src/components/TermsAndConditionsScreen.tsx",
+      "summary": "TermsAndConditionsScreen.tsx (typescript) — 639 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/TermsAndConditionsScreen.tsx:TermsAndConditionsScreen",
+      "type": "function",
+      "name": "TermsAndConditionsScreen",
+      "filePath": "src/components/TermsAndConditionsScreen.tsx",
+      "summary": "Function TermsAndConditionsScreen in TermsAndConditionsScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/TreatmentTimeline.tsx",
+      "type": "file",
+      "name": "TreatmentTimeline.tsx",
+      "filePath": "src/components/TreatmentTimeline.tsx",
+      "summary": "TreatmentTimeline.tsx (typescript) — 253 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/TreatmentTimeline.tsx:TreatmentTimelineImpl",
+      "type": "function",
+      "name": "TreatmentTimelineImpl",
+      "filePath": "src/components/TreatmentTimeline.tsx",
+      "summary": "Function TreatmentTimelineImpl in TreatmentTimeline.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/TrialOperationsHub.tsx",
+      "type": "file",
+      "name": "TrialOperationsHub.tsx",
+      "filePath": "src/components/TrialOperationsHub.tsx",
+      "summary": "TrialOperationsHub.tsx (typescript) — 90 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/TrialOperationsHub.tsx:TrialOperationsHub",
+      "type": "function",
+      "name": "TrialOperationsHub",
+      "filePath": "src/components/TrialOperationsHub.tsx",
+      "summary": "Function TrialOperationsHub in TrialOperationsHub.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "type": "file",
+      "name": "TrialReadinessStatusPanel.tsx",
+      "filePath": "src/components/TrialReadinessStatusPanel.tsx",
+      "summary": "TrialReadinessStatusPanel.tsx (typescript) — 258 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/TrialReadinessStatusPanel.tsx:TrialReadinessStatusPanel",
+      "type": "function",
+      "name": "TrialReadinessStatusPanel",
+      "filePath": "src/components/TrialReadinessStatusPanel.tsx",
+      "summary": "Function TrialReadinessStatusPanel in TrialReadinessStatusPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/alert-dialog.tsx",
+      "type": "file",
+      "name": "alert-dialog.tsx",
+      "filePath": "src/components/ui/alert-dialog.tsx",
+      "summary": "alert-dialog.tsx (typescript) — 139 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/alert-dialog.tsx:AlertDialogHeader",
+      "type": "function",
+      "name": "AlertDialogHeader",
+      "filePath": "src/components/ui/alert-dialog.tsx",
+      "summary": "Function AlertDialogHeader in alert-dialog.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/alert-dialog.tsx:AlertDialogFooter",
+      "type": "function",
+      "name": "AlertDialogFooter",
+      "filePath": "src/components/ui/alert-dialog.tsx",
+      "summary": "Function AlertDialogFooter in alert-dialog.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/alert.tsx",
+      "type": "file",
+      "name": "alert.tsx",
+      "filePath": "src/components/ui/alert.tsx",
+      "summary": "alert.tsx (typescript) — 60 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/badge.tsx",
+      "type": "file",
+      "name": "badge.tsx",
+      "filePath": "src/components/ui/badge.tsx",
+      "summary": "badge.tsx (typescript) — 37 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/badge.tsx:Badge",
+      "type": "function",
+      "name": "Badge",
+      "filePath": "src/components/ui/badge.tsx",
+      "summary": "Function Badge in badge.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/breadcrumb.tsx",
+      "type": "file",
+      "name": "breadcrumb.tsx",
+      "filePath": "src/components/ui/breadcrumb.tsx",
+      "summary": "breadcrumb.tsx (typescript) — 115 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/breadcrumb.tsx:BreadcrumbSeparator",
+      "type": "function",
+      "name": "BreadcrumbSeparator",
+      "filePath": "src/components/ui/breadcrumb.tsx",
+      "summary": "Function BreadcrumbSeparator in breadcrumb.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/breadcrumb.tsx:BreadcrumbEllipsis",
+      "type": "function",
+      "name": "BreadcrumbEllipsis",
+      "filePath": "src/components/ui/breadcrumb.tsx",
+      "summary": "Function BreadcrumbEllipsis in breadcrumb.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/button.tsx",
+      "type": "file",
+      "name": "button.tsx",
+      "filePath": "src/components/ui/button.tsx",
+      "summary": "button.tsx (typescript) — 56 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/card.tsx",
+      "type": "file",
+      "name": "card.tsx",
+      "filePath": "src/components/ui/card.tsx",
+      "summary": "card.tsx (typescript) — 80 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/checkbox.tsx",
+      "type": "file",
+      "name": "checkbox.tsx",
+      "filePath": "src/components/ui/checkbox.tsx",
+      "summary": "checkbox.tsx (typescript) — 28 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/dialog.tsx",
+      "type": "file",
+      "name": "dialog.tsx",
+      "filePath": "src/components/ui/dialog.tsx",
+      "summary": "dialog.tsx (typescript) — 120 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/dialog.tsx:DialogHeader",
+      "type": "function",
+      "name": "DialogHeader",
+      "filePath": "src/components/ui/dialog.tsx",
+      "summary": "Function DialogHeader in dialog.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/dialog.tsx:DialogFooter",
+      "type": "function",
+      "name": "DialogFooter",
+      "filePath": "src/components/ui/dialog.tsx",
+      "summary": "Function DialogFooter in dialog.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/form.tsx",
+      "type": "file",
+      "name": "form.tsx",
+      "filePath": "src/components/ui/form.tsx",
+      "summary": "form.tsx (typescript) — 177 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/form.tsx:FormField",
+      "type": "function",
+      "name": "FormField",
+      "filePath": "src/components/ui/form.tsx",
+      "summary": "Function FormField in form.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/form.tsx:useFormField",
+      "type": "function",
+      "name": "useFormField",
+      "filePath": "src/components/ui/form.tsx",
+      "summary": "Function useFormField in form.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/input.tsx",
+      "type": "file",
+      "name": "input.tsx",
+      "filePath": "src/components/ui/input.tsx",
+      "summary": "input.tsx (typescript) — 22 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/label.tsx",
+      "type": "file",
+      "name": "label.tsx",
+      "filePath": "src/components/ui/label.tsx",
+      "summary": "label.tsx (typescript) — 24 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/scroll-area.tsx",
+      "type": "file",
+      "name": "scroll-area.tsx",
+      "filePath": "src/components/ui/scroll-area.tsx",
+      "summary": "scroll-area.tsx (typescript) — 32 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/select.tsx",
+      "type": "file",
+      "name": "select.tsx",
+      "filePath": "src/components/ui/select.tsx",
+      "summary": "select.tsx (typescript) — 159 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/separator.tsx",
+      "type": "file",
+      "name": "separator.tsx",
+      "filePath": "src/components/ui/separator.tsx",
+      "summary": "separator.tsx (typescript) — 32 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/skeleton.tsx",
+      "type": "file",
+      "name": "skeleton.tsx",
+      "filePath": "src/components/ui/skeleton.tsx",
+      "summary": "skeleton.tsx (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/skeleton.tsx:Skeleton",
+      "type": "function",
+      "name": "Skeleton",
+      "filePath": "src/components/ui/skeleton.tsx",
+      "summary": "Function Skeleton in skeleton.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/sonner.tsx",
+      "type": "file",
+      "name": "sonner.tsx",
+      "filePath": "src/components/ui/sonner.tsx",
+      "summary": "sonner.tsx (typescript) — 34 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ui/sonner.tsx:Toaster",
+      "type": "function",
+      "name": "Toaster",
+      "filePath": "src/components/ui/sonner.tsx",
+      "summary": "Function Toaster in sonner.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ui/table.tsx",
+      "type": "file",
+      "name": "table.tsx",
+      "filePath": "src/components/ui/table.tsx",
+      "summary": "table.tsx (typescript) — 121 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "function:src/components/ResearchHub.tsx:ResearchHub",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "function:src/components/ResearchHub.tsx:AlertBanner",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "function:src/components/ResearchHub.tsx:ResearchDocCard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/SecureFileUploadButton.tsx",
+      "target": "function:src/components/SecureFileUploadButton.tsx:SecureFileUploadButton",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/StatusBadge.tsx",
+      "target": "function:src/components/StatusBadge.tsx:StatusBadge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "function:src/components/StorageConditionsCard.tsx:StorageConfirmationStatusBadge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "function:src/components/StorageConditionsCard.tsx:StorageConditionsCard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "function:src/components/TermsAndConditionsScreen.tsx:TermsAndConditionsScreen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/TreatmentTimeline.tsx",
+      "target": "function:src/components/TreatmentTimeline.tsx:TreatmentTimelineImpl",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/TrialOperationsHub.tsx",
+      "target": "function:src/components/TrialOperationsHub.tsx:TrialOperationsHub",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "function:src/components/TrialReadinessStatusPanel.tsx:TrialReadinessStatusPanel",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/alert-dialog.tsx",
+      "target": "function:src/components/ui/alert-dialog.tsx:AlertDialogHeader",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/alert-dialog.tsx",
+      "target": "function:src/components/ui/alert-dialog.tsx:AlertDialogFooter",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/badge.tsx",
+      "target": "function:src/components/ui/badge.tsx:Badge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/breadcrumb.tsx",
+      "target": "function:src/components/ui/breadcrumb.tsx:BreadcrumbSeparator",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/breadcrumb.tsx",
+      "target": "function:src/components/ui/breadcrumb.tsx:BreadcrumbEllipsis",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/dialog.tsx",
+      "target": "function:src/components/ui/dialog.tsx:DialogHeader",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/dialog.tsx",
+      "target": "function:src/components/ui/dialog.tsx:DialogFooter",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/form.tsx",
+      "target": "function:src/components/ui/form.tsx:FormField",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/form.tsx",
+      "target": "function:src/components/ui/form.tsx:useFormField",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/skeleton.tsx",
+      "target": "function:src/components/ui/skeleton.tsx:Skeleton",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ui/sonner.tsx",
+      "target": "function:src/components/ui/sonner.tsx:Toaster",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "file:src/components/ui/badge.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "file:src/components/ui/button.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "file:src/components/ui/card.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "file:src/components/ui/dialog.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/ResearchHub.tsx",
+      "target": "file:src/components/ui/scroll-area.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/SecureFileUploadButton.tsx",
+      "target": "file:src/components/ui/button.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StatusBadge.tsx",
+      "target": "file:src/components/ui/badge.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/alert.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/badge.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/button.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/card.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/checkbox.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/input.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/label.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/StorageConditionsCard.tsx",
+      "target": "file:src/components/ui/select.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "file:src/components/ui/alert.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "file:src/components/ui/button.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "file:src/components/ui/card.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "file:src/components/ui/checkbox.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "file:src/components/ui/form.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "file:src/components/ui/input.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TermsAndConditionsScreen.tsx",
+      "target": "file:src/components/ui/scroll-area.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialOperationsHub.tsx",
+      "target": "file:src/components/StorageConditionsCard.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialOperationsHub.tsx",
+      "target": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialOperationsHub.tsx",
+      "target": "file:src/components/ui/scroll-area.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "file:src/components/ui/alert.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "file:src/components/ui/badge.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "file:src/components/ui/button.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "file:src/components/ui/card.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "file:src/components/ui/dialog.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "file:src/components/ui/label.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/TrialReadinessStatusPanel.tsx",
+      "target": "file:src/components/ui/select.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/ui/alert-dialog.tsx",
+      "target": "file:src/components/ui/button.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/ui/form.tsx",
+      "target": "file:src/components/ui/label.tsx",
+      "type": "imports",
+      "weight": 0.7
+    }
+  ]
+}

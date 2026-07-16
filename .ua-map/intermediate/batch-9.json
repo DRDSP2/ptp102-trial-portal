@@ -1,0 +1,831 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/actions/loadAllTrialsData.ts",
+      "type": "file",
+      "name": "loadAllTrialsData.ts",
+      "filePath": "src/actions/loadAllTrialsData.ts",
+      "summary": "loadAllTrialsData.ts (typescript) — 36 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadAllTrialsData.ts:loadAllTrialsData",
+      "type": "function",
+      "name": "loadAllTrialsData",
+      "filePath": "src/actions/loadAllTrialsData.ts",
+      "summary": "Function loadAllTrialsData in loadAllTrialsData.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadAuditLogs.ts",
+      "type": "file",
+      "name": "loadAuditLogs.ts",
+      "filePath": "src/actions/loadAuditLogs.ts",
+      "summary": "loadAuditLogs.ts (typescript) — 21 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadAuditLogs.ts:loadAuditLogs",
+      "type": "function",
+      "name": "loadAuditLogs",
+      "filePath": "src/actions/loadAuditLogs.ts",
+      "summary": "Function loadAuditLogs in loadAuditLogs.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadCommunicationMessages.ts",
+      "type": "file",
+      "name": "loadCommunicationMessages.ts",
+      "filePath": "src/actions/loadCommunicationMessages.ts",
+      "summary": "loadCommunicationMessages.ts (typescript) — 16 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadCommunicationMessages.ts:loadCommunicationMessages",
+      "type": "function",
+      "name": "loadCommunicationMessages",
+      "filePath": "src/actions/loadCommunicationMessages.ts",
+      "summary": "Function loadCommunicationMessages in loadCommunicationMessages.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadCompletePatientTrialData.ts",
+      "type": "file",
+      "name": "loadCompletePatientTrialData.ts",
+      "filePath": "src/actions/loadCompletePatientTrialData.ts",
+      "summary": "loadCompletePatientTrialData.ts (typescript) — 101 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadCompletePatientTrialData.ts:loadCompletePatientTrialData",
+      "type": "function",
+      "name": "loadCompletePatientTrialData",
+      "filePath": "src/actions/loadCompletePatientTrialData.ts",
+      "summary": "Function loadCompletePatientTrialData in loadCompletePatientTrialData.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadEnrollmentEligibility.ts",
+      "type": "file",
+      "name": "loadEnrollmentEligibility.ts",
+      "filePath": "src/actions/loadEnrollmentEligibility.ts",
+      "summary": "loadEnrollmentEligibility.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadEnrollmentEligibility.ts:loadEnrollmentEligibility",
+      "type": "function",
+      "name": "loadEnrollmentEligibility",
+      "filePath": "src/actions/loadEnrollmentEligibility.ts",
+      "summary": "Function loadEnrollmentEligibility in loadEnrollmentEligibility.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadFDACorrespondence.ts",
+      "type": "file",
+      "name": "loadFDACorrespondence.ts",
+      "filePath": "src/actions/loadFDACorrespondence.ts",
+      "summary": "loadFDACorrespondence.ts (typescript) — 13 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadFDACorrespondence.ts:loadFDACorrespondence",
+      "type": "function",
+      "name": "loadFDACorrespondence",
+      "filePath": "src/actions/loadFDACorrespondence.ts",
+      "summary": "Function loadFDACorrespondence in loadFDACorrespondence.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadHoofXrays.ts",
+      "type": "file",
+      "name": "loadHoofXrays.ts",
+      "filePath": "src/actions/loadHoofXrays.ts",
+      "summary": "loadHoofXrays.ts (typescript) — 36 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadHoofXrays.ts:loadHoofXrays",
+      "type": "function",
+      "name": "loadHoofXrays",
+      "filePath": "src/actions/loadHoofXrays.ts",
+      "summary": "Function loadHoofXrays in loadHoofXrays.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadInformedConsentByPatient.ts",
+      "type": "file",
+      "name": "loadInformedConsentByPatient.ts",
+      "filePath": "src/actions/loadInformedConsentByPatient.ts",
+      "summary": "loadInformedConsentByPatient.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadInformedConsentByPatient.ts:loadInformedConsentByPatient",
+      "type": "function",
+      "name": "loadInformedConsentByPatient",
+      "filePath": "src/actions/loadInformedConsentByPatient.ts",
+      "summary": "Function loadInformedConsentByPatient in loadInformedConsentByPatient.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadInvestigatorQualification.ts",
+      "type": "file",
+      "name": "loadInvestigatorQualification.ts",
+      "filePath": "src/actions/loadInvestigatorQualification.ts",
+      "summary": "loadInvestigatorQualification.ts (typescript) — 17 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadInvestigatorQualification.ts:loadInvestigatorQualification",
+      "type": "function",
+      "name": "loadInvestigatorQualification",
+      "filePath": "src/actions/loadInvestigatorQualification.ts",
+      "summary": "Function loadInvestigatorQualification in loadInvestigatorQualification.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadMonitoringVisits.ts",
+      "type": "file",
+      "name": "loadMonitoringVisits.ts",
+      "filePath": "src/actions/loadMonitoringVisits.ts",
+      "summary": "loadMonitoringVisits.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadMonitoringVisits.ts:loadMonitoringVisits",
+      "type": "function",
+      "name": "loadMonitoringVisits",
+      "filePath": "src/actions/loadMonitoringVisits.ts",
+      "summary": "Function loadMonitoringVisits in loadMonitoringVisits.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadNCIEShipments.ts",
+      "type": "file",
+      "name": "loadNCIEShipments.ts",
+      "filePath": "src/actions/loadNCIEShipments.ts",
+      "summary": "loadNCIEShipments.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadNCIEShipments.ts:loadNCIEShipments",
+      "type": "function",
+      "name": "loadNCIEShipments",
+      "filePath": "src/actions/loadNCIEShipments.ts",
+      "summary": "Function loadNCIEShipments in loadNCIEShipments.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadNCIEShipmentsByVet.ts",
+      "type": "file",
+      "name": "loadNCIEShipmentsByVet.ts",
+      "filePath": "src/actions/loadNCIEShipmentsByVet.ts",
+      "summary": "loadNCIEShipmentsByVet.ts (typescript) — 40 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadNCIEShipmentsByVet.ts:loadNCIEShipmentsByVet",
+      "type": "function",
+      "name": "loadNCIEShipmentsByVet",
+      "filePath": "src/actions/loadNCIEShipmentsByVet.ts",
+      "summary": "Function loadNCIEShipmentsByVet in loadNCIEShipmentsByVet.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadPatientById.ts",
+      "type": "file",
+      "name": "loadPatientById.ts",
+      "filePath": "src/actions/loadPatientById.ts",
+      "summary": "loadPatientById.ts (typescript) — 13 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadPatientById.ts:loadPatientById",
+      "type": "function",
+      "name": "loadPatientById",
+      "filePath": "src/actions/loadPatientById.ts",
+      "summary": "Function loadPatientById in loadPatientById.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadPatientCaseData.ts",
+      "type": "file",
+      "name": "loadPatientCaseData.ts",
+      "filePath": "src/actions/loadPatientCaseData.ts",
+      "summary": "loadPatientCaseData.ts (typescript) — 104 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadPatientCaseData.ts:loadPatientCaseData",
+      "type": "function",
+      "name": "loadPatientCaseData",
+      "filePath": "src/actions/loadPatientCaseData.ts",
+      "summary": "Function loadPatientCaseData in loadPatientCaseData.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadPatients.ts",
+      "type": "file",
+      "name": "loadPatients.ts",
+      "filePath": "src/actions/loadPatients.ts",
+      "summary": "loadPatients.ts (typescript) — 28 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadPatients.ts:loadPatients",
+      "type": "function",
+      "name": "loadPatients",
+      "filePath": "src/actions/loadPatients.ts",
+      "summary": "Function loadPatients in loadPatients.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadProtocolDeviations.ts",
+      "type": "file",
+      "name": "loadProtocolDeviations.ts",
+      "filePath": "src/actions/loadProtocolDeviations.ts",
+      "summary": "loadProtocolDeviations.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadProtocolDeviations.ts:loadProtocolDeviations",
+      "type": "function",
+      "name": "loadProtocolDeviations",
+      "filePath": "src/actions/loadProtocolDeviations.ts",
+      "summary": "Function loadProtocolDeviations in loadProtocolDeviations.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadProtocolVersions.ts",
+      "type": "file",
+      "name": "loadProtocolVersions.ts",
+      "filePath": "src/actions/loadProtocolVersions.ts",
+      "summary": "loadProtocolVersions.ts (typescript) — 13 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadProtocolVersions.ts:loadProtocolVersions",
+      "type": "function",
+      "name": "loadProtocolVersions",
+      "filePath": "src/actions/loadProtocolVersions.ts",
+      "summary": "Function loadProtocolVersions in loadProtocolVersions.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadRecentVetActivity.ts",
+      "type": "file",
+      "name": "loadRecentVetActivity.ts",
+      "filePath": "src/actions/loadRecentVetActivity.ts",
+      "summary": "loadRecentVetActivity.ts (typescript) — 22 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadRecentVetActivity.ts:loadRecentVetActivity",
+      "type": "function",
+      "name": "loadRecentVetActivity",
+      "filePath": "src/actions/loadRecentVetActivity.ts",
+      "summary": "Function loadRecentVetActivity in loadRecentVetActivity.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadRegulatoryTrialsData.ts",
+      "type": "file",
+      "name": "loadRegulatoryTrialsData.ts",
+      "filePath": "src/actions/loadRegulatoryTrialsData.ts",
+      "summary": "loadRegulatoryTrialsData.ts (typescript) — 103 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadRegulatoryTrialsData.ts:loadRegulatoryTrialsData",
+      "type": "function",
+      "name": "loadRegulatoryTrialsData",
+      "filePath": "src/actions/loadRegulatoryTrialsData.ts",
+      "summary": "Function loadRegulatoryTrialsData in loadRegulatoryTrialsData.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadSiteQualifications.ts",
+      "type": "file",
+      "name": "loadSiteQualifications.ts",
+      "filePath": "src/actions/loadSiteQualifications.ts",
+      "summary": "loadSiteQualifications.ts (typescript) — 13 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadSiteQualifications.ts:loadSiteQualifications",
+      "type": "function",
+      "name": "loadSiteQualifications",
+      "filePath": "src/actions/loadSiteQualifications.ts",
+      "summary": "Function loadSiteQualifications in loadSiteQualifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadStudySettings.ts",
+      "type": "file",
+      "name": "loadStudySettings.ts",
+      "filePath": "src/actions/loadStudySettings.ts",
+      "summary": "loadStudySettings.ts (typescript) — 12 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadStudySettings.ts:loadStudySettings",
+      "type": "function",
+      "name": "loadStudySettings",
+      "filePath": "src/actions/loadStudySettings.ts",
+      "summary": "Function loadStudySettings in loadStudySettings.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadSupplyShipments.ts",
+      "type": "file",
+      "name": "loadSupplyShipments.ts",
+      "filePath": "src/actions/loadSupplyShipments.ts",
+      "summary": "loadSupplyShipments.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadSupplyShipments.ts:loadSupplyShipments",
+      "type": "function",
+      "name": "loadSupplyShipments",
+      "filePath": "src/actions/loadSupplyShipments.ts",
+      "summary": "Function loadSupplyShipments in loadSupplyShipments.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadSupplyShipmentsByVet.ts",
+      "type": "file",
+      "name": "loadSupplyShipmentsByVet.ts",
+      "filePath": "src/actions/loadSupplyShipmentsByVet.ts",
+      "summary": "loadSupplyShipmentsByVet.ts (typescript) — 16 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadSupplyShipmentsByVet.ts:loadSupplyShipmentsByVet",
+      "type": "function",
+      "name": "loadSupplyShipmentsByVet",
+      "filePath": "src/actions/loadSupplyShipmentsByVet.ts",
+      "summary": "Function loadSupplyShipmentsByVet in loadSupplyShipmentsByVet.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadTreatmentOutcomes.ts",
+      "type": "file",
+      "name": "loadTreatmentOutcomes.ts",
+      "filePath": "src/actions/loadTreatmentOutcomes.ts",
+      "summary": "loadTreatmentOutcomes.ts (typescript) — 14 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadTreatmentOutcomes.ts:loadTreatmentOutcomes",
+      "type": "function",
+      "name": "loadTreatmentOutcomes",
+      "filePath": "src/actions/loadTreatmentOutcomes.ts",
+      "summary": "Function loadTreatmentOutcomes in loadTreatmentOutcomes.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/loadVeterinarians.ts",
+      "type": "file",
+      "name": "loadVeterinarians.ts",
+      "filePath": "src/actions/loadVeterinarians.ts",
+      "summary": "loadVeterinarians.ts (typescript) — 35 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/loadVeterinarians.ts:loadVeterinarians",
+      "type": "function",
+      "name": "loadVeterinarians",
+      "filePath": "src/actions/loadVeterinarians.ts",
+      "summary": "Function loadVeterinarians in loadVeterinarians.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/actions/loadAllTrialsData.ts",
+      "target": "function:src/actions/loadAllTrialsData.ts:loadAllTrialsData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadAuditLogs.ts",
+      "target": "function:src/actions/loadAuditLogs.ts:loadAuditLogs",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadCommunicationMessages.ts",
+      "target": "function:src/actions/loadCommunicationMessages.ts:loadCommunicationMessages",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadCompletePatientTrialData.ts",
+      "target": "function:src/actions/loadCompletePatientTrialData.ts:loadCompletePatientTrialData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadEnrollmentEligibility.ts",
+      "target": "function:src/actions/loadEnrollmentEligibility.ts:loadEnrollmentEligibility",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadFDACorrespondence.ts",
+      "target": "function:src/actions/loadFDACorrespondence.ts:loadFDACorrespondence",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadHoofXrays.ts",
+      "target": "function:src/actions/loadHoofXrays.ts:loadHoofXrays",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadInformedConsentByPatient.ts",
+      "target": "function:src/actions/loadInformedConsentByPatient.ts:loadInformedConsentByPatient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadInvestigatorQualification.ts",
+      "target": "function:src/actions/loadInvestigatorQualification.ts:loadInvestigatorQualification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadMonitoringVisits.ts",
+      "target": "function:src/actions/loadMonitoringVisits.ts:loadMonitoringVisits",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadNCIEShipments.ts",
+      "target": "function:src/actions/loadNCIEShipments.ts:loadNCIEShipments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadNCIEShipmentsByVet.ts",
+      "target": "function:src/actions/loadNCIEShipmentsByVet.ts:loadNCIEShipmentsByVet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadPatientById.ts",
+      "target": "function:src/actions/loadPatientById.ts:loadPatientById",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadPatientCaseData.ts",
+      "target": "function:src/actions/loadPatientCaseData.ts:loadPatientCaseData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadPatients.ts",
+      "target": "function:src/actions/loadPatients.ts:loadPatients",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadProtocolDeviations.ts",
+      "target": "function:src/actions/loadProtocolDeviations.ts:loadProtocolDeviations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadProtocolVersions.ts",
+      "target": "function:src/actions/loadProtocolVersions.ts:loadProtocolVersions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadRecentVetActivity.ts",
+      "target": "function:src/actions/loadRecentVetActivity.ts:loadRecentVetActivity",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadRegulatoryTrialsData.ts",
+      "target": "function:src/actions/loadRegulatoryTrialsData.ts:loadRegulatoryTrialsData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadSiteQualifications.ts",
+      "target": "function:src/actions/loadSiteQualifications.ts:loadSiteQualifications",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadStudySettings.ts",
+      "target": "function:src/actions/loadStudySettings.ts:loadStudySettings",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadSupplyShipments.ts",
+      "target": "function:src/actions/loadSupplyShipments.ts:loadSupplyShipments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadSupplyShipmentsByVet.ts",
+      "target": "function:src/actions/loadSupplyShipmentsByVet.ts:loadSupplyShipmentsByVet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadTreatmentOutcomes.ts",
+      "target": "function:src/actions/loadTreatmentOutcomes.ts:loadTreatmentOutcomes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/loadVeterinarians.ts",
+      "target": "function:src/actions/loadVeterinarians.ts:loadVeterinarians",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}

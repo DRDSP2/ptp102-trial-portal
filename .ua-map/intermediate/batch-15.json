@@ -1,0 +1,4960 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/hooks/useProtocolClock.ts",
+      "type": "file",
+      "name": "useProtocolClock.ts",
+      "filePath": "src/hooks/useProtocolClock.ts",
+      "summary": "useProtocolClock.ts (typescript) — 32 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useProtocolClock.ts:subscribe",
+      "type": "function",
+      "name": "subscribe",
+      "filePath": "src/hooks/useProtocolClock.ts",
+      "summary": "Function subscribe in useProtocolClock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useProtocolClock.ts:useProtocolClock",
+      "type": "function",
+      "name": "useProtocolClock",
+      "filePath": "src/hooks/useProtocolClock.ts",
+      "summary": "Function useProtocolClock in useProtocolClock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/hooks/useSecureDownloadUrl.ts",
+      "type": "file",
+      "name": "useSecureDownloadUrl.ts",
+      "filePath": "src/hooks/useSecureDownloadUrl.ts",
+      "summary": "useSecureDownloadUrl.ts (typescript) — 55 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useSecureDownloadUrl.ts:useSecureDownloadUrl",
+      "type": "function",
+      "name": "useSecureDownloadUrl",
+      "filePath": "src/hooks/useSecureDownloadUrl.ts",
+      "summary": "Function useSecureDownloadUrl in useSecureDownloadUrl.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/hooks/useSecureUpload.ts",
+      "type": "file",
+      "name": "useSecureUpload.ts",
+      "filePath": "src/hooks/useSecureUpload.ts",
+      "summary": "useSecureUpload.ts (typescript) — 131 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useSecureUpload.ts:useSecureUpload",
+      "type": "function",
+      "name": "useSecureUpload",
+      "filePath": "src/hooks/useSecureUpload.ts",
+      "summary": "Function useSecureUpload in useSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/hooks/useTreatmentCountdown.ts",
+      "type": "file",
+      "name": "useTreatmentCountdown.ts",
+      "filePath": "src/hooks/useTreatmentCountdown.ts",
+      "summary": "useTreatmentCountdown.ts (typescript) — 25 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useTreatmentCountdown.ts:useTreatmentCountdown",
+      "type": "function",
+      "name": "useTreatmentCountdown",
+      "filePath": "src/hooks/useTreatmentCountdown.ts",
+      "summary": "Function useTreatmentCountdown in useTreatmentCountdown.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/hooks/useTrialOperations.ts",
+      "type": "file",
+      "name": "useTrialOperations.ts",
+      "filePath": "src/hooks/useTrialOperations.ts",
+      "summary": "useTrialOperations.ts (typescript) — 226 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useTrialOperations.ts:loadOps",
+      "type": "function",
+      "name": "loadOps",
+      "filePath": "src/hooks/useTrialOperations.ts",
+      "summary": "Function loadOps in useTrialOperations.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useTrialOperations.ts:saveOps",
+      "type": "function",
+      "name": "saveOps",
+      "filePath": "src/hooks/useTrialOperations.ts",
+      "summary": "Function saveOps in useTrialOperations.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useTrialOperations.ts:useTrialOperations",
+      "type": "function",
+      "name": "useTrialOperations",
+      "filePath": "src/hooks/useTrialOperations.ts",
+      "summary": "Function useTrialOperations in useTrialOperations.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/hooks/useVeterinarians.ts",
+      "type": "file",
+      "name": "useVeterinarians.ts",
+      "filePath": "src/hooks/useVeterinarians.ts",
+      "summary": "useVeterinarians.ts (typescript) — 165 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useVeterinarians.ts:useVeterinarians",
+      "type": "function",
+      "name": "useVeterinarians",
+      "filePath": "src/hooks/useVeterinarians.ts",
+      "summary": "Function useVeterinarians in useVeterinarians.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useVeterinarians.ts:useMutateVeterinarian",
+      "type": "function",
+      "name": "useMutateVeterinarian",
+      "filePath": "src/hooks/useVeterinarians.ts",
+      "summary": "Function useMutateVeterinarian in useVeterinarians.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useVeterinarians.ts:useDeleteVeterinarian",
+      "type": "function",
+      "name": "useDeleteVeterinarian",
+      "filePath": "src/hooks/useVeterinarians.ts",
+      "summary": "Function useDeleteVeterinarian in useVeterinarians.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/hooks/useVeterinarians.ts:useClinics",
+      "type": "function",
+      "name": "useClinics",
+      "filePath": "src/hooks/useVeterinarians.ts",
+      "summary": "Function useClinics in useVeterinarians.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/auditTypes.ts",
+      "type": "file",
+      "name": "auditTypes.ts",
+      "filePath": "src/lib/auditTypes.ts",
+      "summary": "auditTypes.ts (typescript) — 112 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/auditTypes.ts:isCriticalField",
+      "type": "function",
+      "name": "isCriticalField",
+      "filePath": "src/lib/auditTypes.ts",
+      "summary": "Function isCriticalField in auditTypes.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/computeApi.ts",
+      "type": "file",
+      "name": "computeApi.ts",
+      "filePath": "src/lib/computeApi.ts",
+      "summary": "computeApi.ts (typescript) — 38 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/computeApi.ts:fetchAnalyze",
+      "type": "function",
+      "name": "fetchAnalyze",
+      "filePath": "src/lib/computeApi.ts",
+      "summary": "Function fetchAnalyze in computeApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/computeApi.ts:fetchNorms",
+      "type": "function",
+      "name": "fetchNorms",
+      "filePath": "src/lib/computeApi.ts",
+      "summary": "Function fetchNorms in computeApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/computeApi.ts:fetchHealth",
+      "type": "function",
+      "name": "fetchHealth",
+      "filePath": "src/lib/computeApi.ts",
+      "summary": "Function fetchHealth in computeApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/contact.ts",
+      "type": "file",
+      "name": "contact.ts",
+      "filePath": "src/lib/contact.ts",
+      "summary": "contact.ts (typescript) — 5 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/contact.ts:supportMailto",
+      "type": "function",
+      "name": "supportMailto",
+      "filePath": "src/lib/contact.ts",
+      "summary": "Function supportMailto in contact.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/featureFlags.ts",
+      "type": "file",
+      "name": "featureFlags.ts",
+      "filePath": "src/lib/featureFlags.ts",
+      "summary": "featureFlags.ts (typescript) — 90 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/featureFlags.ts:parseBool",
+      "type": "function",
+      "name": "parseBool",
+      "filePath": "src/lib/featureFlags.ts",
+      "summary": "Function parseBool in featureFlags.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/featureFlags.ts:readViteEnv",
+      "type": "function",
+      "name": "readViteEnv",
+      "filePath": "src/lib/featureFlags.ts",
+      "summary": "Function readViteEnv in featureFlags.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/featureFlags.ts:readRuntimeOverride",
+      "type": "function",
+      "name": "readRuntimeOverride",
+      "filePath": "src/lib/featureFlags.ts",
+      "summary": "Function readRuntimeOverride in featureFlags.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/featureFlags.ts:computeFlags",
+      "type": "function",
+      "name": "computeFlags",
+      "filePath": "src/lib/featureFlags.ts",
+      "summary": "Function computeFlags in featureFlags.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/featureFlags.ts:__recomputeFlagsForTests",
+      "type": "function",
+      "name": "__recomputeFlagsForTests",
+      "filePath": "src/lib/featureFlags.ts",
+      "summary": "Function __recomputeFlagsForTests in featureFlags.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/featureFlags.ts:withFlag",
+      "type": "function",
+      "name": "withFlag",
+      "filePath": "src/lib/featureFlags.ts",
+      "summary": "Function withFlag in featureFlags.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/obelGrade.ts",
+      "type": "file",
+      "name": "obelGrade.ts",
+      "filePath": "src/lib/obelGrade.ts",
+      "summary": "obelGrade.ts (typescript) — 35 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/obelGrade.ts:normalizeObelGrade",
+      "type": "function",
+      "name": "normalizeObelGrade",
+      "filePath": "src/lib/obelGrade.ts",
+      "summary": "Function normalizeObelGrade in obelGrade.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/ocr/noteOcr.ts",
+      "type": "file",
+      "name": "noteOcr.ts",
+      "filePath": "src/lib/ocr/noteOcr.ts",
+      "summary": "noteOcr.ts (typescript) — 93 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/ocr/noteOcr.ts:extractTextFromPdf",
+      "type": "function",
+      "name": "extractTextFromPdf",
+      "filePath": "src/lib/ocr/noteOcr.ts",
+      "summary": "Function extractTextFromPdf in noteOcr.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/ocr/noteOcr.ts:extractTextFromImage",
+      "type": "function",
+      "name": "extractTextFromImage",
+      "filePath": "src/lib/ocr/noteOcr.ts",
+      "summary": "Function extractTextFromImage in noteOcr.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/ocr/noteOcr.ts:extractTextFromTextFile",
+      "type": "function",
+      "name": "extractTextFromTextFile",
+      "filePath": "src/lib/ocr/noteOcr.ts",
+      "summary": "Function extractTextFromTextFile in noteOcr.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/ocr/noteOcr.ts:processNoteOcrDocument",
+      "type": "function",
+      "name": "processNoteOcrDocument",
+      "filePath": "src/lib/ocr/noteOcr.ts",
+      "summary": "Function processNoteOcrDocument in noteOcr.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/reportGenerator.ts",
+      "type": "file",
+      "name": "reportGenerator.ts",
+      "filePath": "src/lib/reportGenerator.ts",
+      "summary": "reportGenerator.ts (typescript) — 322 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/reportGenerator.ts:generatePatientTrialReport",
+      "type": "function",
+      "name": "generatePatientTrialReport",
+      "filePath": "src/lib/reportGenerator.ts",
+      "summary": "Function generatePatientTrialReport in reportGenerator.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/submissionPackage.ts",
+      "type": "file",
+      "name": "submissionPackage.ts",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "submissionPackage.ts (typescript) — 219 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "function",
+      "name": "escapeXml",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function escapeXml in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:sanitizeToken",
+      "type": "function",
+      "name": "sanitizeToken",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function sanitizeToken in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:toUtcDateSlug",
+      "type": "function",
+      "name": "toUtcDateSlug",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function toUtcDateSlug in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:sha256",
+      "type": "function",
+      "name": "sha256",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function sha256 in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:buildFilename",
+      "type": "function",
+      "name": "buildFilename",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function buildFilename in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:assertFilenameValid",
+      "type": "function",
+      "name": "assertFilenameValid",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function assertFilenameValid in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "type": "function",
+      "name": "buildFileNode",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function buildFileNode in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "type": "function",
+      "name": "buildSubmissionPackage",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function buildSubmissionPackage in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/submissionPackage.ts:downloadSubmissionPackage",
+      "type": "function",
+      "name": "downloadSubmissionPackage",
+      "filePath": "src/lib/submissionPackage.ts",
+      "summary": "Function downloadSubmissionPackage in submissionPackage.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/supabase/client.ts",
+      "type": "file",
+      "name": "client.ts",
+      "filePath": "src/lib/supabase/client.ts",
+      "summary": "client.ts (typescript) — 91 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/client.ts:readEnv",
+      "type": "function",
+      "name": "readEnv",
+      "filePath": "src/lib/supabase/client.ts",
+      "summary": "Function readEnv in client.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/client.ts:buildStubClient",
+      "type": "function",
+      "name": "buildStubClient",
+      "filePath": "src/lib/supabase/client.ts",
+      "summary": "Function buildStubClient in client.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/client.ts:createClient",
+      "type": "function",
+      "name": "createClient",
+      "filePath": "src/lib/supabase/client.ts",
+      "summary": "Function createClient in client.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/supabase/recovery.ts",
+      "type": "file",
+      "name": "recovery.ts",
+      "filePath": "src/lib/supabase/recovery.ts",
+      "summary": "recovery.ts (typescript) — 73 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/recovery.ts:handleRecoveryRedirect",
+      "type": "function",
+      "name": "handleRecoveryRedirect",
+      "filePath": "src/lib/supabase/recovery.ts",
+      "summary": "Function handleRecoveryRedirect in recovery.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/recovery.ts:markRecovery",
+      "type": "function",
+      "name": "markRecovery",
+      "filePath": "src/lib/supabase/recovery.ts",
+      "summary": "Function markRecovery in recovery.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/recovery.ts:isRecoveryMode",
+      "type": "function",
+      "name": "isRecoveryMode",
+      "filePath": "src/lib/supabase/recovery.ts",
+      "summary": "Function isRecoveryMode in recovery.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/recovery.ts:clearRecoveryMode",
+      "type": "function",
+      "name": "clearRecoveryMode",
+      "filePath": "src/lib/supabase/recovery.ts",
+      "summary": "Function clearRecoveryMode in recovery.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/recovery.ts:getRecoveryToken",
+      "type": "function",
+      "name": "getRecoveryToken",
+      "filePath": "src/lib/supabase/recovery.ts",
+      "summary": "Function getRecoveryToken in recovery.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/supabase/server.ts",
+      "type": "file",
+      "name": "server.ts",
+      "filePath": "src/lib/supabase/server.ts",
+      "summary": "server.ts (typescript) — 22 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/supabase/server.ts:createServiceClient",
+      "type": "function",
+      "name": "createServiceClient",
+      "filePath": "src/lib/supabase/server.ts",
+      "summary": "Function createServiceClient in server.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/uibakeryDataMock.ts",
+      "type": "file",
+      "name": "uibakeryDataMock.ts",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "uibakeryDataMock.ts (typescript) — 4472 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-classes",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "function",
+      "name": "loadFromStorage",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function loadFromStorage in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "function",
+      "name": "saveToStorage",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveToStorage in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getAuditLogs",
+      "type": "function",
+      "name": "getAuditLogs",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getAuditLogs in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveAuditLogs",
+      "type": "function",
+      "name": "saveAuditLogs",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveAuditLogs in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:computeAuditHash",
+      "type": "function",
+      "name": "computeAuditHash",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function computeAuditHash in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:setCurrentAuditUser",
+      "type": "function",
+      "name": "setCurrentAuditUser",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function setCurrentAuditUser in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:clearCurrentAuditUser",
+      "type": "function",
+      "name": "clearCurrentAuditUser",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function clearCurrentAuditUser in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getCurrentUserForAudit",
+      "type": "function",
+      "name": "getCurrentUserForAudit",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getCurrentUserForAudit in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "function",
+      "name": "recordAudit",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function recordAudit in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:verifyAuditChain",
+      "type": "function",
+      "name": "verifyAuditChain",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function verifyAuditChain in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:seedPatients",
+      "type": "function",
+      "name": "seedPatients",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function seedPatients in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "function",
+      "name": "getPatients",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getPatients in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:__internalGetPatientsForRepo",
+      "type": "function",
+      "name": "__internalGetPatientsForRepo",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function __internalGetPatientsForRepo in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "function",
+      "name": "savePatients",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function savePatients in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:createLocalPatient",
+      "type": "function",
+      "name": "createLocalPatient",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function createLocalPatient in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "function",
+      "name": "getVets",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getVets in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveVets",
+      "type": "function",
+      "name": "saveVets",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveVets in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getVetByEmail",
+      "type": "function",
+      "name": "getVetByEmail",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getVetByEmail in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:recordLogoutAudit",
+      "type": "function",
+      "name": "recordLogoutAudit",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function recordLogoutAudit in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:recordLoginAudit",
+      "type": "function",
+      "name": "recordLoginAudit",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function recordLoginAudit in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getFileRecords",
+      "type": "function",
+      "name": "getFileRecords",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getFileRecords in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveFileRecords",
+      "type": "function",
+      "name": "saveFileRecords",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveFileRecords in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "function",
+      "name": "getNotes",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getNotes in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveNotes",
+      "type": "function",
+      "name": "saveNotes",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveNotes in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "function",
+      "name": "getTreatments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getTreatments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveTreatments",
+      "type": "function",
+      "name": "saveTreatments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveTreatments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "function",
+      "name": "getAssessments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getAssessments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveAssessments",
+      "type": "function",
+      "name": "saveAssessments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveAssessments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "type": "function",
+      "name": "getLabResults",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getLabResults in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveLabResults",
+      "type": "function",
+      "name": "saveLabResults",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveLabResults in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getEnrollmentEligibility",
+      "type": "function",
+      "name": "getEnrollmentEligibility",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getEnrollmentEligibility in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveEnrollmentEligibility",
+      "type": "function",
+      "name": "saveEnrollmentEligibility",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveEnrollmentEligibility in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getProtocolDeviations",
+      "type": "function",
+      "name": "getProtocolDeviations",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getProtocolDeviations in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveProtocolDeviations",
+      "type": "function",
+      "name": "saveProtocolDeviations",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveProtocolDeviations in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getAdverseEvents",
+      "type": "function",
+      "name": "getAdverseEvents",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getAdverseEvents in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveAdverseEvents",
+      "type": "function",
+      "name": "saveAdverseEvents",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveAdverseEvents in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "function",
+      "name": "assertLockAllowsWrite",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function assertLockAllowsWrite in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "function",
+      "name": "ensureDemoData",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function ensureDemoData in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:migrateInvestigatorQual",
+      "type": "function",
+      "name": "migrateInvestigatorQual",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function migrateInvestigatorQual in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "function",
+      "name": "getInvestigatorQuals",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getInvestigatorQuals in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveInvestigatorQuals",
+      "type": "function",
+      "name": "saveInvestigatorQuals",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveInvestigatorQuals in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "function",
+      "name": "buildInvestigatorQualRow",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function buildInvestigatorQualRow in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "function",
+      "name": "getInformedConsents",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getInformedConsents in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "type": "function",
+      "name": "saveInformedConsents",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveInformedConsents in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getConsentDocuments",
+      "type": "function",
+      "name": "getConsentDocuments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getConsentDocuments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveConsentDocuments",
+      "type": "function",
+      "name": "saveConsentDocuments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveConsentDocuments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getLatestConsentDocument",
+      "type": "function",
+      "name": "getLatestConsentDocument",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getLatestConsentDocument in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "function",
+      "name": "getShipments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getShipments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "function",
+      "name": "saveShipments",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function saveShipments in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getDefaultLowThreshold",
+      "type": "function",
+      "name": "getDefaultLowThreshold",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getDefaultLowThreshold in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:deriveInventoryStatus",
+      "type": "function",
+      "name": "deriveInventoryStatus",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function deriveInventoryStatus in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "type": "function",
+      "name": "recalcShipmentStatus",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function recalcShipmentStatus in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "type": "function",
+      "name": "decrementInventoryForTreatment",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function decrementInventoryForTreatment in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "type": "function",
+      "name": "buildLocalCaseData",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function buildLocalCaseData in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:getActionName",
+      "type": "function",
+      "name": "getActionName",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function getActionName in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:action",
+      "type": "function",
+      "name": "action",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function action in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:useData",
+      "type": "function",
+      "name": "useData",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function useData in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "type": "function",
+      "name": "useLoadAction",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function useLoadAction in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "type": "function",
+      "name": "useMutateAction",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function useMutateAction in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:triggerEvent",
+      "type": "function",
+      "name": "triggerEvent",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Function triggerEvent in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "class:src/lib/uibakeryDataMock.ts:DataLockError",
+      "type": "class",
+      "name": "DataLockError",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Class DataLockError in uibakeryDataMock.ts",
+      "tags": [
+        "typescript",
+        "class"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/uibakeryDataMock.ts:DataLockError.constructor",
+      "type": "function",
+      "name": "DataLockError.constructor",
+      "filePath": "src/lib/uibakeryDataMock.ts",
+      "summary": "Method constructor of class DataLockError",
+      "tags": [
+        "typescript",
+        "method"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/upload/access.ts",
+      "type": "file",
+      "name": "access.ts",
+      "filePath": "src/lib/upload/access.ts",
+      "summary": "access.ts (typescript) — 22 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/access.ts:getUserRole",
+      "type": "function",
+      "name": "getUserRole",
+      "filePath": "src/lib/upload/access.ts",
+      "summary": "Function getUserRole in access.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/access.ts:canAccessPath",
+      "type": "function",
+      "name": "canAccessPath",
+      "filePath": "src/lib/upload/access.ts",
+      "summary": "Function canAccessPath in access.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/upload/config.ts",
+      "type": "file",
+      "name": "config.ts",
+      "filePath": "src/lib/upload/config.ts",
+      "summary": "config.ts (typescript) — 52 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/upload/downloadHandler.ts",
+      "type": "file",
+      "name": "downloadHandler.ts",
+      "filePath": "src/lib/upload/downloadHandler.ts",
+      "summary": "downloadHandler.ts (typescript) — 25 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/downloadHandler.ts:handleDownload",
+      "type": "function",
+      "name": "handleDownload",
+      "filePath": "src/lib/upload/downloadHandler.ts",
+      "summary": "Function handleDownload in downloadHandler.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/upload/parseMultipart.ts",
+      "type": "file",
+      "name": "parseMultipart.ts",
+      "filePath": "src/lib/upload/parseMultipart.ts",
+      "summary": "parseMultipart.ts (typescript) — 54 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/parseMultipart.ts:parseMultipart",
+      "type": "function",
+      "name": "parseMultipart",
+      "filePath": "src/lib/upload/parseMultipart.ts",
+      "summary": "Function parseMultipart in parseMultipart.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/upload/path.ts",
+      "type": "file",
+      "name": "path.ts",
+      "filePath": "src/lib/upload/path.ts",
+      "summary": "path.ts (typescript) — 52 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/path.ts:sanitizeFileName",
+      "type": "function",
+      "name": "sanitizeFileName",
+      "filePath": "src/lib/upload/path.ts",
+      "summary": "Function sanitizeFileName in path.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/path.ts:formatTimestamp",
+      "type": "function",
+      "name": "formatTimestamp",
+      "filePath": "src/lib/upload/path.ts",
+      "summary": "Function formatTimestamp in path.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/path.ts:buildStoragePath",
+      "type": "function",
+      "name": "buildStoragePath",
+      "filePath": "src/lib/upload/path.ts",
+      "summary": "Function buildStoragePath in path.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/path.ts:parseOwnerFromPath",
+      "type": "function",
+      "name": "parseOwnerFromPath",
+      "filePath": "src/lib/upload/path.ts",
+      "summary": "Function parseOwnerFromPath in path.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/upload/uploadHandler.ts",
+      "type": "file",
+      "name": "uploadHandler.ts",
+      "filePath": "src/lib/upload/uploadHandler.ts",
+      "summary": "uploadHandler.ts (typescript) — 74 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/uploadHandler.ts:isUploadCategory",
+      "type": "function",
+      "name": "isUploadCategory",
+      "filePath": "src/lib/upload/uploadHandler.ts",
+      "summary": "Function isUploadCategory in uploadHandler.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/uploadHandler.ts:handleUpload",
+      "type": "function",
+      "name": "handleUpload",
+      "filePath": "src/lib/upload/uploadHandler.ts",
+      "summary": "Function handleUpload in uploadHandler.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/lib/upload/validation.ts",
+      "type": "file",
+      "name": "validation.ts",
+      "filePath": "src/lib/upload/validation.ts",
+      "summary": "validation.ts (typescript) — 40 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/validation.ts:matchesMimeType",
+      "type": "function",
+      "name": "matchesMimeType",
+      "filePath": "src/lib/upload/validation.ts",
+      "summary": "Function matchesMimeType in validation.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/lib/upload/validation.ts:validateUpload",
+      "type": "function",
+      "name": "validateUpload",
+      "filePath": "src/lib/upload/validation.ts",
+      "summary": "Function validateUpload in validation.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/hooks/useProtocolClock.ts",
+      "target": "function:src/hooks/useProtocolClock.ts:subscribe",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useProtocolClock.ts",
+      "target": "function:src/hooks/useProtocolClock.ts:useProtocolClock",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useSecureDownloadUrl.ts",
+      "target": "function:src/hooks/useSecureDownloadUrl.ts:useSecureDownloadUrl",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useSecureUpload.ts",
+      "target": "function:src/hooks/useSecureUpload.ts:useSecureUpload",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useTreatmentCountdown.ts",
+      "target": "function:src/hooks/useTreatmentCountdown.ts:useTreatmentCountdown",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useTrialOperations.ts",
+      "target": "function:src/hooks/useTrialOperations.ts:loadOps",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useTrialOperations.ts",
+      "target": "function:src/hooks/useTrialOperations.ts:saveOps",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useTrialOperations.ts",
+      "target": "function:src/hooks/useTrialOperations.ts:useTrialOperations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/hooks/useTrialOperations.ts:useTrialOperations",
+      "target": "function:src/hooks/useTrialOperations.ts:saveOps",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/hooks/useVeterinarians.ts",
+      "target": "function:src/hooks/useVeterinarians.ts:useVeterinarians",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useVeterinarians.ts",
+      "target": "function:src/hooks/useVeterinarians.ts:useMutateVeterinarian",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useVeterinarians.ts",
+      "target": "function:src/hooks/useVeterinarians.ts:useDeleteVeterinarian",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/hooks/useVeterinarians.ts",
+      "target": "function:src/hooks/useVeterinarians.ts:useClinics",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/auditTypes.ts",
+      "target": "function:src/lib/auditTypes.ts:isCriticalField",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/computeApi.ts",
+      "target": "function:src/lib/computeApi.ts:fetchAnalyze",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/computeApi.ts",
+      "target": "function:src/lib/computeApi.ts:fetchNorms",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/computeApi.ts",
+      "target": "function:src/lib/computeApi.ts:fetchHealth",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/contact.ts",
+      "target": "function:src/lib/contact.ts:supportMailto",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/featureFlags.ts",
+      "target": "function:src/lib/featureFlags.ts:parseBool",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/featureFlags.ts",
+      "target": "function:src/lib/featureFlags.ts:readViteEnv",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/featureFlags.ts",
+      "target": "function:src/lib/featureFlags.ts:readRuntimeOverride",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/featureFlags.ts",
+      "target": "function:src/lib/featureFlags.ts:computeFlags",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/featureFlags.ts",
+      "target": "function:src/lib/featureFlags.ts:__recomputeFlagsForTests",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/featureFlags.ts",
+      "target": "function:src/lib/featureFlags.ts:withFlag",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/featureFlags.ts:computeFlags",
+      "target": "function:src/lib/featureFlags.ts:readRuntimeOverride",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/featureFlags.ts:computeFlags",
+      "target": "function:src/lib/featureFlags.ts:parseBool",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/featureFlags.ts:computeFlags",
+      "target": "function:src/lib/featureFlags.ts:readViteEnv",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/featureFlags.ts:__recomputeFlagsForTests",
+      "target": "function:src/lib/featureFlags.ts:computeFlags",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/obelGrade.ts",
+      "target": "function:src/lib/obelGrade.ts:normalizeObelGrade",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/ocr/noteOcr.ts",
+      "target": "function:src/lib/ocr/noteOcr.ts:extractTextFromPdf",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/ocr/noteOcr.ts",
+      "target": "function:src/lib/ocr/noteOcr.ts:extractTextFromImage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/ocr/noteOcr.ts",
+      "target": "function:src/lib/ocr/noteOcr.ts:extractTextFromTextFile",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/ocr/noteOcr.ts",
+      "target": "function:src/lib/ocr/noteOcr.ts:processNoteOcrDocument",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/ocr/noteOcr.ts:processNoteOcrDocument",
+      "target": "function:src/lib/ocr/noteOcr.ts:extractTextFromPdf",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/ocr/noteOcr.ts:processNoteOcrDocument",
+      "target": "function:src/lib/ocr/noteOcr.ts:extractTextFromImage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/ocr/noteOcr.ts:processNoteOcrDocument",
+      "target": "function:src/lib/ocr/noteOcr.ts:extractTextFromTextFile",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/reportGenerator.ts",
+      "target": "function:src/lib/reportGenerator.ts:generatePatientTrialReport",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:sanitizeToken",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:toUtcDateSlug",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:sha256",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:buildFilename",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:assertFilenameValid",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/submissionPackage.ts",
+      "target": "function:src/lib/submissionPackage.ts:downloadSubmissionPackage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildFileNode",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:sanitizeToken",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:sanitizeToken",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:toUtcDateSlug",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:buildFilename",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:assertFilenameValid",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:sha256",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:buildFilename",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:assertFilenameValid",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:sha256",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/submissionPackage.ts:buildSubmissionPackage",
+      "target": "function:src/lib/submissionPackage.ts:escapeXml",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/supabase/client.ts",
+      "target": "function:src/lib/supabase/client.ts:readEnv",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/supabase/client.ts",
+      "target": "function:src/lib/supabase/client.ts:buildStubClient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/supabase/client.ts",
+      "target": "function:src/lib/supabase/client.ts:createClient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/supabase/client.ts:createClient",
+      "target": "function:src/lib/supabase/client.ts:readEnv",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/supabase/client.ts:createClient",
+      "target": "function:src/lib/supabase/client.ts:readEnv",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/supabase/client.ts:createClient",
+      "target": "function:src/lib/supabase/client.ts:buildStubClient",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/supabase/recovery.ts",
+      "target": "function:src/lib/supabase/recovery.ts:handleRecoveryRedirect",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/supabase/recovery.ts",
+      "target": "function:src/lib/supabase/recovery.ts:markRecovery",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/supabase/recovery.ts",
+      "target": "function:src/lib/supabase/recovery.ts:isRecoveryMode",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/supabase/recovery.ts",
+      "target": "function:src/lib/supabase/recovery.ts:clearRecoveryMode",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/supabase/recovery.ts",
+      "target": "function:src/lib/supabase/recovery.ts:getRecoveryToken",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/supabase/recovery.ts:handleRecoveryRedirect",
+      "target": "function:src/lib/supabase/recovery.ts:markRecovery",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/supabase/recovery.ts:handleRecoveryRedirect",
+      "target": "function:src/lib/supabase/recovery.ts:markRecovery",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/supabase/recovery.ts:handleRecoveryRedirect",
+      "target": "function:src/lib/supabase/recovery.ts:markRecovery",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/supabase/server.ts",
+      "target": "function:src/lib/supabase/server.ts:createServiceClient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAuditLogs",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAuditLogs",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:computeAuditHash",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:setCurrentAuditUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:clearCurrentAuditUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getCurrentUserForAudit",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:verifyAuditChain",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:seedPatients",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:__internalGetPatientsForRepo",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:createLocalPatient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveVets",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVetByEmail",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordLogoutAudit",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordLoginAudit",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getFileRecords",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveFileRecords",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveNotes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveTreatments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAssessments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveLabResults",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getEnrollmentEligibility",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveEnrollmentEligibility",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getProtocolDeviations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveProtocolDeviations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAdverseEvents",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAdverseEvents",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:migrateInvestigatorQual",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInvestigatorQuals",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getConsentDocuments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveConsentDocuments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLatestConsentDocument",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getDefaultLowThreshold",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:deriveInventoryStatus",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:getActionName",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:action",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:useData",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "function:src/lib/uibakeryDataMock.ts:triggerEvent",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "class:src/lib/uibakeryDataMock.ts:DataLockError",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:src/lib/uibakeryDataMock.ts:DataLockError",
+      "target": "function:src/lib/uibakeryDataMock.ts:DataLockError.constructor",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getAuditLogs",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveAuditLogs",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAuditLogs",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "target": "function:src/lib/uibakeryDataMock.ts:getCurrentUserForAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "target": "function:src/lib/uibakeryDataMock.ts:computeAuditHash",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAuditLogs",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "target": "function:src/lib/uibakeryDataMock.ts:seedPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:__internalGetPatientsForRepo",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:createLocalPatient",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:createLocalPatient",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveVets",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getVetByEmail",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recordLogoutAudit",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recordLoginAudit",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getFileRecords",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveFileRecords",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveNotes",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveTreatments",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveAssessments",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveLabResults",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getEnrollmentEligibility",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveEnrollmentEligibility",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getProtocolDeviations",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveProtocolDeviations",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getAdverseEvents",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveAdverseEvents",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "target": "function:src/lib/uibakeryDataMock.ts:migrateInvestigatorQual",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveInvestigatorQuals",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getConsentDocuments",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveConsentDocuments",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getLatestConsentDocument",
+      "target": "function:src/lib/uibakeryDataMock.ts:getConsentDocuments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "target": "function:src/lib/uibakeryDataMock.ts:ensureDemoData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "target": "function:src/lib/uibakeryDataMock.ts:loadFromStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveToStorage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:deriveInventoryStatus",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "target": "function:src/lib/uibakeryDataMock.ts:deriveInventoryStatus",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "target": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "target": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getActionName",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getConsentDocuments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAuditLogs",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:verifyAuditChain",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getProtocolDeviations",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAdverseEvents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAdverseEvents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getEnrollmentEligibility",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getConsentDocuments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getActionName",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildLocalCaseData",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useLoadAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getActionName",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getCurrentUserForAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getFileRecords",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveFileRecords",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:createLocalPatient",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveLabResults",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:decrementInventoryForTreatment",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveLabResults",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInvestigatorQuals",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:buildInvestigatorQualRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAdverseEvents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveAdverseEvents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getEnrollmentEligibility",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveEnrollmentEligibility",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:savePatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getProtocolDeviations",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveProtocolDeviations",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:assertLockAllowsWrite",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getConsentDocuments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLatestConsentDocument",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveConsentDocuments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveInformedConsents",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getDefaultLowThreshold",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getDefaultLowThreshold",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:saveShipments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recalcShipmentStatus",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getCurrentUserForAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getProtocolDeviations",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAuditLogs",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getCurrentUserForAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getPatients",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getNotes",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getTreatments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAssessments",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getLabResults",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getProtocolDeviations",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getVets",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getAuditLogs",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:recordAudit",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/uibakeryDataMock.ts:useMutateAction",
+      "target": "function:src/lib/uibakeryDataMock.ts:getActionName",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/upload/access.ts",
+      "target": "function:src/lib/upload/access.ts:getUserRole",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/access.ts",
+      "target": "function:src/lib/upload/access.ts:canAccessPath",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/upload/access.ts:canAccessPath",
+      "target": "function:src/lib/upload/access.ts:getUserRole",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/upload/downloadHandler.ts",
+      "target": "function:src/lib/upload/downloadHandler.ts:handleDownload",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/parseMultipart.ts",
+      "target": "function:src/lib/upload/parseMultipart.ts:parseMultipart",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/path.ts",
+      "target": "function:src/lib/upload/path.ts:sanitizeFileName",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/path.ts",
+      "target": "function:src/lib/upload/path.ts:formatTimestamp",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/path.ts",
+      "target": "function:src/lib/upload/path.ts:buildStoragePath",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/path.ts",
+      "target": "function:src/lib/upload/path.ts:parseOwnerFromPath",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/upload/path.ts:buildStoragePath",
+      "target": "function:src/lib/upload/path.ts:sanitizeFileName",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/lib/upload/path.ts:buildStoragePath",
+      "target": "function:src/lib/upload/path.ts:formatTimestamp",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "function:src/lib/upload/uploadHandler.ts:isUploadCategory",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "function:src/lib/upload/uploadHandler.ts:handleUpload",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/validation.ts",
+      "target": "function:src/lib/upload/validation.ts:matchesMimeType",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/lib/upload/validation.ts",
+      "target": "function:src/lib/upload/validation.ts:validateUpload",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/lib/upload/validation.ts:validateUpload",
+      "target": "function:src/lib/upload/validation.ts:matchesMimeType",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/hooks/useSecureDownloadUrl.ts",
+      "target": "file:src/lib/supabase/client.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/hooks/useSecureDownloadUrl.ts",
+      "target": "file:src/lib/upload/config.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/hooks/useSecureUpload.ts",
+      "target": "file:src/lib/supabase/client.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/hooks/useSecureUpload.ts",
+      "target": "file:src/lib/upload/config.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/hooks/useSecureUpload.ts",
+      "target": "file:src/lib/upload/path.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/hooks/useSecureUpload.ts",
+      "target": "file:src/lib/upload/validation.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/hooks/useVeterinarians.ts",
+      "target": "file:src/lib/supabase/client.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/supabase/recovery.ts",
+      "target": "file:src/lib/supabase/client.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "file:src/lib/auditTypes.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "file:src/lib/featureFlags.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "file:src/lib/obelGrade.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/uibakeryDataMock.ts",
+      "target": "file:src/lib/submissionPackage.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/access.ts",
+      "target": "file:src/lib/upload/path.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/downloadHandler.ts",
+      "target": "file:src/lib/supabase/server.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/downloadHandler.ts",
+      "target": "file:src/lib/upload/access.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/downloadHandler.ts",
+      "target": "file:src/lib/upload/config.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/path.ts",
+      "target": "file:src/lib/upload/config.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "file:src/lib/supabase/server.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "file:src/lib/upload/access.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "file:src/lib/upload/config.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "file:src/lib/upload/parseMultipart.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "file:src/lib/upload/path.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/uploadHandler.ts",
+      "target": "file:src/lib/upload/validation.ts",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/lib/upload/validation.ts",
+      "target": "file:src/lib/upload/config.ts",
+      "type": "imports",
+      "weight": 0.7
+    }
+  ]
+}

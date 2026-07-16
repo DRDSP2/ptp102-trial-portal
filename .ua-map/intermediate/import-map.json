@@ -1,0 +1,1274 @@
+{
+  "scriptCompleted": true,
+  "stats": {
+    "filesScanned": 372,
+    "filesWithImports": 155,
+    "totalEdges": 737
+  },
+  "importMap": {
+    ".cfignore": [],
+    ".clicky-dev.pid": [],
+    ".env.local.example": [],
+    ".env.production": [],
+    ".github/workflows/ci.yml": [],
+    ".kimi/obel-grade-fix-plan.md": [],
+    ".ua-map/.understandignore": [],
+    "api/download.ts": [
+      "src/lib/supabase/server.ts",
+      "src/lib/upload/downloadHandler.ts"
+    ],
+    "api/register.ts": [
+      "src/lib/supabase/server.ts"
+    ],
+    "api/upload.ts": [
+      "src/lib/supabase/server.ts",
+      "src/lib/upload/parseMultipart.ts",
+      "src/lib/upload/uploadHandler.ts"
+    ],
+    "components.json": [],
+    "deploy.sh": [],
+    "DEPLOYMENT.md": [],
+    "docs/clicky-ui-smoke-inspection-2026-06-24.md": [],
+    "docs/vet-guide-with-screenshots/README.md": [],
+    "E2E_VET_ADMIN_WORKFLOW.md": [],
+    "e2e/fixtures/fake-consent.txt": [],
+    "e2e/patient-signup-approval.spec.ts": [],
+    "e2e/smoke-navigation.spec.ts": [],
+    "e2e/vet-admin-workflow.spec.ts": [],
+    "eslint.config.js": [],
+    "frontend-preview.html": [],
+    "package.json": [],
+    "playwright.config.ts": [],
+    "postcss.config.cjs": [],
+    "PTP102_Platform_Snapshot.md": [],
+    "public/_redirects": [],
+    "public/ipfs-404.html": [],
+    "README.md": [],
+    "scripts/backfill_vet_email.ts": [],
+    "scripts/e2eSecureUpload.ts": [],
+    "scripts/migrations_combined.sql": [],
+    "scripts/seedAdmin.ts": [],
+    "scripts/seedTestUsers.ts": [],
+    "scripts/testDirectUpload.ts": [],
+    "server/devApi.ts": [
+      "src/lib/supabase/server.ts",
+      "src/lib/upload/downloadHandler.ts",
+      "src/lib/upload/parseMultipart.ts",
+      "src/lib/upload/uploadHandler.ts"
+    ],
+    "SPEC_password_recovery.md": [],
+    "src/__tests__/addAssessmentForm.test.tsx": [
+      "src/__tests__/utils/supabaseMock.ts",
+      "src/components/AddAssessmentForm.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/__tests__/adminNavigation.test.tsx": [
+      "src/__tests__/utils/supabaseMock.ts",
+      "src/components/AppShell.tsx",
+      "src/components/CaseWorkspace.tsx",
+      "src/context/AuthContext.tsx",
+      "src/pages/DashboardPage.tsx"
+    ],
+    "src/__tests__/adverseEvent.test.tsx": [
+      "src/actions/createAdverseEvent.ts",
+      "src/actions/loadAdverseEvents.ts",
+      "src/actions/loadAllAdverseEvents.ts",
+      "src/actions/veterinarianLogin.ts"
+    ],
+    "src/__tests__/auditTrail.test.tsx": [
+      "src/actions/addClinicalAssessment.ts",
+      "src/actions/exportStudyXml.ts",
+      "src/actions/exportSubmissionPackage.ts",
+      "src/actions/loadAuditLogs.ts",
+      "src/actions/veterinarianLogin.ts"
+    ],
+    "src/__tests__/AuthContext.test.tsx": [
+      "src/context/AuthContext.tsx"
+    ],
+    "src/__tests__/ByrockLogo.test.tsx": [
+      "src/components/ByrockLogo.tsx"
+    ],
+    "src/__tests__/childTablesRepositoryFlag.test.tsx": [
+      "src/actions/addClinicalAssessment.ts",
+      "src/actions/addClinicalNote.ts",
+      "src/actions/addLabResult.ts",
+      "src/actions/addTreatment.ts",
+      "src/lib/featureFlags.ts",
+      "src/lib/uibakeryDataMock.ts"
+    ],
+    "src/__tests__/contactSupport.test.tsx": [
+      "src/components/PendingApprovalScreen.tsx",
+      "src/lib/contact.ts"
+    ],
+    "src/__tests__/dataLockGuard.test.tsx": [
+      "src/actions/addClinicalAssessment.ts",
+      "src/actions/addClinicalNote.ts",
+      "src/actions/addLabResult.ts",
+      "src/actions/addTreatment.ts",
+      "src/actions/bulkUpdateDataLockStatus.ts",
+      "src/actions/createAdverseEvent.ts",
+      "src/actions/updateDataLockStatus.ts",
+      "src/actions/updatePatient.ts",
+      "src/actions/veterinarianLogin.ts",
+      "src/lib/uibakeryDataMock.ts"
+    ],
+    "src/__tests__/demoData.test.tsx": [
+      "src/actions/veterinarianLogin.ts"
+    ],
+    "src/__tests__/hoofXray.test.tsx": [
+      "src/lib/computeApi.ts",
+      "src/lib/upload/access.ts",
+      "src/lib/upload/path.ts"
+    ],
+    "src/__tests__/hoofXrayPortalNullSafe.test.tsx": [
+      "src/components/HoofXrayPortal.tsx"
+    ],
+    "src/__tests__/informedConsentPermissions.test.tsx": [
+      "src/__tests__/utils/supabaseMock.ts",
+      "src/components/InformedConsentWorkflow.tsx",
+      "src/context/AuthContext.tsx",
+      "src/types/patient.ts"
+    ],
+    "src/__tests__/logoutAudit.test.tsx": [
+      "src/context/AuthContext.tsx"
+    ],
+    "src/__tests__/masterTrialsTableCrash.test.tsx": [
+      "src/__tests__/utils/supabaseMock.ts",
+      "src/components/AppShell.tsx",
+      "src/context/AuthContext.tsx",
+      "src/pages/DashboardPage.tsx"
+    ],
+    "src/__tests__/noteOcr.test.ts": [
+      "src/lib/ocr/noteOcr.ts"
+    ],
+    "src/__tests__/obelAssessmentMigration.test.tsx": [
+      "src/actions/loadPatientCaseData.ts"
+    ],
+    "src/__tests__/obelGrade.test.ts": [
+      "src/lib/obelGrade.ts"
+    ],
+    "src/__tests__/obelScoreChart.test.tsx": [
+      "src/components/ObelScoreChart.tsx"
+    ],
+    "src/__tests__/patientOpenPerformance.test.tsx": [
+      "src/actions/loadPatientCaseData.ts",
+      "src/actions/veterinarianLogin.ts",
+      "src/components/CaseWorkspace.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/__tests__/patientScreeningAudit.test.tsx": [
+      "src/actions/approvePatientScreening.ts",
+      "src/actions/loadPatients.ts",
+      "src/actions/rejectPatientScreening.ts",
+      "src/actions/requestPatientDetails.ts",
+      "src/lib/featureFlags.ts",
+      "src/lib/uibakeryDataMock.ts"
+    ],
+    "src/__tests__/patientsRepositoryFlag.test.tsx": [
+      "src/actions/createPatient.ts",
+      "src/actions/loadPatients.ts",
+      "src/actions/updatePatient.ts",
+      "src/actions/updatePatientFlag.ts",
+      "src/lib/featureFlags.ts",
+      "src/lib/uibakeryDataMock.ts"
+    ],
+    "src/__tests__/secureUploadAccess.test.tsx": [
+      "src/lib/upload/access.ts",
+      "src/lib/upload/path.ts"
+    ],
+    "src/__tests__/secureUploadHandler.test.tsx": [
+      "src/lib/supabase/server.ts",
+      "src/lib/upload/downloadHandler.ts",
+      "src/lib/upload/parseMultipart.ts",
+      "src/lib/upload/uploadHandler.ts"
+    ],
+    "src/__tests__/secureUploadValidation.test.tsx": [
+      "src/lib/upload/config.ts",
+      "src/lib/upload/validation.ts"
+    ],
+    "src/__tests__/submissionPackage.test.ts": [
+      "src/lib/submissionPackage.ts"
+    ],
+    "src/__tests__/supplyInventory.test.tsx": [
+      "src/actions/addTreatment.ts",
+      "src/actions/createSupplyShipment.ts",
+      "src/actions/simpleRegisterVet.ts"
+    ],
+    "src/__tests__/supplyShipmentVisibility.test.tsx": [
+      "src/__tests__/utils/supabaseMock.ts",
+      "src/actions/createSupplyShipment.ts",
+      "src/components/AppShell.tsx",
+      "src/context/AuthContext.tsx",
+      "src/pages/DashboardPage.tsx"
+    ],
+    "src/__tests__/utils/mockSupabaseAuth.ts": [],
+    "src/__tests__/utils/supabaseMock.ts": [
+      "src/lib/supabase/client.ts",
+      "src/lib/uibakeryDataMock.ts"
+    ],
+    "src/__tests__/vetApprovalFlow.test.tsx": [
+      "src/__tests__/utils/supabaseMock.ts",
+      "src/components/AppShell.tsx",
+      "src/context/AuthContext.tsx",
+      "src/lib/supabase/client.ts",
+      "src/pages/DashboardPage.tsx",
+      "src/pages/PendingApprovalPage.tsx",
+      "src/pages/ProtectedRoute.tsx"
+    ],
+    "src/__tests__/vetReregistrationAudit.test.tsx": [
+      "src/actions/simpleRegisterVet.ts"
+    ],
+    "src/__tests__/whatsappNotifications.test.tsx": [
+      "src/lib/supabase/client.ts",
+      "src/utils/whatsappNotifications.ts"
+    ],
+    "src/__tests__/xmlExport.test.ts": [
+      "src/lib/xmlExport.ts"
+    ],
+    "src/actions/acceptTermsAndConditions.ts": [],
+    "src/actions/addClinicalAssessment.ts": [],
+    "src/actions/addClinicalNote.ts": [],
+    "src/actions/addLabResult.ts": [],
+    "src/actions/addTreatment.ts": [],
+    "src/actions/adminLogin.ts": [],
+    "src/actions/approveInvestigatorQualification.ts": [],
+    "src/actions/approvePatientScreening.ts": [],
+    "src/actions/approveVeterinarian.ts": [],
+    "src/actions/bulkUpdateDataLockStatus.ts": [],
+    "src/actions/checkVeterinarianAcceptance.ts": [],
+    "src/actions/createAdverseEvent.ts": [],
+    "src/actions/createAuditLog.ts": [],
+    "src/actions/createEnrollmentEligibility.ts": [],
+    "src/actions/createFDAcorrespondence.ts": [],
+    "src/actions/createGoogleOAuthVet.ts": [],
+    "src/actions/createHoofXray.ts": [],
+    "src/actions/createInformedConsent.ts": [],
+    "src/actions/createMonitoringVisit.ts": [],
+    "src/actions/createNCIEShipment.ts": [],
+    "src/actions/createPatient.ts": [],
+    "src/actions/createProtocolDeviation.ts": [],
+    "src/actions/createProtocolVersion.ts": [],
+    "src/actions/createSiteQualification.ts": [],
+    "src/actions/createSupplyShipment.ts": [],
+    "src/actions/createTreatmentOutcome.ts": [],
+    "src/actions/createXrayLandmark.ts": [],
+    "src/actions/createXrayMeasurement.ts": [],
+    "src/actions/debugClinicalNotes.ts": [],
+    "src/actions/debugVeterinarianData.ts": [],
+    "src/actions/deletePatient.ts": [],
+    "src/actions/deleteVeterinarian.ts": [],
+    "src/actions/exportStudyFullXml.ts": [],
+    "src/actions/exportStudyXml.ts": [],
+    "src/actions/exportSubmissionPackage.ts": [],
+    "src/actions/googleOAuthLogin.ts": [],
+    "src/actions/loadAdminComplianceDashboard.ts": [],
+    "src/actions/loadAdminStatistics.ts": [],
+    "src/actions/loadAdverseEvents.ts": [],
+    "src/actions/loadAllAdverseEvents.ts": [],
+    "src/actions/loadAllInvestigatorQualifications.ts": [],
+    "src/actions/loadAllTrialsData.ts": [],
+    "src/actions/loadAuditLogs.ts": [],
+    "src/actions/loadCommunicationMessages.ts": [],
+    "src/actions/loadCompletePatientTrialData.ts": [],
+    "src/actions/loadEnrollmentEligibility.ts": [],
+    "src/actions/loadFDACorrespondence.ts": [],
+    "src/actions/loadHoofXrays.ts": [],
+    "src/actions/loadInformedConsentByPatient.ts": [],
+    "src/actions/loadInvestigatorQualification.ts": [],
+    "src/actions/loadMonitoringVisits.ts": [],
+    "src/actions/loadNCIEShipments.ts": [],
+    "src/actions/loadNCIEShipmentsByVet.ts": [],
+    "src/actions/loadPatientById.ts": [],
+    "src/actions/loadPatientCaseData.ts": [],
+    "src/actions/loadPatients.ts": [],
+    "src/actions/loadProtocolDeviations.ts": [],
+    "src/actions/loadProtocolVersions.ts": [],
+    "src/actions/loadRecentVetActivity.ts": [],
+    "src/actions/loadRegulatoryTrialsData.ts": [],
+    "src/actions/loadSiteQualifications.ts": [],
+    "src/actions/loadStudySettings.ts": [],
+    "src/actions/loadSupplyShipments.ts": [],
+    "src/actions/loadSupplyShipmentsByVet.ts": [],
+    "src/actions/loadTreatmentOutcomes.ts": [],
+    "src/actions/loadVeterinarians.ts": [],
+    "src/actions/markTimelineStepComplete.ts": [],
+    "src/actions/recordConsentSent.ts": [],
+    "src/actions/recordSecureUpload.ts": [],
+    "src/actions/rejectInvestigatorQualification.ts": [],
+    "src/actions/rejectPatientScreening.ts": [],
+    "src/actions/rejectVeterinarian.ts": [],
+    "src/actions/requestPasswordReset.ts": [],
+    "src/actions/requestPatientDetails.ts": [],
+    "src/actions/saveInvestigatorQualification.ts": [],
+    "src/actions/sendCommunicationMessage.ts": [],
+    "src/actions/sendEmailNotification.ts": [],
+    "src/actions/signInformedConsent.ts": [],
+    "src/actions/simpleRegisterVet.ts": [],
+    "src/actions/testRegistration.ts": [],
+    "src/actions/updateAdminLastLogin.ts": [],
+    "src/actions/updateDataLockStatus.ts": [],
+    "src/actions/updateHoofXrayAnalysis.ts": [],
+    "src/actions/updateNCIEShipment.ts": [],
+    "src/actions/updatePassword.ts": [],
+    "src/actions/updatePatient.ts": [],
+    "src/actions/updatePatientFlag.ts": [],
+    "src/actions/updateStudySettings.ts": [],
+    "src/actions/updateSupplyShipment.ts": [],
+    "src/actions/updateVetLastLogin.ts": [],
+    "src/actions/updateVetVerificationStatus.ts": [],
+    "src/actions/uploadConsentDocument.ts": [],
+    "src/actions/validateResetToken.ts": [],
+    "src/actions/verifyInformedConsent.ts": [],
+    "src/actions/veterinarianLogin.ts": [],
+    "src/app/app.tsx": [
+      "src/components/AppShell.tsx",
+      "src/components/ui/sonner.tsx",
+      "src/context/AuthContext.tsx",
+      "src/index.css",
+      "src/pages/AdminLoginPage.tsx",
+      "src/pages/AuditLogPage.tsx",
+      "src/pages/AuthSelectionPage.tsx",
+      "src/pages/DashboardPage.tsx",
+      "src/pages/PatientCasePage.tsx",
+      "src/pages/PendingApprovalPage.tsx",
+      "src/pages/ProtectedRoute.tsx",
+      "src/pages/VetLoginPage.tsx",
+      "src/pages/VetRegisterPage.tsx",
+      "src/pages/VetResetPage.tsx"
+    ],
+    "src/AUTHENTICATION_TROUBLESHOOTING.md": [],
+    "src/components/AddAssessmentForm.tsx": [
+      "src/actions/addClinicalAssessment.ts",
+      "src/components/ObelGradeReference.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/context/AuthContext.tsx",
+      "src/utils/whatsappNotifications.ts"
+    ],
+    "src/components/AddLabResultForm.tsx": [
+      "src/actions/addLabResult.ts",
+      "src/components/ui/button.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/tabs.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/context/AuthContext.tsx",
+      "src/utils/whatsappNotifications.ts"
+    ],
+    "src/components/AddTreatmentForm.tsx": [
+      "src/actions/addTreatment.ts",
+      "src/actions/loadSupplyShipmentsByVet.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/context/AuthContext.tsx",
+      "src/utils/whatsappNotifications.ts"
+    ],
+    "src/components/AdminComplianceDashboard.tsx": [
+      "src/actions/bulkUpdateDataLockStatus.ts",
+      "src/actions/loadAdminComplianceDashboard.ts",
+      "src/actions/loadAllAdverseEvents.ts",
+      "src/actions/loadAllInvestigatorQualifications.ts",
+      "src/actions/loadFDACorrespondence.ts",
+      "src/actions/loadNCIEShipments.ts",
+      "src/actions/loadProtocolDeviations.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/tabs.tsx",
+      "src/components/ui/textarea.tsx"
+    ],
+    "src/components/AdminFollowUpTasksPanel.tsx": [
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/table.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/types/trialOperations.ts"
+    ],
+    "src/components/AdministrationProcedureChecklist.tsx": [
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/types/trialOperations.ts"
+    ],
+    "src/components/AdminLoginScreen.tsx": [
+      "src/actions/updateAdminLastLogin.ts",
+      "src/components/ByrockLogo.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/components/AdminPasswordSetForm.tsx": [
+      "src/components/ByrockLogo.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/lib/supabase/client.ts",
+      "src/lib/supabase/recovery.ts"
+    ],
+    "src/components/AdminScreeningPanel.tsx": [
+      "src/actions/approvePatientScreening.ts",
+      "src/actions/rejectPatientScreening.ts",
+      "src/actions/requestPatientDetails.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/context/AuthContext.tsx",
+      "src/types/patient.ts"
+    ],
+    "src/components/AdminStatisticsCards.tsx": [
+      "src/actions/loadAdminStatistics.ts",
+      "src/components/ui/card.tsx"
+    ],
+    "src/components/AdminSupplyPanel.tsx": [
+      "src/actions/createSupplyShipment.ts",
+      "src/actions/loadAuditLogs.ts",
+      "src/actions/loadSupplyShipments.ts",
+      "src/actions/loadVeterinarians.ts",
+      "src/actions/updateSupplyShipment.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/table.tsx",
+      "src/components/ui/textarea.tsx"
+    ],
+    "src/components/AdverseEventReporter.tsx": [
+      "src/actions/createAdverseEvent.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/separator.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/utils/prohibitedTermsFilter.ts",
+      "src/utils/whatsappNotifications.ts"
+    ],
+    "src/components/AppShell.tsx": [
+      "src/components/ByrockLogo.tsx",
+      "src/components/RegulatoryBanner.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/breadcrumb.tsx",
+      "src/components/ui/button.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/components/AuditLogViewer.tsx": [
+      "src/actions/loadAuditLogs.ts",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/scroll-area.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/table.tsx",
+      "src/lib/auditTypes.ts"
+    ],
+    "src/components/ByrockLogo.tsx": [],
+    "src/components/CaseWorkspace.tsx": [
+      "src/actions/debugClinicalNotes.ts",
+      "src/actions/loadPatientCaseData.ts",
+      "src/actions/markTimelineStepComplete.ts",
+      "src/actions/updateDataLockStatus.ts",
+      "src/components/AddAssessmentForm.tsx",
+      "src/components/AddLabResultForm.tsx",
+      "src/components/AddTreatmentForm.tsx",
+      "src/components/AdminScreeningPanel.tsx",
+      "src/components/AdverseEventReporter.tsx",
+      "src/components/EnrollmentEligibilityScreen.tsx",
+      "src/components/InformedConsentWorkflow.tsx",
+      "src/components/MonitoringChecklist.tsx",
+      "src/components/NextDoseTimer.tsx",
+      "src/components/ObelScoreChart.tsx",
+      "src/components/ProtocolInfoCard.tsx",
+      "src/components/QuickAddNote.tsx",
+      "src/components/ReasonForChangeDialog.tsx",
+      "src/components/TreatmentTimeline.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/separator.tsx",
+      "src/components/ui/tabs.tsx",
+      "src/components/VideoUploadManager.tsx",
+      "src/context/AuthContext.tsx",
+      "src/types/patient.ts"
+    ],
+    "src/components/DoseCalculator.tsx": [
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/separator.tsx"
+    ],
+    "src/components/DrugSupplyInventoryCard.tsx": [
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/table.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/types/trialOperations.ts"
+    ],
+    "src/components/EnrollmentEligibilityScreen.tsx": [
+      "src/actions/createEnrollmentEligibility.ts",
+      "src/actions/loadEnrollmentEligibility.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/separator.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/components/ErrorBoundary.tsx": [],
+    "src/components/HeroSection.tsx": [
+      "src/components/ByrockLogo.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx"
+    ],
+    "src/components/HoofXrayPortal.tsx": [
+      "src/actions/createAuditLog.ts",
+      "src/actions/createHoofXray.ts",
+      "src/actions/createXrayLandmark.ts",
+      "src/actions/createXrayMeasurement.ts",
+      "src/actions/loadHoofXrays.ts",
+      "src/actions/loadPatients.ts",
+      "src/actions/updateHoofXrayAnalysis.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/scroll-area.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/separator.tsx",
+      "src/components/ui/table.tsx",
+      "src/components/ui/tabs.tsx",
+      "src/context/AuthContext.tsx",
+      "src/hooks/useSecureUpload.ts",
+      "src/lib/computeApi.ts",
+      "src/lib/supabase/client.ts",
+      "src/lib/upload/config.ts"
+    ],
+    "src/components/HorseImageUploader.tsx": [
+      "src/components/ui/button.tsx",
+      "src/hooks/useSecureDownloadUrl.ts",
+      "src/hooks/useSecureUpload.ts"
+    ],
+    "src/components/InformedConsentWorkflow.tsx": [
+      "src/actions/createAuditLog.ts",
+      "src/actions/createInformedConsent.ts",
+      "src/actions/loadInformedConsentByPatient.ts",
+      "src/actions/signInformedConsent.ts",
+      "src/actions/uploadConsentDocument.ts",
+      "src/actions/verifyInformedConsent.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/checkbox.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/context/AuthContext.tsx",
+      "src/lib/auditTypes.ts",
+      "src/types/patient.ts"
+    ],
+    "src/components/InvestigatorOnboardingWizard.tsx": [
+      "src/actions/loadInvestigatorQualification.ts",
+      "src/actions/saveInvestigatorQualification.ts",
+      "src/components/SecureFileUploadButton.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/checkbox.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/separator.tsx",
+      "src/hooks/useSecureDownloadUrl.ts"
+    ],
+    "src/components/MasterTrialsTable.tsx": [
+      "src/actions/exportSubmissionPackage.ts",
+      "src/actions/loadAllTrialsData.ts",
+      "src/actions/updateDataLockStatus.ts",
+      "src/actions/updatePatientFlag.ts",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/table.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/lib/submissionPackage.ts"
+    ],
+    "src/components/MonitoringChecklist.tsx": [
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx"
+    ],
+    "src/components/NextDoseTimer.tsx": [
+      "src/components/AddTreatmentForm.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/separator.tsx",
+      "src/hooks/useProtocolClock.ts"
+    ],
+    "src/components/ObelGradeReference.tsx": [],
+    "src/components/ObelScoreChart.tsx": [
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx",
+      "src/lib/obelGrade.ts"
+    ],
+    "src/components/PasswordResetRequestScreen.tsx": [
+      "src/actions/requestPasswordReset.ts",
+      "src/components/ByrockLogo.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx"
+    ],
+    "src/components/PasswordResetScreen.tsx": [
+      "src/actions/updatePassword.ts",
+      "src/components/ByrockLogo.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/utils/passwordHash.ts"
+    ],
+    "src/components/PatientDetailDialog.tsx": [
+      "src/actions/updatePatient.ts",
+      "src/components/ReasonForChangeDialog.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/select.tsx",
+      "src/hooks/useSecureDownloadUrl.ts",
+      "src/hooks/useSecureUpload.ts",
+      "src/types/patient.ts"
+    ],
+    "src/components/PatientEnrollmentForm.tsx": [
+      "src/actions/createPatient.ts",
+      "src/actions/sendEmailNotification.ts",
+      "src/actions/updatePatient.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/tabs.tsx",
+      "src/context/AuthContext.tsx",
+      "src/hooks/useSecureDownloadUrl.ts",
+      "src/hooks/useSecureUpload.ts",
+      "src/types/patient.ts",
+      "src/utils/emailNotifications.ts"
+    ],
+    "src/components/PatientsList.tsx": [
+      "src/actions/approvePatientScreening.ts",
+      "src/actions/deletePatient.ts",
+      "src/actions/loadCompletePatientTrialData.ts",
+      "src/actions/loadPatients.ts",
+      "src/actions/rejectPatientScreening.ts",
+      "src/actions/requestPatientDetails.ts",
+      "src/actions/sendEmailNotification.ts",
+      "src/components/PatientEnrollmentForm.tsx",
+      "src/components/StatusBadge.tsx",
+      "src/components/ui/alert-dialog.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/table.tsx",
+      "src/context/AuthContext.tsx",
+      "src/lib/reportGenerator.ts",
+      "src/types/patient.ts",
+      "src/utils/emailNotifications.ts"
+    ],
+    "src/components/PendingApprovalScreen.tsx": [
+      "src/actions/checkVeterinarianAcceptance.ts",
+      "src/components/ByrockLogo.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/lib/contact.ts"
+    ],
+    "src/components/PrintConsent.tsx": [
+      "src/components/ByrockLogo.tsx",
+      "src/lib/auditTypes.ts"
+    ],
+    "src/components/ProductShipmentTrackingCard.tsx": [
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/types/trialOperations.ts"
+    ],
+    "src/components/ProtocolDocumentCenter.tsx": [
+      "src/actions/createProtocolVersion.ts",
+      "src/actions/loadProtocolVersions.ts",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/scroll-area.tsx"
+    ],
+    "src/components/ProtocolInfoCard.tsx": [
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx"
+    ],
+    "src/components/ProtocolLabelInfoCard.tsx": [
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/checkbox.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/types/trialOperations.ts"
+    ],
+    "src/components/QuickAddNote.tsx": [
+      "src/actions/addClinicalNote.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/context/AuthContext.tsx",
+      "src/hooks/useSecureDownloadUrl.ts",
+      "src/hooks/useSecureUpload.ts",
+      "src/lib/ocr/noteOcr.ts",
+      "src/utils/whatsappNotifications.ts"
+    ],
+    "src/components/ReasonForChangeDialog.tsx": [
+      "src/components/ui/button.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/textarea.tsx"
+    ],
+    "src/components/RecentVetActivity.tsx": [
+      "src/actions/loadRecentVetActivity.ts",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx"
+    ],
+    "src/components/RegulatoryBanner.tsx": [],
+    "src/components/ResearchHub.tsx": [
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/scroll-area.tsx"
+    ],
+    "src/components/SecureFileUploadButton.tsx": [
+      "src/components/ui/button.tsx",
+      "src/hooks/useSecureUpload.ts"
+    ],
+    "src/components/StatusBadge.tsx": [
+      "src/components/ui/badge.tsx",
+      "src/lib/utils.ts"
+    ],
+    "src/components/StorageConditionsCard.tsx": [
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/checkbox.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/types/trialOperations.ts"
+    ],
+    "src/components/TermsAndConditionsScreen.tsx": [
+      "src/actions/sendEmailNotification.ts",
+      "src/components/ByrockLogo.tsx",
+      "src/components/PrintConsent.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/checkbox.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/scroll-area.tsx",
+      "src/context/AuthContext.tsx",
+      "src/lib/contact.ts",
+      "src/lib/supabase/client.ts",
+      "src/utils/emailNotifications.ts"
+    ],
+    "src/components/TreatmentTimeline.tsx": [
+      "src/hooks/useProtocolClock.ts"
+    ],
+    "src/components/TrialOperationsHub.tsx": [
+      "src/components/AdminFollowUpTasksPanel.tsx",
+      "src/components/AdministrationProcedureChecklist.tsx",
+      "src/components/DrugSupplyInventoryCard.tsx",
+      "src/components/ProductShipmentTrackingCard.tsx",
+      "src/components/ProtocolLabelInfoCard.tsx",
+      "src/components/StorageConditionsCard.tsx",
+      "src/components/TrialReadinessStatusPanel.tsx",
+      "src/components/ui/scroll-area.tsx",
+      "src/context/AuthContext.tsx",
+      "src/hooks/useTrialOperations.ts"
+    ],
+    "src/components/TrialReadinessStatusPanel.tsx": [
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/label.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/textarea.tsx",
+      "src/types/trialOperations.ts"
+    ],
+    "src/components/ui/alert-dialog.tsx": [
+      "src/components/ui/button.tsx",
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/alert.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/badge.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/breadcrumb.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/button.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/card.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/checkbox.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/dialog.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/form.tsx": [
+      "src/components/ui/label.tsx",
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/input.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/label.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/scroll-area.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/select.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/separator.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/skeleton.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/sonner.tsx": [],
+    "src/components/ui/table.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/tabs.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/textarea.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/ui/tooltip.tsx": [
+      "src/lib/utils.ts"
+    ],
+    "src/components/VeterinarianLoginScreen.tsx": [
+      "src/actions/checkVeterinarianAcceptance.ts",
+      "src/actions/updateVetLastLogin.ts",
+      "src/components/ByrockLogo.tsx",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/form.tsx",
+      "src/components/ui/input.tsx",
+      "src/context/AuthContext.tsx",
+      "src/lib/contact.ts"
+    ],
+    "src/components/VeterinarianManagementPanel.tsx": [
+      "src/actions/approveInvestigatorQualification.ts",
+      "src/actions/loadAllInvestigatorQualifications.ts",
+      "src/actions/rejectInvestigatorQualification.ts",
+      "src/actions/sendEmailNotification.ts",
+      "src/actions/updateVetVerificationStatus.ts",
+      "src/components/ReasonForChangeDialog.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/separator.tsx",
+      "src/components/ui/table.tsx",
+      "src/hooks/useVeterinarians.ts",
+      "src/lib/supabase/client.ts",
+      "src/utils/emailNotifications.ts"
+    ],
+    "src/components/VetShipmentPanel.tsx": [
+      "src/actions/loadSupplyShipmentsByVet.ts",
+      "src/actions/updateSupplyShipment.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/input.tsx",
+      "src/components/ui/label.tsx"
+    ],
+    "src/components/VetToolsHub.tsx": [
+      "src/components/DoseCalculator.tsx",
+      "src/components/ui/badge.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/tabs.tsx"
+    ],
+    "src/components/VideoUploadManager.tsx": [
+      "src/actions/addClinicalNote.ts",
+      "src/components/ui/alert.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/hooks/useSecureDownloadUrl.ts",
+      "src/hooks/useSecureUpload.ts"
+    ],
+    "src/components/WhatsAppChatButton.tsx": [
+      "src/components/ui/button.tsx"
+    ],
+    "src/context/AuthContext.tsx": [
+      "src/lib/supabase/client.ts",
+      "src/lib/uibakeryDataMock.ts"
+    ],
+    "src/data/audit/supabaseAuditRepository.ts": [
+      "src/lib/auditTypes.ts",
+      "src/lib/supabase/client.ts",
+      "src/utils/emailNotifications.ts"
+    ],
+    "src/data/clinicalAssessments/repository.ts": [
+      "src/types/db.ts"
+    ],
+    "src/data/clinicalAssessments/supabaseRepository.ts": [
+      "src/data/clinicalAssessments/repository.ts",
+      "src/lib/supabase/client.ts"
+    ],
+    "src/data/clinicalNotes/repository.ts": [
+      "src/types/db.ts"
+    ],
+    "src/data/clinicalNotes/supabaseRepository.ts": [
+      "src/data/clinicalNotes/repository.ts",
+      "src/lib/supabase/client.ts"
+    ],
+    "src/data/labResults/repository.ts": [
+      "src/types/db.ts"
+    ],
+    "src/data/labResults/supabaseRepository.ts": [
+      "src/data/labResults/repository.ts",
+      "src/lib/supabase/client.ts"
+    ],
+    "src/data/patients/index.ts": [
+      "src/data/patients/mockRepository.ts",
+      "src/data/patients/repository.ts",
+      "src/data/patients/supabaseRepository.ts",
+      "src/lib/featureFlags.ts"
+    ],
+    "src/data/patients/mockRepository.ts": [
+      "src/data/patients/repository.ts",
+      "src/lib/uibakeryDataMock.ts"
+    ],
+    "src/data/patients/repository.ts": [
+      "src/types/db.ts"
+    ],
+    "src/data/patients/supabaseRepository.ts": [
+      "src/data/patients/repository.ts",
+      "src/lib/supabase/client.ts"
+    ],
+    "src/data/treatments/repository.ts": [
+      "src/types/db.ts"
+    ],
+    "src/data/treatments/supabaseRepository.ts": [
+      "src/data/treatments/repository.ts",
+      "src/lib/supabase/client.ts"
+    ],
+    "src/EMAIL_NOTIFICATIONS_SETUP.md": [],
+    "src/env.d.ts": [],
+    "src/hooks/useAuditedMutateAction.ts": [
+      "src/actions/createAuditLog.ts",
+      "src/context/AuthContext.tsx",
+      "src/lib/auditTypes.ts"
+    ],
+    "src/hooks/useProtocolClock.ts": [],
+    "src/hooks/useSecureDownloadUrl.ts": [
+      "src/lib/supabase/client.ts",
+      "src/lib/upload/config.ts"
+    ],
+    "src/hooks/useSecureUpload.ts": [
+      "src/actions/createAuditLog.ts",
+      "src/actions/recordSecureUpload.ts",
+      "src/lib/supabase/client.ts",
+      "src/lib/upload/config.ts",
+      "src/lib/upload/path.ts",
+      "src/lib/upload/validation.ts"
+    ],
+    "src/hooks/useTreatmentCountdown.ts": [],
+    "src/hooks/useTrialOperations.ts": [
+      "src/types/trialOperations.ts"
+    ],
+    "src/hooks/useVeterinarians.ts": [
+      "src/lib/supabase/client.ts"
+    ],
+    "src/index.css": [],
+    "src/index.html": [],
+    "src/initial.md": [],
+    "src/lib/auditTypes.ts": [],
+    "src/lib/computeApi.ts": [],
+    "src/lib/contact.ts": [],
+    "src/lib/featureFlags.ts": [],
+    "src/lib/obelGrade.ts": [],
+    "src/lib/ocr/noteOcr.ts": [],
+    "src/lib/reportGenerator.ts": [],
+    "src/lib/submissionPackage.ts": [],
+    "src/lib/supabase/client.ts": [
+      "src/types/db.ts"
+    ],
+    "src/lib/supabase/recovery.ts": [
+      "src/lib/supabase/client.ts"
+    ],
+    "src/lib/supabase/server.ts": [
+      "src/types/db.ts"
+    ],
+    "src/lib/uibakeryDataMock.ts": [
+      "src/data/audit/supabaseAuditRepository.ts",
+      "src/data/clinicalAssessments/supabaseRepository.ts",
+      "src/data/clinicalNotes/supabaseRepository.ts",
+      "src/data/labResults/supabaseRepository.ts",
+      "src/data/patients/supabaseRepository.ts",
+      "src/data/treatments/supabaseRepository.ts",
+      "src/lib/auditTypes.ts",
+      "src/lib/featureFlags.ts",
+      "src/lib/obelGrade.ts",
+      "src/lib/submissionPackage.ts",
+      "src/lib/xmlExport.ts",
+      "src/utils/passwordHash.ts"
+    ],
+    "src/lib/upload/access.ts": [
+      "src/lib/upload/path.ts"
+    ],
+    "src/lib/upload/config.ts": [],
+    "src/lib/upload/downloadHandler.ts": [
+      "src/lib/supabase/server.ts",
+      "src/lib/upload/access.ts",
+      "src/lib/upload/config.ts"
+    ],
+    "src/lib/upload/parseMultipart.ts": [],
+    "src/lib/upload/path.ts": [
+      "src/lib/upload/config.ts"
+    ],
+    "src/lib/upload/uploadHandler.ts": [
+      "src/lib/supabase/server.ts",
+      "src/lib/upload/access.ts",
+      "src/lib/upload/config.ts",
+      "src/lib/upload/parseMultipart.ts",
+      "src/lib/upload/path.ts",
+      "src/lib/upload/validation.ts"
+    ],
+    "src/lib/upload/validation.ts": [
+      "src/lib/upload/config.ts"
+    ],
+    "src/lib/utils.ts": [],
+    "src/lib/videoCompression.ts": [],
+    "src/lib/xmlExport.ts": [
+      "src/lib/auditTypes.ts"
+    ],
+    "src/main.tsx": [
+      "src/app/app.tsx",
+      "src/lib/supabase/recovery.ts"
+    ],
+    "src/migrations/1730757941_create_patients_table.sql": [],
+    "src/migrations/1730757942_create_veterinarians_table.sql": [],
+    "src/migrations/1730757943_enhance_patients_and_create_trial_tables.sql": [],
+    "src/migrations/1730757944_add_video_url_to_clinical_notes.sql": [],
+    "src/migrations/1730759000_seed_realistic_trial_data.sql": [],
+    "src/migrations/1730759100_create_admin_users_table.sql": [],
+    "src/migrations/1730759101_update_admin_password.sql": [],
+    "src/migrations/1730759102_add_password_to_veterinarians.sql": [],
+    "src/migrations/1730759103_add_screening_workflow.sql": [],
+    "src/migrations/1730759104_add_enrollment_clinical_params.sql": [],
+    "src/migrations/1730759105_add_total_volume_to_treatments.sql": [],
+    "src/migrations/1730759106_backfill_total_volume_from_notes.sql": [],
+    "src/migrations/1730759107_add_profile_picture_to_patients.sql": [],
+    "src/migrations/1730920918_fix_protocol_hour_and_start_time.sql": [],
+    "src/migrations/1730920919_fix_license_number_type.sql": [],
+    "src/migrations/1730920920_force_fix_license_number.sql": [],
+    "src/migrations/1730921000_add_admin_fields_to_vets.sql": [],
+    "src/migrations/1730921001_add_flags_to_patients.sql": [],
+    "src/migrations/1730921002_set_vet_password.sql": [],
+    "src/migrations/1730921003_update_vet_verification_default.sql": [],
+    "src/migrations/1730921004_fix_admin_authentication.sql": [],
+    "src/migrations/1738500000_create_compliance_framework.sql": [],
+    "src/migrations/1738600000_add_conflict_of_interest_to_vets.sql": [],
+    "src/migrations/1738700000_add_enrolled_by_vet_to_patients.sql": [],
+    "src/migrations/1738800000_enhance_ncie_shipment_vet_link.sql": [],
+    "src/migrations/1781380365_clamp_obel_grade.sql": [],
+    "src/migrations/1781380366_private_uploads_bucket.sql": [],
+    "src/migrations/1781380367_add_note_ocr_fields.sql": [],
+    "src/migrations/1781380368_add_phone_and_consent_printed_to_vets.sql": [],
+    "src/migrations/1790000000_create_recovery_tokens.sql": [],
+    "src/migrations/1791000000_fix_storage_rls_ptp102_bucket.sql": [],
+    "src/migrations/1792000000_enable_patients_rls.sql": [],
+    "src/migrations/1793000000_enable_child_tables_rls.sql": [],
+    "src/migrations/1794000000_fix_hoof_xrays_rls.sql": [],
+    "src/migrations/1795000000_enable_audit_logs_rls.sql": [],
+    "src/migrations/applied.txt": [],
+    "src/pages/AdminLoginPage.tsx": [
+      "src/components/AdminLoginScreen.tsx",
+      "src/components/AdminPasswordSetForm.tsx",
+      "src/context/AuthContext.tsx",
+      "src/lib/supabase/recovery.ts"
+    ],
+    "src/pages/AuditLogPage.tsx": [
+      "src/components/AuditLogViewer.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/pages/AuthSelectionPage.tsx": [
+      "src/components/ByrockLogo.tsx",
+      "src/components/HeroSection.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx"
+    ],
+    "src/pages/DashboardPage.tsx": [
+      "src/actions/loadInvestigatorQualification.ts",
+      "src/components/AdminComplianceDashboard.tsx",
+      "src/components/AdminStatisticsCards.tsx",
+      "src/components/AdminSupplyPanel.tsx",
+      "src/components/AdverseEventReporter.tsx",
+      "src/components/AuditLogViewer.tsx",
+      "src/components/ErrorBoundary.tsx",
+      "src/components/HoofXrayPortal.tsx",
+      "src/components/InvestigatorOnboardingWizard.tsx",
+      "src/components/MasterTrialsTable.tsx",
+      "src/components/PatientEnrollmentForm.tsx",
+      "src/components/PatientsList.tsx",
+      "src/components/ProtocolDocumentCenter.tsx",
+      "src/components/RecentVetActivity.tsx",
+      "src/components/ResearchHub.tsx",
+      "src/components/ui/button.tsx",
+      "src/components/ui/card.tsx",
+      "src/components/ui/dialog.tsx",
+      "src/components/ui/select.tsx",
+      "src/components/ui/tabs.tsx",
+      "src/components/VeterinarianManagementPanel.tsx",
+      "src/components/VetShipmentPanel.tsx",
+      "src/components/VetToolsHub.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/pages/PatientCasePage.tsx": [
+      "src/components/CaseWorkspace.tsx"
+    ],
+    "src/pages/PendingApprovalPage.tsx": [
+      "src/components/PendingApprovalScreen.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/pages/ProtectedRoute.tsx": [
+      "src/context/AuthContext.tsx"
+    ],
+    "src/pages/VetLoginPage.tsx": [
+      "src/components/VeterinarianLoginScreen.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/pages/VetRegisterPage.tsx": [
+      "src/components/TermsAndConditionsScreen.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/pages/VetResetPage.tsx": [
+      "src/components/PasswordResetRequestScreen.tsx",
+      "src/components/PasswordResetScreen.tsx",
+      "src/context/AuthContext.tsx"
+    ],
+    "src/setupTests.ts": [],
+    "src/tailwind.config.js": [],
+    "src/task.md": [],
+    "src/TEST_VET_REGISTRATION.md": [],
+    "src/types/db.ts": [],
+    "src/types/patient.ts": [],
+    "src/types/treatment.ts": [],
+    "src/types/trialOperations.ts": [],
+    "src/types/veterinarian.ts": [],
+    "src/utils/emailNotifications.ts": [],
+    "src/utils/passwordHash.ts": [],
+    "src/utils/prohibitedTermsFilter.ts": [],
+    "src/utils/setupAdmin.ts": [
+      "src/utils/passwordHash.ts"
+    ],
+    "src/utils/whatsappNotifications.ts": [
+      "src/lib/supabase/client.ts"
+    ],
+    "supabase/config.toml": [],
+    "supabase/config.toml.save": [],
+    "supabase/functions/create-vet-profile/deno.json": [],
+    "supabase/functions/create-vet-profile/index.ts": [],
+    "supabase/functions/recovery-complete/deno.json": [],
+    "supabase/functions/recovery-complete/index.ts": [],
+    "supabase/functions/recovery-request/deno.json": [],
+    "supabase/functions/recovery-request/index.ts": [],
+    "supabase/functions/send-whatsapp-notification/deno.json": [],
+    "supabase/functions/send-whatsapp-notification/index.ts": [],
+    "supabase/migrations/20250626_hoof_xray_tables.sql": [],
+    "tailwind.config.cjs": [
+      "src/tailwind.config.js"
+    ],
+    "tsconfig.json": [],
+    "vercel.json": [],
+    "version.yml": [],
+    "vite.config.ts": []
+  }
+}

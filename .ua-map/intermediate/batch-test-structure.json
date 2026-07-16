@@ -1,0 +1,4909 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": ".cfignore",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "metrics": {}
+    },
+    {
+      "path": ".clicky-dev.pid",
+      "language": "pid",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "metrics": {}
+    },
+    {
+      "path": ".kimi/obel-grade-fix-plan.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 90,
+      "nonEmptyLines": 76,
+      "sections": [
+        {
+          "heading": "Obel Grade Source-of-Truth Fix — Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Current State",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Decision",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "Implementation Plan",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "1. Runtime backfill & validation (`src/lib/uibakeryDataMock.ts`)",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "2. Form validation (`src/components/AddAssessmentForm.tsx`)",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "3. Chart alignment (`src/components/ObelScoreChart.tsx`)",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "4. Monitoring checklist (`src/components/MonitoringChecklist.tsx`)",
+          "level": 3,
+          "line": 44
+        },
+        {
+          "heading": "5. Export codelist fixes (`src/lib/xmlExport.ts`)",
+          "level": 3,
+          "line": 49
+        },
+        {
+          "heading": "6. Schema migrations",
+          "level": 3,
+          "line": 53
+        },
+        {
+          "heading": "7. Tests",
+          "level": 3,
+          "line": 59
+        },
+        {
+          "heading": "8. Acceptance Criteria",
+          "level": 3,
+          "line": 71
+        },
+        {
+          "heading": "Files to Modify",
+          "level": 2,
+          "line": 80
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": ".ua-map/.understandignore",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 72,
+      "nonEmptyLines": 66,
+      "metrics": {}
+    },
+    {
+      "path": "api/download.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "getBearerToken",
+          "startLine": 5,
+          "endLine": 11,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "handler",
+          "startLine": 13,
+          "endLine": 44,
+          "params": [
+            "req",
+            "res"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "handler",
+          "line": 13,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getBearerToken",
+          "callee": "auth.startsWith",
+          "lineNumber": 7
+        },
+        {
+          "caller": "getBearerToken",
+          "callee": "auth.slice",
+          "lineNumber": 8
+        },
+        {
+          "caller": "handler",
+          "callee": "res.setHeader",
+          "lineNumber": 15
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(405).json",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handler",
+          "callee": "getBearerToken",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(401).json",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(400).json",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handler",
+          "callee": "createServiceClient",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handler",
+          "callee": "supabase.auth.getUser",
+          "lineNumber": 31
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(401).json",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handler",
+          "callee": "handleDownload",
+          "lineNumber": 36
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(200).json",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handler",
+          "callee": "console.error",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(status).json",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "api/register.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "handler",
+          "startLine": 8,
+          "endLine": 80,
+          "params": [
+            "req",
+            "res"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "handler",
+          "line": 8,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handler",
+          "callee": "res.setHeader",
+          "lineNumber": 10
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(405).json",
+          "lineNumber": 11
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 11
+        },
+        {
+          "caller": "handler",
+          "callee": "String(email ?? '').toLowerCase().trim",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handler",
+          "callee": "String(email ?? '').toLowerCase",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handler",
+          "callee": "String",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(400).json",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handler",
+          "callee": "createServiceClient",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handler",
+          "callee": "supabase.auth.admin.createUser",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(409).json",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handler",
+          "callee": "new Date().toISOString",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handler",
+          "callee": "supabase.from('veterinarians').insert",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handler",
+          "callee": "supabase.from",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handler",
+          "callee": "supabase.auth.admin.deleteUser",
+          "lineNumber": 65
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(500).json",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 66
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(201).json",
+          "lineNumber": 69
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 69
+        },
+        {
+          "caller": "handler",
+          "callee": "console.error",
+          "lineNumber": 75
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(500).json",
+          "lineNumber": 76
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "api/upload.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "getBearerToken",
+          "startLine": 6,
+          "endLine": 12,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "handler",
+          "startLine": 14,
+          "endLine": 62,
+          "params": [
+            "req",
+            "res"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "handler",
+          "line": 14,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getBearerToken",
+          "callee": "auth.startsWith",
+          "lineNumber": 8
+        },
+        {
+          "caller": "getBearerToken",
+          "callee": "auth.slice",
+          "lineNumber": 9
+        },
+        {
+          "caller": "handler",
+          "callee": "res.setHeader",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(405).json",
+          "lineNumber": 17
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 17
+        },
+        {
+          "caller": "handler",
+          "callee": "getBearerToken",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(401).json",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handler",
+          "callee": "createServiceClient",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handler",
+          "callee": "supabase.auth.getUser",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(401).json",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handler",
+          "callee": "parseMultipart",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handler",
+          "callee": "files.find",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(400).json",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handler",
+          "callee": "isUploadCategory",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(400).json",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(400).json",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handler",
+          "callee": "handleUpload",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(200).json",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handler",
+          "callee": "console.error",
+          "lineNumber": 57
+        },
+        {
+          "caller": "handler",
+          "callee": "message.includes",
+          "lineNumber": 59
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status(status).json",
+          "lineNumber": 60
+        },
+        {
+          "caller": "handler",
+          "callee": "res.status",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 93,
+      "nonEmptyLines": 67,
+      "sections": [
+        {
+          "heading": "Clicky UI Smoke Inspection — 2026-06-24",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Scope",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Routes Covered",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "Issues Found",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "No broken links, 404s, or blocking runtime errors found",
+          "level": 3,
+          "line": 27
+        },
+        {
+          "heading": "Non-blocking console warnings observed during local smoke crawl",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "Registration screen starts with key title offscreen in Chromium smoke viewport",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "Smoke Test Added",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "Minimal UI Flow And Style Suggestions",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "Polish Fixes Applied",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "Files Changed",
+          "level": 2,
+          "line": 90
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/vet-guide-with-screenshots/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 248,
+      "nonEmptyLines": 153,
+      "sections": [
+        {
+          "heading": "PTP-102 Trial Portal: Veterinarian Guide with Internal Screenshots",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Screenshot Set",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "1. What the App Does",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "2. Security and Secure Operation",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "2.1 Role-Based Access",
+          "level": 3,
+          "line": 52
+        },
+        {
+          "heading": "2.2 Login, Approval, and Qualification",
+          "level": 3,
+          "line": 58
+        },
+        {
+          "heading": "2.3 Secure Uploads and Downloads",
+          "level": 3,
+          "line": 71
+        },
+        {
+          "heading": "2.4 Audit Trail and Compliance",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "2.5 Export Readiness",
+          "level": 3,
+          "line": 83
+        },
+        {
+          "heading": "3. Day-to-Day Veterinarian Tutorial",
+          "level": 2,
+          "line": 89
+        },
+        {
+          "heading": "Step 1: Choose Veterinarian Access",
+          "level": 3,
+          "line": 91
+        },
+        {
+          "heading": "Step 2: Confirm You Are in the Vet Workspace",
+          "level": 3,
+          "line": 99
+        },
+        {
+          "heading": "Step 3: Review the Patient List",
+          "level": 3,
+          "line": 107
+        },
+        {
+          "heading": "Step 4: Use the Support Tabs",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "Step 5: Open the Patient Detail View",
+          "level": 3,
+          "line": 141
+        },
+        {
+          "heading": "Step 6: Work in the Patient Case Workspace",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "Step 7: Maintain the Clinical Record",
+          "level": 3,
+          "line": 164
+        },
+        {
+          "heading": "Step 8: Review Audit and Compliance Before Export",
+          "level": 3,
+          "line": 178
+        },
+        {
+          "heading": "4. Admin Oversight Screens",
+          "level": 2,
+          "line": 184
+        },
+        {
+          "heading": "5. Local Capture Notes",
+          "level": 2,
+          "line": 216
+        },
+        {
+          "heading": "6. Practical Vet Checklist",
+          "level": 2,
+          "line": 226
+        },
+        {
+          "heading": "Start of Session",
+          "level": 3,
+          "line": 228
+        },
+        {
+          "heading": "During Patient Work",
+          "level": 3,
+          "line": 235
+        },
+        {
+          "heading": "End of Session",
+          "level": 3,
+          "line": 243
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 24
+      }
+    },
+    {
+      "path": "e2e/fixtures/fake-consent.txt",
+      "language": "txt",
+      "fileCategory": "docs",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {}
+    },
+    {
+      "path": "e2e/patient-signup-approval.spec.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 146,
+      "nonEmptyLines": 125,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "e2e/smoke-navigation.spec.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 83,
+      "nonEmptyLines": 66,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "e2e/vet-admin-workflow.spec.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 297,
+      "nonEmptyLines": 265,
+      "functions": [
+        {
+          "name": "adminLogin",
+          "startLine": 148,
+          "endLine": 154,
+          "params": [
+            "page"
+          ]
+        },
+        {
+          "name": "assertPortalHasNoUnexpectedErrors",
+          "startLine": 156,
+          "endLine": 158,
+          "params": [
+            "page"
+          ]
+        },
+        {
+          "name": "vetLogin",
+          "startLine": 160,
+          "endLine": 166,
+          "params": [
+            "page"
+          ]
+        },
+        {
+          "name": "uploadFixture",
+          "startLine": 168,
+          "endLine": 172,
+          "params": [
+            "page",
+            "selector",
+            "fileName"
+          ]
+        },
+        {
+          "name": "fillVetRegistrationForm",
+          "startLine": 174,
+          "endLine": 190,
+          "params": [
+            "page"
+          ]
+        },
+        {
+          "name": "checkIfUnchecked",
+          "startLine": 192,
+          "endLine": 198,
+          "params": [
+            "page",
+            "selector"
+          ]
+        },
+        {
+          "name": "fillIfVisible",
+          "startLine": 200,
+          "endLine": 205,
+          "params": [
+            "page",
+            "selector",
+            "value"
+          ]
+        },
+        {
+          "name": "fillOrSelect",
+          "startLine": 207,
+          "endLine": 216,
+          "params": [
+            "page",
+            "selector",
+            "value"
+          ]
+        },
+        {
+          "name": "assertHealthyLinks",
+          "startLine": 218,
+          "endLine": 242,
+          "params": [
+            "page",
+            "baseURL",
+            "paths"
+          ]
+        },
+        {
+          "name": "expectBackendState",
+          "startLine": 244,
+          "endLine": 273,
+          "params": [
+            "expectedState"
+          ]
+        },
+        {
+          "name": "runStep",
+          "startLine": 275,
+          "endLine": 287,
+          "params": [
+            "name",
+            "action"
+          ]
+        },
+        {
+          "name": "envOrDefault",
+          "startLine": 289,
+          "endLine": 291,
+          "params": [
+            "name",
+            "fallback"
+          ]
+        },
+        {
+          "name": "requiredPath",
+          "startLine": 293,
+          "endLine": 297,
+          "params": [
+            "name"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "adminLogin",
+          "callee": "page.goto",
+          "lineNumber": 149
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "requiredPath",
+          "lineNumber": 149
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator(selectors.adminEmail).first().fill",
+          "lineNumber": 150
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator(selectors.adminEmail).first",
+          "lineNumber": 150
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator",
+          "lineNumber": 150
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator(selectors.adminPassword).first().fill",
+          "lineNumber": 151
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator(selectors.adminPassword).first",
+          "lineNumber": 151
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator",
+          "lineNumber": 151
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator(selectors.adminSubmit).first().click",
+          "lineNumber": 152
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator(selectors.adminSubmit).first",
+          "lineNumber": 152
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator",
+          "lineNumber": 152
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "expect(page.locator('body')).toContainText",
+          "lineNumber": 153
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "expect",
+          "lineNumber": 153
+        },
+        {
+          "caller": "adminLogin",
+          "callee": "page.locator",
+          "lineNumber": 153
+        },
+        {
+          "caller": "assertPortalHasNoUnexpectedErrors",
+          "callee": "expect(page.locator('[role=\"alert\"], [data-testid*=\"error\"], .error')).not.toContainText",
+          "lineNumber": 157
+        },
+        {
+          "caller": "assertPortalHasNoUnexpectedErrors",
+          "callee": "expect",
+          "lineNumber": 157
+        },
+        {
+          "caller": "assertPortalHasNoUnexpectedErrors",
+          "callee": "page.locator",
+          "lineNumber": 157
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.goto",
+          "lineNumber": 161
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "requiredPath",
+          "lineNumber": 161
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator(selectors.vetEmail).first().fill",
+          "lineNumber": 162
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator(selectors.vetEmail).first",
+          "lineNumber": 162
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator",
+          "lineNumber": 162
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator(selectors.vetPassword).first().fill",
+          "lineNumber": 163
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator(selectors.vetPassword).first",
+          "lineNumber": 163
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator",
+          "lineNumber": 163
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator(selectors.vetSubmit).first().click",
+          "lineNumber": 164
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator(selectors.vetSubmit).first",
+          "lineNumber": 164
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator",
+          "lineNumber": 164
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "expect(page.locator('body')).toContainText",
+          "lineNumber": 165
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "expect",
+          "lineNumber": 165
+        },
+        {
+          "caller": "vetLogin",
+          "callee": "page.locator",
+          "lineNumber": 165
+        },
+        {
+          "caller": "uploadFixture",
+          "callee": "path.resolve",
+          "lineNumber": 169
+        },
+        {
+          "caller": "uploadFixture",
+          "callee": "page.locator(selector).first",
+          "lineNumber": 170
+        },
+        {
+          "caller": "uploadFixture",
+          "callee": "page.locator",
+          "lineNumber": 170
+        },
+        {
+          "caller": "uploadFixture",
+          "callee": "input.setInputFiles",
+          "lineNumber": 171
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerFullName).first().fill",
+          "lineNumber": 178
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerFullName).first",
+          "lineNumber": 178
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 178
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerEmail).first().fill",
+          "lineNumber": 179
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerEmail).first",
+          "lineNumber": 179
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 179
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerPhone).first().fill",
+          "lineNumber": 180
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerPhone).first",
+          "lineNumber": 180
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 180
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerPassword).first().fill",
+          "lineNumber": 181
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerPassword).first",
+          "lineNumber": 181
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 181
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerConfirmPassword).first().fill",
+          "lineNumber": 182
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerConfirmPassword).first",
+          "lineNumber": 182
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 182
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerLicenseNumber).first().fill",
+          "lineNumber": 183
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerLicenseNumber).first",
+          "lineNumber": 183
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 183
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "Date.now",
+          "lineNumber": 183
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerHospitalAffiliation).first().fill",
+          "lineNumber": 184
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerHospitalAffiliation).first",
+          "lineNumber": 184
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 184
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerSignatureText).first().fill",
+          "lineNumber": 185
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator(selectors.registerSignatureText).first",
+          "lineNumber": 185
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "page.locator",
+          "lineNumber": 185
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "checkIfUnchecked",
+          "lineNumber": 186
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "checkIfUnchecked",
+          "lineNumber": 187
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "checkIfUnchecked",
+          "lineNumber": 188
+        },
+        {
+          "caller": "fillVetRegistrationForm",
+          "callee": "checkIfUnchecked",
+          "lineNumber": 189
+        },
+        {
+          "caller": "checkIfUnchecked",
+          "callee": "page.locator(selector).first",
+          "lineNumber": 193
+        },
+        {
+          "caller": "checkIfUnchecked",
+          "callee": "page.locator",
+          "lineNumber": 193
+        },
+        {
+          "caller": "checkIfUnchecked",
+          "callee": "expect(checkbox).toBeVisible",
+          "lineNumber": 194
+        },
+        {
+          "caller": "checkIfUnchecked",
+          "callee": "expect",
+          "lineNumber": 194
+        },
+        {
+          "caller": "checkIfUnchecked",
+          "callee": "checkbox.getAttribute",
+          "lineNumber": 195
+        },
+        {
+          "caller": "checkIfUnchecked",
+          "callee": "checkbox.click",
+          "lineNumber": 196
+        },
+        {
+          "caller": "fillIfVisible",
+          "callee": "page.locator(selector).first",
+          "lineNumber": 201
+        },
+        {
+          "caller": "fillIfVisible",
+          "callee": "page.locator",
+          "lineNumber": 201
+        },
+        {
+          "caller": "fillIfVisible",
+          "callee": "locator.isVisible",
+          "lineNumber": 202
+        },
+        {
+          "caller": "fillIfVisible",
+          "callee": "locator.fill",
+          "lineNumber": 203
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "page.locator(selector).first",
+          "lineNumber": 208
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "page.locator",
+          "lineNumber": 208
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "expect(locator).toBeVisible",
+          "lineNumber": 209
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "expect",
+          "lineNumber": 209
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "locator.evaluate",
+          "lineNumber": 210
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "element.tagName.toLowerCase",
+          "lineNumber": 210
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "locator.selectOption({ label: value }).catch",
+          "lineNumber": 212
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "locator.selectOption",
+          "lineNumber": 212
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "locator.selectOption",
+          "lineNumber": 212
+        },
+        {
+          "caller": "fillOrSelect",
+          "callee": "locator.fill",
+          "lineNumber": 214
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "request.newContext",
+          "lineNumber": 219
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "page.goto",
+          "lineNumber": 223
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "page.locator('a[href]').evaluateAll",
+          "lineNumber": 224
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "page.locator",
+          "lineNumber": 224
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "anchors\n        .map((anchor) => anchor.getAttribute('href'))\n        .filter((href): href is string => Boolean(href))\n        .filter",
+          "lineNumber": 225
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "anchors\n        .map((anchor) => anchor.getAttribute('href'))\n        .filter",
+          "lineNumber": 225
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "anchors\n        .map",
+          "lineNumber": 225
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "anchor.getAttribute",
+          "lineNumber": 226
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "Boolean",
+          "lineNumber": 227
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "href.startsWith",
+          "lineNumber": 228
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "href.startsWith",
+          "lineNumber": 228
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "href.startsWith",
+          "lineNumber": 228
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "url.toString",
+          "lineNumber": 233
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "checked.has",
+          "lineNumber": 234
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "checked.add",
+          "lineNumber": 235
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "apiContext.get",
+          "lineNumber": 236
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "expect(response.status(), `${key} should be healthy`).toBeLessThan",
+          "lineNumber": 237
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "expect",
+          "lineNumber": 237
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "response.status",
+          "lineNumber": 237
+        },
+        {
+          "caller": "assertHealthyLinks",
+          "callee": "apiContext.dispose",
+          "lineNumber": 241
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "request.newContext",
+          "lineNumber": 248
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "expect\n    .poll(\n      async () => {\n        const response = await apiContext.get(backendUrl, {\n          params: {\n            expectedState,\n            vetEmail: state.vetEmail,\n          },\n        });\n        const body = await response.json().catch(() => null);\n        return {\n          ok: response.ok() && (!body || typeof body !== 'object' || !('ok' in body) || body.ok === true),\n          status: response.status(),\n          body,\n        };\n      },\n      { message: `${expectedState} backend state endpoint should pass`, timeout: 30_000 },\n    )\n    .toMatchObject",
+          "lineNumber": 253
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "expect\n    .poll",
+          "lineNumber": 253
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "apiContext.get",
+          "lineNumber": 256
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "response.json().catch",
+          "lineNumber": 262
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "response.json",
+          "lineNumber": 262
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "response.ok",
+          "lineNumber": 264
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "response.status",
+          "lineNumber": 265
+        },
+        {
+          "caller": "expectBackendState",
+          "callee": "apiContext.dispose",
+          "lineNumber": 272
+        },
+        {
+          "caller": "runStep",
+          "callee": "action",
+          "lineNumber": 277
+        },
+        {
+          "caller": "runStep",
+          "callee": "state.stepResults.push",
+          "lineNumber": 278
+        },
+        {
+          "caller": "runStep",
+          "callee": "state.stepResults.push",
+          "lineNumber": 280
+        },
+        {
+          "caller": "runStep",
+          "callee": "String",
+          "lineNumber": 283
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 13,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "eslint.config.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 36,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "playwright.config.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 37,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "postcss.config.cjs",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "public/_redirects",
+      "language": "unknown",
+      "fileCategory": "code",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "metrics": {}
+    },
+    {
+      "path": "public/ipfs-404.html",
+      "language": "html",
+      "fileCategory": "markup",
+      "totalLines": 11,
+      "nonEmptyLines": 11,
+      "metrics": {}
+    },
+    {
+      "path": "scripts/backfill_vet_email.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "backfill",
+          "startLine": 11,
+          "endLine": 47,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "backfill",
+          "callee": "c.from('veterinarians').select('id, email').eq",
+          "lineNumber": 13
+        },
+        {
+          "caller": "backfill",
+          "callee": "c.from('veterinarians').select",
+          "lineNumber": 13
+        },
+        {
+          "caller": "backfill",
+          "callee": "c.from",
+          "lineNumber": 13
+        },
+        {
+          "caller": "backfill",
+          "callee": "console.error",
+          "lineNumber": 15
+        },
+        {
+          "caller": "backfill",
+          "callee": "process.exit",
+          "lineNumber": 16
+        },
+        {
+          "caller": "backfill",
+          "callee": "console.log",
+          "lineNumber": 19
+        },
+        {
+          "caller": "backfill",
+          "callee": "c\n    .from('patients')\n    .select('id, unique_id, horse_name, enrolled_by_vet_email')\n    .is",
+          "lineNumber": 22
+        },
+        {
+          "caller": "backfill",
+          "callee": "c\n    .from('patients')\n    .select",
+          "lineNumber": 22
+        },
+        {
+          "caller": "backfill",
+          "callee": "c\n    .from",
+          "lineNumber": 22
+        },
+        {
+          "caller": "backfill",
+          "callee": "console.error",
+          "lineNumber": 28
+        },
+        {
+          "caller": "backfill",
+          "callee": "process.exit",
+          "lineNumber": 29
+        },
+        {
+          "caller": "backfill",
+          "callee": "console.log",
+          "lineNumber": 32
+        },
+        {
+          "caller": "backfill",
+          "callee": "c\n      .from('patients')\n      .update({ enrolled_by_vet_email: vet.email })\n      .eq",
+          "lineNumber": 36
+        },
+        {
+          "caller": "backfill",
+          "callee": "c\n      .from('patients')\n      .update",
+          "lineNumber": 36
+        },
+        {
+          "caller": "backfill",
+          "callee": "c\n      .from",
+          "lineNumber": 36
+        },
+        {
+          "caller": "backfill",
+          "callee": "console.error",
+          "lineNumber": 41
+        },
+        {
+          "caller": "backfill",
+          "callee": "console.log",
+          "lineNumber": 43
+        },
+        {
+          "caller": "backfill",
+          "callee": "console.log",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "scripts/e2eSecureUpload.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 225,
+      "nonEmptyLines": 193,
+      "functions": [
+        {
+          "name": "mask",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "assert",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "condition",
+            "message"
+          ]
+        },
+        {
+          "name": "signIn",
+          "startLine": 29,
+          "endLine": 36,
+          "params": [
+            "email",
+            "password"
+          ]
+        },
+        {
+          "name": "createTestUser",
+          "startLine": 38,
+          "endLine": 52,
+          "params": [
+            "email",
+            "password",
+            "role"
+          ]
+        },
+        {
+          "name": "uploadFile",
+          "startLine": 54,
+          "endLine": 79,
+          "params": [
+            "token",
+            "file"
+          ]
+        },
+        {
+          "name": "downloadFile",
+          "startLine": 81,
+          "endLine": 92,
+          "params": [
+            "token",
+            "path"
+          ]
+        },
+        {
+          "name": "cleanupUser",
+          "startLine": 94,
+          "endLine": 110,
+          "params": [
+            "userId",
+            "path"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 112,
+          "endLine": 223,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "mask",
+          "callee": "value.slice",
+          "lineNumber": 20
+        },
+        {
+          "caller": "mask",
+          "callee": "value.slice",
+          "lineNumber": 20
+        },
+        {
+          "caller": "signIn",
+          "callee": "createClient",
+          "lineNumber": 30
+        },
+        {
+          "caller": "signIn",
+          "callee": "client.auth.signInWithPassword",
+          "lineNumber": 31
+        },
+        {
+          "caller": "createTestUser",
+          "callee": "createClient",
+          "lineNumber": 39
+        },
+        {
+          "caller": "createTestUser",
+          "callee": "serviceClient.auth.admin.createUser",
+          "lineNumber": 42
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "formData.append",
+          "lineNumber": 56
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "formData.append",
+          "lineNumber": 57
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "formData.append",
+          "lineNumber": 58
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "formData.append",
+          "lineNumber": 59
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "fetch",
+          "lineNumber": 61
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "response.json().catch",
+          "lineNumber": 69
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "response.json",
+          "lineNumber": 69
+        },
+        {
+          "caller": "uploadFile",
+          "callee": "assert",
+          "lineNumber": 77
+        },
+        {
+          "caller": "downloadFile",
+          "callee": "fetch",
+          "lineNumber": 82
+        },
+        {
+          "caller": "downloadFile",
+          "callee": "encodeURIComponent",
+          "lineNumber": 82
+        },
+        {
+          "caller": "downloadFile",
+          "callee": "response.json().catch",
+          "lineNumber": 87
+        },
+        {
+          "caller": "downloadFile",
+          "callee": "response.json",
+          "lineNumber": 87
+        },
+        {
+          "caller": "cleanupUser",
+          "callee": "createClient",
+          "lineNumber": 95
+        },
+        {
+          "caller": "cleanupUser",
+          "callee": "serviceClient.storage.from('private-uploads').remove",
+          "lineNumber": 100
+        },
+        {
+          "caller": "cleanupUser",
+          "callee": "serviceClient.storage.from",
+          "lineNumber": 100
+        },
+        {
+          "caller": "cleanupUser",
+          "callee": "console.warn",
+          "lineNumber": 102
+        },
+        {
+          "caller": "cleanupUser",
+          "callee": "serviceClient.auth.admin.deleteUser",
+          "lineNumber": 106
+        },
+        {
+          "caller": "cleanupUser",
+          "callee": "console.warn",
+          "lineNumber": 108
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 113
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 114
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 115
+        },
+        {
+          "caller": "main",
+          "callee": "mask",
+          "lineNumber": 115
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 116
+        },
+        {
+          "caller": "main",
+          "callee": "mask",
+          "lineNumber": 116
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 117
+        },
+        {
+          "caller": "main",
+          "callee": "createClient",
+          "lineNumber": 119
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 123
+        },
+        {
+          "caller": "main",
+          "callee": "serviceClient.storage.listBuckets",
+          "lineNumber": 124
+        },
+        {
+          "caller": "main",
+          "callee": "buckets?.find",
+          "lineNumber": 128
+        },
+        {
+          "caller": "main",
+          "callee": "serviceClient.storage.createBucket",
+          "lineNumber": 129
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 135
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 137
+        },
+        {
+          "caller": "main",
+          "callee": "Date.now",
+          "lineNumber": 140
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 150
+        },
+        {
+          "caller": "main",
+          "callee": "createTestUser",
+          "lineNumber": 151
+        },
+        {
+          "caller": "main",
+          "callee": "createTestUser",
+          "lineNumber": 152
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 153
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 154
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 156
+        },
+        {
+          "caller": "main",
+          "callee": "signIn",
+          "lineNumber": 157
+        },
+        {
+          "caller": "main",
+          "callee": "signIn",
+          "lineNumber": 158
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 159
+        },
+        {
+          "caller": "main",
+          "callee": "mask",
+          "lineNumber": 159
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 160
+        },
+        {
+          "caller": "main",
+          "callee": "mask",
+          "lineNumber": 160
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 162
+        },
+        {
+          "caller": "main",
+          "callee": "fetch",
+          "lineNumber": 163
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 164
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 165
+        },
+        {
+          "caller": "main",
+          "callee": "fetch",
+          "lineNumber": 167
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 168
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 169
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 171
+        },
+        {
+          "caller": "main",
+          "callee": "uploadFile",
+          "lineNumber": 173
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 175
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 177
+        },
+        {
+          "caller": "main",
+          "callee": "downloadFile",
+          "lineNumber": 178
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 179
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 180
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 181
+        },
+        {
+          "caller": "main",
+          "callee": "ownerDownload.signedUrl.slice",
+          "lineNumber": 181
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 183
+        },
+        {
+          "caller": "main",
+          "callee": "fetch",
+          "lineNumber": 184
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 185
+        },
+        {
+          "caller": "main",
+          "callee": "signedFetch.text",
+          "lineNumber": 186
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 187
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 188
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 190
+        },
+        {
+          "caller": "main",
+          "callee": "downloadFile",
+          "lineNumber": 191
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 192
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 193
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 195
+        },
+        {
+          "caller": "main",
+          "callee": "createClient",
+          "lineNumber": 196
+        },
+        {
+          "caller": "main",
+          "callee": "clientB.auth.setSession",
+          "lineNumber": 197
+        },
+        {
+          "caller": "main",
+          "callee": "clientB.storage\n      .from('private-uploads')\n      .download",
+          "lineNumber": 198
+        },
+        {
+          "caller": "main",
+          "callee": "clientB.storage\n      .from",
+          "lineNumber": 198
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 201
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 202
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 204
+        },
+        {
+          "caller": "main",
+          "callee": "createClient(SUPABASE_URL, SUPABASE_ANON_KEY)\n      .storage.from('private-uploads')\n      .getPublicUrl",
+          "lineNumber": 205
+        },
+        {
+          "caller": "main",
+          "callee": "createClient(SUPABASE_URL, SUPABASE_ANON_KEY)\n      .storage.from",
+          "lineNumber": 205
+        },
+        {
+          "caller": "main",
+          "callee": "createClient",
+          "lineNumber": 205
+        },
+        {
+          "caller": "main",
+          "callee": "fetch",
+          "lineNumber": 208
+        },
+        {
+          "caller": "main",
+          "callee": "assert",
+          "lineNumber": 209
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 210
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 212
+        },
+        {
+          "caller": "main",
+          "callee": "console.error",
+          "lineNumber": 214
+        },
+        {
+          "caller": "main",
+          "callee": "console.error",
+          "lineNumber": 215
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 218
+        },
+        {
+          "caller": "main",
+          "callee": "cleanupUser",
+          "lineNumber": 219
+        },
+        {
+          "caller": "main",
+          "callee": "cleanupUser",
+          "lineNumber": 220
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 221
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "scripts/migrations_combined.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 1259,
+      "nonEmptyLines": 1142,
+      "definitions": [
+        {
+          "name": "patients",
+          "kind": "table",
+          "fields": [
+            "id",
+            "horse_name",
+            "age",
+            "breed",
+            "weight",
+            "sex",
+            "owner_name",
+            "owner_contact",
+            "enrollment_date",
+            "trial_status",
+            "eligibility_verified",
+            "consent_date",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 62,
+          "endLine": 77
+        },
+        {
+          "name": "veterinarians",
+          "kind": "table",
+          "fields": [
+            "id",
+            "full_name",
+            "email",
+            "license_number",
+            "hospital_affiliation",
+            "tc_accepted",
+            "tc_accepted_at",
+            "signature_text",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 105,
+          "endLine": 116
+        },
+        {
+          "name": "treatments",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "administration_datetime",
+            "dosage_mg",
+            "route",
+            "veterinarian_name",
+            "batch_number",
+            "immediate_reactions",
+            "notes",
+            "protocol_hour",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 133,
+          "endLine": 146
+        },
+        {
+          "name": "clinical_notes",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "veterinarian_name",
+            "note_type",
+            "note_content",
+            "protocol_hour",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 152,
+          "endLine": 161
+        },
+        {
+          "name": "media_uploads",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "media_type",
+            "media_category",
+            "file_url",
+            "file_name",
+            "description",
+            "protocol_hour",
+            "uploaded_by",
+            "created_at"
+          ],
+          "startLine": 166,
+          "endLine": 177
+        },
+        {
+          "name": "lab_results",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "test_datetime",
+            "protocol_hour",
+            "wbc",
+            "rbc",
+            "hemoglobin",
+            "hematocrit",
+            "platelets",
+            "glucose",
+            "creatinine",
+            "bun",
+            "alt",
+            "ast",
+            "alkaline_phosphatase",
+            "total_protein",
+            "albumin",
+            "serum_amyloid_a",
+            "fibrinogen",
+            "lactate",
+            "additional_notes",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 182,
+          "endLine": 206
+        },
+        {
+          "name": "radiograph_assessments",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "assessment_datetime",
+            "protocol_hour",
+            "keenan_angle",
+            "affected_limb",
+            "image_url",
+            "interpretation",
+            "veterinarian_name",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 211,
+          "endLine": 223
+        },
+        {
+          "name": "clinical_assessments",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "assessment_datetime",
+            "protocol_hour",
+            "obel_grade",
+            "pain_score",
+            "mobility_score",
+            "digital_pulse_score",
+            "hoof_temperature",
+            "heart_rate",
+            "respiratory_rate",
+            "temperature",
+            "clinical_notes",
+            "veterinarian_name",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 227,
+          "endLine": 244
+        },
+        {
+          "name": "admin_users",
+          "kind": "table",
+          "fields": [
+            "id",
+            "email",
+            "password_hash",
+            "full_name",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 464,
+          "endLine": 471
+        },
+        {
+          "name": "study_settings",
+          "kind": "table",
+          "fields": [
+            "id",
+            "inad_file_number",
+            "protocol_version",
+            "protocol_effective_date",
+            "last_fda_correspondence_date",
+            "study_title",
+            "sponsor_name",
+            "sponsor_contact",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 683,
+          "endLine": 694
+        },
+        {
+          "name": "investigator_qualifications",
+          "kind": "table",
+          "fields": [
+            "id",
+            "veterinarian_id",
+            "license_number",
+            "license_state",
+            "years_experience",
+            "laminitis_case_volume_per_year",
+            "prior_clinical_trial_experience",
+            "prior_trials_count",
+            "cv_upload_url",
+            "gcp_training_completed",
+            "gcp_certificate_url",
+            "gcp_completion_date",
+            "gcp_expiry_date",
+            "gcp_quiz_score",
+            "facility_inspection_completed",
+            "facility_inspection_date",
+            "drug_storage_photo_url",
+            "emergency_equipment_photo_url",
+            "records_area_photo_url",
+            "facility_checklist",
+            "investigator_agreement_signed",
+            "investigator_agreement_signed_at",
+            "investigator_agreement_signature",
+            "protocol_signed",
+            "protocol_signed_at",
+            "protocol_signed_version",
+            "protocol_signature",
+            "qualification_status",
+            "admin_reviewed_at",
+            "admin_reviewed_by",
+            "admin_rejection_reason",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 699,
+          "endLine": 734
+        },
+        {
+          "name": "informed_consents",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "owner_name",
+            "owner_address",
+            "owner_phone",
+            "owner_email",
+            "owner_relationship",
+            "horse_name",
+            "horse_breed",
+            "horse_age",
+            "horse_weight",
+            "horse_microchip",
+            "icf_status",
+            "icf_viewed_at",
+            "icf_can_sign_after",
+            "icf_signed_at",
+            "owner_signature",
+            "witness_name",
+            "witness_signature",
+            "investigator_signature",
+            "investigator_signed_at",
+            "section_acknowledgments",
+            "icf_pdf_url",
+            "withdrawn_at",
+            "withdrawal_reason",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 739,
+          "endLine": 768
+        },
+        {
+          "name": "protocol_versions",
+          "kind": "table",
+          "fields": [
+            "id",
+            "version_number",
+            "effective_date",
+            "description",
+            "pdf_url",
+            "uploaded_by",
+            "uploaded_at",
+            "is_current",
+            "previous_version",
+            "change_summary",
+            "created_at"
+          ],
+          "startLine": 773,
+          "endLine": 785
+        },
+        {
+          "name": "adverse_events",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "veterinarian_id",
+            "reporter_name",
+            "reporter_email",
+            "event_description",
+            "severity",
+            "causality",
+            "start_date",
+            "is_ongoing",
+            "resolved_date",
+            "action_taken",
+            "outcome",
+            "admin_notified",
+            "admin_notified_at",
+            "sponsor_notified",
+            "sponsor_notified_at",
+            "vet_assessment",
+            "digital_signature",
+            "signed_at",
+            "expected",
+            "serious",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 792,
+          "endLine": 817
+        },
+        {
+          "name": "site_qualifications",
+          "kind": "table",
+          "fields": [
+            "id",
+            "site_name",
+            "site_address",
+            "iacuc_approval_number",
+            "principal_investigator_name",
+            "principal_investigator_email",
+            "principal_investigator_credentials",
+            "has_emergency_equipment",
+            "has_drug_storage_refrigeration",
+            "has_drug_storage_security",
+            "has_radiography",
+            "has_laboratory",
+            "has_24h_emergency_coverage",
+            "prior_trial_experience_count",
+            "prior_therapeutic_areas",
+            "gcp_training_records",
+            "site_status",
+            "qualified_at",
+            "activated_at",
+            "closed_at",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 824,
+          "endLine": 848
+        },
+        {
+          "name": "monitoring_visits",
+          "kind": "table",
+          "fields": [
+            "id",
+            "site_id",
+            "visit_type",
+            "visit_date",
+            "monitor_name",
+            "monitor_email",
+            "findings",
+            "deviations_found",
+            "corrective_actions",
+            "capa_items",
+            "next_visit_due",
+            "report_url",
+            "completed",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 852,
+          "endLine": 868
+        },
+        {
+          "name": "audit_logs",
+          "kind": "table",
+          "fields": [
+            "id",
+            "user_id",
+            "user_email",
+            "user_role",
+            "action",
+            "entity_type",
+            "entity_id",
+            "field_name",
+            "old_value",
+            "new_value",
+            "reason_for_change",
+            "ip_address",
+            "user_agent",
+            "session_id",
+            "timestamp"
+          ],
+          "startLine": 874,
+          "endLine": 890
+        },
+        {
+          "name": "fda_correspondence",
+          "kind": "table",
+          "fields": [
+            "id",
+            "correspondence_type",
+            "correspondence_date",
+            "subject",
+            "description",
+            "from_entity",
+            "to_entity",
+            "related_protocol_version",
+            "document_url",
+            "uploaded_by",
+            "created_at"
+          ],
+          "startLine": 897,
+          "endLine": 909
+        },
+        {
+          "name": "protocol_deviations",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "veterinarian_id",
+            "deviation_type",
+            "deviation_date",
+            "description",
+            "explanation",
+            "impact_assessment",
+            "corrective_action",
+            "preventive_action",
+            "admin_notified",
+            "admin_reviewed_at",
+            "admin_reviewed_by",
+            "status",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 914,
+          "endLine": 932
+        },
+        {
+          "name": "communication_messages",
+          "kind": "table",
+          "fields": [
+            "id",
+            "sender_email",
+            "sender_role",
+            "recipient_emails",
+            "subject",
+            "body",
+            "message_classification",
+            "compliance_warning_triggered",
+            "parent_message_id",
+            "read_by",
+            "created_at"
+          ],
+          "startLine": 938,
+          "endLine": 950
+        },
+        {
+          "name": "enrollment_eligibility",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "inclusion_diagnosed_acute_laminitis",
+            "inclusion_obel_grade_1_to_3",
+            "inclusion_age_2_to_20",
+            "inclusion_weight_over_200kg",
+            "inclusion_owner_consent",
+            "inclusion_no_prior_investigational_drug_30d",
+            "exclusion_chronic_laminitis_over_14d",
+            "exclusion_pregnant_or_lactating",
+            "exclusion_concurrent_systemic_disease",
+            "exclusion_prior_investigational_drug_30d",
+            "exclusion_owner_declined_consent",
+            "eligibility_determination",
+            "ineligible_reason",
+            "deviation_justification",
+            "screened_by",
+            "screened_at",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 956,
+          "endLine": 977
+        },
+        {
+          "name": "treatment_outcomes",
+          "kind": "table",
+          "fields": [
+            "id",
+            "patient_id",
+            "assessment_day",
+            "assessment_date",
+            "protocol_hour",
+            "obel_grade",
+            "digital_pulse_score",
+            "hoof_temperature",
+            "pain_score",
+            "mobility_score",
+            "heart_rate",
+            "respiratory_rate",
+            "temperature",
+            "body_weight",
+            "appetite_score",
+            "radiograph_url",
+            "radiograph_findings",
+            "keenan_angle",
+            "gait_video_url",
+            "veterinarian_name",
+            "signed_at",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 982,
+          "endLine": 1006
+        },
+        {
+          "name": "ncie_shipment_log",
+          "kind": "table",
+          "fields": [
+            "id",
+            "shipment_date",
+            "quantity_vials",
+            "quantity_ml_total",
+            "batch_lot_number",
+            "expiration_date",
+            "shipped_to_site_id",
+            "shipped_to_investigator",
+            "receiving_signature",
+            "received_at",
+            "condition_on_receipt",
+            "storage_temperature_celsius",
+            "tracking_number",
+            "created_at"
+          ],
+          "startLine": 1019,
+          "endLine": 1034
+        },
+        {
+          "name": "recovery_tokens",
+          "kind": "table",
+          "fields": [
+            "id",
+            "email",
+            "token_hash",
+            "role",
+            "expires_at",
+            "used_at",
+            "created_at"
+          ],
+          "startLine": 1159,
+          "endLine": 1167
+        },
+        {
+          "name": "idx_patients_trial_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 79,
+          "endLine": 79
+        },
+        {
+          "name": "idx_patients_enrollment_date",
+          "kind": "index",
+          "fields": [],
+          "startLine": 80,
+          "endLine": 80
+        },
+        {
+          "name": "idx_veterinarians_email",
+          "kind": "index",
+          "fields": [],
+          "startLine": 118,
+          "endLine": 118
+        },
+        {
+          "name": "idx_veterinarians_tc_accepted",
+          "kind": "index",
+          "fields": [],
+          "startLine": 119,
+          "endLine": 119
+        },
+        {
+          "name": "idx_treatments_patient_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 148,
+          "endLine": 148
+        },
+        {
+          "name": "idx_treatments_administration_datetime",
+          "kind": "index",
+          "fields": [],
+          "startLine": 149,
+          "endLine": 149
+        },
+        {
+          "name": "idx_treatments_protocol_hour",
+          "kind": "index",
+          "fields": [],
+          "startLine": 150,
+          "endLine": 150
+        },
+        {
+          "name": "idx_clinical_notes_patient_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 163,
+          "endLine": 163
+        },
+        {
+          "name": "idx_clinical_notes_created_at",
+          "kind": "index",
+          "fields": [],
+          "startLine": 164,
+          "endLine": 164
+        },
+        {
+          "name": "idx_media_uploads_patient_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 179,
+          "endLine": 179
+        },
+        {
+          "name": "idx_media_uploads_media_category",
+          "kind": "index",
+          "fields": [],
+          "startLine": 180,
+          "endLine": 180
+        },
+        {
+          "name": "idx_lab_results_patient_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 208,
+          "endLine": 208
+        },
+        {
+          "name": "idx_lab_results_test_datetime",
+          "kind": "index",
+          "fields": [],
+          "startLine": 209,
+          "endLine": 209
+        },
+        {
+          "name": "idx_radiograph_assessments_patient_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 225,
+          "endLine": 225
+        },
+        {
+          "name": "idx_clinical_assessments_patient_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 246,
+          "endLine": 246
+        },
+        {
+          "name": "idx_clinical_assessments_assessment_datetime",
+          "kind": "index",
+          "fields": [],
+          "startLine": 247,
+          "endLine": 247
+        },
+        {
+          "name": "idx_clinical_notes_video_url",
+          "kind": "index",
+          "fields": [],
+          "startLine": 266,
+          "endLine": 266
+        },
+        {
+          "name": "idx_admin_users_email",
+          "kind": "index",
+          "fields": [],
+          "startLine": 473,
+          "endLine": 473
+        },
+        {
+          "name": "idx_veterinarians_reset_token",
+          "kind": "index",
+          "fields": [],
+          "startLine": 493,
+          "endLine": 493
+        },
+        {
+          "name": "idx_patients_screening_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 504,
+          "endLine": 504
+        },
+        {
+          "name": "idx_veterinarians_verification_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 635,
+          "endLine": 635
+        },
+        {
+          "name": "idx_veterinarians_last_login",
+          "kind": "index",
+          "fields": [],
+          "startLine": 636,
+          "endLine": 636
+        },
+        {
+          "name": "idx_patients_is_flagged",
+          "kind": "index",
+          "fields": [],
+          "startLine": 653,
+          "endLine": 653
+        },
+        {
+          "name": "idx_inv_qual_vet_id",
+          "kind": "index",
+          "fields": [],
+          "startLine": 736,
+          "endLine": 736
+        },
+        {
+          "name": "idx_inv_qual_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 737,
+          "endLine": 737
+        },
+        {
+          "name": "idx_informed_consents_patient",
+          "kind": "index",
+          "fields": [],
+          "startLine": 770,
+          "endLine": 770
+        },
+        {
+          "name": "idx_informed_consents_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 771,
+          "endLine": 771
+        },
+        {
+          "name": "idx_protocol_versions_current",
+          "kind": "index",
+          "fields": [],
+          "startLine": 787,
+          "endLine": 787
+        },
+        {
+          "name": "idx_ae_patient",
+          "kind": "index",
+          "fields": [],
+          "startLine": 819,
+          "endLine": 819
+        },
+        {
+          "name": "idx_ae_severity",
+          "kind": "index",
+          "fields": [],
+          "startLine": 820,
+          "endLine": 820
+        },
+        {
+          "name": "idx_ae_created",
+          "kind": "index",
+          "fields": [],
+          "startLine": 821,
+          "endLine": 821
+        },
+        {
+          "name": "idx_ae_serious",
+          "kind": "index",
+          "fields": [],
+          "startLine": 822,
+          "endLine": 822
+        },
+        {
+          "name": "idx_site_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 850,
+          "endLine": 850
+        },
+        {
+          "name": "idx_monitoring_site",
+          "kind": "index",
+          "fields": [],
+          "startLine": 870,
+          "endLine": 870
+        },
+        {
+          "name": "idx_monitoring_date",
+          "kind": "index",
+          "fields": [],
+          "startLine": 871,
+          "endLine": 871
+        },
+        {
+          "name": "idx_monitoring_next_due",
+          "kind": "index",
+          "fields": [],
+          "startLine": 872,
+          "endLine": 872
+        },
+        {
+          "name": "idx_audit_user",
+          "kind": "index",
+          "fields": [],
+          "startLine": 892,
+          "endLine": 892
+        },
+        {
+          "name": "idx_audit_entity",
+          "kind": "index",
+          "fields": [],
+          "startLine": 893,
+          "endLine": 893
+        },
+        {
+          "name": "idx_audit_timestamp",
+          "kind": "index",
+          "fields": [],
+          "startLine": 894,
+          "endLine": 894
+        },
+        {
+          "name": "idx_audit_action",
+          "kind": "index",
+          "fields": [],
+          "startLine": 895,
+          "endLine": 895
+        },
+        {
+          "name": "idx_fda_date",
+          "kind": "index",
+          "fields": [],
+          "startLine": 911,
+          "endLine": 911
+        },
+        {
+          "name": "idx_fda_type",
+          "kind": "index",
+          "fields": [],
+          "startLine": 912,
+          "endLine": 912
+        },
+        {
+          "name": "idx_deviation_patient",
+          "kind": "index",
+          "fields": [],
+          "startLine": 934,
+          "endLine": 934
+        },
+        {
+          "name": "idx_deviation_impact",
+          "kind": "index",
+          "fields": [],
+          "startLine": 935,
+          "endLine": 935
+        },
+        {
+          "name": "idx_deviation_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 936,
+          "endLine": 936
+        },
+        {
+          "name": "idx_comm_sender",
+          "kind": "index",
+          "fields": [],
+          "startLine": 952,
+          "endLine": 952
+        },
+        {
+          "name": "idx_comm_classification",
+          "kind": "index",
+          "fields": [],
+          "startLine": 953,
+          "endLine": 953
+        },
+        {
+          "name": "idx_comm_created",
+          "kind": "index",
+          "fields": [],
+          "startLine": 954,
+          "endLine": 954
+        },
+        {
+          "name": "idx_eligibility_patient",
+          "kind": "index",
+          "fields": [],
+          "startLine": 979,
+          "endLine": 979
+        },
+        {
+          "name": "idx_eligibility_determination",
+          "kind": "index",
+          "fields": [],
+          "startLine": 980,
+          "endLine": 980
+        },
+        {
+          "name": "idx_outcomes_patient",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1008,
+          "endLine": 1008
+        },
+        {
+          "name": "idx_outcomes_day",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1009,
+          "endLine": 1009
+        },
+        {
+          "name": "idx_ncie_batch",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1036,
+          "endLine": 1036
+        },
+        {
+          "name": "idx_ncie_site",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1037,
+          "endLine": 1037
+        },
+        {
+          "name": "idx_veterinarians_conflict",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1045,
+          "endLine": 1045
+        },
+        {
+          "name": "idx_patients_enrolled_by",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1053,
+          "endLine": 1053
+        },
+        {
+          "name": "idx_ncie_vet",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1076,
+          "endLine": 1076
+        },
+        {
+          "name": "idx_ncie_vet_email",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1077,
+          "endLine": 1077
+        },
+        {
+          "name": "idx_ncie_status",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1078,
+          "endLine": 1078
+        },
+        {
+          "name": "idx_recovery_tokens_email",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1169,
+          "endLine": 1169
+        },
+        {
+          "name": "idx_recovery_tokens_expires",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1170,
+          "endLine": 1170
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 85
+      }
+    },
+    {
+      "path": "scripts/seedAdmin.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 214,
+      "nonEmptyLines": 192,
+      "functions": [
+        {
+          "name": "findUserByEmail",
+          "startLine": 58,
+          "endLine": 74,
+          "params": [
+            "email"
+          ]
+        },
+        {
+          "name": "ensureAuthUser",
+          "startLine": 83,
+          "endLine": 109,
+          "params": [
+            "email"
+          ]
+        },
+        {
+          "name": "generateRecoveryLink",
+          "startLine": 112,
+          "endLine": 134,
+          "params": [
+            "email"
+          ]
+        },
+        {
+          "name": "ensureAdminRow",
+          "startLine": 137,
+          "endLine": 166,
+          "params": [
+            "email",
+            "fullName"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 170,
+          "endLine": 209,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findUserByEmail",
+          "callee": "supabase.auth.admin.listUsers",
+          "lineNumber": 62
+        },
+        {
+          "caller": "findUserByEmail",
+          "callee": "data.users.find",
+          "lineNumber": 67
+        },
+        {
+          "caller": "findUserByEmail",
+          "callee": "(u.email ?? '').toLowerCase",
+          "lineNumber": 68
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "findUserByEmail",
+          "lineNumber": 84
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "console.log",
+          "lineNumber": 87
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "supabase.auth.admin.updateUserById",
+          "lineNumber": 88
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "console.log",
+          "lineNumber": 93
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "crypto.randomUUID",
+          "lineNumber": 97
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "supabase.auth.admin.createUser",
+          "lineNumber": 98
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "console.log",
+          "lineNumber": 107
+        },
+        {
+          "caller": "generateRecoveryLink",
+          "callee": "supabase.auth.admin.generateLink",
+          "lineNumber": 113
+        },
+        {
+          "caller": "generateRecoveryLink",
+          "callee": "setTimeout",
+          "lineNumber": 120
+        },
+        {
+          "caller": "generateRecoveryLink",
+          "callee": "supabase.auth.admin.generateLink",
+          "lineNumber": 121
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n    .from('admin_users')\n    .select('id')\n    .eq('email', email)\n    .maybeSingle",
+          "lineNumber": 138
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n    .from('admin_users')\n    .select('id')\n    .eq",
+          "lineNumber": 138
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n    .from('admin_users')\n    .select",
+          "lineNumber": 138
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n    .from",
+          "lineNumber": 138
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n      .from('admin_users')\n      .update({ ...payload, updated_at: new Date().toISOString() })\n      .eq",
+          "lineNumber": 151
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n      .from('admin_users')\n      .update",
+          "lineNumber": 151
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n      .from",
+          "lineNumber": 151
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "new Date().toISOString",
+          "lineNumber": 153
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "console.log",
+          "lineNumber": 156
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n      .from('admin_users')\n      .insert(payload)\n      .select('id')\n      .single",
+          "lineNumber": 158
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n      .from('admin_users')\n      .insert(payload)\n      .select",
+          "lineNumber": 158
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n      .from('admin_users')\n      .insert",
+          "lineNumber": 158
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "supabase\n      .from",
+          "lineNumber": 158
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "console.log",
+          "lineNumber": 164
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 171
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 172
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 173
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 174
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 175
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 176
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 177
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 180
+        },
+        {
+          "caller": "main",
+          "callee": "ensureAuthUser",
+          "lineNumber": 181
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 182
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 185
+        },
+        {
+          "caller": "main",
+          "callee": "generateRecoveryLink",
+          "lineNumber": 186
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 187
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 190
+        },
+        {
+          "caller": "main",
+          "callee": "ensureAdminRow",
+          "lineNumber": 191
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 194
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 195
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 196
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 197
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 198
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 199
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 200
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 201
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 202
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 203
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 204
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 205
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 206
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 207
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 208
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "scripts/seedTestUsers.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 181,
+      "nonEmptyLines": 159,
+      "functions": [
+        {
+          "name": "ensureAuthUser",
+          "startLine": 46,
+          "endLine": 87,
+          "params": [
+            "email",
+            "password",
+            "role"
+          ]
+        },
+        {
+          "name": "ensureAdminRow",
+          "startLine": 89,
+          "endLine": 116,
+          "params": []
+        },
+        {
+          "name": "ensureVetRow",
+          "startLine": 118,
+          "endLine": 155,
+          "params": []
+        },
+        {
+          "name": "main",
+          "startLine": 157,
+          "endLine": 176,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ensureAuthUser",
+          "callee": "client.auth.admin.listUsers",
+          "lineNumber": 55
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "data.users.find",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "(u.email ?? '').toLowerCase",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "email.toLowerCase",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "client.auth.admin.updateUserById",
+          "lineNumber": 68
+        },
+        {
+          "caller": "ensureAuthUser",
+          "callee": "client.auth.admin.createUser",
+          "lineNumber": 77
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from('admin_users')\n    .select('id')\n    .eq('email', TEST_ADMIN.email)\n    .maybeSingle",
+          "lineNumber": 90
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from('admin_users')\n    .select('id')\n    .eq",
+          "lineNumber": 90
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from('admin_users')\n    .select",
+          "lineNumber": 90
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from",
+          "lineNumber": 90
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n      .from('admin_users')\n      .update({ full_name: TEST_ADMIN.full_name, password_hash: '__supabase_auth__', updated_at: new Date().toISOString() })\n      .eq",
+          "lineNumber": 97
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n      .from('admin_users')\n      .update",
+          "lineNumber": 97
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n      .from",
+          "lineNumber": 97
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "new Date().toISOString",
+          "lineNumber": 99
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from('admin_users')\n    .insert({\n      email: TEST_ADMIN.email,\n      password_hash: '__supabase_auth__', // sentinel: real auth lives in Supabase Auth\n      full_name: TEST_ADMIN.full_name,\n    })\n    .select('id')\n    .single",
+          "lineNumber": 105
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from('admin_users')\n    .insert({\n      email: TEST_ADMIN.email,\n      password_hash: '__supabase_auth__', // sentinel: real auth lives in Supabase Auth\n      full_name: TEST_ADMIN.full_name,\n    })\n    .select",
+          "lineNumber": 105
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from('admin_users')\n    .insert",
+          "lineNumber": 105
+        },
+        {
+          "caller": "ensureAdminRow",
+          "callee": "client\n    .from",
+          "lineNumber": 105
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from('veterinarians')\n    .select('id')\n    .eq('email', TEST_VET.email)\n    .maybeSingle",
+          "lineNumber": 119
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from('veterinarians')\n    .select('id')\n    .eq",
+          "lineNumber": 119
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from('veterinarians')\n    .select",
+          "lineNumber": 119
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from",
+          "lineNumber": 119
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "new Date().toISOString",
+          "lineNumber": 130
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "new Date().toISOString",
+          "lineNumber": 134
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n      .from('veterinarians')\n      .update({ ...baseFields, updated_at: new Date().toISOString() })\n      .eq",
+          "lineNumber": 140
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n      .from('veterinarians')\n      .update",
+          "lineNumber": 140
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n      .from",
+          "lineNumber": 140
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "new Date().toISOString",
+          "lineNumber": 142
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from('veterinarians')\n    .insert({ email: TEST_VET.email, ...baseFields })\n    .select('id')\n    .single",
+          "lineNumber": 148
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from('veterinarians')\n    .insert({ email: TEST_VET.email, ...baseFields })\n    .select",
+          "lineNumber": 148
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from('veterinarians')\n    .insert",
+          "lineNumber": 148
+        },
+        {
+          "caller": "ensureVetRow",
+          "callee": "client\n    .from",
+          "lineNumber": 148
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 158
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 159
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 161
+        },
+        {
+          "caller": "main",
+          "callee": "ensureAuthUser",
+          "lineNumber": 162
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 163
+        },
+        {
+          "caller": "main",
+          "callee": "ensureAdminRow",
+          "lineNumber": 164
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 165
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 167
+        },
+        {
+          "caller": "main",
+          "callee": "ensureAuthUser",
+          "lineNumber": 168
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 169
+        },
+        {
+          "caller": "main",
+          "callee": "ensureVetRow",
+          "lineNumber": 170
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 171
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 173
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 174
+        },
+        {
+          "caller": "main",
+          "callee": "console.log",
+          "lineNumber": 175
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "scripts/testDirectUpload.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 206,
+      "nonEmptyLines": 175,
+      "functions": [
+        {
+          "name": "step",
+          "startLine": 43,
+          "endLine": 46,
+          "params": [
+            "label"
+          ]
+        },
+        {
+          "name": "ok",
+          "startLine": 48,
+          "endLine": 51,
+          "params": [
+            "msg"
+          ]
+        },
+        {
+          "name": "fail",
+          "startLine": 53,
+          "endLine": 57,
+          "params": [
+            "msg"
+          ]
+        },
+        {
+          "name": "projectRefFromUrl",
+          "startLine": 59,
+          "endLine": 62,
+          "params": [
+            "url"
+          ]
+        },
+        {
+          "name": "signIn",
+          "startLine": 64,
+          "endLine": 77,
+          "params": [
+            "client"
+          ]
+        },
+        {
+          "name": "uploadAndVerify",
+          "startLine": 79,
+          "endLine": 139,
+          "params": [
+            "client",
+            "userId"
+          ]
+        },
+        {
+          "name": "signAndHead",
+          "startLine": 141,
+          "endLine": 155,
+          "params": [
+            "client",
+            "path"
+          ]
+        },
+        {
+          "name": "cleanup",
+          "startLine": 157,
+          "endLine": 166,
+          "params": [
+            "client",
+            "path"
+          ]
+        },
+        {
+          "name": "main",
+          "startLine": 168,
+          "endLine": 200,
+          "params": []
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "step",
+          "callee": "console.log",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ok",
+          "callee": "console.log",
+          "lineNumber": 50
+        },
+        {
+          "caller": "fail",
+          "callee": "console.error",
+          "lineNumber": 55
+        },
+        {
+          "caller": "fail",
+          "callee": "process.exit",
+          "lineNumber": 56
+        },
+        {
+          "caller": "projectRefFromUrl",
+          "callee": "url.match",
+          "lineNumber": 60
+        },
+        {
+          "caller": "signIn",
+          "callee": "client.auth.signInWithPassword",
+          "lineNumber": 65
+        },
+        {
+          "caller": "signIn",
+          "callee": "fail",
+          "lineNumber": 70
+        },
+        {
+          "caller": "signIn",
+          "callee": "projectRefFromUrl",
+          "lineNumber": 72
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "new Date().toISOString().replace(/[-:T.Z]/g, '').slice",
+          "lineNumber": 82
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "new Date().toISOString().replace",
+          "lineNumber": 82
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "new Date().toISOString",
+          "lineNumber": 82
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "console.log",
+          "lineNumber": 85
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "console.log",
+          "lineNumber": 86
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "client.storage\n    .from(BUCKET)\n    .upload",
+          "lineNumber": 96
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "client.storage\n    .from",
+          "lineNumber": 96
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "fail",
+          "lineNumber": 105
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "console.log",
+          "lineNumber": 107
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "console.log",
+          "lineNumber": 108
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "ok",
+          "lineNumber": 109
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "uploadPath.lastIndexOf",
+          "lineNumber": 116
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "uploadPath.slice",
+          "lineNumber": 117
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "uploadPath.slice",
+          "lineNumber": 118
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "console.log",
+          "lineNumber": 119
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "client.storage\n    .from(BUCKET)\n    .list",
+          "lineNumber": 121
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "client.storage\n    .from",
+          "lineNumber": 121
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "fail",
+          "lineNumber": 126
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "(listed ?? []).find",
+          "lineNumber": 128
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "fail",
+          "lineNumber": 130
+        },
+        {
+          "caller": "uploadAndVerify",
+          "callee": "ok",
+          "lineNumber": 136
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "console.log",
+          "lineNumber": 142
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "console.log",
+          "lineNumber": 143
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "client.storage.from(BUCKET).createSignedUrl",
+          "lineNumber": 145
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "client.storage.from",
+          "lineNumber": 145
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "fail",
+          "lineNumber": 147
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "fetch",
+          "lineNumber": 150
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "fail",
+          "lineNumber": 152
+        },
+        {
+          "caller": "signAndHead",
+          "callee": "ok",
+          "lineNumber": 154
+        },
+        {
+          "caller": "cleanup",
+          "callee": "client.storage.from(BUCKET).remove",
+          "lineNumber": 158
+        },
+        {
+          "caller": "cleanup",
+          "callee": "client.storage.from",
+          "lineNumber": 158
+        },
+        {
+          "caller": "cleanup",
+          "callee": "console.warn",
+          "lineNumber": 162
+        },
+        {
+          "caller": "cleanup",
+          "callee": "ok",
+          "lineNumber": 164
+        },
+        {
+          "caller": "main",
+          "callee": "step",
+          "lineNumber": 169
+        },
+        {
+          "caller": "main",
+          "callee": "fail",
+          "lineNumber": 171
+        },
+        {
+          "caller": "main",
+          "callee": "ok",
+          "lineNumber": 176
+        },
+        {
+          "caller": "main",
+          "callee": "projectRefFromUrl",
+          "lineNumber": 176
+        },
+        {
+          "caller": "main",
+          "callee": "ok",
+          "lineNumber": 177
+        },
+        {
+          "caller": "main",
+          "callee": "createClient",
+          "lineNumber": 179
+        },
+        {
+          "caller": "main",
+          "callee": "step",
+          "lineNumber": 183
+        },
+        {
+          "caller": "main",
+          "callee": "signIn",
+          "lineNumber": 184
+        },
+        {
+          "caller": "main",
+          "callee": "ok",
+          "lineNumber": 185
+        },
+        {
+          "caller": "main",
+          "callee": "step",
+          "lineNumber": 187
+        },
+        {
+          "caller": "main",
+          "callee": "uploadAndVerify",
+          "lineNumber": 188
+        },
+        {
+          "caller": "main",
+          "callee": "ok",
+          "lineNumber": 189
+        },
+        {
+          "caller": "main",
+          "callee": "step",
+          "lineNumber": 191
+        },
+        {
+          "caller": "main",
+          "callee": "signAndHead",
+          "lineNumber": 192
+        },
+        {
+          "caller": "main",
+          "callee": "step",
+          "lineNumber": 194
+        },
+        {
+          "caller": "main",
+          "callee": "cleanup",
+          "lineNumber": 195
+        },
+        {
+          "caller": "main",
+          "callee": "step",
+          "lineNumber": 197
+        },
+        {
+          "caller": "main",
+          "callee": "ok",
+          "lineNumber": 198
+        },
+        {
+          "caller": "main",
+          "callee": "process.exit",
+          "lineNumber": 199
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 9,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "server/devApi.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 350,
+      "nonEmptyLines": 294,
+      "functions": [
+        {
+          "name": "json",
+          "startLine": 31,
+          "endLine": 34,
+          "params": [
+            "res",
+            "status",
+            "body"
+          ]
+        },
+        {
+          "name": "getBearerToken",
+          "startLine": 36,
+          "endLine": 42,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "isE2EStateEndpointEnabled",
+          "startLine": 44,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "hasE2EStateAccess",
+          "startLine": 53,
+          "endLine": 56,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "tableMissing",
+          "startLine": 58,
+          "endLine": 60,
+          "params": [
+            "error"
+          ]
+        },
+        {
+          "name": "countRows",
+          "startLine": 62,
+          "endLine": 74,
+          "params": [
+            "table",
+            "applyFilters"
+          ]
+        },
+        {
+          "name": "handleE2EState",
+          "startLine": 76,
+          "endLine": 158,
+          "params": [
+            "req",
+            "res"
+          ]
+        },
+        {
+          "name": "readJsonBody",
+          "startLine": 160,
+          "endLine": 175,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "handleRegister",
+          "startLine": 177,
+          "endLine": 240,
+          "params": [
+            "req",
+            "res"
+          ]
+        },
+        {
+          "name": "handleUploadRoute",
+          "startLine": 242,
+          "endLine": 285,
+          "params": [
+            "req",
+            "res"
+          ]
+        },
+        {
+          "name": "handleDownloadRoute",
+          "startLine": 287,
+          "endLine": 314,
+          "params": [
+            "req",
+            "res"
+          ]
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "json",
+          "callee": "res.writeHead",
+          "lineNumber": 32
+        },
+        {
+          "caller": "json",
+          "callee": "res.end",
+          "lineNumber": 33
+        },
+        {
+          "caller": "json",
+          "callee": "JSON.stringify",
+          "lineNumber": 33
+        },
+        {
+          "caller": "getBearerToken",
+          "callee": "auth.startsWith",
+          "lineNumber": 38
+        },
+        {
+          "caller": "getBearerToken",
+          "callee": "auth.slice",
+          "lineNumber": 39
+        },
+        {
+          "caller": "isE2EStateEndpointEnabled",
+          "callee": "Boolean",
+          "lineNumber": 49
+        },
+        {
+          "caller": "hasE2EStateAccess",
+          "callee": "getBearerToken",
+          "lineNumber": 54
+        },
+        {
+          "caller": "hasE2EStateAccess",
+          "callee": "Boolean",
+          "lineNumber": 55
+        },
+        {
+          "caller": "tableMissing",
+          "callee": "/relation .* does not exist/i.test",
+          "lineNumber": 59
+        },
+        {
+          "caller": "countRows",
+          "callee": "createServiceClient",
+          "lineNumber": 66
+        },
+        {
+          "caller": "countRows",
+          "callee": "supabase.from(table).select",
+          "lineNumber": 67
+        },
+        {
+          "caller": "countRows",
+          "callee": "supabase.from",
+          "lineNumber": 67
+        },
+        {
+          "caller": "countRows",
+          "callee": "applyFilters",
+          "lineNumber": 68
+        },
+        {
+          "caller": "countRows",
+          "callee": "tableMissing",
+          "lineNumber": 70
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "isE2EStateEndpointEnabled",
+          "lineNumber": 77
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "json",
+          "lineNumber": 78
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "hasE2EStateAccess",
+          "lineNumber": 81
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "json",
+          "lineNumber": 82
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "url.searchParams.get",
+          "lineNumber": 86
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "url.searchParams.get('vetEmail')?.toLowerCase().trim",
+          "lineNumber": 87
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "url.searchParams.get('vetEmail')?.toLowerCase",
+          "lineNumber": 87
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "url.searchParams.get",
+          "lineNumber": 87
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "e2eExpectedStates.has",
+          "lineNumber": 89
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "json",
+          "lineNumber": 90
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "vetEmail.endsWith",
+          "lineNumber": 93
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "json",
+          "lineNumber": 94
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "createServiceClient",
+          "lineNumber": 98
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "supabase\n      .from('veterinarians')\n      .select('id,email,verification_status')\n      .eq('email', vetEmail)\n      .maybeSingle",
+          "lineNumber": 99
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "supabase\n      .from('veterinarians')\n      .select('id,email,verification_status')\n      .eq",
+          "lineNumber": 99
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "supabase\n      .from('veterinarians')\n      .select",
+          "lineNumber": 99
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "supabase\n      .from",
+          "lineNumber": 99
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "Boolean",
+          "lineNumber": 110
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "supabase.auth.admin.listUsers",
+          "lineNumber": 121
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "userResponse.data.users.find",
+          "lineNumber": 122
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "candidate.email?.toLowerCase",
+          "lineNumber": 122
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "supabase.storage.from('private-uploads').list",
+          "lineNumber": 126
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "supabase.storage.from",
+          "lineNumber": 126
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "url.searchParams.get",
+          "lineNumber": 139
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "url.searchParams.get",
+          "lineNumber": 140
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "Promise.all",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "countRows",
+          "lineNumber": 143
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "query.eq",
+          "lineNumber": 143
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "Promise.resolve",
+          "lineNumber": 144
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "countRows",
+          "lineNumber": 146
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "query.eq",
+          "lineNumber": 146
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "Promise.resolve",
+          "lineNumber": 147
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "shipmentChecks.some",
+          "lineNumber": 150
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "json",
+          "lineNumber": 153
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "console.error",
+          "lineNumber": 155
+        },
+        {
+          "caller": "handleE2EState",
+          "callee": "json",
+          "lineNumber": 156
+        },
+        {
+          "caller": "readJsonBody",
+          "callee": "req.on",
+          "lineNumber": 163
+        },
+        {
+          "caller": "readJsonBody",
+          "callee": "req.on",
+          "lineNumber": 166
+        },
+        {
+          "caller": "readJsonBody",
+          "callee": "resolve",
+          "lineNumber": 168
+        },
+        {
+          "caller": "readJsonBody",
+          "callee": "JSON.parse",
+          "lineNumber": 168
+        },
+        {
+          "caller": "readJsonBody",
+          "callee": "reject",
+          "lineNumber": 170
+        },
+        {
+          "caller": "readJsonBody",
+          "callee": "req.on",
+          "lineNumber": 173
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "readJsonBody",
+          "lineNumber": 178
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "String(email ?? '').toLowerCase().trim",
+          "lineNumber": 190
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "String(email ?? '').toLowerCase",
+          "lineNumber": 190
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "String",
+          "lineNumber": 190
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "json",
+          "lineNumber": 193
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "createServiceClient",
+          "lineNumber": 197
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "supabase.auth.admin.createUser",
+          "lineNumber": 198
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "String",
+          "lineNumber": 200
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "json",
+          "lineNumber": 206
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "new Date().toISOString",
+          "lineNumber": 209
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "supabase.from('veterinarians').insert",
+          "lineNumber": 210
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "supabase.from",
+          "lineNumber": 210
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "supabase.auth.admin.deleteUser",
+          "lineNumber": 227
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "json",
+          "lineNumber": 228
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "json",
+          "lineNumber": 231
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "console.error",
+          "lineNumber": 237
+        },
+        {
+          "caller": "handleRegister",
+          "callee": "json",
+          "lineNumber": 238
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "getBearerToken",
+          "lineNumber": 243
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "json",
+          "lineNumber": 245
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "createServiceClient",
+          "lineNumber": 249
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "supabase.auth.getUser",
+          "lineNumber": 250
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "json",
+          "lineNumber": 252
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "parseMultipart",
+          "lineNumber": 255
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "files.find",
+          "lineNumber": 256
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "json",
+          "lineNumber": 258
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "isUploadCategory",
+          "lineNumber": 262
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "json",
+          "lineNumber": 263
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "json",
+          "lineNumber": 267
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "handleUpload",
+          "lineNumber": 270
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "json",
+          "lineNumber": 278
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "console.error",
+          "lineNumber": 280
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "message.includes",
+          "lineNumber": 282
+        },
+        {
+          "caller": "handleUploadRoute",
+          "callee": "json",
+          "lineNumber": 283
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "getBearerToken",
+          "lineNumber": 288
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "json",
+          "lineNumber": 290
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "url.searchParams.get",
+          "lineNumber": 294
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "json",
+          "lineNumber": 296
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "createServiceClient",
+          "lineNumber": 300
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "supabase.auth.getUser",
+          "lineNumber": 301
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "json",
+          "lineNumber": 303
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "handleDownload",
+          "lineNumber": 306
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "json",
+          "lineNumber": 307
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "console.error",
+          "lineNumber": 309
+        },
+        {
+          "caller": "handleDownloadRoute",
+          "callee": "json",
+          "lineNumber": 312
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 0,
+        "functionCount": 11,
+        "classCount": 0
+      }
+    }
+  ]
+}

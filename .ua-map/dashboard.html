@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understand Anything — Veterinary Laminitis Trials</title>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; }
+  #header { padding: 12px 16px; background: #1e293b; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  #header h1 { margin: 0; font-size: 16px; color: #f8fafc; }
+  #header .badge { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: #334155; color: #94a3b8; }
+  #controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  #controls input, #controls select { background: #0f172a; border: 1px solid #334155; color: #e2e8f0; padding: 4px 8px; border-radius: 6px; font-size: 12px; }
+  #controls button { background: #334155; border: none; color: #e2e8f0; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+  #controls button:hover { background: #475569; }
+  #graph { width: 100vw; height: calc(100vh - 56px); }
+  #sidebar { position: fixed; right: 0; top: 56px; width: 320px; height: calc(100vh - 56px); background: #1e293b; border-left: 1px solid #334155; padding: 16px; overflow-y: auto; transform: translateX(100%); transition: transform .2s; z-index: 10; }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar h2 { margin: 0 0 8px; font-size: 14px; color: #f8fafc; }
+  #sidebar .meta { font-size: 12px; color: #94a3b8; margin-bottom: 12px; }
+  #sidebar .tag { display: inline-block; font-size: 11px; padding: 2px 6px; border-radius: 4px; background: #334155; color: #cbd5e1; margin: 2px; }
+  #sidebar pre { background: #0f172a; padding: 8px; border-radius: 6px; overflow-x: auto; font-size: 11px; color: #e2e8f0; }
+  #legend { position: fixed; left: 12px; bottom: 12px; background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px; font-size: 11px; z-index: 5; }
+  #legend .row { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  #legend .dot { width: 10px; height: 10px; border-radius: 50%; }
+  #closeSidebar { position: absolute; top: 8px; right: 8px; background: transparent; border: none; color: #94a3b8; cursor: pointer; font-size: 16px; }
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>Understand Anything — Veterinary Laminitis Trials</h1>
+  <span class="badge" id="statsBadge">Loading…</span>
+  <div id="controls">
+    <select id="layerFilter"><option value="">All layers</option></select>
+    <select id="typeFilter"><option value="">All types</option></select>
+    <input id="searchInput" placeholder="Search nodes…" />
+    <button id="resetBtn">Reset view</button>
+    <button id="physicsBtn">Toggle physics</button>
+  </div>
+</div>
+<div id="graph"></div>
+<div id="sidebar">
+  <button id="closeSidebar">&times;</button>
+  <h2 id="detailTitle">Node</h2>
+  <div class="meta" id="detailMeta"></div>
+  <div id="detailTags"></div>
+  <h2 style="margin-top:16px;font-size:13px;">Summary</h2>
+  <pre id="detailSummary"></pre>
+  <h2 style="margin-top:16px;font-size:13px;">Edges</h2>
+  <pre id="detailEdges"></pre>
+</div>
+<div id="legend">
+  <div class="row"><div class="dot" style="background:#60a5fa"></div> file</div>
+  <div class="row"><div class="dot" style="background:#f472b6"></div> function</div>
+  <div class="row"><div class="dot" style="background:#fbbf24"></div> class</div>
+  <div class="row"><div class="dot" style="background:#a78bfa"></div> config</div>
+  <div class="row"><div class="dot" style="background:#34d399"></div> document</div>
+  <div class="row"><div class="dot" style="background:#f87171"></div> service</div>
+  <div class="row"><div class="dot" style="background:#94a3b8"></div> other</div>
+</div>
+<script>
+const TYPE_COLORS = {
+  file: '#60a5fa',
+  function: '#f472b6',
+  class: '#fbbf24',
+  config: '#a78bfa',
+  document: '#34d399',
+  service: '#f87171',
+  resource: '#fb923c',
+  concept: '#94a3b8',
+  endpoint: '#22d3ee',
+  pipeline: '#e879f9',
+  schema: '#a3e635',
+  table: '#fde047',
+  module: '#c084fc',
+  article: '#94a3b8',
+  entity: '#94a3b8',
+  topic: '#94a3b8',
+  claim: '#94a3b8',
+  source: '#94a3b8',
+};
+
+async function loadGraph() {
+  const res = await fetch('knowledge-graph.json');
+  if (!res.ok) throw new Error('Failed to load knowledge-graph.json');
+  return res.json();
+}
+
+function buildNodesAndEdges(data) {
+  const nodes = data.nodes.map(n => ({
+    id: n.id,
+    label: n.name || n.id.split(':').pop(),
+    title: n.summary || n.id,
+    color: { background: TYPE_COLORS[n.type] || '#94a3b8', border: '#334155' },
+    font: { color: '#e2e8f0', size: 12 },
+    shape: n.type === 'function' ? 'box' : n.type === 'class' ? 'diamond' : 'dot',
+    size: n.type === 'file' ? 12 : n.type === 'config' ? 10 : 8,
+    borderWidth: 1,
+    shadow: { enabled: true, color: 'rgba(0,0,0,0.3)', size: 4, x: 2, y: 2 },
+    _raw: n,
+  }));
+
+  const edges = data.edges.map((e, i) => ({
+    id: 'e' + i,
+    from: e.source,
+    to: e.target,
+    label: e.type,
+    arrows: { to: { enabled: true, scaleFactor: 0.5 } },
+    color: { color: e.type === 'contains' ? '#475569' : e.type === 'imports' ? '#60a5fa' : '#94a3b8' },
+    font: { color: '#94a3b8', size: 10, align: 'middle' },
+    width: (e.weight || 0.5) * 2,
+    smooth: { type: 'continuous' },
+    _raw: e,
+  }));
+
+  return { nodes, edges };
+}
+
+let network, allNodes, allEdges, graphData;
+
+async function init() {
+  graphData = await loadGraph();
+  const { nodes, edges } = buildNodesAndEdges(graphData);
+  allNodes = nodes;
+  allEdges = edges;
+
+  const container = document.getElementById('graph');
+  const data = { nodes: new vis.DataSet(nodes), edges: new vis.DataSet(edges) };
+
+  const options = {
+    nodes: { borderWidth: 1, shapeProperties: { useBorderWithImage: true } },
+    edges: { selectionWidth: 2, hoverWidth: 1.5 },
+    physics: {
+      enabled: true,
+      stabilization: { iterations: 200 },
+      forceAtlas2Based: {
+        gravitationalConstant: -50,
+        centralGravity: 0.005,
+        springLength: 100,
+        springConstant: 0.08,
+        damping: 0.4,
+      },
+      solver: 'forceAtlas2Based',
+      timestep: 0.35,
+    },
+    interaction: { hover: true, tooltipDelay: 200, multiselect: true },
+    layout: { improvedLayout: true },
+  };
+
+  network = new vis.Network(container, data, options);
+
+  network.on('click', params => {
+    if (params.nodes.length === 1) showDetail(params.nodes[0]);
+    else hideDetail();
+  });
+
+  // Stats badge
+  const stats = `Nodes: ${graphData.nodes.length} | Edges: ${graphData.edges.length} | Layers: ${graphData.layers.length} | Tour: ${graphData.tour.length} steps`;
+  document.getElementById('statsBadge').textContent = stats;
+
+  // Populate filters
+  const layerSelect = document.getElementById('layerFilter');
+  for (const layer of graphData.layers) {
+    const opt = document.createElement('option');
+    opt.value = layer.id;
+    opt.textContent = layer.name;
+    layerSelect.appendChild(opt);
+  }
+
+  const typeSelect = document.getElementById('typeFilter');
+  const types = [...new Set(graphData.nodes.map(n => n.type))].sort();
+  for (const t of types) {
+    const opt = document.createElement('option');
+    opt.value = t;
+    opt.textContent = t;
+    typeSelect.appendChild(opt);
+  }
+
+  setupFilters(data);
+}
+
+function showDetail(nodeId) {
+  const node = allNodes.find(n => n.id === nodeId);
+  if (!node) return;
+  const raw = node._raw;
+  document.getElementById('detailTitle').textContent = raw.name || nodeId;
+  document.getElementById('detailMeta').textContent = `Type: ${raw.type} | ID: ${raw.id}` + (raw.filePath ? ` | Path: ${raw.filePath}` : '') + (raw.complexity ? ` | Complexity: ${raw.complexity}` : '');
+  document.getElementById('detailTags').innerHTML = (raw.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+  document.getElementById('detailSummary').textContent = raw.summary || 'No summary';
+
+  const related = allEdges.filter(e => e.from === nodeId || e.to === nodeId).slice(0, 30);
+  document.getElementById('detailEdges').textContent = related.map(e => `${e._raw.type}: ${e.from === nodeId ? e.to : e.from}`).join('\n') || 'No edges';
+
+  document.getElementById('sidebar').classList.add('open');
+}
+
+function hideDetail() {
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function setupFilters(data) {
+  const apply = () => {
+    const layerId = document.getElementById('layerFilter').value;
+    const type = document.getElementById('typeFilter').value;
+    const query = document.getElementById('searchInput').value.toLowerCase();
+
+    let allowedIds = new Set(allNodes.map(n => n.id));
+
+    if (layerId) {
+      const layer = graphData.layers.find(l => l.id === layerId);
+      if (layer) allowedIds = new Set(layer.nodeIds);
+    }
+
+    if (type) {
+      allowedIds = new Set(allNodes.filter(n => n._raw.type === type && allowedIds.has(n.id)).map(n => n.id));
+    }
+
+    if (query) {
+      allowedIds = new Set(allNodes.filter(n => {
+        if (!allowedIds.has(n.id)) return false;
+        const r = n._raw;
+        return (r.name && r.name.toLowerCase().includes(query)) ||
+               (r.summary && r.summary.toLowerCase().includes(query)) ||
+               (r.id && r.id.toLowerCase().includes(query)) ||
+               (r.filePath && r.filePath.toLowerCase().includes(query));
+      }).map(n => n.id));
+    }
+
+    const visibleNodes = allNodes.filter(n => allowedIds.has(n.id));
+    const visibleEdges = allEdges.filter(e => allowedIds.has(e.from) && allowedIds.has(e.to));
+    data.nodes.clear();
+    data.edges.clear();
+    data.nodes.add(visibleNodes);
+    data.edges.add(visibleEdges);
+  };
+
+  document.getElementById('layerFilter').addEventListener('change', apply);
+  document.getElementById('typeFilter').addEventListener('change', apply);
+  document.getElementById('searchInput').addEventListener('input', apply);
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    document.getElementById('layerFilter').value = '';
+    document.getElementById('typeFilter').value = '';
+    document.getElementById('searchInput').value = '';
+    apply();
+  });
+
+  let physicsOn = true;
+  document.getElementById('physicsBtn').addEventListener('click', () => {
+    physicsOn = !physicsOn;
+    network.setOptions({ physics: { enabled: physicsOn } });
+  });
+
+  document.getElementById('closeSidebar').addEventListener('click', hideDetail);
+}
+
+init().catch(err => {
+  document.getElementById('statsBadge').textContent = 'Error: ' + err.message;
+  console.error(err);
+});
+</script>
+</body>
+</html>

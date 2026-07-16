@@ -1,0 +1,182 @@
+{
+  "projectRoot": "/Users/NewUser/Downloads/Veterinary Laminitis Trials 3",
+  "batchFiles": [
+    {
+      "path": ".cfignore",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".clicky-dev.pid",
+      "language": "pid",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".kimi/obel-grade-fix-plan.md",
+      "language": "markdown",
+      "sizeLines": 90,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".ua-map/.understandignore",
+      "language": "unknown",
+      "sizeLines": 72,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api/download.ts",
+      "language": "typescript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api/register.ts",
+      "language": "typescript",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api/upload.ts",
+      "language": "typescript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "language": "markdown",
+      "sizeLines": 93,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/vet-guide-with-screenshots/README.md",
+      "language": "markdown",
+      "sizeLines": 248,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "e2e/fixtures/fake-consent.txt",
+      "language": "txt",
+      "sizeLines": 2,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "e2e/patient-signup-approval.spec.ts",
+      "language": "typescript",
+      "sizeLines": 146,
+      "fileCategory": "code"
+    },
+    {
+      "path": "e2e/smoke-navigation.spec.ts",
+      "language": "typescript",
+      "sizeLines": 83,
+      "fileCategory": "code"
+    },
+    {
+      "path": "e2e/vet-admin-workflow.spec.ts",
+      "language": "typescript",
+      "sizeLines": 297,
+      "fileCategory": "code"
+    },
+    {
+      "path": "eslint.config.js",
+      "language": "javascript",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "playwright.config.ts",
+      "language": "typescript",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "postcss.config.cjs",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "public/_redirects",
+      "language": "unknown",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "public/ipfs-404.html",
+      "language": "html",
+      "sizeLines": 11,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "scripts/backfill_vet_email.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/e2eSecureUpload.ts",
+      "language": "typescript",
+      "sizeLines": 225,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/migrations_combined.sql",
+      "language": "sql",
+      "sizeLines": 1259,
+      "fileCategory": "data"
+    },
+    {
+      "path": "scripts/seedAdmin.ts",
+      "language": "typescript",
+      "sizeLines": 214,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/seedTestUsers.ts",
+      "language": "typescript",
+      "sizeLines": 181,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/testDirectUpload.ts",
+      "language": "typescript",
+      "sizeLines": 206,
+      "fileCategory": "code"
+    },
+    {
+      "path": "server/devApi.ts",
+      "language": "typescript",
+      "sizeLines": 350,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    ".cfignore": [],
+    ".clicky-dev.pid": [],
+    ".kimi/obel-grade-fix-plan.md": [],
+    ".ua-map/.understandignore": [],
+    "api/download.ts": [],
+    "api/register.ts": [],
+    "api/upload.ts": [],
+    "docs/clicky-ui-smoke-inspection-2026-06-24.md": [],
+    "docs/vet-guide-with-screenshots/README.md": [],
+    "e2e/fixtures/fake-consent.txt": [],
+    "e2e/patient-signup-approval.spec.ts": [],
+    "e2e/smoke-navigation.spec.ts": [],
+    "e2e/vet-admin-workflow.spec.ts": [],
+    "eslint.config.js": [],
+    "playwright.config.ts": [],
+    "postcss.config.cjs": [],
+    "public/_redirects": [],
+    "public/ipfs-404.html": [],
+    "scripts/backfill_vet_email.ts": [],
+    "scripts/e2eSecureUpload.ts": [],
+    "scripts/migrations_combined.sql": [],
+    "scripts/seedAdmin.ts": [],
+    "scripts/seedTestUsers.ts": [],
+    "scripts/testDirectUpload.ts": [],
+    "server/devApi.ts": []
+  }
+}

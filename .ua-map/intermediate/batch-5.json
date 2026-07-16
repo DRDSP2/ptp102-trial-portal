@@ -1,0 +1,4529 @@
+{
+  "nodes": [
+    {
+      "id": "file:.cfignore",
+      "type": "file",
+      "name": ".cfignore",
+      "filePath": ".cfignore",
+      "summary": ".cfignore (unknown) — 1 lines.",
+      "tags": [
+        "unknown",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "unknown"
+    },
+    {
+      "id": "file:.clicky-dev.pid",
+      "type": "file",
+      "name": ".clicky-dev.pid",
+      "filePath": ".clicky-dev.pid",
+      "summary": ".clicky-dev.pid (pid) — 1 lines.",
+      "tags": [
+        "pid",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "pid"
+    },
+    {
+      "id": "document:.kimi/obel-grade-fix-plan.md",
+      "type": "document",
+      "name": "obel-grade-fix-plan.md",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "obel-grade-fix-plan.md (markdown) — 90 lines. 13 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:Obel Grade Source-of-Truth Fix — Plan",
+      "type": "concept",
+      "name": "Obel Grade Source-of-Truth Fix — Plan",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: Obel Grade Source-of-Truth Fix — Plan",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:Current State",
+      "type": "concept",
+      "name": "Current State",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: Current State",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:Decision",
+      "type": "concept",
+      "name": "Decision",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: Decision",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:Implementation Plan",
+      "type": "concept",
+      "name": "Implementation Plan",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: Implementation Plan",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:1. Runtime backfill & validation (`src/lib/uibakeryDataMock.ts`)",
+      "type": "concept",
+      "name": "1. Runtime backfill & validation (`src/lib/uibakeryDataMock.ts`)",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 1. Runtime backfill & validation (`src/lib/uibakeryDataMock.ts`)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:2. Form validation (`src/components/AddAssessmentForm.tsx`)",
+      "type": "concept",
+      "name": "2. Form validation (`src/components/AddAssessmentForm.tsx`)",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 2. Form validation (`src/components/AddAssessmentForm.tsx`)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:3. Chart alignment (`src/components/ObelScoreChart.tsx`)",
+      "type": "concept",
+      "name": "3. Chart alignment (`src/components/ObelScoreChart.tsx`)",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 3. Chart alignment (`src/components/ObelScoreChart.tsx`)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:4. Monitoring checklist (`src/components/MonitoringChecklist.tsx`)",
+      "type": "concept",
+      "name": "4. Monitoring checklist (`src/components/MonitoringChecklist.tsx`)",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 4. Monitoring checklist (`src/components/MonitoringChecklist.tsx`)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:5. Export codelist fixes (`src/lib/xmlExport.ts`)",
+      "type": "concept",
+      "name": "5. Export codelist fixes (`src/lib/xmlExport.ts`)",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 5. Export codelist fixes (`src/lib/xmlExport.ts`)",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:6. Schema migrations",
+      "type": "concept",
+      "name": "6. Schema migrations",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 6. Schema migrations",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:7. Tests",
+      "type": "concept",
+      "name": "7. Tests",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 7. Tests",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:8. Acceptance Criteria",
+      "type": "concept",
+      "name": "8. Acceptance Criteria",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: 8. Acceptance Criteria",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:.kimi/obel-grade-fix-plan.md:Files to Modify",
+      "type": "concept",
+      "name": "Files to Modify",
+      "filePath": ".kimi/obel-grade-fix-plan.md",
+      "summary": "Section: Files to Modify",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "file:.ua-map/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".ua-map/.understandignore",
+      "summary": ".understandignore (unknown) — 72 lines.",
+      "tags": [
+        "unknown",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "unknown"
+    },
+    {
+      "id": "file:api/download.ts",
+      "type": "file",
+      "name": "download.ts",
+      "filePath": "api/download.ts",
+      "summary": "download.ts (typescript) — 44 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:api/download.ts:getBearerToken",
+      "type": "function",
+      "name": "getBearerToken",
+      "filePath": "api/download.ts",
+      "summary": "Function getBearerToken in download.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:api/download.ts:handler",
+      "type": "function",
+      "name": "handler",
+      "filePath": "api/download.ts",
+      "summary": "Function handler in download.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:api/register.ts",
+      "type": "file",
+      "name": "register.ts",
+      "filePath": "api/register.ts",
+      "summary": "register.ts (typescript) — 80 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:api/register.ts:handler",
+      "type": "function",
+      "name": "handler",
+      "filePath": "api/register.ts",
+      "summary": "Function handler in register.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:api/upload.ts",
+      "type": "file",
+      "name": "upload.ts",
+      "filePath": "api/upload.ts",
+      "summary": "upload.ts (typescript) — 62 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:api/upload.ts:getBearerToken",
+      "type": "function",
+      "name": "getBearerToken",
+      "filePath": "api/upload.ts",
+      "summary": "Function getBearerToken in upload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:api/upload.ts:handler",
+      "type": "function",
+      "name": "handler",
+      "filePath": "api/upload.ts",
+      "summary": "Function handler in upload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "type": "document",
+      "name": "clicky-ui-smoke-inspection-2026-06-24.md",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "clicky-ui-smoke-inspection-2026-06-24.md (markdown) — 93 lines. 11 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Clicky UI Smoke Inspection — 2026-06-24",
+      "type": "concept",
+      "name": "Clicky UI Smoke Inspection — 2026-06-24",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Clicky UI Smoke Inspection — 2026-06-24",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Scope",
+      "type": "concept",
+      "name": "Scope",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Scope",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Routes Covered",
+      "type": "concept",
+      "name": "Routes Covered",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Routes Covered",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Issues Found",
+      "type": "concept",
+      "name": "Issues Found",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Issues Found",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:No broken links, 404s, or blocking runtime errors found",
+      "type": "concept",
+      "name": "No broken links, 404s, or blocking runtime errors found",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: No broken links, 404s, or blocking runtime errors found",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Non-blocking console warnings observed during local smoke crawl",
+      "type": "concept",
+      "name": "Non-blocking console warnings observed during local smoke crawl",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Non-blocking console warnings observed during local smoke crawl",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Registration screen starts with key title offscreen in Chromium smoke viewport",
+      "type": "concept",
+      "name": "Registration screen starts with key title offscreen in Chromium smoke viewport",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Registration screen starts with key title offscreen in Chromium smoke viewport",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Smoke Test Added",
+      "type": "concept",
+      "name": "Smoke Test Added",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Smoke Test Added",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Minimal UI Flow And Style Suggestions",
+      "type": "concept",
+      "name": "Minimal UI Flow And Style Suggestions",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Minimal UI Flow And Style Suggestions",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Polish Fixes Applied",
+      "type": "concept",
+      "name": "Polish Fixes Applied",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Polish Fixes Applied",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Files Changed",
+      "type": "concept",
+      "name": "Files Changed",
+      "filePath": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "summary": "Section: Files Changed",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:docs/vet-guide-with-screenshots/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "README.md (markdown) — 248 lines. 24 sections.",
+      "tags": [
+        "markdown",
+        "docs"
+      ],
+      "complexity": "moderate",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:PTP-102 Trial Portal: Veterinarian Guide with Internal Screenshots",
+      "type": "concept",
+      "name": "PTP-102 Trial Portal: Veterinarian Guide with Internal Screenshots",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: PTP-102 Trial Portal: Veterinarian Guide with Internal Screenshots",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Screenshot Set",
+      "type": "concept",
+      "name": "Screenshot Set",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Screenshot Set",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:1. What the App Does",
+      "type": "concept",
+      "name": "1. What the App Does",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 1. What the App Does",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:2. Security and Secure Operation",
+      "type": "concept",
+      "name": "2. Security and Secure Operation",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 2. Security and Secure Operation",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:2.1 Role-Based Access",
+      "type": "concept",
+      "name": "2.1 Role-Based Access",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 2.1 Role-Based Access",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:2.2 Login, Approval, and Qualification",
+      "type": "concept",
+      "name": "2.2 Login, Approval, and Qualification",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 2.2 Login, Approval, and Qualification",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:2.3 Secure Uploads and Downloads",
+      "type": "concept",
+      "name": "2.3 Secure Uploads and Downloads",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 2.3 Secure Uploads and Downloads",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:2.4 Audit Trail and Compliance",
+      "type": "concept",
+      "name": "2.4 Audit Trail and Compliance",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 2.4 Audit Trail and Compliance",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:2.5 Export Readiness",
+      "type": "concept",
+      "name": "2.5 Export Readiness",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 2.5 Export Readiness",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:3. Day-to-Day Veterinarian Tutorial",
+      "type": "concept",
+      "name": "3. Day-to-Day Veterinarian Tutorial",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 3. Day-to-Day Veterinarian Tutorial",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 1: Choose Veterinarian Access",
+      "type": "concept",
+      "name": "Step 1: Choose Veterinarian Access",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 1: Choose Veterinarian Access",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 2: Confirm You Are in the Vet Workspace",
+      "type": "concept",
+      "name": "Step 2: Confirm You Are in the Vet Workspace",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 2: Confirm You Are in the Vet Workspace",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 3: Review the Patient List",
+      "type": "concept",
+      "name": "Step 3: Review the Patient List",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 3: Review the Patient List",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 4: Use the Support Tabs",
+      "type": "concept",
+      "name": "Step 4: Use the Support Tabs",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 4: Use the Support Tabs",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 5: Open the Patient Detail View",
+      "type": "concept",
+      "name": "Step 5: Open the Patient Detail View",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 5: Open the Patient Detail View",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 6: Work in the Patient Case Workspace",
+      "type": "concept",
+      "name": "Step 6: Work in the Patient Case Workspace",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 6: Work in the Patient Case Workspace",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 7: Maintain the Clinical Record",
+      "type": "concept",
+      "name": "Step 7: Maintain the Clinical Record",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 7: Maintain the Clinical Record",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Step 8: Review Audit and Compliance Before Export",
+      "type": "concept",
+      "name": "Step 8: Review Audit and Compliance Before Export",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Step 8: Review Audit and Compliance Before Export",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:4. Admin Oversight Screens",
+      "type": "concept",
+      "name": "4. Admin Oversight Screens",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 4. Admin Oversight Screens",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:5. Local Capture Notes",
+      "type": "concept",
+      "name": "5. Local Capture Notes",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 5. Local Capture Notes",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:6. Practical Vet Checklist",
+      "type": "concept",
+      "name": "6. Practical Vet Checklist",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: 6. Practical Vet Checklist",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:Start of Session",
+      "type": "concept",
+      "name": "Start of Session",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: Start of Session",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:During Patient Work",
+      "type": "concept",
+      "name": "During Patient Work",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: During Patient Work",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "concept:docs/vet-guide-with-screenshots/README.md:End of Session",
+      "type": "concept",
+      "name": "End of Session",
+      "filePath": "docs/vet-guide-with-screenshots/README.md",
+      "summary": "Section: End of Session",
+      "tags": [
+        "markdown",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "markdown"
+    },
+    {
+      "id": "document:e2e/fixtures/fake-consent.txt",
+      "type": "document",
+      "name": "fake-consent.txt",
+      "filePath": "e2e/fixtures/fake-consent.txt",
+      "summary": "fake-consent.txt (txt) — 2 lines.",
+      "tags": [
+        "txt",
+        "docs"
+      ],
+      "complexity": "simple",
+      "language": "txt"
+    },
+    {
+      "id": "file:e2e/patient-signup-approval.spec.ts",
+      "type": "file",
+      "name": "patient-signup-approval.spec.ts",
+      "filePath": "e2e/patient-signup-approval.spec.ts",
+      "summary": "patient-signup-approval.spec.ts (typescript) — 146 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:e2e/smoke-navigation.spec.ts",
+      "type": "file",
+      "name": "smoke-navigation.spec.ts",
+      "filePath": "e2e/smoke-navigation.spec.ts",
+      "summary": "smoke-navigation.spec.ts (typescript) — 83 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:e2e/vet-admin-workflow.spec.ts",
+      "type": "file",
+      "name": "vet-admin-workflow.spec.ts",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "vet-admin-workflow.spec.ts (typescript) — 297 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:adminLogin",
+      "type": "function",
+      "name": "adminLogin",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function adminLogin in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:assertPortalHasNoUnexpectedErrors",
+      "type": "function",
+      "name": "assertPortalHasNoUnexpectedErrors",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function assertPortalHasNoUnexpectedErrors in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:vetLogin",
+      "type": "function",
+      "name": "vetLogin",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function vetLogin in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:uploadFixture",
+      "type": "function",
+      "name": "uploadFixture",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function uploadFixture in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:fillVetRegistrationForm",
+      "type": "function",
+      "name": "fillVetRegistrationForm",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function fillVetRegistrationForm in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:checkIfUnchecked",
+      "type": "function",
+      "name": "checkIfUnchecked",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function checkIfUnchecked in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:fillIfVisible",
+      "type": "function",
+      "name": "fillIfVisible",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function fillIfVisible in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:fillOrSelect",
+      "type": "function",
+      "name": "fillOrSelect",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function fillOrSelect in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:assertHealthyLinks",
+      "type": "function",
+      "name": "assertHealthyLinks",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function assertHealthyLinks in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:expectBackendState",
+      "type": "function",
+      "name": "expectBackendState",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function expectBackendState in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:runStep",
+      "type": "function",
+      "name": "runStep",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function runStep in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:envOrDefault",
+      "type": "function",
+      "name": "envOrDefault",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function envOrDefault in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:e2e/vet-admin-workflow.spec.ts:requiredPath",
+      "type": "function",
+      "name": "requiredPath",
+      "filePath": "e2e/vet-admin-workflow.spec.ts",
+      "summary": "Function requiredPath in vet-admin-workflow.spec.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:eslint.config.js",
+      "type": "file",
+      "name": "eslint.config.js",
+      "filePath": "eslint.config.js",
+      "summary": "eslint.config.js (javascript) — 37 lines.",
+      "tags": [
+        "javascript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "javascript"
+    },
+    {
+      "id": "file:playwright.config.ts",
+      "type": "file",
+      "name": "playwright.config.ts",
+      "filePath": "playwright.config.ts",
+      "summary": "playwright.config.ts (typescript) — 39 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:postcss.config.cjs",
+      "type": "file",
+      "name": "postcss.config.cjs",
+      "filePath": "postcss.config.cjs",
+      "summary": "postcss.config.cjs (javascript) — 6 lines.",
+      "tags": [
+        "javascript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "javascript"
+    },
+    {
+      "id": "file:public/_redirects",
+      "type": "file",
+      "name": "_redirects",
+      "filePath": "public/_redirects",
+      "summary": "_redirects (unknown) — 1 lines.",
+      "tags": [
+        "unknown",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "unknown"
+    },
+    {
+      "id": "file:public/ipfs-404.html",
+      "type": "file",
+      "name": "ipfs-404.html",
+      "filePath": "public/ipfs-404.html",
+      "summary": "ipfs-404.html (html) — 11 lines.",
+      "tags": [
+        "html",
+        "markup"
+      ],
+      "complexity": "simple",
+      "language": "html"
+    },
+    {
+      "id": "file:scripts/backfill_vet_email.ts",
+      "type": "file",
+      "name": "backfill_vet_email.ts",
+      "filePath": "scripts/backfill_vet_email.ts",
+      "summary": "backfill_vet_email.ts (typescript) — 49 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/backfill_vet_email.ts:backfill",
+      "type": "function",
+      "name": "backfill",
+      "filePath": "scripts/backfill_vet_email.ts",
+      "summary": "Function backfill in backfill_vet_email.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:scripts/e2eSecureUpload.ts",
+      "type": "file",
+      "name": "e2eSecureUpload.ts",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "e2eSecureUpload.ts (typescript) — 225 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:mask",
+      "type": "function",
+      "name": "mask",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function mask in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "function",
+      "name": "assert",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function assert in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:signIn",
+      "type": "function",
+      "name": "signIn",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function signIn in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:createTestUser",
+      "type": "function",
+      "name": "createTestUser",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function createTestUser in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:uploadFile",
+      "type": "function",
+      "name": "uploadFile",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function uploadFile in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:downloadFile",
+      "type": "function",
+      "name": "downloadFile",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function downloadFile in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:cleanupUser",
+      "type": "function",
+      "name": "cleanupUser",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function cleanupUser in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/e2eSecureUpload.ts:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "scripts/e2eSecureUpload.ts",
+      "summary": "Function main in e2eSecureUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "resource:scripts/migrations_combined.sql",
+      "type": "resource",
+      "name": "migrations_combined.sql",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "migrations_combined.sql (sql) — 1259 lines.",
+      "tags": [
+        "sql",
+        "data"
+      ],
+      "complexity": "complex",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:patients",
+      "type": "concept",
+      "name": "patients",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table patients",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:veterinarians",
+      "type": "concept",
+      "name": "veterinarians",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table veterinarians",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:treatments",
+      "type": "concept",
+      "name": "treatments",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table treatments",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:clinical_notes",
+      "type": "concept",
+      "name": "clinical_notes",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table clinical_notes",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:media_uploads",
+      "type": "concept",
+      "name": "media_uploads",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table media_uploads",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:lab_results",
+      "type": "concept",
+      "name": "lab_results",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table lab_results",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:radiograph_assessments",
+      "type": "concept",
+      "name": "radiograph_assessments",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table radiograph_assessments",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:clinical_assessments",
+      "type": "concept",
+      "name": "clinical_assessments",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table clinical_assessments",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:admin_users",
+      "type": "concept",
+      "name": "admin_users",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table admin_users",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:study_settings",
+      "type": "concept",
+      "name": "study_settings",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table study_settings",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:investigator_qualifications",
+      "type": "concept",
+      "name": "investigator_qualifications",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table investigator_qualifications",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:informed_consents",
+      "type": "concept",
+      "name": "informed_consents",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table informed_consents",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:protocol_versions",
+      "type": "concept",
+      "name": "protocol_versions",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table protocol_versions",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:adverse_events",
+      "type": "concept",
+      "name": "adverse_events",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table adverse_events",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:site_qualifications",
+      "type": "concept",
+      "name": "site_qualifications",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table site_qualifications",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:monitoring_visits",
+      "type": "concept",
+      "name": "monitoring_visits",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table monitoring_visits",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:audit_logs",
+      "type": "concept",
+      "name": "audit_logs",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table audit_logs",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:fda_correspondence",
+      "type": "concept",
+      "name": "fda_correspondence",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table fda_correspondence",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:protocol_deviations",
+      "type": "concept",
+      "name": "protocol_deviations",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table protocol_deviations",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:communication_messages",
+      "type": "concept",
+      "name": "communication_messages",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table communication_messages",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:enrollment_eligibility",
+      "type": "concept",
+      "name": "enrollment_eligibility",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table enrollment_eligibility",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:treatment_outcomes",
+      "type": "concept",
+      "name": "treatment_outcomes",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table treatment_outcomes",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:ncie_shipment_log",
+      "type": "concept",
+      "name": "ncie_shipment_log",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table ncie_shipment_log",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:recovery_tokens",
+      "type": "concept",
+      "name": "recovery_tokens",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "table recovery_tokens",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_patients_trial_status",
+      "type": "concept",
+      "name": "idx_patients_trial_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_patients_trial_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_patients_enrollment_date",
+      "type": "concept",
+      "name": "idx_patients_enrollment_date",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_patients_enrollment_date",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_veterinarians_email",
+      "type": "concept",
+      "name": "idx_veterinarians_email",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_veterinarians_email",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_veterinarians_tc_accepted",
+      "type": "concept",
+      "name": "idx_veterinarians_tc_accepted",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_veterinarians_tc_accepted",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_treatments_patient_id",
+      "type": "concept",
+      "name": "idx_treatments_patient_id",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_treatments_patient_id",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_treatments_administration_datetime",
+      "type": "concept",
+      "name": "idx_treatments_administration_datetime",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_treatments_administration_datetime",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_treatments_protocol_hour",
+      "type": "concept",
+      "name": "idx_treatments_protocol_hour",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_treatments_protocol_hour",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_clinical_notes_patient_id",
+      "type": "concept",
+      "name": "idx_clinical_notes_patient_id",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_clinical_notes_patient_id",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_clinical_notes_created_at",
+      "type": "concept",
+      "name": "idx_clinical_notes_created_at",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_clinical_notes_created_at",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_media_uploads_patient_id",
+      "type": "concept",
+      "name": "idx_media_uploads_patient_id",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_media_uploads_patient_id",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_media_uploads_media_category",
+      "type": "concept",
+      "name": "idx_media_uploads_media_category",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_media_uploads_media_category",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_lab_results_patient_id",
+      "type": "concept",
+      "name": "idx_lab_results_patient_id",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_lab_results_patient_id",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_lab_results_test_datetime",
+      "type": "concept",
+      "name": "idx_lab_results_test_datetime",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_lab_results_test_datetime",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_radiograph_assessments_patient_id",
+      "type": "concept",
+      "name": "idx_radiograph_assessments_patient_id",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_radiograph_assessments_patient_id",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_clinical_assessments_patient_id",
+      "type": "concept",
+      "name": "idx_clinical_assessments_patient_id",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_clinical_assessments_patient_id",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_clinical_assessments_assessment_datetime",
+      "type": "concept",
+      "name": "idx_clinical_assessments_assessment_datetime",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_clinical_assessments_assessment_datetime",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_clinical_notes_video_url",
+      "type": "concept",
+      "name": "idx_clinical_notes_video_url",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_clinical_notes_video_url",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_admin_users_email",
+      "type": "concept",
+      "name": "idx_admin_users_email",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_admin_users_email",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_veterinarians_reset_token",
+      "type": "concept",
+      "name": "idx_veterinarians_reset_token",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_veterinarians_reset_token",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_patients_screening_status",
+      "type": "concept",
+      "name": "idx_patients_screening_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_patients_screening_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_veterinarians_verification_status",
+      "type": "concept",
+      "name": "idx_veterinarians_verification_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_veterinarians_verification_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_veterinarians_last_login",
+      "type": "concept",
+      "name": "idx_veterinarians_last_login",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_veterinarians_last_login",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_patients_is_flagged",
+      "type": "concept",
+      "name": "idx_patients_is_flagged",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_patients_is_flagged",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_inv_qual_vet_id",
+      "type": "concept",
+      "name": "idx_inv_qual_vet_id",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_inv_qual_vet_id",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_inv_qual_status",
+      "type": "concept",
+      "name": "idx_inv_qual_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_inv_qual_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_informed_consents_patient",
+      "type": "concept",
+      "name": "idx_informed_consents_patient",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_informed_consents_patient",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_informed_consents_status",
+      "type": "concept",
+      "name": "idx_informed_consents_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_informed_consents_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_protocol_versions_current",
+      "type": "concept",
+      "name": "idx_protocol_versions_current",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_protocol_versions_current",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ae_patient",
+      "type": "concept",
+      "name": "idx_ae_patient",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ae_patient",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ae_severity",
+      "type": "concept",
+      "name": "idx_ae_severity",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ae_severity",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ae_created",
+      "type": "concept",
+      "name": "idx_ae_created",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ae_created",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ae_serious",
+      "type": "concept",
+      "name": "idx_ae_serious",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ae_serious",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_site_status",
+      "type": "concept",
+      "name": "idx_site_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_site_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_monitoring_site",
+      "type": "concept",
+      "name": "idx_monitoring_site",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_monitoring_site",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_monitoring_date",
+      "type": "concept",
+      "name": "idx_monitoring_date",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_monitoring_date",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_monitoring_next_due",
+      "type": "concept",
+      "name": "idx_monitoring_next_due",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_monitoring_next_due",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_audit_user",
+      "type": "concept",
+      "name": "idx_audit_user",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_audit_user",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_audit_entity",
+      "type": "concept",
+      "name": "idx_audit_entity",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_audit_entity",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_audit_timestamp",
+      "type": "concept",
+      "name": "idx_audit_timestamp",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_audit_timestamp",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_audit_action",
+      "type": "concept",
+      "name": "idx_audit_action",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_audit_action",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_fda_date",
+      "type": "concept",
+      "name": "idx_fda_date",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_fda_date",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_fda_type",
+      "type": "concept",
+      "name": "idx_fda_type",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_fda_type",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_deviation_patient",
+      "type": "concept",
+      "name": "idx_deviation_patient",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_deviation_patient",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_deviation_impact",
+      "type": "concept",
+      "name": "idx_deviation_impact",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_deviation_impact",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_deviation_status",
+      "type": "concept",
+      "name": "idx_deviation_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_deviation_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_comm_sender",
+      "type": "concept",
+      "name": "idx_comm_sender",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_comm_sender",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_comm_classification",
+      "type": "concept",
+      "name": "idx_comm_classification",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_comm_classification",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_comm_created",
+      "type": "concept",
+      "name": "idx_comm_created",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_comm_created",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_eligibility_patient",
+      "type": "concept",
+      "name": "idx_eligibility_patient",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_eligibility_patient",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_eligibility_determination",
+      "type": "concept",
+      "name": "idx_eligibility_determination",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_eligibility_determination",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_outcomes_patient",
+      "type": "concept",
+      "name": "idx_outcomes_patient",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_outcomes_patient",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_outcomes_day",
+      "type": "concept",
+      "name": "idx_outcomes_day",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_outcomes_day",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ncie_batch",
+      "type": "concept",
+      "name": "idx_ncie_batch",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ncie_batch",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ncie_site",
+      "type": "concept",
+      "name": "idx_ncie_site",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ncie_site",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_veterinarians_conflict",
+      "type": "concept",
+      "name": "idx_veterinarians_conflict",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_veterinarians_conflict",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_patients_enrolled_by",
+      "type": "concept",
+      "name": "idx_patients_enrolled_by",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_patients_enrolled_by",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ncie_vet",
+      "type": "concept",
+      "name": "idx_ncie_vet",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ncie_vet",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ncie_vet_email",
+      "type": "concept",
+      "name": "idx_ncie_vet_email",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ncie_vet_email",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_ncie_status",
+      "type": "concept",
+      "name": "idx_ncie_status",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_ncie_status",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_recovery_tokens_email",
+      "type": "concept",
+      "name": "idx_recovery_tokens_email",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_recovery_tokens_email",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "concept:scripts/migrations_combined.sql:idx_recovery_tokens_expires",
+      "type": "concept",
+      "name": "idx_recovery_tokens_expires",
+      "filePath": "scripts/migrations_combined.sql",
+      "summary": "index idx_recovery_tokens_expires",
+      "tags": [
+        "sql",
+        "definition"
+      ],
+      "complexity": "simple",
+      "language": "sql"
+    },
+    {
+      "id": "file:scripts/seedAdmin.ts",
+      "type": "file",
+      "name": "seedAdmin.ts",
+      "filePath": "scripts/seedAdmin.ts",
+      "summary": "seedAdmin.ts (typescript) — 214 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedAdmin.ts:findUserByEmail",
+      "type": "function",
+      "name": "findUserByEmail",
+      "filePath": "scripts/seedAdmin.ts",
+      "summary": "Function findUserByEmail in seedAdmin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedAdmin.ts:ensureAuthUser",
+      "type": "function",
+      "name": "ensureAuthUser",
+      "filePath": "scripts/seedAdmin.ts",
+      "summary": "Function ensureAuthUser in seedAdmin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedAdmin.ts:generateRecoveryLink",
+      "type": "function",
+      "name": "generateRecoveryLink",
+      "filePath": "scripts/seedAdmin.ts",
+      "summary": "Function generateRecoveryLink in seedAdmin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedAdmin.ts:ensureAdminRow",
+      "type": "function",
+      "name": "ensureAdminRow",
+      "filePath": "scripts/seedAdmin.ts",
+      "summary": "Function ensureAdminRow in seedAdmin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedAdmin.ts:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "scripts/seedAdmin.ts",
+      "summary": "Function main in seedAdmin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:scripts/seedTestUsers.ts",
+      "type": "file",
+      "name": "seedTestUsers.ts",
+      "filePath": "scripts/seedTestUsers.ts",
+      "summary": "seedTestUsers.ts (typescript) — 181 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedTestUsers.ts:ensureAuthUser",
+      "type": "function",
+      "name": "ensureAuthUser",
+      "filePath": "scripts/seedTestUsers.ts",
+      "summary": "Function ensureAuthUser in seedTestUsers.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedTestUsers.ts:ensureAdminRow",
+      "type": "function",
+      "name": "ensureAdminRow",
+      "filePath": "scripts/seedTestUsers.ts",
+      "summary": "Function ensureAdminRow in seedTestUsers.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedTestUsers.ts:ensureVetRow",
+      "type": "function",
+      "name": "ensureVetRow",
+      "filePath": "scripts/seedTestUsers.ts",
+      "summary": "Function ensureVetRow in seedTestUsers.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/seedTestUsers.ts:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "scripts/seedTestUsers.ts",
+      "summary": "Function main in seedTestUsers.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:scripts/testDirectUpload.ts",
+      "type": "file",
+      "name": "testDirectUpload.ts",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "testDirectUpload.ts (typescript) — 206 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:step",
+      "type": "function",
+      "name": "step",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function step in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:ok",
+      "type": "function",
+      "name": "ok",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function ok in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:fail",
+      "type": "function",
+      "name": "fail",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function fail in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:projectRefFromUrl",
+      "type": "function",
+      "name": "projectRefFromUrl",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function projectRefFromUrl in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:signIn",
+      "type": "function",
+      "name": "signIn",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function signIn in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "type": "function",
+      "name": "uploadAndVerify",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function uploadAndVerify in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:signAndHead",
+      "type": "function",
+      "name": "signAndHead",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function signAndHead in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:cleanup",
+      "type": "function",
+      "name": "cleanup",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function cleanup in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:scripts/testDirectUpload.ts:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "scripts/testDirectUpload.ts",
+      "summary": "Function main in testDirectUpload.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:server/devApi.ts",
+      "type": "file",
+      "name": "devApi.ts",
+      "filePath": "server/devApi.ts",
+      "summary": "devApi.ts (typescript) — 350 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:json",
+      "type": "function",
+      "name": "json",
+      "filePath": "server/devApi.ts",
+      "summary": "Function json in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:getBearerToken",
+      "type": "function",
+      "name": "getBearerToken",
+      "filePath": "server/devApi.ts",
+      "summary": "Function getBearerToken in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:isE2EStateEndpointEnabled",
+      "type": "function",
+      "name": "isE2EStateEndpointEnabled",
+      "filePath": "server/devApi.ts",
+      "summary": "Function isE2EStateEndpointEnabled in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:hasE2EStateAccess",
+      "type": "function",
+      "name": "hasE2EStateAccess",
+      "filePath": "server/devApi.ts",
+      "summary": "Function hasE2EStateAccess in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:tableMissing",
+      "type": "function",
+      "name": "tableMissing",
+      "filePath": "server/devApi.ts",
+      "summary": "Function tableMissing in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:countRows",
+      "type": "function",
+      "name": "countRows",
+      "filePath": "server/devApi.ts",
+      "summary": "Function countRows in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:handleE2EState",
+      "type": "function",
+      "name": "handleE2EState",
+      "filePath": "server/devApi.ts",
+      "summary": "Function handleE2EState in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:readJsonBody",
+      "type": "function",
+      "name": "readJsonBody",
+      "filePath": "server/devApi.ts",
+      "summary": "Function readJsonBody in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:handleRegister",
+      "type": "function",
+      "name": "handleRegister",
+      "filePath": "server/devApi.ts",
+      "summary": "Function handleRegister in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:handleUploadRoute",
+      "type": "function",
+      "name": "handleUploadRoute",
+      "filePath": "server/devApi.ts",
+      "summary": "Function handleUploadRoute in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:server/devApi.ts:handleDownloadRoute",
+      "type": "function",
+      "name": "handleDownloadRoute",
+      "filePath": "server/devApi.ts",
+      "summary": "Function handleDownloadRoute in devApi.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:Obel Grade Source-of-Truth Fix — Plan",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:Current State",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:Decision",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:Implementation Plan",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:1. Runtime backfill & validation (`src/lib/uibakeryDataMock.ts`)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:2. Form validation (`src/components/AddAssessmentForm.tsx`)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:3. Chart alignment (`src/components/ObelScoreChart.tsx`)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:4. Monitoring checklist (`src/components/MonitoringChecklist.tsx`)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:5. Export codelist fixes (`src/lib/xmlExport.ts`)",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:6. Schema migrations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:7. Tests",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:8. Acceptance Criteria",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:.kimi/obel-grade-fix-plan.md",
+      "target": "concept:.kimi/obel-grade-fix-plan.md:Files to Modify",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:api/download.ts",
+      "target": "function:api/download.ts:getBearerToken",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:api/download.ts",
+      "target": "function:api/download.ts:handler",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:api/download.ts:handler",
+      "target": "function:api/download.ts:getBearerToken",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api/register.ts",
+      "target": "function:api/register.ts:handler",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:api/upload.ts",
+      "target": "function:api/upload.ts:getBearerToken",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:api/upload.ts",
+      "target": "function:api/upload.ts:handler",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:api/upload.ts:handler",
+      "target": "function:api/upload.ts:getBearerToken",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Clicky UI Smoke Inspection — 2026-06-24",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Scope",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Routes Covered",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Issues Found",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:No broken links, 404s, or blocking runtime errors found",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Non-blocking console warnings observed during local smoke crawl",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Registration screen starts with key title offscreen in Chromium smoke viewport",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Smoke Test Added",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Minimal UI Flow And Style Suggestions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Polish Fixes Applied",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "target": "concept:docs/clicky-ui-smoke-inspection-2026-06-24.md:Files Changed",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:PTP-102 Trial Portal: Veterinarian Guide with Internal Screenshots",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Screenshot Set",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:1. What the App Does",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:2. Security and Secure Operation",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:2.1 Role-Based Access",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:2.2 Login, Approval, and Qualification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:2.3 Secure Uploads and Downloads",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:2.4 Audit Trail and Compliance",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:2.5 Export Readiness",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:3. Day-to-Day Veterinarian Tutorial",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 1: Choose Veterinarian Access",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 2: Confirm You Are in the Vet Workspace",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 3: Review the Patient List",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 4: Use the Support Tabs",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 5: Open the Patient Detail View",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 6: Work in the Patient Case Workspace",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 7: Maintain the Clinical Record",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Step 8: Review Audit and Compliance Before Export",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:4. Admin Oversight Screens",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:5. Local Capture Notes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:6. Practical Vet Checklist",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:Start of Session",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:During Patient Work",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "document:docs/vet-guide-with-screenshots/README.md",
+      "target": "concept:docs/vet-guide-with-screenshots/README.md:End of Session",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:adminLogin",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:assertPortalHasNoUnexpectedErrors",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:vetLogin",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:uploadFixture",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:fillVetRegistrationForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:checkIfUnchecked",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:fillIfVisible",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:fillOrSelect",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:assertHealthyLinks",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:expectBackendState",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:runStep",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:envOrDefault",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:e2e/vet-admin-workflow.spec.ts",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:requiredPath",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:e2e/vet-admin-workflow.spec.ts:adminLogin",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:requiredPath",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:e2e/vet-admin-workflow.spec.ts:vetLogin",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:requiredPath",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:e2e/vet-admin-workflow.spec.ts:fillVetRegistrationForm",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:checkIfUnchecked",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:e2e/vet-admin-workflow.spec.ts:fillVetRegistrationForm",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:checkIfUnchecked",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:e2e/vet-admin-workflow.spec.ts:fillVetRegistrationForm",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:checkIfUnchecked",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:e2e/vet-admin-workflow.spec.ts:fillVetRegistrationForm",
+      "target": "function:e2e/vet-admin-workflow.spec.ts:checkIfUnchecked",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:scripts/backfill_vet_email.ts",
+      "target": "function:scripts/backfill_vet_email.ts:backfill",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:mask",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:signIn",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:createTestUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:uploadFile",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:downloadFile",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:cleanupUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/e2eSecureUpload.ts",
+      "target": "function:scripts/e2eSecureUpload.ts:main",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:uploadFile",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:mask",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:mask",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:createTestUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:createTestUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:signIn",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:signIn",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:mask",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:mask",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:uploadFile",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:downloadFile",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:downloadFile",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:assert",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:cleanupUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/e2eSecureUpload.ts:main",
+      "target": "function:scripts/e2eSecureUpload.ts:cleanupUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:patients",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:veterinarians",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:treatments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:clinical_notes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:media_uploads",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:lab_results",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:radiograph_assessments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:clinical_assessments",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:admin_users",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:study_settings",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:investigator_qualifications",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:informed_consents",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:protocol_versions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:adverse_events",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:site_qualifications",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:monitoring_visits",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:audit_logs",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:fda_correspondence",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:protocol_deviations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:communication_messages",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:enrollment_eligibility",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:treatment_outcomes",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:ncie_shipment_log",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:recovery_tokens",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_patients_trial_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_patients_enrollment_date",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_veterinarians_email",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_veterinarians_tc_accepted",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_treatments_patient_id",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_treatments_administration_datetime",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_treatments_protocol_hour",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_clinical_notes_patient_id",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_clinical_notes_created_at",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_media_uploads_patient_id",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_media_uploads_media_category",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_lab_results_patient_id",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_lab_results_test_datetime",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_radiograph_assessments_patient_id",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_clinical_assessments_patient_id",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_clinical_assessments_assessment_datetime",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_clinical_notes_video_url",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_admin_users_email",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_veterinarians_reset_token",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_patients_screening_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_veterinarians_verification_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_veterinarians_last_login",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_patients_is_flagged",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_inv_qual_vet_id",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_inv_qual_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_informed_consents_patient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_informed_consents_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_protocol_versions_current",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ae_patient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ae_severity",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ae_created",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ae_serious",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_site_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_monitoring_site",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_monitoring_date",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_monitoring_next_due",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_audit_user",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_audit_entity",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_audit_timestamp",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_audit_action",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_fda_date",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_fda_type",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_deviation_patient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_deviation_impact",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_deviation_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_comm_sender",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_comm_classification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_comm_created",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_eligibility_patient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_eligibility_determination",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_outcomes_patient",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_outcomes_day",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ncie_batch",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ncie_site",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_veterinarians_conflict",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_patients_enrolled_by",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ncie_vet",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ncie_vet_email",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_ncie_status",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_recovery_tokens_email",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "resource:scripts/migrations_combined.sql",
+      "target": "concept:scripts/migrations_combined.sql:idx_recovery_tokens_expires",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedAdmin.ts",
+      "target": "function:scripts/seedAdmin.ts:findUserByEmail",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedAdmin.ts",
+      "target": "function:scripts/seedAdmin.ts:ensureAuthUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedAdmin.ts",
+      "target": "function:scripts/seedAdmin.ts:generateRecoveryLink",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedAdmin.ts",
+      "target": "function:scripts/seedAdmin.ts:ensureAdminRow",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedAdmin.ts",
+      "target": "function:scripts/seedAdmin.ts:main",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:scripts/seedAdmin.ts:ensureAuthUser",
+      "target": "function:scripts/seedAdmin.ts:findUserByEmail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/seedAdmin.ts:main",
+      "target": "function:scripts/seedAdmin.ts:ensureAuthUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/seedAdmin.ts:main",
+      "target": "function:scripts/seedAdmin.ts:generateRecoveryLink",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/seedAdmin.ts:main",
+      "target": "function:scripts/seedAdmin.ts:ensureAdminRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:scripts/seedTestUsers.ts",
+      "target": "function:scripts/seedTestUsers.ts:ensureAuthUser",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedTestUsers.ts",
+      "target": "function:scripts/seedTestUsers.ts:ensureAdminRow",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedTestUsers.ts",
+      "target": "function:scripts/seedTestUsers.ts:ensureVetRow",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/seedTestUsers.ts",
+      "target": "function:scripts/seedTestUsers.ts:main",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:scripts/seedTestUsers.ts:main",
+      "target": "function:scripts/seedTestUsers.ts:ensureAuthUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/seedTestUsers.ts:main",
+      "target": "function:scripts/seedTestUsers.ts:ensureAdminRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/seedTestUsers.ts:main",
+      "target": "function:scripts/seedTestUsers.ts:ensureAuthUser",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/seedTestUsers.ts:main",
+      "target": "function:scripts/seedTestUsers.ts:ensureVetRow",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:step",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:projectRefFromUrl",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:signIn",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:signAndHead",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:cleanup",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:scripts/testDirectUpload.ts",
+      "target": "function:scripts/testDirectUpload.ts:main",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:signIn",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:signIn",
+      "target": "function:scripts/testDirectUpload.ts:projectRefFromUrl",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:signAndHead",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:signAndHead",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:signAndHead",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:cleanup",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:step",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:fail",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:projectRefFromUrl",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:step",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:signIn",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:step",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:uploadAndVerify",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:step",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:signAndHead",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:step",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:cleanup",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:step",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:scripts/testDirectUpload.ts:main",
+      "target": "function:scripts/testDirectUpload.ts:ok",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:json",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:getBearerToken",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:isE2EStateEndpointEnabled",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:hasE2EStateAccess",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:tableMissing",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:countRows",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:handleE2EState",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:readJsonBody",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:handleRegister",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:handleUploadRoute",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:server/devApi.ts",
+      "target": "function:server/devApi.ts:handleDownloadRoute",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:server/devApi.ts:hasE2EStateAccess",
+      "target": "function:server/devApi.ts:getBearerToken",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:countRows",
+      "target": "function:server/devApi.ts:tableMissing",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:isE2EStateEndpointEnabled",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:hasE2EStateAccess",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:countRows",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:countRows",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleE2EState",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleRegister",
+      "target": "function:server/devApi.ts:readJsonBody",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleRegister",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleRegister",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleRegister",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleRegister",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleRegister",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:getBearerToken",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleUploadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleDownloadRoute",
+      "target": "function:server/devApi.ts:getBearerToken",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleDownloadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleDownloadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleDownloadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleDownloadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:server/devApi.ts:handleDownloadRoute",
+      "target": "function:server/devApi.ts:json",
+      "type": "calls",
+      "weight": 0.8
+    }
+  ]
+}

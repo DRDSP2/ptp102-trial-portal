@@ -1,0 +1,1270 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/actions/uploadConsentDocument.ts",
+      "type": "file",
+      "name": "uploadConsentDocument.ts",
+      "filePath": "src/actions/uploadConsentDocument.ts",
+      "summary": "uploadConsentDocument.ts (typescript) — 30 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/uploadConsentDocument.ts:uploadConsentDocument",
+      "type": "function",
+      "name": "uploadConsentDocument",
+      "filePath": "src/actions/uploadConsentDocument.ts",
+      "summary": "Function uploadConsentDocument in uploadConsentDocument.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/validateResetToken.ts",
+      "type": "file",
+      "name": "validateResetToken.ts",
+      "filePath": "src/actions/validateResetToken.ts",
+      "summary": "validateResetToken.ts (typescript) — 15 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/validateResetToken.ts:validateResetToken",
+      "type": "function",
+      "name": "validateResetToken",
+      "filePath": "src/actions/validateResetToken.ts",
+      "summary": "Function validateResetToken in validateResetToken.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/verifyInformedConsent.ts",
+      "type": "file",
+      "name": "verifyInformedConsent.ts",
+      "filePath": "src/actions/verifyInformedConsent.ts",
+      "summary": "verifyInformedConsent.ts (typescript) — 19 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/verifyInformedConsent.ts:verifyInformedConsent",
+      "type": "function",
+      "name": "verifyInformedConsent",
+      "filePath": "src/actions/verifyInformedConsent.ts",
+      "summary": "Function verifyInformedConsent in verifyInformedConsent.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/actions/veterinarianLogin.ts",
+      "type": "file",
+      "name": "veterinarianLogin.ts",
+      "filePath": "src/actions/veterinarianLogin.ts",
+      "summary": "veterinarianLogin.ts (typescript) — 21 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/actions/veterinarianLogin.ts:veterinarianLogin",
+      "type": "function",
+      "name": "veterinarianLogin",
+      "filePath": "src/actions/veterinarianLogin.ts",
+      "summary": "Function veterinarianLogin in veterinarianLogin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/app/app.tsx",
+      "type": "file",
+      "name": "app.tsx",
+      "filePath": "src/app/app.tsx",
+      "summary": "app.tsx (typescript) — 82 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/app/app.tsx:ScrollToTop",
+      "type": "function",
+      "name": "ScrollToTop",
+      "filePath": "src/app/app.tsx",
+      "summary": "Function ScrollToTop in app.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/app/app.tsx:App",
+      "type": "function",
+      "name": "App",
+      "filePath": "src/app/app.tsx",
+      "summary": "Function App in app.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AddAssessmentForm.tsx",
+      "type": "file",
+      "name": "AddAssessmentForm.tsx",
+      "filePath": "src/components/AddAssessmentForm.tsx",
+      "summary": "AddAssessmentForm.tsx (typescript) — 301 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AddAssessmentForm.tsx:AddAssessmentForm",
+      "type": "function",
+      "name": "AddAssessmentForm",
+      "filePath": "src/components/AddAssessmentForm.tsx",
+      "summary": "Function AddAssessmentForm in AddAssessmentForm.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AddLabResultForm.tsx",
+      "type": "file",
+      "name": "AddLabResultForm.tsx",
+      "filePath": "src/components/AddLabResultForm.tsx",
+      "summary": "AddLabResultForm.tsx (typescript) — 417 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AddLabResultForm.tsx:AddLabResultForm",
+      "type": "function",
+      "name": "AddLabResultForm",
+      "filePath": "src/components/AddLabResultForm.tsx",
+      "summary": "Function AddLabResultForm in AddLabResultForm.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AddTreatmentForm.tsx",
+      "type": "file",
+      "name": "AddTreatmentForm.tsx",
+      "filePath": "src/components/AddTreatmentForm.tsx",
+      "summary": "AddTreatmentForm.tsx (typescript) — 323 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AddTreatmentForm.tsx:AddTreatmentForm",
+      "type": "function",
+      "name": "AddTreatmentForm",
+      "filePath": "src/components/AddTreatmentForm.tsx",
+      "summary": "Function AddTreatmentForm in AddTreatmentForm.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdminComplianceDashboard.tsx",
+      "type": "file",
+      "name": "AdminComplianceDashboard.tsx",
+      "filePath": "src/components/AdminComplianceDashboard.tsx",
+      "summary": "AdminComplianceDashboard.tsx (typescript) — 454 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminComplianceDashboard.tsx:AdminComplianceDashboard",
+      "type": "function",
+      "name": "AdminComplianceDashboard",
+      "filePath": "src/components/AdminComplianceDashboard.tsx",
+      "summary": "Function AdminComplianceDashboard in AdminComplianceDashboard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdminFollowUpTasksPanel.tsx",
+      "type": "file",
+      "name": "AdminFollowUpTasksPanel.tsx",
+      "filePath": "src/components/AdminFollowUpTasksPanel.tsx",
+      "summary": "AdminFollowUpTasksPanel.tsx (typescript) — 301 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminFollowUpTasksPanel.tsx:TaskStatusBadge",
+      "type": "function",
+      "name": "TaskStatusBadge",
+      "filePath": "src/components/AdminFollowUpTasksPanel.tsx",
+      "summary": "Function TaskStatusBadge in AdminFollowUpTasksPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminFollowUpTasksPanel.tsx:PriorityBadge",
+      "type": "function",
+      "name": "PriorityBadge",
+      "filePath": "src/components/AdminFollowUpTasksPanel.tsx",
+      "summary": "Function PriorityBadge in AdminFollowUpTasksPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminFollowUpTasksPanel.tsx:AdminFollowUpTasksPanel",
+      "type": "function",
+      "name": "AdminFollowUpTasksPanel",
+      "filePath": "src/components/AdminFollowUpTasksPanel.tsx",
+      "summary": "Function AdminFollowUpTasksPanel in AdminFollowUpTasksPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdministrationProcedureChecklist.tsx",
+      "type": "file",
+      "name": "AdministrationProcedureChecklist.tsx",
+      "filePath": "src/components/AdministrationProcedureChecklist.tsx",
+      "summary": "AdministrationProcedureChecklist.tsx (typescript) — 182 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdministrationProcedureChecklist.tsx:ChecklistStatusBadge",
+      "type": "function",
+      "name": "ChecklistStatusBadge",
+      "filePath": "src/components/AdministrationProcedureChecklist.tsx",
+      "summary": "Function ChecklistStatusBadge in AdministrationProcedureChecklist.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdministrationProcedureChecklist.tsx:AdministrationProcedureChecklist",
+      "type": "function",
+      "name": "AdministrationProcedureChecklist",
+      "filePath": "src/components/AdministrationProcedureChecklist.tsx",
+      "summary": "Function AdministrationProcedureChecklist in AdministrationProcedureChecklist.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdministrationProcedureChecklist.tsx:ProtocolCompletenessWarningPanel",
+      "type": "function",
+      "name": "ProtocolCompletenessWarningPanel",
+      "filePath": "src/components/AdministrationProcedureChecklist.tsx",
+      "summary": "Function ProtocolCompletenessWarningPanel in AdministrationProcedureChecklist.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdminLoginScreen.tsx",
+      "type": "file",
+      "name": "AdminLoginScreen.tsx",
+      "filePath": "src/components/AdminLoginScreen.tsx",
+      "summary": "AdminLoginScreen.tsx (typescript) — 128 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminLoginScreen.tsx:AdminLoginScreen",
+      "type": "function",
+      "name": "AdminLoginScreen",
+      "filePath": "src/components/AdminLoginScreen.tsx",
+      "summary": "Function AdminLoginScreen in AdminLoginScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdminPasswordSetForm.tsx",
+      "type": "file",
+      "name": "AdminPasswordSetForm.tsx",
+      "filePath": "src/components/AdminPasswordSetForm.tsx",
+      "summary": "AdminPasswordSetForm.tsx (typescript) — 153 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminPasswordSetForm.tsx:AdminPasswordSetForm",
+      "type": "function",
+      "name": "AdminPasswordSetForm",
+      "filePath": "src/components/AdminPasswordSetForm.tsx",
+      "summary": "Function AdminPasswordSetForm in AdminPasswordSetForm.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdminScreeningPanel.tsx",
+      "type": "file",
+      "name": "AdminScreeningPanel.tsx",
+      "filePath": "src/components/AdminScreeningPanel.tsx",
+      "summary": "AdminScreeningPanel.tsx (typescript) — 405 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminScreeningPanel.tsx:AdminScreeningPanel",
+      "type": "function",
+      "name": "AdminScreeningPanel",
+      "filePath": "src/components/AdminScreeningPanel.tsx",
+      "summary": "Function AdminScreeningPanel in AdminScreeningPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminScreeningPanel.tsx:StatusHistory",
+      "type": "function",
+      "name": "StatusHistory",
+      "filePath": "src/components/AdminScreeningPanel.tsx",
+      "summary": "Function StatusHistory in AdminScreeningPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdminStatisticsCards.tsx",
+      "type": "file",
+      "name": "AdminStatisticsCards.tsx",
+      "filePath": "src/components/AdminStatisticsCards.tsx",
+      "summary": "AdminStatisticsCards.tsx (typescript) — 89 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminStatisticsCards.tsx:AdminStatisticsCards",
+      "type": "function",
+      "name": "AdminStatisticsCards",
+      "filePath": "src/components/AdminStatisticsCards.tsx",
+      "summary": "Function AdminStatisticsCards in AdminStatisticsCards.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdminSupplyPanel.tsx",
+      "type": "file",
+      "name": "AdminSupplyPanel.tsx",
+      "filePath": "src/components/AdminSupplyPanel.tsx",
+      "summary": "AdminSupplyPanel.tsx (typescript) — 753 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminSupplyPanel.tsx:formatDate",
+      "type": "function",
+      "name": "formatDate",
+      "filePath": "src/components/AdminSupplyPanel.tsx",
+      "summary": "Function formatDate in AdminSupplyPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminSupplyPanel.tsx:getDefaultLowThreshold",
+      "type": "function",
+      "name": "getDefaultLowThreshold",
+      "filePath": "src/components/AdminSupplyPanel.tsx",
+      "summary": "Function getDefaultLowThreshold in AdminSupplyPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminSupplyPanel.tsx:AdminSupplyPanel",
+      "type": "function",
+      "name": "AdminSupplyPanel",
+      "filePath": "src/components/AdminSupplyPanel.tsx",
+      "summary": "Function AdminSupplyPanel in AdminSupplyPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminSupplyPanel.tsx:CreateShipmentForm",
+      "type": "function",
+      "name": "CreateShipmentForm",
+      "filePath": "src/components/AdminSupplyPanel.tsx",
+      "summary": "Function CreateShipmentForm in AdminSupplyPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdminSupplyPanel.tsx:ShipmentAuditTrail",
+      "type": "function",
+      "name": "ShipmentAuditTrail",
+      "filePath": "src/components/AdminSupplyPanel.tsx",
+      "summary": "Function ShipmentAuditTrail in AdminSupplyPanel.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AdverseEventReporter.tsx",
+      "type": "file",
+      "name": "AdverseEventReporter.tsx",
+      "filePath": "src/components/AdverseEventReporter.tsx",
+      "summary": "AdverseEventReporter.tsx (typescript) — 306 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AdverseEventReporter.tsx:AdverseEventReporter",
+      "type": "function",
+      "name": "AdverseEventReporter",
+      "filePath": "src/components/AdverseEventReporter.tsx",
+      "summary": "Function AdverseEventReporter in AdverseEventReporter.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AppShell.tsx",
+      "type": "file",
+      "name": "AppShell.tsx",
+      "filePath": "src/components/AppShell.tsx",
+      "summary": "AppShell.tsx (typescript) — 111 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AppShell.tsx:AppShell",
+      "type": "function",
+      "name": "AppShell",
+      "filePath": "src/components/AppShell.tsx",
+      "summary": "Function AppShell in AppShell.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/AuditLogViewer.tsx",
+      "type": "file",
+      "name": "AuditLogViewer.tsx",
+      "filePath": "src/components/AuditLogViewer.tsx",
+      "summary": "AuditLogViewer.tsx (typescript) — 369 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AuditLogViewer.tsx:safeStringify",
+      "type": "function",
+      "name": "safeStringify",
+      "filePath": "src/components/AuditLogViewer.tsx",
+      "summary": "Function safeStringify in AuditLogViewer.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/AuditLogViewer.tsx:AuditLogViewer",
+      "type": "function",
+      "name": "AuditLogViewer",
+      "filePath": "src/components/AuditLogViewer.tsx",
+      "summary": "Function AuditLogViewer in AuditLogViewer.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ByrockLogo.tsx",
+      "type": "file",
+      "name": "ByrockLogo.tsx",
+      "filePath": "src/components/ByrockLogo.tsx",
+      "summary": "ByrockLogo.tsx (typescript) — 61 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ByrockLogo.tsx:hasHeightClass",
+      "type": "function",
+      "name": "hasHeightClass",
+      "filePath": "src/components/ByrockLogo.tsx",
+      "summary": "Function hasHeightClass in ByrockLogo.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ByrockLogo.tsx:ByrockLogo",
+      "type": "function",
+      "name": "ByrockLogo",
+      "filePath": "src/components/ByrockLogo.tsx",
+      "summary": "Function ByrockLogo in ByrockLogo.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/CaseWorkspace.tsx",
+      "type": "file",
+      "name": "CaseWorkspace.tsx",
+      "filePath": "src/components/CaseWorkspace.tsx",
+      "summary": "CaseWorkspace.tsx (typescript) — 895 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/CaseWorkspace.tsx:CaseWorkspace",
+      "type": "function",
+      "name": "CaseWorkspace",
+      "filePath": "src/components/CaseWorkspace.tsx",
+      "summary": "Function CaseWorkspace in CaseWorkspace.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/DoseCalculator.tsx",
+      "type": "file",
+      "name": "DoseCalculator.tsx",
+      "filePath": "src/components/DoseCalculator.tsx",
+      "summary": "DoseCalculator.tsx (typescript) — 192 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/DoseCalculator.tsx:DoseCalculator",
+      "type": "function",
+      "name": "DoseCalculator",
+      "filePath": "src/components/DoseCalculator.tsx",
+      "summary": "Function DoseCalculator in DoseCalculator.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/DoseCalculator.tsx:ResultCard",
+      "type": "function",
+      "name": "ResultCard",
+      "filePath": "src/components/DoseCalculator.tsx",
+      "summary": "Function ResultCard in DoseCalculator.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/DrugSupplyInventoryCard.tsx",
+      "type": "file",
+      "name": "DrugSupplyInventoryCard.tsx",
+      "filePath": "src/components/DrugSupplyInventoryCard.tsx",
+      "summary": "DrugSupplyInventoryCard.tsx (typescript) — 207 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/DrugSupplyInventoryCard.tsx:DrugSupplyInventoryCard",
+      "type": "function",
+      "name": "DrugSupplyInventoryCard",
+      "filePath": "src/components/DrugSupplyInventoryCard.tsx",
+      "summary": "Function DrugSupplyInventoryCard in DrugSupplyInventoryCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/DrugSupplyInventoryCard.tsx:BottleInventoryTable",
+      "type": "function",
+      "name": "BottleInventoryTable",
+      "filePath": "src/components/DrugSupplyInventoryCard.tsx",
+      "summary": "Function BottleInventoryTable in DrugSupplyInventoryCard.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/EnrollmentEligibilityScreen.tsx",
+      "type": "file",
+      "name": "EnrollmentEligibilityScreen.tsx",
+      "filePath": "src/components/EnrollmentEligibilityScreen.tsx",
+      "summary": "EnrollmentEligibilityScreen.tsx (typescript) — 333 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/EnrollmentEligibilityScreen.tsx:mapRowToState",
+      "type": "function",
+      "name": "mapRowToState",
+      "filePath": "src/components/EnrollmentEligibilityScreen.tsx",
+      "summary": "Function mapRowToState in EnrollmentEligibilityScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/EnrollmentEligibilityScreen.tsx:EnrollmentEligibilityScreen",
+      "type": "function",
+      "name": "EnrollmentEligibilityScreen",
+      "filePath": "src/components/EnrollmentEligibilityScreen.tsx",
+      "summary": "Function EnrollmentEligibilityScreen in EnrollmentEligibilityScreen.tsx",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "complex",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/components/ErrorBoundary.tsx",
+      "type": "file",
+      "name": "ErrorBoundary.tsx",
+      "filePath": "src/components/ErrorBoundary.tsx",
+      "summary": "ErrorBoundary.tsx (typescript) — 42 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-classes",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "class:src/components/ErrorBoundary.tsx:ErrorBoundary",
+      "type": "class",
+      "name": "ErrorBoundary",
+      "filePath": "src/components/ErrorBoundary.tsx",
+      "summary": "Class ErrorBoundary in ErrorBoundary.tsx",
+      "tags": [
+        "typescript",
+        "class"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ErrorBoundary.tsx:ErrorBoundary.getDerivedStateFromError",
+      "type": "function",
+      "name": "ErrorBoundary.getDerivedStateFromError",
+      "filePath": "src/components/ErrorBoundary.tsx",
+      "summary": "Method getDerivedStateFromError of class ErrorBoundary",
+      "tags": [
+        "typescript",
+        "method"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/components/ErrorBoundary.tsx:ErrorBoundary.render",
+      "type": "function",
+      "name": "ErrorBoundary.render",
+      "filePath": "src/components/ErrorBoundary.tsx",
+      "summary": "Method render of class ErrorBoundary",
+      "tags": [
+        "typescript",
+        "method"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/actions/uploadConsentDocument.ts",
+      "target": "function:src/actions/uploadConsentDocument.ts:uploadConsentDocument",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/validateResetToken.ts",
+      "target": "function:src/actions/validateResetToken.ts:validateResetToken",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/verifyInformedConsent.ts",
+      "target": "function:src/actions/verifyInformedConsent.ts:verifyInformedConsent",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/actions/veterinarianLogin.ts",
+      "target": "function:src/actions/veterinarianLogin.ts:veterinarianLogin",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/app/app.tsx",
+      "target": "function:src/app/app.tsx:ScrollToTop",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/app/app.tsx",
+      "target": "function:src/app/app.tsx:App",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AddAssessmentForm.tsx",
+      "target": "function:src/components/AddAssessmentForm.tsx:AddAssessmentForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AddLabResultForm.tsx",
+      "target": "function:src/components/AddLabResultForm.tsx:AddLabResultForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AddTreatmentForm.tsx",
+      "target": "function:src/components/AddTreatmentForm.tsx:AddTreatmentForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminComplianceDashboard.tsx",
+      "target": "function:src/components/AdminComplianceDashboard.tsx:AdminComplianceDashboard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminFollowUpTasksPanel.tsx",
+      "target": "function:src/components/AdminFollowUpTasksPanel.tsx:TaskStatusBadge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminFollowUpTasksPanel.tsx",
+      "target": "function:src/components/AdminFollowUpTasksPanel.tsx:PriorityBadge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminFollowUpTasksPanel.tsx",
+      "target": "function:src/components/AdminFollowUpTasksPanel.tsx:AdminFollowUpTasksPanel",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdministrationProcedureChecklist.tsx",
+      "target": "function:src/components/AdministrationProcedureChecklist.tsx:ChecklistStatusBadge",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdministrationProcedureChecklist.tsx",
+      "target": "function:src/components/AdministrationProcedureChecklist.tsx:AdministrationProcedureChecklist",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdministrationProcedureChecklist.tsx",
+      "target": "function:src/components/AdministrationProcedureChecklist.tsx:ProtocolCompletenessWarningPanel",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminLoginScreen.tsx",
+      "target": "function:src/components/AdminLoginScreen.tsx:AdminLoginScreen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminPasswordSetForm.tsx",
+      "target": "function:src/components/AdminPasswordSetForm.tsx:AdminPasswordSetForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminScreeningPanel.tsx",
+      "target": "function:src/components/AdminScreeningPanel.tsx:AdminScreeningPanel",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminScreeningPanel.tsx",
+      "target": "function:src/components/AdminScreeningPanel.tsx:StatusHistory",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminStatisticsCards.tsx",
+      "target": "function:src/components/AdminStatisticsCards.tsx:AdminStatisticsCards",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminSupplyPanel.tsx",
+      "target": "function:src/components/AdminSupplyPanel.tsx:formatDate",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminSupplyPanel.tsx",
+      "target": "function:src/components/AdminSupplyPanel.tsx:getDefaultLowThreshold",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminSupplyPanel.tsx",
+      "target": "function:src/components/AdminSupplyPanel.tsx:AdminSupplyPanel",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminSupplyPanel.tsx",
+      "target": "function:src/components/AdminSupplyPanel.tsx:CreateShipmentForm",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AdminSupplyPanel.tsx",
+      "target": "function:src/components/AdminSupplyPanel.tsx:ShipmentAuditTrail",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/AdminSupplyPanel.tsx:AdminSupplyPanel",
+      "target": "function:src/components/AdminSupplyPanel.tsx:formatDate",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/AdminSupplyPanel.tsx:CreateShipmentForm",
+      "target": "function:src/components/AdminSupplyPanel.tsx:getDefaultLowThreshold",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/AdverseEventReporter.tsx",
+      "target": "function:src/components/AdverseEventReporter.tsx:AdverseEventReporter",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AppShell.tsx",
+      "target": "function:src/components/AppShell.tsx:AppShell",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AuditLogViewer.tsx",
+      "target": "function:src/components/AuditLogViewer.tsx:safeStringify",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/AuditLogViewer.tsx",
+      "target": "function:src/components/AuditLogViewer.tsx:AuditLogViewer",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/AuditLogViewer.tsx:AuditLogViewer",
+      "target": "function:src/components/AuditLogViewer.tsx:safeStringify",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "function:src/components/AuditLogViewer.tsx:AuditLogViewer",
+      "target": "function:src/components/AuditLogViewer.tsx:safeStringify",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/ByrockLogo.tsx",
+      "target": "function:src/components/ByrockLogo.tsx:hasHeightClass",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/ByrockLogo.tsx",
+      "target": "function:src/components/ByrockLogo.tsx:ByrockLogo",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/ByrockLogo.tsx:ByrockLogo",
+      "target": "function:src/components/ByrockLogo.tsx:hasHeightClass",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/CaseWorkspace.tsx",
+      "target": "function:src/components/CaseWorkspace.tsx:CaseWorkspace",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/DoseCalculator.tsx",
+      "target": "function:src/components/DoseCalculator.tsx:DoseCalculator",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/DoseCalculator.tsx",
+      "target": "function:src/components/DoseCalculator.tsx:ResultCard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/DrugSupplyInventoryCard.tsx",
+      "target": "function:src/components/DrugSupplyInventoryCard.tsx:DrugSupplyInventoryCard",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/DrugSupplyInventoryCard.tsx",
+      "target": "function:src/components/DrugSupplyInventoryCard.tsx:BottleInventoryTable",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/EnrollmentEligibilityScreen.tsx",
+      "target": "function:src/components/EnrollmentEligibilityScreen.tsx:mapRowToState",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/components/EnrollmentEligibilityScreen.tsx",
+      "target": "function:src/components/EnrollmentEligibilityScreen.tsx:EnrollmentEligibilityScreen",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/components/EnrollmentEligibilityScreen.tsx:EnrollmentEligibilityScreen",
+      "target": "function:src/components/EnrollmentEligibilityScreen.tsx:mapRowToState",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/components/ErrorBoundary.tsx",
+      "target": "class:src/components/ErrorBoundary.tsx:ErrorBoundary",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:src/components/ErrorBoundary.tsx:ErrorBoundary",
+      "target": "function:src/components/ErrorBoundary.tsx:ErrorBoundary.getDerivedStateFromError",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "class:src/components/ErrorBoundary.tsx:ErrorBoundary",
+      "target": "function:src/components/ErrorBoundary.tsx:ErrorBoundary.render",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/app/app.tsx",
+      "target": "file:src/components/AppShell.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/AdminLoginScreen.tsx",
+      "target": "file:src/components/ByrockLogo.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/AdminPasswordSetForm.tsx",
+      "target": "file:src/components/ByrockLogo.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/AppShell.tsx",
+      "target": "file:src/components/ByrockLogo.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/CaseWorkspace.tsx",
+      "target": "file:src/components/AddAssessmentForm.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/CaseWorkspace.tsx",
+      "target": "file:src/components/AddLabResultForm.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/CaseWorkspace.tsx",
+      "target": "file:src/components/AddTreatmentForm.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/CaseWorkspace.tsx",
+      "target": "file:src/components/AdminScreeningPanel.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/CaseWorkspace.tsx",
+      "target": "file:src/components/AdverseEventReporter.tsx",
+      "type": "imports",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/components/CaseWorkspace.tsx",
+      "target": "file:src/components/EnrollmentEligibilityScreen.tsx",
+      "type": "imports",
+      "weight": 0.7
+    }
+  ]
+}

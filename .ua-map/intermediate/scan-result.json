@@ -1,0 +1,2269 @@
+{
+  "scriptCompleted": true,
+  "files": [
+    {
+      "path": ".cfignore",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".clicky-dev.pid",
+      "language": "pid",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".env.local.example",
+      "language": "config",
+      "sizeLines": 30,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".env.production",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "language": "yaml",
+      "sizeLines": 48,
+      "fileCategory": "infra"
+    },
+    {
+      "path": ".kimi/obel-grade-fix-plan.md",
+      "language": "markdown",
+      "sizeLines": 90,
+      "fileCategory": "docs"
+    },
+    {
+      "path": ".ua-map/.understandignore",
+      "language": "unknown",
+      "sizeLines": 72,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api/download.ts",
+      "language": "typescript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api/register.ts",
+      "language": "typescript",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api/upload.ts",
+      "language": "typescript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "components.json",
+      "language": "json",
+      "sizeLines": 21,
+      "fileCategory": "config"
+    },
+    {
+      "path": "deploy.sh",
+      "language": "shell",
+      "sizeLines": 49,
+      "fileCategory": "script"
+    },
+    {
+      "path": "DEPLOYMENT.md",
+      "language": "markdown",
+      "sizeLines": 413,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/clicky-ui-smoke-inspection-2026-06-24.md",
+      "language": "markdown",
+      "sizeLines": 93,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/vet-guide-with-screenshots/README.md",
+      "language": "markdown",
+      "sizeLines": 248,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "E2E_VET_ADMIN_WORKFLOW.md",
+      "language": "markdown",
+      "sizeLines": 96,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "e2e/fixtures/fake-consent.txt",
+      "language": "txt",
+      "sizeLines": 2,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "e2e/patient-signup-approval.spec.ts",
+      "language": "typescript",
+      "sizeLines": 146,
+      "fileCategory": "code"
+    },
+    {
+      "path": "e2e/smoke-navigation.spec.ts",
+      "language": "typescript",
+      "sizeLines": 83,
+      "fileCategory": "code"
+    },
+    {
+      "path": "e2e/vet-admin-workflow.spec.ts",
+      "language": "typescript",
+      "sizeLines": 297,
+      "fileCategory": "code"
+    },
+    {
+      "path": "eslint.config.js",
+      "language": "javascript",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend-preview.html",
+      "language": "html",
+      "sizeLines": 429,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "package.json",
+      "language": "json",
+      "sizeLines": 87,
+      "fileCategory": "config"
+    },
+    {
+      "path": "playwright.config.ts",
+      "language": "typescript",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "postcss.config.cjs",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "PTP102_Platform_Snapshot.md",
+      "language": "markdown",
+      "sizeLines": 216,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "public/_redirects",
+      "language": "unknown",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "public/ipfs-404.html",
+      "language": "html",
+      "sizeLines": 11,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 232,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "scripts/backfill_vet_email.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/e2eSecureUpload.ts",
+      "language": "typescript",
+      "sizeLines": 225,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/migrations_combined.sql",
+      "language": "sql",
+      "sizeLines": 1259,
+      "fileCategory": "data"
+    },
+    {
+      "path": "scripts/seedAdmin.ts",
+      "language": "typescript",
+      "sizeLines": 214,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/seedTestUsers.ts",
+      "language": "typescript",
+      "sizeLines": 181,
+      "fileCategory": "code"
+    },
+    {
+      "path": "scripts/testDirectUpload.ts",
+      "language": "typescript",
+      "sizeLines": 206,
+      "fileCategory": "code"
+    },
+    {
+      "path": "server/devApi.ts",
+      "language": "typescript",
+      "sizeLines": 350,
+      "fileCategory": "code"
+    },
+    {
+      "path": "SPEC_password_recovery.md",
+      "language": "markdown",
+      "sizeLines": 160,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/__tests__/addAssessmentForm.test.tsx",
+      "language": "typescript",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/adminNavigation.test.tsx",
+      "language": "typescript",
+      "sizeLines": 187,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/adverseEvent.test.tsx",
+      "language": "typescript",
+      "sizeLines": 84,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/auditTrail.test.tsx",
+      "language": "typescript",
+      "sizeLines": 145,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/AuthContext.test.tsx",
+      "language": "typescript",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/ByrockLogo.test.tsx",
+      "language": "typescript",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/childTablesRepositoryFlag.test.tsx",
+      "language": "typescript",
+      "sizeLines": 320,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/contactSupport.test.tsx",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/dataLockGuard.test.tsx",
+      "language": "typescript",
+      "sizeLines": 246,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/demoData.test.tsx",
+      "language": "typescript",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/hoofXray.test.tsx",
+      "language": "typescript",
+      "sizeLines": 119,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/hoofXrayPortalNullSafe.test.tsx",
+      "language": "typescript",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/informedConsentPermissions.test.tsx",
+      "language": "typescript",
+      "sizeLines": 274,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/logoutAudit.test.tsx",
+      "language": "typescript",
+      "sizeLines": 66,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/masterTrialsTableCrash.test.tsx",
+      "language": "typescript",
+      "sizeLines": 141,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/noteOcr.test.ts",
+      "language": "typescript",
+      "sizeLines": 78,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/obelAssessmentMigration.test.tsx",
+      "language": "typescript",
+      "sizeLines": 205,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/obelGrade.test.ts",
+      "language": "typescript",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/obelScoreChart.test.tsx",
+      "language": "typescript",
+      "sizeLines": 90,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/patientOpenPerformance.test.tsx",
+      "language": "typescript",
+      "sizeLines": 196,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/patientScreeningAudit.test.tsx",
+      "language": "typescript",
+      "sizeLines": 360,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/patientsRepositoryFlag.test.tsx",
+      "language": "typescript",
+      "sizeLines": 251,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/secureUploadAccess.test.tsx",
+      "language": "typescript",
+      "sizeLines": 113,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/secureUploadHandler.test.tsx",
+      "language": "typescript",
+      "sizeLines": 178,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/secureUploadValidation.test.tsx",
+      "language": "typescript",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/submissionPackage.test.ts",
+      "language": "typescript",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/supplyInventory.test.tsx",
+      "language": "typescript",
+      "sizeLines": 172,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/supplyShipmentVisibility.test.tsx",
+      "language": "typescript",
+      "sizeLines": 206,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/utils/mockSupabaseAuth.ts",
+      "language": "typescript",
+      "sizeLines": 104,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/utils/supabaseMock.ts",
+      "language": "typescript",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/vetApprovalFlow.test.tsx",
+      "language": "typescript",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/vetReregistrationAudit.test.tsx",
+      "language": "typescript",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/whatsappNotifications.test.tsx",
+      "language": "typescript",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/__tests__/xmlExport.test.ts",
+      "language": "typescript",
+      "sizeLines": 279,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/acceptTermsAndConditions.ts",
+      "language": "typescript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/addClinicalAssessment.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/addClinicalNote.ts",
+      "language": "typescript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/addLabResult.ts",
+      "language": "typescript",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/addTreatment.ts",
+      "language": "typescript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/adminLogin.ts",
+      "language": "typescript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/approveInvestigatorQualification.ts",
+      "language": "typescript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/approvePatientScreening.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/approveVeterinarian.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/bulkUpdateDataLockStatus.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/checkVeterinarianAcceptance.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createAdverseEvent.ts",
+      "language": "typescript",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createAuditLog.ts",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createEnrollmentEligibility.ts",
+      "language": "typescript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createFDAcorrespondence.ts",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createGoogleOAuthVet.ts",
+      "language": "typescript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createHoofXray.ts",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createInformedConsent.ts",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createMonitoringVisit.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createNCIEShipment.ts",
+      "language": "typescript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createPatient.ts",
+      "language": "typescript",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createProtocolDeviation.ts",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createProtocolVersion.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createSiteQualification.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createSupplyShipment.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createTreatmentOutcome.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createXrayLandmark.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/createXrayMeasurement.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/debugClinicalNotes.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/debugVeterinarianData.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/deletePatient.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/deleteVeterinarian.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/exportStudyFullXml.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/exportStudyXml.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/exportSubmissionPackage.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/googleOAuthLogin.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadAdminComplianceDashboard.ts",
+      "language": "typescript",
+      "sizeLines": 88,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadAdminStatistics.ts",
+      "language": "typescript",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadAdverseEvents.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadAllAdverseEvents.ts",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadAllInvestigatorQualifications.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadAllTrialsData.ts",
+      "language": "typescript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadAuditLogs.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadCommunicationMessages.ts",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadCompletePatientTrialData.ts",
+      "language": "typescript",
+      "sizeLines": 101,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadEnrollmentEligibility.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadFDACorrespondence.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadHoofXrays.ts",
+      "language": "typescript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadInformedConsentByPatient.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadInvestigatorQualification.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadMonitoringVisits.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadNCIEShipments.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadNCIEShipmentsByVet.ts",
+      "language": "typescript",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadPatientById.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadPatientCaseData.ts",
+      "language": "typescript",
+      "sizeLines": 104,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadPatients.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadProtocolDeviations.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadProtocolVersions.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadRecentVetActivity.ts",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadRegulatoryTrialsData.ts",
+      "language": "typescript",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadSiteQualifications.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadStudySettings.ts",
+      "language": "typescript",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadSupplyShipments.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadSupplyShipmentsByVet.ts",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadTreatmentOutcomes.ts",
+      "language": "typescript",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/loadVeterinarians.ts",
+      "language": "typescript",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/markTimelineStepComplete.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/recordConsentSent.ts",
+      "language": "typescript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/recordSecureUpload.ts",
+      "language": "typescript",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/rejectInvestigatorQualification.ts",
+      "language": "typescript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/rejectPatientScreening.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/rejectVeterinarian.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/requestPasswordReset.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/requestPatientDetails.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/saveInvestigatorQualification.ts",
+      "language": "typescript",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/sendCommunicationMessage.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/sendEmailNotification.ts",
+      "language": "typescript",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/signInformedConsent.ts",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/simpleRegisterVet.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/testRegistration.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateAdminLastLogin.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateDataLockStatus.ts",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateHoofXrayAnalysis.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateNCIEShipment.ts",
+      "language": "typescript",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updatePassword.ts",
+      "language": "typescript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updatePatient.ts",
+      "language": "typescript",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updatePatientFlag.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateStudySettings.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateSupplyShipment.ts",
+      "language": "typescript",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateVetLastLogin.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/updateVetVerificationStatus.ts",
+      "language": "typescript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/uploadConsentDocument.ts",
+      "language": "typescript",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/validateResetToken.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/verifyInformedConsent.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/actions/veterinarianLogin.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/app/app.tsx",
+      "language": "typescript",
+      "sizeLines": 82,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/AUTHENTICATION_TROUBLESHOOTING.md",
+      "language": "markdown",
+      "sizeLines": 147,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/components/AddAssessmentForm.tsx",
+      "language": "typescript",
+      "sizeLines": 301,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AddLabResultForm.tsx",
+      "language": "typescript",
+      "sizeLines": 417,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AddTreatmentForm.tsx",
+      "language": "typescript",
+      "sizeLines": 323,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdminComplianceDashboard.tsx",
+      "language": "typescript",
+      "sizeLines": 454,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdminFollowUpTasksPanel.tsx",
+      "language": "typescript",
+      "sizeLines": 301,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdministrationProcedureChecklist.tsx",
+      "language": "typescript",
+      "sizeLines": 182,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdminLoginScreen.tsx",
+      "language": "typescript",
+      "sizeLines": 128,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdminPasswordSetForm.tsx",
+      "language": "typescript",
+      "sizeLines": 153,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdminScreeningPanel.tsx",
+      "language": "typescript",
+      "sizeLines": 405,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdminStatisticsCards.tsx",
+      "language": "typescript",
+      "sizeLines": 89,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdminSupplyPanel.tsx",
+      "language": "typescript",
+      "sizeLines": 753,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AdverseEventReporter.tsx",
+      "language": "typescript",
+      "sizeLines": 306,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AppShell.tsx",
+      "language": "typescript",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/AuditLogViewer.tsx",
+      "language": "typescript",
+      "sizeLines": 369,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ByrockLogo.tsx",
+      "language": "typescript",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/CaseWorkspace.tsx",
+      "language": "typescript",
+      "sizeLines": 895,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/DoseCalculator.tsx",
+      "language": "typescript",
+      "sizeLines": 192,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/DrugSupplyInventoryCard.tsx",
+      "language": "typescript",
+      "sizeLines": 207,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/EnrollmentEligibilityScreen.tsx",
+      "language": "typescript",
+      "sizeLines": 333,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ErrorBoundary.tsx",
+      "language": "typescript",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/HeroSection.tsx",
+      "language": "typescript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/HoofXrayPortal.tsx",
+      "language": "typescript",
+      "sizeLines": 596,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/HorseImageUploader.tsx",
+      "language": "typescript",
+      "sizeLines": 152,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/InformedConsentWorkflow.tsx",
+      "language": "typescript",
+      "sizeLines": 1164,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/InvestigatorOnboardingWizard.tsx",
+      "language": "typescript",
+      "sizeLines": 1362,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/MasterTrialsTable.tsx",
+      "language": "typescript",
+      "sizeLines": 695,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/MonitoringChecklist.tsx",
+      "language": "typescript",
+      "sizeLines": 164,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/NextDoseTimer.tsx",
+      "language": "typescript",
+      "sizeLines": 388,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ObelGradeReference.tsx",
+      "language": "typescript",
+      "sizeLines": 450,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ObelScoreChart.tsx",
+      "language": "typescript",
+      "sizeLines": 175,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/PasswordResetRequestScreen.tsx",
+      "language": "typescript",
+      "sizeLines": 129,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/PasswordResetScreen.tsx",
+      "language": "typescript",
+      "sizeLines": 191,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/PatientDetailDialog.tsx",
+      "language": "typescript",
+      "sizeLines": 541,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/PatientEnrollmentForm.tsx",
+      "language": "typescript",
+      "sizeLines": 719,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/PatientsList.tsx",
+      "language": "typescript",
+      "sizeLines": 507,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/PendingApprovalScreen.tsx",
+      "language": "typescript",
+      "sizeLines": 142,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/PrintConsent.tsx",
+      "language": "typescript",
+      "sizeLines": 135,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ProductShipmentTrackingCard.tsx",
+      "language": "typescript",
+      "sizeLines": 243,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ProtocolDocumentCenter.tsx",
+      "language": "typescript",
+      "sizeLines": 252,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ProtocolInfoCard.tsx",
+      "language": "typescript",
+      "sizeLines": 79,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ProtocolLabelInfoCard.tsx",
+      "language": "typescript",
+      "sizeLines": 274,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/QuickAddNote.tsx",
+      "language": "typescript",
+      "sizeLines": 440,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ReasonForChangeDialog.tsx",
+      "language": "typescript",
+      "sizeLines": 100,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/RecentVetActivity.tsx",
+      "language": "typescript",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/RegulatoryBanner.tsx",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ResearchHub.tsx",
+      "language": "typescript",
+      "sizeLines": 360,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/SecureFileUploadButton.tsx",
+      "language": "typescript",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/StatusBadge.tsx",
+      "language": "typescript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/StorageConditionsCard.tsx",
+      "language": "typescript",
+      "sizeLines": 244,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/TermsAndConditionsScreen.tsx",
+      "language": "typescript",
+      "sizeLines": 639,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/TreatmentTimeline.tsx",
+      "language": "typescript",
+      "sizeLines": 253,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/TrialOperationsHub.tsx",
+      "language": "typescript",
+      "sizeLines": 90,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/TrialReadinessStatusPanel.tsx",
+      "language": "typescript",
+      "sizeLines": 258,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/alert-dialog.tsx",
+      "language": "typescript",
+      "sizeLines": 139,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/alert.tsx",
+      "language": "typescript",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/badge.tsx",
+      "language": "typescript",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "language": "typescript",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "language": "typescript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/card.tsx",
+      "language": "typescript",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/checkbox.tsx",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "language": "typescript",
+      "sizeLines": 120,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/form.tsx",
+      "language": "typescript",
+      "sizeLines": 177,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/input.tsx",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/label.tsx",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/scroll-area.tsx",
+      "language": "typescript",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/select.tsx",
+      "language": "typescript",
+      "sizeLines": 159,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/separator.tsx",
+      "language": "typescript",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/skeleton.tsx",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/sonner.tsx",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/table.tsx",
+      "language": "typescript",
+      "sizeLines": 121,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/tabs.tsx",
+      "language": "typescript",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/textarea.tsx",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/ui/tooltip.tsx",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/VeterinarianLoginScreen.tsx",
+      "language": "typescript",
+      "sizeLines": 174,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/VeterinarianManagementPanel.tsx",
+      "language": "typescript",
+      "sizeLines": 1220,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/VetShipmentPanel.tsx",
+      "language": "typescript",
+      "sizeLines": 240,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/VetToolsHub.tsx",
+      "language": "typescript",
+      "sizeLines": 310,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/VideoUploadManager.tsx",
+      "language": "typescript",
+      "sizeLines": 265,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/components/WhatsAppChatButton.tsx",
+      "language": "typescript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/context/AuthContext.tsx",
+      "language": "typescript",
+      "sizeLines": 297,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/audit/supabaseAuditRepository.ts",
+      "language": "typescript",
+      "sizeLines": 171,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/clinicalAssessments/repository.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/clinicalAssessments/supabaseRepository.ts",
+      "language": "typescript",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/clinicalNotes/repository.ts",
+      "language": "typescript",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/clinicalNotes/supabaseRepository.ts",
+      "language": "typescript",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/labResults/repository.ts",
+      "language": "typescript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/labResults/supabaseRepository.ts",
+      "language": "typescript",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/patients/index.ts",
+      "language": "typescript",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/patients/mockRepository.ts",
+      "language": "typescript",
+      "sizeLines": 134,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/patients/repository.ts",
+      "language": "typescript",
+      "sizeLines": 124,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/patients/supabaseRepository.ts",
+      "language": "typescript",
+      "sizeLines": 188,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/treatments/repository.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/data/treatments/supabaseRepository.ts",
+      "language": "typescript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/EMAIL_NOTIFICATIONS_SETUP.md",
+      "language": "markdown",
+      "sizeLines": 26,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/env.d.ts",
+      "language": "typescript",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useAuditedMutateAction.ts",
+      "language": "typescript",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useProtocolClock.ts",
+      "language": "typescript",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useSecureDownloadUrl.ts",
+      "language": "typescript",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useSecureUpload.ts",
+      "language": "typescript",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useTreatmentCountdown.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useTrialOperations.ts",
+      "language": "typescript",
+      "sizeLines": 226,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/hooks/useVeterinarians.ts",
+      "language": "typescript",
+      "sizeLines": 165,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/index.css",
+      "language": "css",
+      "sizeLines": 166,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/index.html",
+      "language": "html",
+      "sizeLines": 32,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "src/initial.md",
+      "language": "markdown",
+      "sizeLines": 66,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/lib/auditTypes.ts",
+      "language": "typescript",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/computeApi.ts",
+      "language": "typescript",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/contact.ts",
+      "language": "typescript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/featureFlags.ts",
+      "language": "typescript",
+      "sizeLines": 90,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/obelGrade.ts",
+      "language": "typescript",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/ocr/noteOcr.ts",
+      "language": "typescript",
+      "sizeLines": 92,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/reportGenerator.ts",
+      "language": "typescript",
+      "sizeLines": 322,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/submissionPackage.ts",
+      "language": "typescript",
+      "sizeLines": 219,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/supabase/client.ts",
+      "language": "typescript",
+      "sizeLines": 91,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/supabase/recovery.ts",
+      "language": "typescript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/supabase/server.ts",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/uibakeryDataMock.ts",
+      "language": "typescript",
+      "sizeLines": 4472,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/upload/access.ts",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/upload/config.ts",
+      "language": "typescript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/upload/downloadHandler.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/upload/parseMultipart.ts",
+      "language": "typescript",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/upload/path.ts",
+      "language": "typescript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/upload/uploadHandler.ts",
+      "language": "typescript",
+      "sizeLines": 74,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/upload/validation.ts",
+      "language": "typescript",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "language": "typescript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/videoCompression.ts",
+      "language": "typescript",
+      "sizeLines": 100,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/lib/xmlExport.ts",
+      "language": "typescript",
+      "sizeLines": 647,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/main.tsx",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/migrations/1730757941_create_patients_table.sql",
+      "language": "sql",
+      "sizeLines": 41,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730757942_create_veterinarians_table.sql",
+      "language": "sql",
+      "sizeLines": 16,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730757943_enhance_patients_and_create_trial_tables.sql",
+      "language": "sql",
+      "sizeLines": 143,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730757944_add_video_url_to_clinical_notes.sql",
+      "language": "sql",
+      "sizeLines": 7,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759000_seed_realistic_trial_data.sql",
+      "language": "sql",
+      "sizeLines": 199,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759100_create_admin_users_table.sql",
+      "language": "sql",
+      "sizeLines": 16,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759101_update_admin_password.sql",
+      "language": "sql",
+      "sizeLines": 4,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759102_add_password_to_veterinarians.sql",
+      "language": "sql",
+      "sizeLines": 7,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759103_add_screening_workflow.sql",
+      "language": "sql",
+      "sizeLines": 21,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759104_add_enrollment_clinical_params.sql",
+      "language": "sql",
+      "sizeLines": 25,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759105_add_total_volume_to_treatments.sql",
+      "language": "sql",
+      "sizeLines": 4,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759106_backfill_total_volume_from_notes.sql",
+      "language": "sql",
+      "sizeLines": 14,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730759107_add_profile_picture_to_patients.sql",
+      "language": "sql",
+      "sizeLines": 5,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730920918_fix_protocol_hour_and_start_time.sql",
+      "language": "sql",
+      "sizeLines": 23,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730920919_fix_license_number_type.sql",
+      "language": "sql",
+      "sizeLines": 23,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730920920_force_fix_license_number.sql",
+      "language": "sql",
+      "sizeLines": 9,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730921000_add_admin_fields_to_vets.sql",
+      "language": "sql",
+      "sizeLines": 17,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730921001_add_flags_to_patients.sql",
+      "language": "sql",
+      "sizeLines": 9,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730921002_set_vet_password.sql",
+      "language": "sql",
+      "sizeLines": 4,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730921003_update_vet_verification_default.sql",
+      "language": "sql",
+      "sizeLines": 10,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1730921004_fix_admin_authentication.sql",
+      "language": "sql",
+      "sizeLines": 7,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1738500000_create_compliance_framework.sql",
+      "language": "sql",
+      "sizeLines": 442,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1738600000_add_conflict_of_interest_to_vets.sql",
+      "language": "sql",
+      "sizeLines": 6,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1738700000_add_enrolled_by_vet_to_patients.sql",
+      "language": "sql",
+      "sizeLines": 5,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1738800000_enhance_ncie_shipment_vet_link.sql",
+      "language": "sql",
+      "sizeLines": 31,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1781380365_clamp_obel_grade.sql",
+      "language": "sql",
+      "sizeLines": 20,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1781380366_private_uploads_bucket.sql",
+      "language": "sql",
+      "sizeLines": 38,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1781380367_add_note_ocr_fields.sql",
+      "language": "sql",
+      "sizeLines": 6,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1781380368_add_phone_and_consent_printed_to_vets.sql",
+      "language": "sql",
+      "sizeLines": 7,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1790000000_create_recovery_tokens.sql",
+      "language": "sql",
+      "sizeLines": 14,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1791000000_fix_storage_rls_ptp102_bucket.sql",
+      "language": "sql",
+      "sizeLines": 68,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1792000000_enable_patients_rls.sql",
+      "language": "sql",
+      "sizeLines": 73,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1793000000_enable_child_tables_rls.sql",
+      "language": "sql",
+      "sizeLines": 292,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1794000000_fix_hoof_xrays_rls.sql",
+      "language": "sql",
+      "sizeLines": 67,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/1795000000_enable_audit_logs_rls.sql",
+      "language": "sql",
+      "sizeLines": 86,
+      "fileCategory": "data"
+    },
+    {
+      "path": "src/migrations/applied.txt",
+      "language": "txt",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/pages/AdminLoginPage.tsx",
+      "language": "typescript",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/AuditLogPage.tsx",
+      "language": "typescript",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/AuthSelectionPage.tsx",
+      "language": "typescript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/DashboardPage.tsx",
+      "language": "typescript",
+      "sizeLines": 280,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/PatientCasePage.tsx",
+      "language": "typescript",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/PendingApprovalPage.tsx",
+      "language": "typescript",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/ProtectedRoute.tsx",
+      "language": "typescript",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/VetLoginPage.tsx",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/VetRegisterPage.tsx",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/pages/VetResetPage.tsx",
+      "language": "typescript",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/setupTests.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/tailwind.config.js",
+      "language": "javascript",
+      "sizeLines": 233,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/task.md",
+      "language": "markdown",
+      "sizeLines": 51,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/TEST_VET_REGISTRATION.md",
+      "language": "markdown",
+      "sizeLines": 87,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "src/types/db.ts",
+      "language": "typescript",
+      "sizeLines": 2015,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/types/patient.ts",
+      "language": "typescript",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/types/treatment.ts",
+      "language": "typescript",
+      "sizeLines": 78,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/types/trialOperations.ts",
+      "language": "typescript",
+      "sizeLines": 264,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/types/veterinarian.ts",
+      "language": "typescript",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/emailNotifications.ts",
+      "language": "typescript",
+      "sizeLines": 135,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/passwordHash.ts",
+      "language": "typescript",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/prohibitedTermsFilter.ts",
+      "language": "typescript",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/setupAdmin.ts",
+      "language": "typescript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/utils/whatsappNotifications.ts",
+      "language": "typescript",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/config.toml",
+      "language": "toml",
+      "sizeLines": 419,
+      "fileCategory": "config"
+    },
+    {
+      "path": "supabase/config.toml.save",
+      "language": "save",
+      "sizeLines": 2,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/functions/create-vet-profile/deno.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "supabase/functions/create-vet-profile/index.ts",
+      "language": "typescript",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/functions/recovery-complete/deno.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "supabase/functions/recovery-complete/index.ts",
+      "language": "typescript",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/functions/recovery-request/deno.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "supabase/functions/recovery-request/index.ts",
+      "language": "typescript",
+      "sizeLines": 163,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/functions/send-whatsapp-notification/deno.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "supabase/functions/send-whatsapp-notification/index.ts",
+      "language": "typescript",
+      "sizeLines": 108,
+      "fileCategory": "code"
+    },
+    {
+      "path": "supabase/migrations/20250626_hoof_xray_tables.sql",
+      "language": "sql",
+      "sizeLines": 110,
+      "fileCategory": "data"
+    },
+    {
+      "path": "tailwind.config.cjs",
+      "language": "javascript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tsconfig.json",
+      "language": "json",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "vercel.json",
+      "language": "json",
+      "sizeLines": 29,
+      "fileCategory": "config"
+    },
+    {
+      "path": "version.yml",
+      "language": "yaml",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "vite.config.ts",
+      "language": "typescript",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    }
+  ],
+  "totalFiles": 372,
+  "filteredByIgnore": 0,
+  "estimatedComplexity": "large",
+  "stats": {
+    "filesScanned": 372,
+    "byCategory": {
+      "code": 302,
+      "config": 12,
+      "infra": 1,
+      "docs": 15,
+      "script": 1,
+      "markup": 4,
+      "data": 37
+    },
+    "byLanguage": {
+      "unknown": 3,
+      "pid": 1,
+      "config": 2,
+      "yaml": 2,
+      "markdown": 13,
+      "typescript": 293,
+      "json": 8,
+      "shell": 1,
+      "txt": 2,
+      "javascript": 4,
+      "html": 3,
+      "sql": 37,
+      "css": 1,
+      "toml": 1,
+      "save": 1
+    }
+  }
+}

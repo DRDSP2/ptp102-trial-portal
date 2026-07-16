@@ -1,0 +1,1055 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/utils/setupAdmin.ts",
+      "type": "file",
+      "name": "setupAdmin.ts",
+      "filePath": "src/utils/setupAdmin.ts",
+      "summary": "setupAdmin.ts (typescript) — 7 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/setupAdmin.ts:getAdminPasswordHash",
+      "type": "function",
+      "name": "getAdminPasswordHash",
+      "filePath": "src/utils/setupAdmin.ts",
+      "summary": "Function getAdminPasswordHash in setupAdmin.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "file:src/utils/whatsappNotifications.ts",
+      "type": "file",
+      "name": "whatsappNotifications.ts",
+      "filePath": "src/utils/whatsappNotifications.ts",
+      "summary": "whatsappNotifications.ts (typescript) — 65 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions",
+        "has-exports"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/whatsappNotifications.ts:buildWhatsAppMessage",
+      "type": "function",
+      "name": "buildWhatsAppMessage",
+      "filePath": "src/utils/whatsappNotifications.ts",
+      "summary": "Function buildWhatsAppMessage in whatsappNotifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:src/utils/whatsappNotifications.ts:sendWhatsAppNotification",
+      "type": "function",
+      "name": "sendWhatsAppNotification",
+      "filePath": "src/utils/whatsappNotifications.ts",
+      "summary": "Function sendWhatsAppNotification in whatsappNotifications.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "config:supabase/config.toml",
+      "type": "config",
+      "name": "config.toml",
+      "filePath": "supabase/config.toml",
+      "summary": "config.toml (toml) — 419 lines. 36 sections.",
+      "tags": [
+        "toml",
+        "config"
+      ],
+      "complexity": "complex",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:api",
+      "type": "concept",
+      "name": "api",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: api",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:api.tls",
+      "type": "concept",
+      "name": "api.tls",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: api.tls",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:db",
+      "type": "concept",
+      "name": "db",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: db",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:db.pooler",
+      "type": "concept",
+      "name": "db.pooler",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: db.pooler",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:db.migrations",
+      "type": "concept",
+      "name": "db.migrations",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: db.migrations",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:db.seed",
+      "type": "concept",
+      "name": "db.seed",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: db.seed",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:db.network_restrictions",
+      "type": "concept",
+      "name": "db.network_restrictions",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: db.network_restrictions",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:realtime",
+      "type": "concept",
+      "name": "realtime",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: realtime",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:studio",
+      "type": "concept",
+      "name": "studio",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: studio",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:inbucket",
+      "type": "concept",
+      "name": "inbucket",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: inbucket",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:storage",
+      "type": "concept",
+      "name": "storage",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: storage",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:storage.s3_protocol",
+      "type": "concept",
+      "name": "storage.s3_protocol",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: storage.s3_protocol",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:storage.analytics",
+      "type": "concept",
+      "name": "storage.analytics",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: storage.analytics",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:storage.vector",
+      "type": "concept",
+      "name": "storage.vector",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: storage.vector",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth",
+      "type": "concept",
+      "name": "auth",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.rate_limit",
+      "type": "concept",
+      "name": "auth.rate_limit",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.rate_limit",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.email",
+      "type": "concept",
+      "name": "auth.email",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.email",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.sms",
+      "type": "concept",
+      "name": "auth.sms",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.sms",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.sms.twilio",
+      "type": "concept",
+      "name": "auth.sms.twilio",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.sms.twilio",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.mfa",
+      "type": "concept",
+      "name": "auth.mfa",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.mfa",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.mfa.totp",
+      "type": "concept",
+      "name": "auth.mfa.totp",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.mfa.totp",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.mfa.phone",
+      "type": "concept",
+      "name": "auth.mfa.phone",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.mfa.phone",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.external.apple",
+      "type": "concept",
+      "name": "auth.external.apple",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.external.apple",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.web3.solana",
+      "type": "concept",
+      "name": "auth.web3.solana",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.web3.solana",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.third_party.firebase",
+      "type": "concept",
+      "name": "auth.third_party.firebase",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.third_party.firebase",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.third_party.auth0",
+      "type": "concept",
+      "name": "auth.third_party.auth0",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.third_party.auth0",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.third_party.aws_cognito",
+      "type": "concept",
+      "name": "auth.third_party.aws_cognito",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.third_party.aws_cognito",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.third_party.clerk",
+      "type": "concept",
+      "name": "auth.third_party.clerk",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.third_party.clerk",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:auth.oauth_server",
+      "type": "concept",
+      "name": "auth.oauth_server",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: auth.oauth_server",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:edge_runtime",
+      "type": "concept",
+      "name": "edge_runtime",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: edge_runtime",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:functions.create-vet-profile",
+      "type": "concept",
+      "name": "functions.create-vet-profile",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: functions.create-vet-profile",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:functions.recovery-request",
+      "type": "concept",
+      "name": "functions.recovery-request",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: functions.recovery-request",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:functions.recovery-complete",
+      "type": "concept",
+      "name": "functions.recovery-complete",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: functions.recovery-complete",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:functions.send-whatsapp-notification",
+      "type": "concept",
+      "name": "functions.send-whatsapp-notification",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: functions.send-whatsapp-notification",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:analytics",
+      "type": "concept",
+      "name": "analytics",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: analytics",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "concept:supabase/config.toml:experimental",
+      "type": "concept",
+      "name": "experimental",
+      "filePath": "supabase/config.toml",
+      "summary": "Section: experimental",
+      "tags": [
+        "toml",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "toml"
+    },
+    {
+      "id": "file:supabase/config.toml.save",
+      "type": "file",
+      "name": "config.toml.save",
+      "filePath": "supabase/config.toml.save",
+      "summary": "config.toml.save (save) — 2 lines.",
+      "tags": [
+        "save",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "save"
+    },
+    {
+      "id": "config:supabase/functions/create-vet-profile/deno.json",
+      "type": "config",
+      "name": "deno.json",
+      "filePath": "supabase/functions/create-vet-profile/deno.json",
+      "summary": "deno.json (json) — 5 lines. 1 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:supabase/functions/create-vet-profile/deno.json:tasks",
+      "type": "concept",
+      "name": "tasks",
+      "filePath": "supabase/functions/create-vet-profile/deno.json",
+      "summary": "Section: tasks",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "file:supabase/functions/create-vet-profile/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "supabase/functions/create-vet-profile/index.ts",
+      "summary": "index.ts (typescript) — 131 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "config:supabase/functions/recovery-complete/deno.json",
+      "type": "config",
+      "name": "deno.json",
+      "filePath": "supabase/functions/recovery-complete/deno.json",
+      "summary": "deno.json (json) — 5 lines. 1 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:supabase/functions/recovery-complete/deno.json:tasks",
+      "type": "concept",
+      "name": "tasks",
+      "filePath": "supabase/functions/recovery-complete/deno.json",
+      "summary": "Section: tasks",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "file:supabase/functions/recovery-complete/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "supabase/functions/recovery-complete/index.ts",
+      "summary": "index.ts (typescript) — 143 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:supabase/functions/recovery-complete/index.ts:sha256",
+      "type": "function",
+      "name": "sha256",
+      "filePath": "supabase/functions/recovery-complete/index.ts",
+      "summary": "Function sha256 in index.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "config:supabase/functions/recovery-request/deno.json",
+      "type": "config",
+      "name": "deno.json",
+      "filePath": "supabase/functions/recovery-request/deno.json",
+      "summary": "deno.json (json) — 5 lines. 1 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:supabase/functions/recovery-request/deno.json:tasks",
+      "type": "concept",
+      "name": "tasks",
+      "filePath": "supabase/functions/recovery-request/deno.json",
+      "summary": "Section: tasks",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "file:supabase/functions/recovery-request/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "supabase/functions/recovery-request/index.ts",
+      "summary": "index.ts (typescript) — 163 lines.",
+      "tags": [
+        "typescript",
+        "code",
+        "has-functions"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "function:supabase/functions/recovery-request/index.ts:sha256",
+      "type": "function",
+      "name": "sha256",
+      "filePath": "supabase/functions/recovery-request/index.ts",
+      "summary": "Function sha256 in index.ts",
+      "tags": [
+        "typescript",
+        "function"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    },
+    {
+      "id": "config:supabase/functions/send-whatsapp-notification/deno.json",
+      "type": "config",
+      "name": "deno.json",
+      "filePath": "supabase/functions/send-whatsapp-notification/deno.json",
+      "summary": "deno.json (json) — 5 lines. 1 sections.",
+      "tags": [
+        "json",
+        "config"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "concept:supabase/functions/send-whatsapp-notification/deno.json:tasks",
+      "type": "concept",
+      "name": "tasks",
+      "filePath": "supabase/functions/send-whatsapp-notification/deno.json",
+      "summary": "Section: tasks",
+      "tags": [
+        "json",
+        "section"
+      ],
+      "complexity": "simple",
+      "language": "json"
+    },
+    {
+      "id": "file:supabase/functions/send-whatsapp-notification/index.ts",
+      "type": "file",
+      "name": "index.ts",
+      "filePath": "supabase/functions/send-whatsapp-notification/index.ts",
+      "summary": "index.ts (typescript) — 108 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "moderate",
+      "language": "typescript"
+    },
+    {
+      "id": "file:tailwind.config.cjs",
+      "type": "file",
+      "name": "tailwind.config.cjs",
+      "filePath": "tailwind.config.cjs",
+      "summary": "tailwind.config.cjs (javascript) — 6 lines.",
+      "tags": [
+        "javascript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "javascript"
+    },
+    {
+      "id": "file:vite.config.ts",
+      "type": "file",
+      "name": "vite.config.ts",
+      "filePath": "vite.config.ts",
+      "summary": "vite.config.ts (typescript) — 39 lines.",
+      "tags": [
+        "typescript",
+        "code"
+      ],
+      "complexity": "simple",
+      "language": "typescript"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/utils/setupAdmin.ts",
+      "target": "function:src/utils/setupAdmin.ts:getAdminPasswordHash",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/whatsappNotifications.ts",
+      "target": "function:src/utils/whatsappNotifications.ts:buildWhatsAppMessage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:src/utils/whatsappNotifications.ts",
+      "target": "function:src/utils/whatsappNotifications.ts:sendWhatsAppNotification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "function:src/utils/whatsappNotifications.ts:sendWhatsAppNotification",
+      "target": "function:src/utils/whatsappNotifications.ts:buildWhatsAppMessage",
+      "type": "calls",
+      "weight": 0.8
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:api",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:api.tls",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:db",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:db.pooler",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:db.migrations",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:db.seed",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:db.network_restrictions",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:realtime",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:studio",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:inbucket",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:storage",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:storage.s3_protocol",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:storage.analytics",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:storage.vector",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.rate_limit",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.email",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.sms",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.sms.twilio",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.mfa",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.mfa.totp",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.mfa.phone",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.external.apple",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.web3.solana",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.third_party.firebase",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.third_party.auth0",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.third_party.aws_cognito",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.third_party.clerk",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:auth.oauth_server",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:edge_runtime",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:functions.create-vet-profile",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:functions.recovery-request",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:functions.recovery-complete",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:functions.send-whatsapp-notification",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:analytics",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/config.toml",
+      "target": "concept:supabase/config.toml:experimental",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/functions/create-vet-profile/deno.json",
+      "target": "concept:supabase/functions/create-vet-profile/deno.json:tasks",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/functions/recovery-complete/deno.json",
+      "target": "concept:supabase/functions/recovery-complete/deno.json:tasks",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:supabase/functions/recovery-complete/index.ts",
+      "target": "function:supabase/functions/recovery-complete/index.ts:sha256",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/functions/recovery-request/deno.json",
+      "target": "concept:supabase/functions/recovery-request/deno.json:tasks",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "file:supabase/functions/recovery-request/index.ts",
+      "target": "function:supabase/functions/recovery-request/index.ts:sha256",
+      "type": "contains",
+      "weight": 1
+    },
+    {
+      "source": "config:supabase/functions/send-whatsapp-notification/deno.json",
+      "target": "concept:supabase/functions/send-whatsapp-notification/deno.json:tasks",
+      "type": "contains",
+      "weight": 1
+    }
+  ]
+}
