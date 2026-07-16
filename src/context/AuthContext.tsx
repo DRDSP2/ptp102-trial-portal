@@ -27,6 +27,7 @@ type AuthContextType = AuthState & {
   rejectVet: () => void;
   acceptTerms: () => Promise<void>;
   loginAdmin: (email: string, password?: string) => Promise<void>;
+  loginConsultant: (email: string, password?: string) => Promise<void>;
   logout: () => Promise<void>;
   sessionScope: SessionScope;
   setSessionScope: (scope: SessionScope) => void;
@@ -351,6 +352,35 @@ export function AuthProvider({
 
         const next = {
           role: 'admin' as const,
+          email: normalizedEmail,
+          termsAccepted: true,
+          pendingApproval: false,
+        };
+        setState((current) => ({ ...current, ...next, isLoading: false }));
+      },
+      loginConsultant: async (email: string, password?: string) => {
+        const normalizedEmail = email.toLowerCase().trim();
+        if (password) {
+          const { error } = await client.auth.signInWithPassword({
+            email: normalizedEmail,
+            password,
+          });
+          if (error) throw error;
+          const user = (await client.auth.getSession()).data.session?.user;
+          const role = roleFromUser(user ?? null);
+          if (role !== 'consultant') {
+            await client.auth.signOut();
+            throw new Error('This account does not have consultant access.');
+          }
+          setStoredSessionScope(role);
+          setSessionScopeState(role);
+          // Best-effort LOGIN audit — never block sign-in on it.
+          recordLoginAudit(normalizedEmail, role).catch(() => {});
+          return;
+        }
+
+        const next = {
+          role: 'consultant' as const,
           email: normalizedEmail,
           termsAccepted: true,
           pendingApproval: false,

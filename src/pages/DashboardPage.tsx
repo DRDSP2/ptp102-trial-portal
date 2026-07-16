@@ -62,7 +62,7 @@ export function DashboardPage() {
     <div className="container mx-auto p-6 max-w-7xl">
       {isStaff ? (
           <Tabs defaultValue="overview" className="w-full">
-            <TabsList className={cn('grid w-full max-w-5xl grid-cols-2 sm:grid-cols-5', isAdmin ? 'lg:grid-cols-9' : 'lg:grid-cols-8')}>
+            <TabsList className={cn('flex w-full max-w-5xl gap-1 overflow-x-auto pb-1 scrollbar-hide')}>
               <TabsTrigger value="overview">
                 <BarChart3 className="mr-2 h-4 w-4" />
                 Overview
@@ -177,7 +177,7 @@ export function DashboardPage() {
             {isAdmin && (
               <TabsContent value="deal" className="mt-6">
                 <Tabs defaultValue="users">
-                  <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-5">
+                  <TabsList className="flex w-full max-w-2xl gap-1 overflow-x-auto pb-1 scrollbar-hide">
                     <TabsTrigger value="users">Users</TabsTrigger>
                     <TabsTrigger value="documents">Documents</TabsTrigger>
                     <TabsTrigger value="payments">Payments</TabsTrigger>
@@ -215,7 +215,7 @@ export function DashboardPage() {
           <>
             <AdverseEventReporter vetEmail={auth.email} vetName={auth.email?.split('@')[0] ?? 'Vet'} />
             <Tabs defaultValue="patients" className="w-full">
-              <TabsList className="grid w-full max-w-2xl grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+              <TabsList className="flex w-full max-w-2xl gap-1 overflow-x-auto pb-1 scrollbar-hide">
               <TabsTrigger value="patients">
                 <Users className="mr-2 h-4 w-4" />
                 Patients

@@ -10,6 +10,7 @@ import { VetTermsAcceptancePage } from '@/pages/VetTermsAcceptancePage';
 import { VetRegisterPage } from '@/pages/VetRegisterPage';
 import { VetResetPage } from '@/pages/VetResetPage';
 import { AdminLoginPage } from '@/pages/AdminLoginPage';
+import { ConsultantLoginPage } from '@/pages/ConsultantLoginPage';
 import { PendingApprovalPage } from '@/pages/PendingApprovalPage';
 import { ProtectedRoute } from '@/pages/ProtectedRoute';
 import { AppShell } from '@/components/AppShell';
@@ -67,6 +68,7 @@ function App() {
             <Route path="/vet/register" element={<VetRegisterPage />} />
             <Route path="/vet/forgot" element={<VetResetPage />} />
             <Route path="/admin/login" element={<AdminLoginPage />} />
+            <Route path="/consultant/login" element={<ConsultantLoginPage />} />
             <Route path="/vet/pending" element={<PendingApprovalPage />} />
             <Route path="/vet/terms" element={<VetTermsAcceptancePage />} />
             <Route
