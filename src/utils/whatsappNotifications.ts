@@ -52,12 +52,12 @@ export async function sendWhatsAppNotification(payload: WhatsAppNotificationPayl
   }
 
   try {
-    const { error } = await supabase.functions.invoke('send-whatsapp-notification', {
+    const result = await supabase.functions.invoke('send-whatsapp-notification', {
       body,
     });
 
-    if (error) {
-      console.warn('WhatsApp notification invocation failed (non-fatal):', error.message);
+    if (result && result.error) {
+      console.warn('WhatsApp notification invocation failed (non-fatal):', result.error.message);
     }
   } catch (err) {
     console.warn('WhatsApp notification error (non-fatal):', err);

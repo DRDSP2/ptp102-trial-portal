@@ -216,6 +216,11 @@ export function AuthProvider({
 
   const fetchDealProfile = useCallback(
     async (userId: string) => {
+      if (typeof client?.from !== 'function') {
+        // Handle case where client is not available (e.g., in tests)
+        setDealProfile(null);
+        return;
+      }
       const { data, error } = await client
         .from('deal_profiles')
         .select('*')
