@@ -33,5 +33,5 @@ export function AdminLoginPage() {
     return <AdminPasswordSetForm onSuccess={handlePasswordSetSuccess} />;
   }
 
-  return <AdminLoginScreen onSuccess={handleLoginSuccess} onBackToAccessSelection={() => navigate('/')} />;
+  return <AdminLoginScreen onSuccess={handleLoginSuccess} onBackToAccessSelection={() => navigate('/')} onConsultantLogin={() => navigate('/consultant/login')} />;
 }

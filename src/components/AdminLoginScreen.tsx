@@ -21,9 +21,10 @@ const loginSchema = z.object({
 type AdminLoginScreenProps = {
   onSuccess: (email: string) => void;
   onBackToAccessSelection: () => void;
+  onConsultantLogin: () => void;
 };
 
-export function AdminLoginScreen({ onSuccess, onBackToAccessSelection }: AdminLoginScreenProps) {
+export function AdminLoginScreen({ onSuccess, onBackToAccessSelection, onConsultantLogin }: AdminLoginScreenProps) {
   const auth = useAuth();
   const [updateLastLogin] = useMutateAction(updateAdminLastLoginAction);
   const [isLoading, setIsLoading] = useState(false);
@@ -118,7 +119,7 @@ export function AdminLoginScreen({ onSuccess, onBackToAccessSelection }: AdminLo
                 <Button type="button" variant="outline" size="lg" onClick={onBackToAccessSelection} className="w-full">
                   Back to Access Selection
                 </Button>
-                <Button type="button" variant="ghost" size="sm" onClick={() => window.location.href = '/consultant/login'} className="w-full">
+                <Button type="button" variant="ghost" size="sm" onClick={onConsultantLogin} className="w-full">
                   <UserCog className="mr-2 h-4 w-4" />
                   Consultant Access
                 </Button>
