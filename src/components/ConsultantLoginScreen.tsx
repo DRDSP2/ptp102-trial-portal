@@ -3,12 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { ByrockLogo } from '@/components/ByrockLogo';
-import { UserCog, AlertCircle } from 'lucide-react';
+import { UserCog, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const loginSchema = z.object({
@@ -25,6 +26,8 @@ export function ConsultantLoginScreen({ onSuccess, onBackToAccessSelection }: Co
   const auth = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [resetSent, setResetSent] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -33,6 +36,27 @@ export function ConsultantLoginScreen({ onSuccess, onBackToAccessSelection }: Co
       password: '',
     },
   });
+
+  const handleForgotPassword = async () => {
+    const email = form.getValues('email')?.trim();
+    if (!email) {
+      setError('Please enter your email address first.');
+      return;
+    }
+    try {
+      setResetLoading(true);
+      setError(null);
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/#/consultant/login`,
+      });
+      if (resetError) throw resetError;
+      setResetSent(true);
+    } catch (err) {
+      setError(`Failed to send reset: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setResetLoading(false);
+    }
+  };
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
@@ -97,6 +121,30 @@ export function ConsultantLoginScreen({ onSuccess, onBackToAccessSelection }: Co
                   </FormItem>
                 )}
               />
+
+              {resetSent && (
+                <Alert className="bg-green-50 border-green-200">
+                  <CheckCircle2 className="h-4 w-4 text-green-600" />
+                  <AlertDescription className="text-green-900">
+                    Check your email for a password reset link.
+                  </AlertDescription>
+                </Alert>
+              )}
+
+              {!resetSent && (
+                <div className="text-right">
+                  <Button
+                    type="button"
+                    variant="link"
+                    size="sm"
+                    onClick={handleForgotPassword}
+                    disabled={resetLoading}
+                    className="text-xs p-0 h-auto"
+                  >
+                    {resetLoading ? 'Sending...' : 'Forgot password?'}
+                  </Button>
+                </div>
+              )}
 
               {error && (
                 <Alert variant="destructive">
