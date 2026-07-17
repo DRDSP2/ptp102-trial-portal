@@ -2,9 +2,6 @@ import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutateAction } from '@uibakery/data';
-import sendEmailNotificationAction from '@/actions/sendEmailNotification';
-import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -52,7 +49,6 @@ type RegistrationValues = z.infer<typeof termsSchema>;
 
 export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAndConditionsScreenProps) {
   const auth = useAuth();
-  const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showValidationSummary, setShowValidationSummary] = useState(false);
@@ -102,18 +98,8 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
         return;
       }
 
-      await sendNotification(
-        sendEmail,
-        NotificationType.NEW_VET_REGISTRATION,
-        `🆕 New Vet Registration: ${values.fullName}`,
-        {
-          'Veterinarian Name': values.fullName,
-          'Email': normalizedEmail,
-          'Hospital': values.hospitalAffiliation,
-          'License': values.licenseNumber,
-          'Status': 'Pending Approval',
-        }
-      );
+      // Email notifications (vet confirmation + admin alert including signed PDF)
+      // are now handled server-side inside the create-vet-profile edge function.
 
       auth.requestVetApproval(normalizedEmail);
       onAccepted(normalizedEmail);

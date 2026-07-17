@@ -66,7 +66,7 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
               <div>
                 <h3 className="font-semibold text-yellow-900">Account Under Review</h3>
                 <p className="text-sm text-yellow-800 mt-1">
-                  Your account is awaiting approval by Byrock and will be activated shortly. You'll receive an email notification once your account is approved.
+                  Your account is awaiting approval by Byrock. We've sent a confirmation email to your inbox with your signed participation agreement. You'll receive an email notification once your account is approved.
                 </p>
               </div>
             </div>

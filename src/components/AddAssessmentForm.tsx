@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ObelGradeReference, type ObelGradeValue } from '@/components/ObelGradeReference';
 import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/client';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 const assessmentSchema = z.object({
@@ -108,6 +109,23 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
           'Notes': values.clinicalNotes?.slice(0, 150) ?? null,
         },
       });
+
+      supabase.functions.invoke('send-email', {
+        body: {
+          to: 'drdsp@pm.me',
+          subject: `[PTP-102] Assessment recorded — Patient #${patientId} (Hour ${protocolHour ?? 'N/A'})`,
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h2 style="color: #6b7f3a;">Assessment Recorded</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 6px; font-weight: bold;">Patient:</td><td style="padding: 6px;">#${patientId}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Vet:</td><td style="padding: 6px;">${auth.email ?? 'Unknown'}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Protocol Hour:</td><td style="padding: 6px;">${protocolHour ?? 'N/A'}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Obel Grade:</td><td style="padding: 6px;">${values.obelGrade}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Pain Score:</td><td style="padding: 6px;">${values.painScore}</td></tr>
+            </table>
+          </div>`,
+        },
+      }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
 
       form.reset();
       onSuccess();

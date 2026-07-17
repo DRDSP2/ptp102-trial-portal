@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/client';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 const treatmentSchema = z.object({
@@ -95,6 +96,43 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
           'Notes': values.notes?.slice(0, 150) ?? null,
         },
       });
+
+      // Admin email alerts
+      const vetName = auth.email ?? 'Unknown Vet';
+      if (finalProtocolHour === 0) {
+        supabase.functions.invoke('send-email', {
+          body: {
+            to: 'drdsp@pm.me',
+            subject: `[PTP-102] Trial started — Patient #${patientId}`,
+            html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+              <h2 style="color: #6b7f3a;">Trial Started (Hour 0)</h2>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr><td style="padding: 6px; font-weight: bold;">Patient:</td><td style="padding: 6px;">#${patientId}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Vet:</td><td style="padding: 6px;">${vetName}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Route:</td><td style="padding: 6px;">${values.route}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Dosage:</td><td style="padding: 6px;">${calculatedDosage} mg</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Time:</td><td style="padding: 6px;">${new Date(values.administrationDatetime).toLocaleString()}</td></tr>
+              </table>
+            </div>`,
+          },
+        }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
+      }
+      supabase.functions.invoke('send-email', {
+        body: {
+          to: 'drdsp@pm.me',
+          subject: `[PTP-102] Treatment recorded — Patient #${patientId} (Hour ${finalProtocolHour})`,
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h2 style="color: #6b7f3a;">Treatment Recorded</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 6px; font-weight: bold;">Patient:</td><td style="padding: 6px;">#${patientId}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Vet:</td><td style="padding: 6px;">${vetName}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Protocol Hour:</td><td style="padding: 6px;">${finalProtocolHour}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Route:</td><td style="padding: 6px;">${values.route}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Dosage:</td><td style="padding: 6px;">${calculatedDosage} mg</td></tr>
+            </table>
+          </div>`,
+        },
+      }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
 
       form.reset();
       onSuccess();

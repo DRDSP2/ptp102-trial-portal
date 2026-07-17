@@ -10,6 +10,7 @@ import { FileText, Zap, Video, X, Info, Loader2, AlertCircle } from 'lucide-reac
 import { useSecureUpload } from '@/hooks/useSecureUpload';
 import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
 import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/client';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 type UploadedVideoInfo = {
@@ -161,6 +162,21 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
           'Attached Document': uploadedOcrDocument?.name ?? null,
         },
       });
+
+      supabase.functions.invoke('send-email', {
+        body: {
+          to: 'drdsp@pm.me',
+          subject: `[PTP-102] Note added — Patient #${patientId}`,
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h2 style="color: #6b7f3a;">Clinical Note Added</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 6px; font-weight: bold;">Patient:</td><td style="padding: 6px;">#${patientId}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Vet:</td><td style="padding: 6px;">${auth.email ?? 'Unknown'}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Note Type:</td><td style="padding: 6px;">${noteType}</td></tr>
+            </table>
+          </div>`,
+        },
+      }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
 
       setNoteContent('');
       setNoteType('observation');

@@ -47,6 +47,8 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
           throw new Error('You must be signed in to upload files');
         }
         const userId = sessionData.session.user.id;
+        const userEmail = sessionData.session.user.email ?? 'unknown';
+
         // 2. Client-side size + mime checks. These are NOT a security boundary
         //    (anyone can bypass them by calling the API directly); they exist
         //    to fail fast with a friendly error before consuming bandwidth.
@@ -114,6 +116,25 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
           }),
           reasonForChange: `File uploaded via secure upload: ${file.name}`,
         }).catch(() => {});
+
+        // 7. Fire-and-forget admin email alert for file uploads
+        supabase.functions.invoke('send-email', {
+          body: {
+            to: 'drdsp@pm.me',
+            subject: `[PTP-102] File uploaded by ${userEmail} — ${file.name}`,
+            html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+              <h2 style="color: #6b7f3a;">File Uploaded</h2>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr><td style="padding: 6px; font-weight: bold;">File:</td><td style="padding: 6px;">${file.name}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Type:</td><td style="padding: 6px;">${file.type || 'unknown'}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Size:</td><td style="padding: 6px;">${(file.size / 1024).toFixed(1)} KB</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Category:</td><td style="padding: 6px;">${category}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Patient:</td><td style="padding: 6px;">${entityType} #${entityId}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Uploaded by:</td><td style="padding: 6px;">${userEmail}</td></tr>
+              </table>
+            </div>`,
+          },
+        }).catch((err: unknown) => console.error('Upload email alert failed (non-critical):', err));
 
         return storagePath;
       } catch (err) {

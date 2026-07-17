@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/client';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 
 const labSchema = z.object({
@@ -109,6 +110,21 @@ export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabR
           'Notes': values.additionalNotes?.slice(0, 150) ?? null,
         },
       });
+
+      supabase.functions.invoke('send-email', {
+        body: {
+          to: 'drdsp@pm.me',
+          subject: `[PTP-102] Lab result recorded — Patient #${patientId} (Hour ${protocolHour ?? 'N/A'})`,
+          html: `<div style="font-family: Arial, sans-serif; max-width: 600px;">
+            <h2 style="color: #6b7f3a;">Lab Result Recorded</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr><td style="padding: 6px; font-weight: bold;">Patient:</td><td style="padding: 6px;">#${patientId}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Vet:</td><td style="padding: 6px;">${auth.email ?? 'Unknown'}</td></tr>
+              <tr><td style="padding: 6px; font-weight: bold;">Protocol Hour:</td><td style="padding: 6px;">${protocolHour ?? 'N/A'}</td></tr>
+            </table>
+          </div>`,
+        },
+      }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
 
       form.reset();
       onSuccess();

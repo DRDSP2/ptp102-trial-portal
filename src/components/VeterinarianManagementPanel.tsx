@@ -4,10 +4,8 @@ import loadAllInvestigatorQualificationsAction from '@/actions/loadAllInvestigat
 import approveInvestigatorQualificationAction from '@/actions/approveInvestigatorQualification';
 import rejectInvestigatorQualificationAction from '@/actions/rejectInvestigatorQualification';
 import updateVetVerificationStatusAction from '@/actions/updateVetVerificationStatus';
-import sendEmailNotificationAction from '@/actions/sendEmailNotification';
 import { useVeterinarians, useMutateVeterinarian, useDeleteVeterinarian, useClinics } from '@/hooks/useVeterinarians';
 import { supabase } from '@/lib/supabase/client';
-import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
@@ -87,7 +85,6 @@ export function VeterinarianManagementPanel() {
   const [approveQual] = useMutateAction(approveInvestigatorQualificationAction);
   const [rejectQual] = useMutateAction(rejectInvestigatorQualificationAction);
   const [_updateVetStatus] = useMutateAction(updateVetVerificationStatusAction);
-  const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [selectedVet, setSelectedVet] = useState<Veterinarian | null>(null);
   const [selectedQual, setSelectedQual] = useState<InvestigatorQualification | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -146,19 +143,65 @@ export function VeterinarianManagementPanel() {
       }
       
       if (vet) {
-        const notifType = action === 'approve' ? NotificationType.VET_APPROVED : NotificationType.VET_REJECTED;
-        const prefix = action === 'approve' ? '✅' : '❌';
-        sendNotification(
-          sendEmail,
-          notifType,
-          `${prefix} Vet ${action === 'approve' ? 'Approved' : 'Rejected'}: ${vet.full_name}`,
-          {
-            'Veterinarian': vet.full_name,
-            'Email': vet.email,
-            'Hospital': vet.hospital_affiliation,
-            ...(action === 'approve' ? { 'License': vet.license_number } : {}),
-          }
-        ).catch(err => console.error('Email notification failed (non-critical):', err));
+        const vetEmail = action === 'approve'
+          ? `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <div style="background-color: #6b7f3a; color: white; padding: 20px; text-align: center;">
+                <h1 style="margin: 0;">Welcome to the Trial!</h1>
+              </div>
+              <div style="padding: 30px 20px; background: #f9f9f9;">
+                <p>Dear <strong>${vet.full_name}</strong>,</p>
+                <p>Your application to participate in the PTP-102 Laminitis Trial has been <strong style="color: #16a34a;">approved</strong>.</p>
+                <p>You can now log in to the trial portal using the credentials you created during registration:</p>
+                <p style="text-align: center; margin: 20px 0;">
+                  <a href="${window.location.origin}/#/vet/login"
+                     style="background: #6b7f3a; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px; font-size: 16px;">
+                    Log In to Portal
+                  </a>
+                </p>
+                <p>If you have any questions, please contact <a href="mailto:drdsp@pm.me">drdsp@pm.me</a>.</p>
+                <br/>
+                <p>Best regards,</p>
+                <p><strong>The Byrock Team</strong></p>
+              </div>
+            </div>`
+          : `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <div style="background-color: #dc2626; color: white; padding: 20px; text-align: center;">
+                <h1 style="margin: 0;">Application Status</h1>
+              </div>
+              <div style="padding: 30px 20px; background: #f9f9f9;">
+                <p>Dear <strong>${vet.full_name}</strong>,</p>
+                <p>After careful review, we regret to inform you that your application to participate in the PTP-102 Laminitis Trial has been <strong style="color: #dc2626;">declined</strong>.</p>
+                <p>If you believe this decision was made in error or would like further information, please contact <a href="mailto:drdsp@pm.me">drdsp@pm.me</a>.</p>
+                <br/>
+                <p>Best regards,</p>
+                <p><strong>The Byrock Team</strong></p>
+              </div>
+            </div>`;
+
+        supabase.functions.invoke('send-email', {
+          body: {
+            to: vet.email,
+            subject: action === 'approve' ? 'Your PTP-102 Application Has Been Approved' : 'Your PTP-102 Application Status',
+            html: vetEmail,
+          },
+        }).catch((err: unknown) => console.error('Vet notification email failed (non-critical):', err));
+
+        // Admin alert
+        supabase.functions.invoke('send-email', {
+          body: {
+            to: 'drdsp@pm.me',
+            subject: `${action === 'approve' ? '✅' : '❌'} Vet ${action === 'approve' ? 'Approved' : 'Rejected'}: ${vet.full_name}`,
+            html: `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2>Vet ${action === 'approve' ? 'Approved' : 'Rejected'}</h2>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr><td style="padding: 6px; font-weight: bold;">Name:</td><td style="padding: 6px;">${vet.full_name}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Email:</td><td style="padding: 6px;">${vet.email}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Hospital:</td><td style="padding: 6px;">${vet.hospital_affiliation}</td></tr>
+                <tr><td style="padding: 6px; font-weight: bold;">Status:</td><td style="padding: 6px; text-transform: uppercase;">${action}</td></tr>
+              </table>
+            </div>`,
+          },
+        }).catch((err: unknown) => console.error('Admin alert email failed (non-critical):', err));
       }
       
       setActionStatus({ id, status: 'success' });
@@ -175,7 +218,7 @@ export function VeterinarianManagementPanel() {
     } finally {
       setPendingVetAction(null);
     }
-  }, [pendingVetAction, vets, approveOrRejectVet, sendEmail, refreshVets, optimisticUpdate, createIfNotExists, loadClinics]);
+  }, [pendingVetAction, vets, approveOrRejectVet, refreshVets, optimisticUpdate, createIfNotExists, loadClinics]);
 
   const handleDelete = useCallback(async (id: number) => {
     if (window.confirm('Are you sure you want to permanently delete this veterinarian? This action cannot be undone.')) {
