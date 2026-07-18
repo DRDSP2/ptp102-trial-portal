@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { useMutateAction } from '@uibakery/data';
 import createPatientAction from '@/actions/createPatient';
 import updatePatientAction from '@/actions/updatePatient';
-import sendEmailNotificationAction from '@/actions/sendEmailNotification';
 import { useAuth } from '@/context/AuthContext';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 import { Patient } from '@/types/patient';
@@ -84,7 +83,6 @@ const getDefaultValues = (patient?: Patient | null): z.infer<typeof patientSchem
 export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentFormProps) {
   const [createPatient, isSubmitting] = useMutateAction(createPatientAction);
   const [updatePatient, isUpdating] = useMutateAction(updatePatientAction);
-  const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const isEditMode = Boolean(patient);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploadedImage, setUploadedImage] = useState<UploadedImageInfo | null>(

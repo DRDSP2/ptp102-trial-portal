@@ -18,7 +18,6 @@ import { generatePatientTrialReport } from '@/lib/reportGenerator';
 import approvePatientScreeningAction from '@/actions/approvePatientScreening';
 import rejectPatientScreeningAction from '@/actions/rejectPatientScreening';
 import requestPatientDetailsAction from '@/actions/requestPatientDetails';
-import sendEmailNotificationAction from '@/actions/sendEmailNotification';
 import { sendNotification, NotificationType } from '@/utils/emailNotifications';
 
 type PatientsListProps = {
@@ -33,7 +32,6 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
   const [approvePatient, isApproving] = useMutateAction(approvePatientScreeningAction);
   const [rejectPatient, isRejecting] = useMutateAction(rejectPatientScreeningAction);
   const [requestDetails, isRequesting] = useMutateAction(requestPatientDetailsAction);
-  const [sendEmail] = useMutateAction(sendEmailNotificationAction);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState<Patient | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);

@@ -57,23 +57,6 @@ export async function sendNotification(
   await sendEmailNotification({ activityType, subject, details, actorEmail });
 }
 
-function formatNotificationMessage(activityType: string, details: Record<string, unknown>): string {
-  const lines: string[] = [
-    `Activity Type: ${activityType}`,
-    `Timestamp: ${new Date().toLocaleString()}`,
-    '',
-    'Details:',
-  ];
-
-  Object.entries(details).forEach(([key, value]) => {
-    if (value !== null && value !== undefined) {
-      lines.push(`  ${key}: ${String(value)}`);
-    }
-  });
-
-  return lines.join('\n');
-}
-
 export const NotificationType = {
   NEW_VET_REGISTRATION: 'New Veterinarian Registration',
   VET_APPROVED: 'Veterinarian Approved',
