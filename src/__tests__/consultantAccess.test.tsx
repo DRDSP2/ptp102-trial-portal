@@ -30,7 +30,7 @@ describe('Consultant role — dashboard + access gating', () => {
     clearAuthMocks();
   });
 
-  it('consultant sees all clinical tabs but NOT the Deal Room tab', async () => {
+  it('consultant sees read-only clinical tabs but NOT admin tabs', async () => {
     seedAuth('consultant', 'mark@hughesvet.com');
 
     render(
@@ -53,18 +53,20 @@ describe('Consultant role — dashboard + access gating', () => {
       </MemoryRouter>,
     );
 
-    // Clinical / compliance tabs are visible to a consultant.
+    // Read-only clinical / compliance tabs are visible to a consultant.
     await waitFor(() => {
       expect(screen.getAllByText(/Compliance/i).length).toBeGreaterThan(0);
     });
-    expect(screen.getAllByText(/Supply/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Veterinarians/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/X-Ray/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Audit/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Patients/i).length).toBeGreaterThan(0);
 
-    // Deal Room tab is admin-only and must be hidden from consultants.
-    expect(screen.queryAllByText(/Deal Room/i).length).toBe(0);
+    // Admin-only tabs are hidden from consultants (Phase 0 read-only gating).
+    // Role-scoped queries so stray body text (e.g. "across all veterinarians"
+    // in the Patients subtitle) can't produce false matches.
+    expect(screen.queryAllByRole('tab', { name: /Supply/i }).length).toBe(0);
+    expect(screen.queryAllByRole('tab', { name: /Veterinarians/i }).length).toBe(0);
+    expect(screen.queryAllByRole('tab', { name: /Deal Room/i }).length).toBe(0);
   });
 
   it('consultant sees a Consultant badge and Change Password button in the header', async () => {

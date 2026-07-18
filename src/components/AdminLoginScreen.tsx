@@ -84,7 +84,7 @@ export function AdminLoginScreen({ onSuccess, onBackToAccessSelection, onConsult
                   <FormItem>
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="drsp@pm.me" {...field} />
+                      <Input type="email" placeholder="drdsp@pm.me" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

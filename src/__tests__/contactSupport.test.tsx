@@ -8,7 +8,7 @@ vi.mock('@uibakery/data', () => ({
 }));
 
 describe('support contact configuration', () => {
-  it('uses drsp@pm.me in Contact Support mailto and fallback text', () => {
+  it('uses drdsp@pm.me in Contact Support mailto and fallback text', () => {
     render(
       <PendingApprovalScreen
         email="vet@example.com"
@@ -19,7 +19,7 @@ describe('support contact configuration', () => {
 
     expect(screen.getByText(SUPPORT_EMAIL)).toBeInTheDocument();
     expect(supportMailto('Account Approval Status - vet@example.com')).toBe(
-      'mailto:drsp@pm.me?subject=Account%20Approval%20Status%20-%20vet%40example.com',
+      'mailto:drdsp@pm.me?subject=Account%20Approval%20Status%20-%20vet%40example.com',
     );
   });
 });
