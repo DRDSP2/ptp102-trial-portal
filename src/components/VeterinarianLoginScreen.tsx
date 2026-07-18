@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useMutateAction } from '@uibakery/data';
 import updateVetLastLoginAction from '@/actions/updateVetLastLogin';
-import checkVeterinarianAcceptanceAction from '@/actions/checkVeterinarianAcceptance';
 import { useAuth } from '@/context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -29,7 +28,6 @@ type VeterinarianLoginScreenProps = {
 
 export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgotPassword, onBackToSelection }: VeterinarianLoginScreenProps) {
   const auth = useAuth();
-  const [checkAcceptance] = useMutateAction(checkVeterinarianAcceptanceAction);
   const [updateLastLogin] = useMutateAction(updateVetLastLoginAction);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,17 +49,25 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
       // Authenticate with Supabase Auth.
       await auth.loginVet(normalizedEmail, values.password);
 
-      // Load the local vet profile to enforce approval status.
-      const result = await checkAcceptance({ email: normalizedEmail });
-      const userData = result?.[0];
+      // Load the real vet profile to enforce approval status. Registration
+      // and terms acceptance write the Supabase `veterinarians` table (via
+      // the create-vet-profile edge function) — the same source AuthContext
+      // reads — not the old localStorage mock store.
+      const { data: vet, error: profileError } = await auth.client
+        .from('veterinarians')
+        .select('tc_accepted, verification_status')
+        .eq('email', normalizedEmail)
+        .maybeSingle();
 
-      if (!userData?.accepted) {
+      if (profileError) throw profileError;
+
+      if (!vet?.tc_accepted) {
         setError('Your account exists but terms have not been accepted. Please complete registration.');
         setIsLoading(false);
         return;
       }
 
-      if (userData.verification_status === 'pending') {
+      if (vet.verification_status === 'pending') {
         auth.requestVetApproval(normalizedEmail);
         setError('Your account is pending admin approval. Redirecting...');
         setTimeout(() => {
@@ -70,7 +76,7 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
         return;
       }
 
-      if (userData.verification_status === 'rejected') {
+      if (vet.verification_status === 'rejected') {
         setError(`Your account was rejected. Please contact support at ${SUPPORT_EMAIL}`);
         setIsLoading(false);
         return;

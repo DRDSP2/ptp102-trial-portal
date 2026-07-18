@@ -8,9 +8,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/client';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
+import { useTrialMutation } from '@/hooks/use-trial-mutation';
+import { toLocalDatetimeInputValue } from '@/lib/datetime';
 
 const labSchema = z.object({
   testDatetime: z.string().min(1, 'Date and time required'),
@@ -41,12 +45,12 @@ type AddLabResultFormProps = {
 
 export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabResultFormProps) {
   const auth = useAuth();
-  const [addLab, isSubmitting] = useMutateAction(addLabResultAction);
+  const [addLab] = useMutateAction(addLabResultAction);
 
   const form = useForm<z.infer<typeof labSchema>>({
     resolver: zodResolver(labSchema),
     defaultValues: {
-      testDatetime: new Date().toISOString().slice(0, 16),
+      testDatetime: toLocalDatetimeInputValue(),
       wbc: '',
       rbc: '',
       hemoglobin: '',
@@ -67,10 +71,8 @@ export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabR
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof labSchema>) => {
-    console.log('AddLabResultForm: Starting submission', { patientId, protocolHour });
-    
-    try {
+  const labMutation = useTrialMutation<z.infer<typeof labSchema>, void>({
+    mutationFn: async (values) => {
       const params = {
         patientId,
         testDatetime: new Date(values.testDatetime).toISOString(),
@@ -94,9 +96,7 @@ export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabR
         additionalNotes: values.additionalNotes || null,
       };
 
-      console.log('AddLabResultForm: Calling addLab with params', params);
-      const result = await addLab(params);
-      console.log('AddLabResultForm: Success', result);
+      await addLab(params);
 
       sendWhatsAppNotification({
         activityType: 'Lab Result Added',
@@ -125,12 +125,17 @@ export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabR
           </div>`,
         },
       }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
-
+    },
+    successToast: 'Lab results saved.',
+    errorTitle: 'Failed to save lab results',
+    onSuccess: () => {
       form.reset();
       onSuccess();
-    } catch (error) {
-      console.error('AddLabResultForm: Failed to add lab results', error);
-    }
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof labSchema>) => {
+    labMutation.mutate(values);
   };
 
   return (
@@ -424,8 +429,16 @@ export function AddLabResultForm({ patientId, protocolHour, onSuccess }: AddLabR
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting} className="w-full">
-          {isSubmitting ? 'Saving...' : 'Save Lab Results'}
+        {labMutation.error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Failed to save lab results</AlertTitle>
+            <AlertDescription>{labMutation.error}</AlertDescription>
+          </Alert>
+        )}
+
+        <Button type="submit" disabled={labMutation.isPending} className="w-full">
+          {labMutation.isPending ? 'Saving...' : 'Save Lab Results'}
         </Button>
       </form>
     </Form>

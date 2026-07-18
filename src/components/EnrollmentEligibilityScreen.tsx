@@ -14,6 +14,7 @@ import {
   AlertTriangle,
   ShieldCheck,
   Lock,
+  AlertCircle,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -94,6 +95,7 @@ export function EnrollmentEligibilityScreen({
   const [deviationJustification, setDeviationJustification] = useState('');
   const [showDeviation, setShowDeviation] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Load persisted eligibility state so the screen is not write-only.
   useEffect(() => {
@@ -132,31 +134,37 @@ export function EnrollmentEligibilityScreen({
 
   const handleSubmit = async () => {
     if (!canSubmit) return;
+    setError(null);
     const determination = isEligible
       ? 'eligible'
       : showDeviation && deviationJustification
       ? 'requires_deviation'
       : 'ineligible';
-    await saveEligibility({
-      patientId,
-      inclusionDiagnosedAcuteLaminitis: inclusions.inclusionDiagnosedAcuteLaminitis,
-      inclusionObelGrade1To3: inclusions.inclusionObelGrade1To3,
-      inclusionAge2To20: inclusions.inclusionAge2To20,
-      inclusionWeightOver200kg: inclusions.inclusionWeightOver200kg,
-      inclusionOwnerConsent: inclusions.inclusionOwnerConsent,
-      inclusionNoPriorInvestigationalDrug30d: inclusions.inclusionNoPriorInvestigationalDrug30d,
-      exclusionChronicLaminitisOver14d: exclusions.exclusionChronicLaminitisOver14d,
-      exclusionPregnantOrLactating: exclusions.exclusionPregnantOrLactating,
-      exclusionConcurrentSystemicDisease: exclusions.exclusionConcurrentSystemicDisease,
-      exclusionPriorInvestigationalDrug30d: exclusions.exclusionPriorInvestigationalDrug30d,
-      exclusionOwnerDeclinedConsent: exclusions.exclusionOwnerDeclinedConsent,
-      eligibilityDetermination: determination,
-      ineligibleReason: isIneligible ? 'Failed inclusion/exclusion criteria' : null,
-      deviationJustification: determination === 'requires_deviation' ? deviationJustification : null,
-      screenedBy: auth.email ?? 'unknown',
-    });
-    setLastSavedAt(new Date().toISOString());
-    onComplete(isEligible || determination === 'requires_deviation');
+    try {
+      await saveEligibility({
+        patientId,
+        inclusionDiagnosedAcuteLaminitis: inclusions.inclusionDiagnosedAcuteLaminitis,
+        inclusionObelGrade1To3: inclusions.inclusionObelGrade1To3,
+        inclusionAge2To20: inclusions.inclusionAge2To20,
+        inclusionWeightOver200kg: inclusions.inclusionWeightOver200kg,
+        inclusionOwnerConsent: inclusions.inclusionOwnerConsent,
+        inclusionNoPriorInvestigationalDrug30d: inclusions.inclusionNoPriorInvestigationalDrug30d,
+        exclusionChronicLaminitisOver14d: exclusions.exclusionChronicLaminitisOver14d,
+        exclusionPregnantOrLactating: exclusions.exclusionPregnantOrLactating,
+        exclusionConcurrentSystemicDisease: exclusions.exclusionConcurrentSystemicDisease,
+        exclusionPriorInvestigationalDrug30d: exclusions.exclusionPriorInvestigationalDrug30d,
+        exclusionOwnerDeclinedConsent: exclusions.exclusionOwnerDeclinedConsent,
+        eligibilityDetermination: determination,
+        ineligibleReason: isIneligible ? 'Failed inclusion/exclusion criteria' : null,
+        deviationJustification: determination === 'requires_deviation' ? deviationJustification : null,
+        screenedBy: auth.email ?? 'unknown',
+      });
+      setLastSavedAt(new Date().toISOString());
+      onComplete(isEligible || determination === 'requires_deviation');
+    } catch (err) {
+      console.error('Eligibility determination save failed:', err);
+      setError(err instanceof Error ? err.message : 'Failed to save the eligibility determination. Please try again.');
+    }
   };
 
   return (
@@ -181,6 +189,13 @@ export function EnrollmentEligibilityScreen({
             If criteria are not met, a protocol deviation justification is required.
           </AlertDescription>
         </Alert>
+
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
         {lastSavedAt && (
           <div className="flex items-center justify-between text-xs text-slate-700 bg-slate-50 p-2 rounded">

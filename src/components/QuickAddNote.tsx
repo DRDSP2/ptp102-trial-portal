@@ -273,7 +273,7 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
                   <li><strong>Stability:</strong> Hold camera steady or use tripod, avoid panning</li>
                   <li><strong>Format:</strong> MP4 or MOV, minimum 720p resolution, 30fps or higher</li>
                 </ul>
-                <p className="text-xs text-silver-text pt-2">
+                <p className="text-xs text-muted-foreground pt-2">
                   <strong>Note:</strong> These videos will be uploaded to secure private storage and linked to this patient record.
                 </p>
               </AlertDescription>

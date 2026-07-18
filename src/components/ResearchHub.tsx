@@ -268,11 +268,11 @@ export function ResearchHub() {
                           )}
                         </div>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-silver-text group-hover:text-khaki group-hover:translate-x-0.5 transition-all" />
+                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-khaki group-hover:translate-x-0.5 transition-all" />
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-silver-text line-clamp-2">
+                    <p className="text-sm text-muted-foreground line-clamp-2">
                       {section.id === 'overview' && 'Comprehensive overview of PTP-102 formulation, dosing regimen, and development status.'}
                       {section.id === 'mission' && 'Byrock Technologies mission statement and core values driving equine pharmaceutical innovation.'}
                       {section.id === 'clinical-trials' && 'Access clinical trial data, safety profiles, and efficacy summaries for veterinary review.'}
@@ -305,7 +305,7 @@ export function ResearchHub() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <p className="font-semibold text-sm text-silver-strong">Need additional research materials?</p>
-              <p className="text-xs text-silver-text mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 Full documentation repository available on the Byrock documentation portal.
               </p>
             </div>

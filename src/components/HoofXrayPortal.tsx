@@ -21,7 +21,7 @@ import createXrayLandmarkAction from '@/actions/createXrayLandmark';
 import createXrayMeasurementAction from '@/actions/createXrayMeasurement';
 import updateHoofXrayAnalysisAction from '@/actions/updateHoofXrayAnalysis';
 import createAuditLogAction from '@/actions/createAuditLog';
-import { X, Upload, Activity, ChevronRight, Image as ImageIcon, Save, Loader2, Ruler, AlertTriangle } from 'lucide-react';
+import { X, Upload, Activity, ChevronRight, Image as ImageIcon, Save, Loader2, Ruler, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { SIGNED_URL_TTL_SECONDS, bucketFromPath } from '@/lib/upload/config';
 
 const REQUIRED_LANDMARKS = [
@@ -69,6 +69,9 @@ const getDisplayText = (value: unknown, fallback = '-'): string => {
 export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   const auth = useAuth();
   const isAdmin = auth.role === 'admin' || auth.role === 'consultant';
+  // Consultants are read-only: they may view images and results, but uploads,
+  // landmark placement, and analysis writes are hidden/disabled for them.
+  const isConsultant = auth.isConsultant;
   const [selectedPatient, setSelectedPatient] = useState<number | null>(patientId ?? null);
   const [xrayList, setXrayList] = useState<XrayRecord[]>([]);
   const [selectedXray, setSelectedXray] = useState<XrayRecord | null>(null);
@@ -78,6 +81,11 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Persistence status of the latest analysis run. Analysis RESULTS render as
+  // soon as they are computed; this tracks whether they were actually saved to
+  // the database, so "saved" is never confused with "silently lost".
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'failed'>('idle');
+  const [saveError, setSaveError] = useState<string | null>(null);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [signedUrl, setSignedUrl] = useState<string | null>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -121,6 +129,8 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
     setMeasurements([]);
     setAnalysis(null);
     setError(null);
+    setSaveState('idle');
+    setSaveError(null);
     try {
       const url = await getSignedUrl(xray.file_path);
       setSignedUrl(url);
@@ -145,6 +155,7 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   }, [getSignedUrl, createAuditLog, auth]);
 
   const handleImageClick = useCallback((e: React.MouseEvent<HTMLImageElement>) => {
+    if (isConsultant) return; // read-only role: landmark placement disabled
     const img = imageRef.current;
     if (!img) return;
     const rect = img.getBoundingClientRect();
@@ -155,7 +166,7 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
       const filtered = prev.filter((l) => l.name !== activeLandmark);
       return [...filtered, { name: activeLandmark, x: clamped.x, y: clamped.y }];
     });
-  }, [activeLandmark]);
+  }, [activeLandmark, isConsultant]);
 
   const drawLandmarks = useCallback(() => {
     const canvas = canvasRef.current;
@@ -218,6 +229,7 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
   }, [landmarks, drawLandmarks]);
 
   const handleUpload = async () => {
+    if (isConsultant) return; // read-only role: uploads disabled
     const file = fileInputRef.current?.files?.[0];
     if (!file || !selectedPatient) return;
     setError(null);
@@ -264,10 +276,67 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
     }
   };
 
+  // Persists landmarks, measurements, and the analysis summary for an x-ray.
+  // Failures are recorded in saveState/saveError — never swallowed — so the UI
+  // can distinguish "analysis saved" from "save failed, retry".
+  const persistAnalysis = useCallback(async (xray: XrayRecord, lms: Landmark[], ms: Measurement[], a: Analysis) => {
+    setSaveState('saving');
+    setSaveError(null);
+    try {
+      for (const lm of lms) {
+        await createLandmark({ xrayId: xray.id, name: lm.name, x: lm.x, y: lm.y });
+      }
+      for (const m of ms) {
+        await createMeasurement({
+          xrayId: xray.id,
+          metric: m.metric,
+          value: m.value,
+          unit: m.unit,
+          severity: m.severity,
+          deviationZ: m.deviation_z,
+        });
+      }
+      await updateAnalysis({
+        xrayId: xray.id,
+        analysisStatus: 'completed',
+        overallSeverity: a.overall_severity,
+        score: a.score,
+      });
+
+      // Audit only after the record is actually persisted, so the trail never
+      // claims a completed analysis that failed to save. The audit write itself
+      // stays best-effort (same pattern as the rest of this file).
+      await createAuditLog({
+        userId: auth.user?.id ?? null,
+        userEmail: auth.email,
+        userRole: auth.role,
+        action: 'ANALYZE',
+        entityType: 'hoof_xrays',
+        entityId: xray.id,
+        fieldName: 'analysis_status',
+        oldValue: xray.analysis_status || 'pending',
+        newValue: JSON.stringify({ status: 'completed', score: a.score, severity: a.overall_severity }),
+        reasonForChange: 'Hoof X-ray rotation analysis completed',
+        ipAddress: null,
+        userAgent: navigator.userAgent,
+        sessionId: null,
+      }).catch(() => {});
+
+      setSaveState('saved');
+      refreshXrays();
+    } catch (e) {
+      console.error('Analysis persistence failed:', e);
+      setSaveState('failed');
+      setSaveError((e as Error).message);
+    }
+  }, [createLandmark, createMeasurement, updateAnalysis, createAuditLog, auth, refreshXrays]);
+
   const runAnalysis = async () => {
-    if (!selectedXray) return;
+    if (!selectedXray || isConsultant) return;
     setLoading(true);
     setError(null);
+    setSaveState('idle');
+    setSaveError(null);
     try {
       const result = await fetchAnalyze(landmarks, {
         x: selectedXray.pixel_spacing_x ?? undefined,
@@ -275,49 +344,19 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
       });
       setMeasurements(result.measurements);
       setAnalysis(result.analysis);
-
-      for (const lm of landmarks) {
-        await createLandmark({ xrayId: selectedXray.id, name: lm.name, x: lm.x, y: lm.y }).catch(() => {});
-      }
-      for (const m of result.measurements) {
-        await createMeasurement({
-          xrayId: selectedXray.id,
-          metric: m.metric,
-          value: m.value,
-          unit: m.unit,
-          severity: m.severity,
-          deviationZ: m.deviation_z,
-        }).catch(() => {});
-      }
-      await updateAnalysis({
-        xrayId: selectedXray.id,
-        analysisStatus: 'completed',
-        overallSeverity: result.analysis.overall_severity,
-        score: result.analysis.score,
-      }).catch(() => {});
-
-      await createAuditLog({
-        userId: auth.user?.id ?? null,
-        userEmail: auth.email,
-        userRole: auth.role,
-        action: 'ANALYZE',
-        entityType: 'hoof_xrays',
-        entityId: selectedXray.id,
-        fieldName: 'analysis_status',
-        oldValue: selectedXray.analysis_status || 'pending',
-        newValue: JSON.stringify({ status: 'completed', score: result.analysis.score, severity: result.analysis.overall_severity }),
-        reasonForChange: 'Hoof X-ray rotation analysis completed',
-        ipAddress: null,
-        userAgent: navigator.userAgent,
-        sessionId: null,
-      }).catch(() => {});
-
-      refreshXrays();
+      await persistAnalysis(selectedXray, landmarks, result.measurements, result.analysis);
     } catch (e) {
       setError((e as Error).message);
     } finally {
       setLoading(false);
     }
+  };
+
+  // Re-attempt saving the most recent analysis results without re-running the
+  // analysis itself (the computed measurements/analysis are still in state).
+  const handleRetrySave = () => {
+    if (!selectedXray || !analysis) return;
+    void persistAnalysis(selectedXray, landmarks, measurements, analysis);
   };
 
   const getSeverityColor = (severity?: string | null) => {
@@ -359,10 +398,12 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
                 </SelectContent>
               </Select>
             )}
-            <Button onClick={() => setUploadDialogOpen(true)} disabled={!selectedPatient}>
-              <Upload className="mr-2 h-4 w-4" />
-              Upload X-Ray
-            </Button>
+            {!isConsultant && (
+              <Button onClick={() => setUploadDialogOpen(true)} disabled={!selectedPatient}>
+                <Upload className="mr-2 h-4 w-4" />
+                Upload X-Ray
+              </Button>
+            )}
           </div>
         </CardHeader>
         <CardContent>
@@ -439,31 +480,36 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
                         style={{ width: '100%', height: '100%' }}
                       />
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {REQUIRED_LANDMARKS.map((name) => {
-                        const placed = landmarks.find((l) => l.name === name);
-                        return (
-                          <Button
-                            key={name}
-                            variant={activeLandmark === name ? 'default' : 'outline'}
-                            size="sm"
-                            onClick={() => setActiveLandmark(name)}
-                            className={placed ? 'border-green-500 text-green-700' : ''}
-                          >
-                            {name.replace(/_/g, ' ')}
-                            {placed && <span className="ml-1 text-xs">✓</span>}
+                    {!isConsultant && (
+                      <>
+                        <div className="flex flex-wrap gap-2">
+                          {REQUIRED_LANDMARKS.map((name) => {
+                            const placed = landmarks.find((l) => l.name === name);
+                            return (
+                              <Button
+                                key={name}
+                                variant={activeLandmark === name ? 'default' : 'outline'}
+                                size="sm"
+                                onClick={() => setActiveLandmark(name)}
+                                className={placed ? 'border-green-500 text-green-700' : ''}
+                              >
+                                {name.replace(/_/g, ' ')}
+                                {placed && <span className="ml-1 text-xs">✓</span>}
+                              </Button>
+                            );
+                          })}
+                          <Button variant="ghost" size="sm" onClick={() => setLandmarks([])} className="text-red-600">
+                            <X className="h-4 w-4 mr-1" /> Clear
                           </Button>
-                        );
-                      })}
-                      <Button variant="ghost" size="sm" onClick={() => setLandmarks([])} className="text-red-600">
-                        <X className="h-4 w-4 mr-1" /> Clear
-                      </Button>
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Click on the image to place the selected landmark. All landmarks are required for analysis.
-                    </p>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          Click on the image to place the selected landmark. All landmarks are required for analysis.
+                        </p>
+                      </>
+                    )}
                   </div>
                   <div className="space-y-4">
+                    {!isConsultant && (
                     <Card>
                       <CardHeader className="pb-3">
                         <CardTitle className="text-base flex items-center gap-2">
@@ -485,8 +531,36 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
                             Place all {REQUIRED_LANDMARKS.length} landmarks ({landmarks.length} placed)
                           </p>
                         )}
+                        {saveState === 'saving' && (
+                          <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                            <Loader2 className="h-3 w-3 animate-spin" />
+                            Saving analysis…
+                          </p>
+                        )}
+                        {saveState === 'saved' && (
+                          <Alert className="mt-2 bg-green-50 border-green-200">
+                            <CheckCircle2 className="h-4 w-4 text-green-600" />
+                            <AlertDescription className="text-sm text-green-800">
+                              Analysis saved to the patient record.
+                            </AlertDescription>
+                          </Alert>
+                        )}
+                        {saveState === 'failed' && (
+                          <Alert variant="destructive" className="mt-2">
+                            <AlertTriangle className="h-4 w-4" />
+                            <AlertDescription className="space-y-2">
+                              <p className="text-sm">
+                                Analysis computed but <strong>not saved</strong>: {saveError}
+                              </p>
+                              <Button type="button" variant="outline" size="sm" onClick={handleRetrySave} className="w-full">
+                                Retry save
+                              </Button>
+                            </AlertDescription>
+                          </Alert>
+                        )}
                       </CardContent>
                     </Card>
+                    )}
 
                     {measurements.length > 0 && (
                       <Card>

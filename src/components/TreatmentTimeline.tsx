@@ -28,6 +28,8 @@ interface TreatmentTimelineProps {
   completedSteps: string[];
   onMarkComplete: (stepId: string, timestamp: string) => void;
   onReportAdverseEvent: () => void;
+  // Read-only surfaces (e.g. consultant review) hide every write control.
+  readOnly?: boolean;
 }
 
 const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
@@ -37,6 +39,7 @@ const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
   completedSteps = [],
   onMarkComplete,
   onReportAdverseEvent,
+  readOnly = false,
 }) => {
   const nowMs = useProtocolClock();
   const now = useMemo(() => new Date(nowMs), [nowMs]);
@@ -161,13 +164,15 @@ const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
         <div className="flex items-center gap-3 p-3 bg-red-50 border border-red-200 rounded-lg">
           <AlertCircle className="w-5 h-5 text-red-600" />
           <p className="text-sm font-medium text-red-800">Primary observation window (0–72h) — Close monitoring required</p>
-          <button
-            onClick={onReportAdverseEvent}
-            className="ml-auto px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
-            type="button"
-          >
-            Report Adverse Event
-          </button>
+          {!readOnly && (
+            <button
+              onClick={onReportAdverseEvent}
+              className="ml-auto px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
+              type="button"
+            >
+              Report Adverse Event
+            </button>
+          )}
         </div>
       )}
 
@@ -176,13 +181,15 @@ const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
         <div className="flex items-center gap-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
           <AlertCircle className="w-5 h-5 text-amber-600" />
           <p className="text-sm font-medium text-amber-800">One or more protocol steps are overdue.</p>
-          <button
-            onClick={onReportAdverseEvent}
-            className="ml-auto px-3 py-1.5 text-sm font-medium text-white bg-amber-600 rounded hover:bg-amber-700"
-            type="button"
-          >
-            Report Adverse Event
-          </button>
+          {!readOnly && (
+            <button
+              onClick={onReportAdverseEvent}
+              className="ml-auto px-3 py-1.5 text-sm font-medium text-white bg-amber-600 rounded hover:bg-amber-700"
+              type="button"
+            >
+              Report Adverse Event
+            </button>
+          )}
         </div>
       )}
 
@@ -209,7 +216,7 @@ const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
 
                 {step.targetAt && <p className="text-xs font-mono mt-2 opacity-70">{format(step.targetAt, 'MMM d, HH:mm')}</p>}
 
-                {step.requiresAction && step.status !== 'completed' && (
+                {step.requiresAction && step.status !== 'completed' && !readOnly && (
                   <button
                     onClick={() => onMarkComplete(step.id, new Date().toISOString())}
                     disabled={step.status === 'upcoming'}

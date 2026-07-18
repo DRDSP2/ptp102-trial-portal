@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useLoadAction } from '@uibakery/data';
-import checkVeterinarianAcceptanceAction from '@/actions/checkVeterinarianAcceptance';
+import { useCallback, useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase/client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ByrockLogo } from '@/components/ByrockLogo';
-import { Clock, Mail, CheckCircle2 } from 'lucide-react';
+import { Clock, Mail, CheckCircle2, AlertCircle } from 'lucide-react';
 import { SUPPORT_EMAIL, supportMailto } from '@/lib/contact';
 
 type PendingApprovalScreenProps = {
@@ -14,33 +14,57 @@ type PendingApprovalScreenProps = {
   onRejected: () => void;
 };
 
+type VerificationStatus = 'pending' | 'approved' | 'rejected';
+
 export function PendingApprovalScreen({ email, onApproved, onRejected }: PendingApprovalScreenProps) {
-  const [checkStatus, loading, _error, refresh] = useLoadAction(checkVeterinarianAcceptanceAction, [], { email });
+  const [status, setStatus] = useState<VerificationStatus | null>(null);
+  const [checkError, setCheckError] = useState<string | null>(null);
   const [checking, setChecking] = useState(false);
 
+  // Poll the real Supabase-backed approval state — production registration
+  // writes the veterinarians table via the create-vet-profile edge function,
+  // so the old localStorage mock store could never reflect an admin decision.
+  const checkStatus = useCallback(
+    async (manual = false) => {
+      if (manual) setChecking(true);
+      try {
+        const { data, error } = await supabase
+          .from('veterinarians')
+          .select('verification_status')
+          .eq('email', email.toLowerCase().trim())
+          .maybeSingle();
+        if (error) throw error;
+        setCheckError(null);
+        setStatus((data?.verification_status as VerificationStatus | undefined) ?? null);
+      } catch (err) {
+        console.error('Approval status check failed:', err);
+        setCheckError('Could not check your approval status. We will keep retrying automatically — you can also contact support below.');
+      } finally {
+        if (manual) setChecking(false);
+      }
+    },
+    [email],
+  );
+
   useEffect(() => {
+    void checkStatus();
     const interval = setInterval(() => {
-      refresh();
+      void checkStatus();
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [refresh]);
+  }, [checkStatus]);
 
   useEffect(() => {
-    if (checkStatus && checkStatus.length > 0) {
-      const status = checkStatus[0];
-      if (status.verification_status === 'approved') {
-        onApproved();
-      } else if (status.verification_status === 'rejected') {
-        onRejected();
-      }
+    if (status === 'approved') {
+      onApproved();
+    } else if (status === 'rejected') {
+      onRejected();
     }
-  }, [checkStatus, onApproved, onRejected]);
+  }, [status, onApproved, onRejected]);
 
   const handleCheckNow = () => {
-    setChecking(true);
-    refresh();
-    setTimeout(() => setChecking(false), 1000);
+    void checkStatus(true);
   };
 
   return (
@@ -60,6 +84,13 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
         </CardHeader>
 
         <CardContent className="p-6 space-y-6">
+          {checkError && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{checkError}</AlertDescription>
+            </Alert>
+          )}
+
           <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
             <div className="flex items-start gap-3">
               <Clock className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
@@ -88,19 +119,17 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
               </div>
               <Badge
                 className={
-                  checkStatus && checkStatus.length > 0 && (checkStatus[0] as any).verification_status === 'approved'
+                  status === 'approved'
                     ? 'bg-green-100 text-green-800 border-green-200'
-                    : checkStatus && checkStatus.length > 0 && (checkStatus[0] as any).verification_status === 'rejected'
+                    : status === 'rejected'
                     ? 'bg-red-100 text-red-800 border-red-200'
                     : 'bg-yellow-100 text-yellow-800 border-yellow-200'
                 }
               >
-                {checkStatus && checkStatus.length > 0
-                  ? (checkStatus[0] as any).verification_status === 'approved'
-                    ? 'Approved'
-                    : (checkStatus[0] as any).verification_status === 'rejected'
-                    ? 'Rejected'
-                    : 'Pending Review'
+                {status === 'approved'
+                  ? 'Approved'
+                  : status === 'rejected'
+                  ? 'Rejected'
                   : 'Pending Review'}
               </Badge>
             </div>
@@ -112,9 +141,9 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
               size="lg"
               className="w-full"
               onClick={handleCheckNow}
-              disabled={checking || loading}
+              disabled={checking}
             >
-              {checking || loading ? 'Checking...' : 'Check Status Now'}
+              {checking ? 'Checking...' : 'Check Status Now'}
             </Button>
 
             <Button

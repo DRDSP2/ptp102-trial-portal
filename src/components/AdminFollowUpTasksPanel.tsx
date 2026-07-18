@@ -251,7 +251,7 @@ export function AdminFollowUpTasksPanel({
                       <div>
                         <p className="text-sm font-medium">{task.taskTitle}</p>
                         {task.taskDescription && (
-                          <p className="text-xs text-silver-text">{task.taskDescription}</p>
+                          <p className="text-xs text-muted-foreground">{task.taskDescription}</p>
                         )}
                       </div>
                     </TableCell>

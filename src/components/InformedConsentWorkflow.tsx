@@ -28,6 +28,7 @@ import {
   ShieldAlert,
   Lock,
   Eye,
+  AlertCircle,
 } from 'lucide-react';
 
 type ConsentDocument = {
@@ -184,6 +185,7 @@ export function InformedConsentWorkflow({
   const [typedSignature, setTypedSignature] = useState('');
   const [ownerPrintedName, setOwnerPrintedName] = useState(patient.owner_name || '');
   const [scannedFile, setScannedFile] = useState<{ dataUrl: string; name: string; size: number } | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const isDrawing = useRef(false);
@@ -321,30 +323,48 @@ export function InformedConsentWorkflow({
 
   const handleBeginICF = async () => {
     if (!canGenerate) return;
-    const result = await createConsent({
-      patientId,
-      ownerName: patient.owner_name,
-      ownerAddress: ownerAddress || null,
-      ownerPhone: ownerPhone || null,
-      ownerEmail: ownerEmail || null,
-      ownerRelationship: ownerRelationship || null,
-      horseName: patient.horse_name,
-      horseBreed: patient.breed || null,
-      horseAge: patient.age ?? null,
-      horseWeight: patient.weight ?? null,
-      horseMicrochip: patient.horse_microchip || null,
-      sectionAcknowledgments: sectionAcks,
-      vetEmail: vetEmail || null,
-      vetPhone: piPhone || null,
-    });
-    if (result && result.length > 0) {
-      const newConsent = result[0] as ConsentRow;
-      setConsent(newConsent);
-      const canSign = new Date(Date.now() + COOLING_OFF_HOURS * 60 * 60 * 1000);
-      setCanSignAfter(canSign);
-      setStep('cooling');
+    setError(null);
+    try {
+      const result = await createConsent({
+        patientId,
+        ownerName: patient.owner_name,
+        ownerAddress: ownerAddress || null,
+        ownerPhone: ownerPhone || null,
+        ownerEmail: ownerEmail || null,
+        ownerRelationship: ownerRelationship || null,
+        horseName: patient.horse_name,
+        horseBreed: patient.breed || null,
+        horseAge: patient.age ?? null,
+        horseWeight: patient.weight ?? null,
+        horseMicrochip: patient.horse_microchip || null,
+        sectionAcknowledgments: sectionAcks,
+        vetEmail: vetEmail || null,
+        vetPhone: piPhone || null,
+      });
+      if (result && result.length > 0) {
+        const newConsent = result[0] as ConsentRow;
+        setConsent(newConsent);
+        const canSign = new Date(Date.now() + COOLING_OFF_HOURS * 60 * 60 * 1000);
+        setCanSignAfter(canSign);
+        setStep('cooling');
+      } else {
+        setError('The consent record could not be created. Please try again.');
+      }
+    } catch (err) {
+      console.error('Failed to start informed consent:', err);
+      setError(err instanceof Error ? err.message : 'Failed to start the informed consent process. Please try again.');
     }
   };
+
+  // Section 8 contact text: include PI name/phone only when real values are loaded;
+  // never ship literal '[Name]'/'[Phone]' placeholders in the regulatory PDF.
+  const contactInfoText = [
+    piName ? `Principal Investigator: ${piName}, DVM.` : null,
+    piPhone ? `Phone: ${piPhone}.` : null,
+    'Sponsor: Byrock Technologies Ltd. Email: drdsp@pm.me',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   const buildConsentPdf = (signed = false) => {
     const doc = new jsPDF('portrait', 'mm', 'a4');
@@ -438,7 +458,7 @@ export function InformedConsentWorkflow({
       ['Principal Investigator:', piName || 'N/A'],
       ['PI Phone:', piPhone || 'N/A'],
       ['Sponsor:', 'Byrock Technologies Ltd'],
-      ['Sponsor Email:', 'drsp@pm.me'],
+      ['Sponsor Email:', 'drdsp@pm.me'],
     ];
     contactRows.forEach(([label, value]) => {
       doc.setFontSize(9);
@@ -491,10 +511,7 @@ export function InformedConsentWorkflow({
       doc.setTextColor(40, 40, 40);
       y += 6;
 
-      const displayText =
-        i === 7
-          ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drsp@pm.me`
-          : section.text;
+      const displayText = i === 7 ? contactInfoText : section.text;
       y = addWrapped(displayText, margin, y, pageWidth - margin * 2, 9);
     });
 
@@ -593,19 +610,25 @@ export function InformedConsentWorkflow({
   };
 
   const handleDownloadUnsignedPdf = async () => {
-    const doc = buildConsentPdf(false);
-    doc.save(`${STUDY_ID}_ICF_${patient.horse_name.replace(/\s+/g, '_')}_${patientId}.pdf`);
-    await createAuditLog({
-      action: 'GENERATE',
-      entityType: consent ? 'informed_consent' : 'patient',
-      entityId: consent ? consent.id : patientId,
-      patientId,
-      fieldName: 'icf_pdf_url',
-      newValue: JSON.stringify({ protocol: STUDY_ID, caseId: patient.unique_id, generatedAt: new Date().toISOString() }),
-      reasonForChange: consent
-        ? 'Generated blank informed consent PDF for owner review/signature'
-        : 'Generated blank informed consent PDF before cooling-off period',
-    });
+    setError(null);
+    try {
+      const doc = buildConsentPdf(false);
+      doc.save(`${STUDY_ID}_ICF_${patient.horse_name.replace(/\s+/g, '_')}_${patientId}.pdf`);
+      await createAuditLog({
+        action: 'GENERATE',
+        entityType: consent ? 'informed_consent' : 'patient',
+        entityId: consent ? consent.id : patientId,
+        patientId,
+        fieldName: 'icf_pdf_url',
+        newValue: JSON.stringify({ protocol: STUDY_ID, caseId: patient.unique_id, generatedAt: new Date().toISOString() }),
+        reasonForChange: consent
+          ? 'Generated blank informed consent PDF for owner review/signature'
+          : 'Generated blank informed consent PDF before cooling-off period',
+      });
+    } catch (err) {
+      console.error('Failed to generate consent PDF:', err);
+      setError(err instanceof Error ? err.message : 'Failed to generate the consent PDF. Please try again.');
+    }
   };
 
   const allAttestationsChecked = [0, 1, 2, 3, 4].every((i) => attestations[i]);
@@ -637,123 +660,141 @@ export function InformedConsentWorkflow({
 
   const handleConfirmDigitalSign = async () => {
     if (!consent || !canSign) return;
+    setError(null);
     if (!allAttestationsChecked) {
-      alert('Please check all 5 attestations before signing.');
+      setError('Please check all 5 attestations before signing.');
       return;
     }
     const signatureValue = ownerSignatureDataUrl || typedSignature.trim();
     if (!signatureValue) {
-      alert('Please draw your signature or type your full name.');
+      setError('Please draw your signature or type your full name.');
       return;
     }
 
     const signedAt = new Date().toISOString();
-    const doc = buildConsentPdf(true);
-    const fileName = `${STUDY_ID}_signed_ICF_${patient.horse_name.replace(/\s+/g, '_')}_${patientId}.pdf`;
-    const signedPdfUrl = doc.output('datauristring');
+    try {
+      const doc = buildConsentPdf(true);
+      const fileName = `${STUDY_ID}_signed_ICF_${patient.horse_name.replace(/\s+/g, '_')}_${patientId}.pdf`;
+      const signedPdfUrl = doc.output('datauristring');
 
-    await uploadConsentDocument({
-      consentId: consent.id,
-      patientId,
-      caseId: patient.unique_id || `PTP-102-${String(patientId).padStart(3, '0')}`,
-      studyId: STUDY_ID,
-      protocolVersion: '1.0',
-      documentType: 'signed_pdf',
-      fileUrl: signedPdfUrl,
-      fileName,
-      fileSize: signedPdfUrl.length,
-      uploadedBy: userEmail,
-      version: 0,
-      previousVersionId: null,
-    });
+      await uploadConsentDocument({
+        consentId: consent.id,
+        patientId,
+        caseId: patient.unique_id || `PTP-102-${String(patientId).padStart(3, '0')}`,
+        studyId: STUDY_ID,
+        protocolVersion: '1.0',
+        documentType: 'signed_pdf',
+        fileUrl: signedPdfUrl,
+        fileName,
+        fileSize: signedPdfUrl.length,
+        uploadedBy: userEmail,
+        version: 0,
+        previousVersionId: null,
+      });
 
-    await signConsent({
-      consentId: consent.id,
-      ownerSignature: signatureValue,
-      witnessName: witnessName || null,
-      witnessSignature: witnessSignature || null,
-      investigatorSignature: investigatorSignature || null,
-      icfPdfUrl: signedPdfUrl,
-      scannedDocumentUrl: null,
-      signatureMethod: 'digital',
-    });
+      await signConsent({
+        consentId: consent.id,
+        ownerSignature: signatureValue,
+        witnessName: witnessName || null,
+        witnessSignature: witnessSignature || null,
+        investigatorSignature: investigatorSignature || null,
+        icfPdfUrl: signedPdfUrl,
+        scannedDocumentUrl: null,
+        signatureMethod: 'digital',
+      });
 
-    await createAuditLog({
-      action: 'CONSENT_DIGITALLY_SIGNED',
-      entityType: 'informed_consent',
-      entityId: consent.id,
-      patientId,
-      fieldName: 'owner_signature',
-      newValue: JSON.stringify({
-        method: 'digital',
-        signedAt,
-        ownerPrintedName: ownerPrintedName || patient.owner_name,
-      }),
-      reasonForChange: 'Owner digitally signed the informed consent form',
-    });
+      await createAuditLog({
+        action: 'CONSENT_DIGITALLY_SIGNED',
+        entityType: 'informed_consent',
+        entityId: consent.id,
+        patientId,
+        fieldName: 'owner_signature',
+        newValue: JSON.stringify({
+          method: 'digital',
+          signedAt,
+          ownerPrintedName: ownerPrintedName || patient.owner_name,
+        }),
+        reasonForChange: 'Owner digitally signed the informed consent form',
+      });
 
-    setDigitalSignOpen(false);
-    setStep('verify');
-    onComplete();
+      setDigitalSignOpen(false);
+      setStep('verify');
+      onComplete();
+    } catch (err) {
+      console.error('Failed to record digital signature:', err);
+      setError(err instanceof Error ? err.message : 'Failed to record the digital signature. Please try again.');
+    }
   };
 
   const handleConfirmScannedSign = async () => {
+    setError(null);
     if (!consent || !canSign || !scannedFile) {
-      alert('Please upload a scanned signed consent document.');
+      setError('Please upload a scanned signed consent document.');
       return;
     }
 
     const uploadedAt = new Date().toISOString();
-    await uploadConsentDocument({
-      consentId: consent.id,
-      patientId,
-      caseId: patient.unique_id || `PTP-102-${String(patientId).padStart(3, '0')}`,
-      studyId: STUDY_ID,
-      protocolVersion: '1.0',
-      documentType: 'scanned_signed',
-      fileUrl: scannedFile.dataUrl,
-      fileName: scannedFile.name,
-      fileSize: scannedFile.size,
-      uploadedBy: userEmail,
-      version: 0,
-      previousVersionId: null,
-    });
-
-    await signConsent({
-      consentId: consent.id,
-      ownerSignature: '[scanned signed document uploaded]',
-      witnessName: witnessName || null,
-      witnessSignature: witnessSignature || null,
-      investigatorSignature: investigatorSignature || null,
-      icfPdfUrl: null,
-      scannedDocumentUrl: scannedFile.dataUrl,
-      signatureMethod: 'scanned',
-    });
-
-    await createAuditLog({
-      action: 'CONSENT_SCAN_UPLOADED',
-      entityType: 'informed_consent',
-      entityId: consent.id,
-      patientId,
-      fieldName: 'scanned_document_url',
-      newValue: JSON.stringify({
-        method: 'printed',
+    try {
+      await uploadConsentDocument({
+        consentId: consent.id,
+        patientId,
+        caseId: patient.unique_id || `PTP-102-${String(patientId).padStart(3, '0')}`,
+        studyId: STUDY_ID,
+        protocolVersion: '1.0',
+        documentType: 'scanned_signed',
+        fileUrl: scannedFile.dataUrl,
         fileName: scannedFile.name,
         fileSize: scannedFile.size,
-        uploadedAt,
-      }),
-      reasonForChange: 'Uploaded scanned signed informed consent document',
-    });
+        uploadedBy: userEmail,
+        version: 0,
+        previousVersionId: null,
+      });
 
-    setStep('verify');
-    onComplete();
+      await signConsent({
+        consentId: consent.id,
+        ownerSignature: '[scanned signed document uploaded]',
+        witnessName: witnessName || null,
+        witnessSignature: witnessSignature || null,
+        investigatorSignature: investigatorSignature || null,
+        icfPdfUrl: null,
+        scannedDocumentUrl: scannedFile.dataUrl,
+        signatureMethod: 'scanned',
+      });
+
+      await createAuditLog({
+        action: 'CONSENT_SCAN_UPLOADED',
+        entityType: 'informed_consent',
+        entityId: consent.id,
+        patientId,
+        fieldName: 'scanned_document_url',
+        newValue: JSON.stringify({
+          method: 'printed',
+          fileName: scannedFile.name,
+          fileSize: scannedFile.size,
+          uploadedAt,
+        }),
+        reasonForChange: 'Uploaded scanned signed informed consent document',
+      });
+
+      setStep('verify');
+      onComplete();
+    } catch (err) {
+      console.error('Failed to upload scanned signed consent:', err);
+      setError(err instanceof Error ? err.message : 'Failed to upload the scanned signed consent. Please try again.');
+    }
   };
 
   const handleVerify = async () => {
     if (!consent || !canVerify) return;
-    await verifyConsent({ consentId: consent.id, verifiedBy: userEmail });
-    setStep('complete');
-    onComplete();
+    setError(null);
+    try {
+      await verifyConsent({ consentId: consent.id, verifiedBy: userEmail });
+      setStep('complete');
+      onComplete();
+    } catch (err) {
+      console.error('Failed to verify consent:', err);
+      setError(err instanceof Error ? err.message : 'Failed to verify the consent. Please try again.');
+    }
   };
 
   const allSectionsAcked = ICF_SECTIONS.every((_, i) => sectionAcks[i]);
@@ -761,7 +802,7 @@ export function InformedConsentWorkflow({
   if (!canView) {
     return (
       <Card className="border-slate-200">
-        <CardContent className="p-6 text-center text-silver-text">
+        <CardContent className="p-6 text-center text-muted-foreground">
           <Lock className="h-8 w-8 mx-auto mb-2" />
           You do not have permission to view the informed consent workflow.
         </CardContent>
@@ -819,6 +860,12 @@ export function InformedConsentWorkflow({
               Review the signed consent details and document before finalizing. Only finalize if all signatures and documents are correct.
             </AlertDescription>
           </Alert>
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <div className="bg-slate-50 border rounded-lg p-4 text-sm space-y-2 text-slate-900">
             <p><strong>Owner:</strong> {consent.owner_name}</p>
             <p><strong>Signature method:</strong> {consent.signature_method === 'digital' ? 'Digital e-signature' : 'Scanned signed document'}</p>
@@ -859,6 +906,12 @@ export function InformedConsentWorkflow({
               consent document and wait {COOLING_OFF_HOURS} hours before signing.
             </AlertDescription>
           </Alert>
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <Button onClick={() => setStep('viewing')} className="w-full" type="button" disabled={!canGenerate}>
             Begin Informed Consent Process
           </Button>
@@ -884,11 +937,11 @@ export function InformedConsentWorkflow({
         <CardContent className="p-8 text-center space-y-4">
           <Clock className="h-12 w-12 text-info mx-auto animate-pulse" />
           <h3 className="text-xl font-semibold text-silver-strong">Cooling-Off Period Active</h3>
-          <p className="text-silver-text">
+          <p className="text-muted-foreground">
             Per regulatory requirements, the owner must wait {COOLING_OFF_HOURS} hours after viewing the consent document before signing.
           </p>
           <div className="text-4xl font-mono font-bold text-info-soft">{countdown}</div>
-          <p className="text-sm text-silver-text">Remaining until consent can be signed</p>
+          <p className="text-sm text-muted-foreground">Remaining until consent can be signed</p>
         </CardContent>
       </Card>
     );
@@ -907,6 +960,12 @@ export function InformedConsentWorkflow({
           </div>
         </CardHeader>
         <CardContent className="p-6 space-y-4">
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
             <h4 className="text-sm font-semibold text-info-soft">Owner Contact Information</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -952,9 +1011,7 @@ export function InformedConsentWorkflow({
                   <div>
                     <p className="text-sm font-semibold text-slate-900">{section.title}</p>
                     <p className="text-sm text-slate-700 mt-1">
-                      {i === 7
-                        ? `Principal Investigator: ${piName || '[Name]'}, DVM. Phone: ${piPhone || '[Phone]'}. Sponsor: Byrock Technologies Ltd. Email: drsp@pm.me`
-                        : section.text}
+                      {i === 7 ? contactInfoText : section.text}
                     </p>
                   </div>
                 </div>
@@ -1017,6 +1074,13 @@ export function InformedConsentWorkflow({
           </AlertDescription>
         </Alert>
 
+        {error && !digitalSignOpen && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Button onClick={() => setDigitalSignOpen(true)} disabled={!canSign} type="button">
             <PenTool className="h-4 w-4 mr-2" />
@@ -1060,6 +1124,12 @@ export function InformedConsentWorkflow({
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
               <div className="bg-slate-50 border rounded-lg p-4 space-y-2">
                 {attestationTexts.map((text, i) => (
                   <div key={i} className="flex items-start gap-3">
@@ -1119,7 +1189,7 @@ export function InformedConsentWorkflow({
                 />
               </div>
 
-              <div className="text-sm text-silver-text">
+              <div className="text-sm text-muted-foreground">
                 Signed at: {new Date().toISOString()}
               </div>
 

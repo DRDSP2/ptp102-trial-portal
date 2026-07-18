@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -9,11 +10,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Info } from 'lucide-react';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle, Info } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/client';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
+import { useTrialMutation } from '@/hooks/use-trial-mutation';
+import { toLocalDatetimeInputValue } from '@/lib/datetime';
 
 const treatmentSchema = z.object({
   administrationDatetime: z.string().min(1, 'Date and time required'),
@@ -21,7 +24,10 @@ const treatmentSchema = z.object({
   concentrationMgMl: z.string().min(1, 'Concentration required'),
   infusionDurationMin: z.string().min(1, 'Infusion duration required'),
   route: z.string().min(1, 'Route required'),
-  batchNumber: z.string().optional(),
+  batchNumber: z
+    .string()
+    .optional()
+    .refine((v) => v !== '__manual__', { message: 'Please enter a batch number' }),
   immediateReactions: z.string().optional(),
   notes: z.string().optional(),
   protocolHourOverride: z.string().optional(),
@@ -35,7 +41,8 @@ type AddTreatmentFormProps = {
 
 export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTreatmentFormProps) {
   const auth = useAuth();
-  const [addTreatment, isSubmitting] = useMutateAction(addTreatmentAction);
+  const [addTreatment] = useMutateAction(addTreatmentAction);
+  const [isManualBatch, setIsManualBatch] = useState(false);
   const vetEmail = auth.email ?? '';
   const [shipments] = useLoadAction(loadSupplyShipmentsByVetAction, [], { vetEmail });
   const activeShipments = ((shipments as any[]) ?? []).filter(
@@ -47,7 +54,7 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
   const form = useForm<z.infer<typeof treatmentSchema>>({
     resolver: zodResolver(treatmentSchema),
     defaultValues: {
-      administrationDatetime: new Date().toISOString().slice(0, 16),
+      administrationDatetime: toLocalDatetimeInputValue(),
       totalVolumeMl: '500',
       concentrationMgMl: '5',
       infusionDurationMin: '20',
@@ -59,8 +66,8 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof treatmentSchema>) => {
-    try {
+  const treatmentMutation = useTrialMutation<z.infer<typeof treatmentSchema>, void>({
+    mutationFn: async (values) => {
       const calculatedDosage = parseFloat(values.totalVolumeMl) * parseFloat(values.concentrationMgMl);
       const finalProtocolHour = values.protocolHourOverride ? parseInt(values.protocolHourOverride) : (protocolHour || 0);
       
@@ -133,12 +140,18 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
           </div>`,
         },
       }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
-
+    },
+    successToast: 'Treatment recorded.',
+    errorTitle: 'Failed to save treatment',
+    onSuccess: () => {
       form.reset();
+      setIsManualBatch(false);
       onSuccess();
-    } catch (error) {
-      console.error('Failed to add treatment:', error);
-    }
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof treatmentSchema>) => {
+    treatmentMutation.mutate(values);
   };
 
   return (
@@ -209,7 +222,18 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
                 return (
                   <FormItem>
                     <FormLabel>Batch Number</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={(value) => {
+                        if (value === '__manual__') {
+                          setIsManualBatch(true);
+                          field.onChange('');
+                        } else {
+                          setIsManualBatch(false);
+                          field.onChange(value);
+                        }
+                      }}
+                      value={isManualBatch ? '__manual__' : field.value}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select an active batch" />
@@ -227,11 +251,11 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
                     {selected && selected.remaining_quantity <= selected.low_threshold && (
                       <p className="text-xs text-amber-600">Low stock on this batch.</p>
                     )}
-                    {field.value === '__manual__' && (
+                    {isManualBatch && (
                       <Input
                         className="mt-2"
                         placeholder="Enter batch number"
-                        value={field.value === '__manual__' ? '' : field.value}
+                        value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
                       />
                     )}
@@ -352,8 +376,16 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting} className="w-full">
-          {isSubmitting ? 'Recording...' : 'Record Treatment'}
+        {treatmentMutation.error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Failed to save treatment</AlertTitle>
+            <AlertDescription>{treatmentMutation.error}</AlertDescription>
+          </Alert>
+        )}
+
+        <Button type="submit" disabled={treatmentMutation.isPending} className="w-full">
+          {treatmentMutation.isPending ? 'Recording...' : 'Record Treatment'}
         </Button>
       </form>
     </Form>

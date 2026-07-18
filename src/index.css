@@ -26,11 +26,9 @@
     }
   }
 
-  /* Ensure touch targets are at least 44px */
-  button, a, input, select, textarea, [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
-  }
+  /* Touch targets are opt-in via .touch-target / .touch-hit (see @layer utilities below).
+     A global 44px element-selector rule was removed: it silently inflated Checkbox
+     (h-4 w-4) to 44px and broke Button size variants. */
 
   /* Prevent text overflow on small screens */
   p, h1, h2, h3, h4, h5, h6 {
@@ -46,6 +44,33 @@
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@layer utilities {
+  /* 44px touch targets — opt-in only, so declared sizes render truthfully.
+     .touch-target: pads the element itself to 44px (buttons, links, inputs that
+     should visually be 44px). */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* .touch-hit: keeps the visual size (e.g. Checkbox h-4 w-4) and expands only
+     the interactive hit area to 44px via a centered pseudo-element. */
+  .touch-hit {
+    position: relative;
+  }
+  .touch-hit::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 
@@ -65,6 +90,9 @@
     0px 24px 32px -8px rgba(0, 0, 0, 0.06);
   --ds-shadow-fullscreen: var(--ds-shadow-border), 0px 1px 1px rgba(0, 0, 0, 0.02),
     0px 8px 16px -4px rgba(0, 0, 0, 0.04), 0px 24px 32px -8px rgba(0, 0, 0, 0.06);
+  /* Brand tokens (WCAG-locked — see UI_REVIEW.md §5.5 and src/lib/tokens.test.ts) */
+  --brand: 79 39% 33%;        /* #64752f — 4.55:1 vs white, AA pass */
+  --brand-foreground: 0 0% 100%;
   --scn-background: 0 0% 100%;
   --scn-foreground: 240 10% 3.9%;
   --scn-muted: 240 4.8% 95.9%;
@@ -75,17 +103,17 @@
   --scn-popover-foreground: 240 10% 3.9%;
   --scn-border: 240 5.9% 90%;
   --scn-input: 240 5.9% 90%;
-  --scn-primary: 240 5.9% 10%;
-  --scn-primary-foreground: 0 0% 98%;
+  --scn-primary: var(--brand);
+  --scn-primary-foreground: var(--brand-foreground);
   --scn-secondary: 240 4.8% 95.9%;
   --scn-secondary-foreground: 240 5.9% 10%;
   --scn-accent: 240 4.8% 95.9%;
   --scn-accent-foreground: 240 5.9% 10%;
-  --scn-destructive: 0 84.2% 60.2%;
+  --scn-destructive: 0 72% 51%;   /* #dc2626 — 4.83:1 vs white, AA pass */
   --scn-destructive-foreground: 0 0% 98%;
   --scn-warning: 35, 100%, 52%;
   --scn-warning-foreground: 0 0% 9%;
-  --scn-ring: 240 5% 64.9%;
+  --scn-ring: 240 5% 46%;         /* 4.6:1 — WCAG 1.4.11 pass */
   --scn-radius: 0.5rem;
   --scn-chart-1: 173 58% 39%;
   --scn-chart-2: 12 76% 61%;
@@ -148,17 +176,17 @@
   --scn-popover-foreground: 0 0% 98%;
   --scn-border: 240 3.7% 15.9%;
   --scn-input: 240 3.7% 15.9%;
-  --scn-primary: 0 0% 98%;
-  --scn-primary-foreground: 240 5.9% 10%;
+  --scn-primary: var(--brand);
+  --scn-primary-foreground: var(--brand-foreground);
   --scn-secondary: 240 3.7% 15.9%;
   --scn-secondary-foreground: 0 0% 98%;
   --scn-accent: 240 3.7% 15.9%;
   --scn-accent-foreground: 0 0% 98%;
-  --scn-destructive: 0 62.8% 30.6%;
+  --scn-destructive: 0 72% 51%;
   --scn-destructive-foreground: 0 85.7% 97.3%;
   --scn-warning: 35, 100%, 52%;
   --scn-warning-foreground: 0 0% 9%;
-  --scn-ring: 240 3.7% 15.9%;
+  --scn-ring: 240 5% 46%;
   --scn-chart-1: 220 70% 50%;
   --scn-chart-2: 160 60% 45%;
   --scn-chart-3: 30 80% 55%;

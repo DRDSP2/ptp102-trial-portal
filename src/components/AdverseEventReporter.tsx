@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -12,7 +12,10 @@ import { Separator } from '@/components/ui/separator';
 import createAdverseEventAction from '@/actions/createAdverseEvent';
 import { checkProhibitedTerms } from '@/utils/prohibitedTermsFilter';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
+import { useTrialMutation } from '@/hooks/use-trial-mutation';
+import { toLocalDatetimeInputValue } from '@/lib/datetime';
 import {
+  AlertCircle,
   AlertTriangle,
   Send,
   ShieldAlert,
@@ -34,7 +37,7 @@ export function AdverseEventReporter({
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 }) {
-  const [createAE, isSubmitting] = useMutateAction(createAdverseEventAction);
+  const [createAE] = useMutateAction(createAdverseEventAction);
   const [internalOpen, setInternalOpen] = useState(false);
   const open = controlledOpen ?? internalOpen;
   const setOpen = (value: boolean) => {
@@ -47,7 +50,7 @@ export function AdverseEventReporter({
     eventDescription: '',
     severity: '',
     causality: '',
-    startDate: new Date().toISOString().slice(0, 16),
+    startDate: toLocalDatetimeInputValue(),
     isOngoing: true,
     resolvedDate: '',
     actionTaken: '',
@@ -68,50 +71,59 @@ export function AdverseEventReporter({
     }
   };
 
+  const aeMutation = useTrialMutation<void, void>({
+    mutationFn: async () => {
+      await createAE({
+        patientId: patientId || null,
+        veterinarianId: null,
+        reporterName: vetName,
+        reporterEmail: vetEmail,
+        eventDescription: form.eventDescription,
+        severity: form.severity,
+        causality: form.causality,
+        startDate: form.startDate,
+        isOngoing: form.isOngoing,
+        resolvedDate: form.resolvedDate || null,
+        actionTaken: form.actionTaken,
+        outcome: form.outcome || null,
+        vetAssessment: form.vetAssessment,
+        digitalSignature: form.digitalSignature,
+        serious: form.serious,
+        expected: form.expected,
+      });
+
+      sendWhatsAppNotification({
+        activityType: 'Adverse Event Reported',
+        vetName: vetName || vetEmail || 'Unknown Vet',
+        patientId: patientId ?? undefined,
+        details: {
+          'Severity': form.severity,
+          'Causality': form.causality,
+          'Description': form.eventDescription.slice(0, 150),
+          'Serious': form.serious ? 'Yes' : 'No',
+          'Expected': form.expected ? 'Yes' : 'No',
+        },
+      });
+    },
+    successToast: 'Adverse event report submitted.',
+    errorTitle: 'Failed to submit adverse event report',
+    onSuccess: () => {
+      setSubmitted(true);
+      setTimeout(() => {
+        setOpen(false);
+        setSubmitted(false);
+        setForm({
+          eventDescription: '', severity: '', causality: '', startDate: toLocalDatetimeInputValue(),
+          isOngoing: true, resolvedDate: '', actionTaken: '', outcome: '', vetAssessment: '',
+          digitalSignature: '', serious: false, expected: false,
+        });
+      }, 2000);
+    },
+  });
+
   const handleSubmit = async () => {
     if (!termCheck.isClean) return;
-    await createAE({
-      patientId: patientId || null,
-      veterinarianId: null,
-      reporterName: vetName,
-      reporterEmail: vetEmail,
-      eventDescription: form.eventDescription,
-      severity: form.severity,
-      causality: form.causality,
-      startDate: form.startDate,
-      isOngoing: form.isOngoing,
-      resolvedDate: form.resolvedDate || null,
-      actionTaken: form.actionTaken,
-      outcome: form.outcome || null,
-      vetAssessment: form.vetAssessment,
-      digitalSignature: form.digitalSignature,
-      serious: form.serious,
-      expected: form.expected,
-    });
-
-    sendWhatsAppNotification({
-      activityType: 'Adverse Event Reported',
-      vetName: vetName || vetEmail || 'Unknown Vet',
-      patientId: patientId ?? undefined,
-      details: {
-        'Severity': form.severity,
-        'Causality': form.causality,
-        'Description': form.eventDescription.slice(0, 150),
-        'Serious': form.serious ? 'Yes' : 'No',
-        'Expected': form.expected ? 'Yes' : 'No',
-      },
-    });
-
-    setSubmitted(true);
-    setTimeout(() => {
-      setOpen(false);
-      setSubmitted(false);
-      setForm({
-        eventDescription: '', severity: '', causality: '', startDate: new Date().toISOString().slice(0, 16),
-        isOngoing: true, resolvedDate: '', actionTaken: '', outcome: '', vetAssessment: '',
-        digitalSignature: '', serious: false, expected: false,
-      });
-    }, 2000);
+    await aeMutation.mutate();
   };
 
   return (
@@ -289,14 +301,22 @@ export function AdverseEventReporter({
               <Input value={form.digitalSignature} onChange={(e) => updateForm('digitalSignature', e.target.value)} placeholder={`${vetName}`} />
             </div>
 
+            {aeMutation.error && (
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Failed to submit adverse event report</AlertTitle>
+                <AlertDescription>{aeMutation.error}</AlertDescription>
+              </Alert>
+            )}
+
             <Button
               onClick={handleSubmit}
-              disabled={isSubmitting || !termCheck.isClean || !form.eventDescription || !form.severity || !form.causality || !form.actionTaken || !form.digitalSignature}
+              disabled={aeMutation.isPending || !termCheck.isClean || !form.eventDescription || !form.severity || !form.causality || !form.actionTaken || !form.digitalSignature}
               className="w-full bg-red-700 hover:bg-red-800"
               type="button"
             >
               <Send className="h-4 w-4 mr-2" />
-              {isSubmitting ? 'Submitting...' : 'Submit Adverse Event Report'}
+              {aeMutation.isPending ? 'Submitting...' : 'Submit Adverse Event Report'}
             </Button>
           </div>
         )}

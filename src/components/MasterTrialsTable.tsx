@@ -5,6 +5,7 @@ import updatePatientFlagAction from '@/actions/updatePatientFlag';
 import updateDataLockStatusAction from '@/actions/updateDataLockStatus';
 import exportSubmissionPackageAction from '@/actions/exportSubmissionPackage';
 import { downloadSubmissionPackage } from '@/lib/submissionPackage';
+import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -13,7 +14,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Download, Flag, Filter, FileText, Loader2, FileJson, Lock, Snowflake, Unlock } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Download, Flag, Filter, FileText, Loader2, FileJson, Lock, Snowflake, Unlock, AlertCircle } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
@@ -46,6 +48,8 @@ type MasterTrialsTableProps = {
 };
 
 export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
+  const auth = useAuth();
+  const isAdmin = auth.role === 'admin';
   const [vetFilter, setVetFilter] = useState<string | null>(null);
   const [flagFilter, setFlagFilter] = useState<string | null>(null);
   const [trials, loading, error, refresh] = useLoadAction(
@@ -64,7 +68,14 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
   const [lockError, setLockError] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [isExportingPackage, setIsExportingPackage] = useState(false);
-  const [regulatoryTrials, _loadingRegulatory, , loadRegulatoryData] = useLoadAction(
+  const [exportError, setExportError] = useState<string | null>(null);
+  // Row-level write actions (flag toggle) surface failures here, mirroring
+  // the exportError inline-alert pattern — never console-only.
+  const [rowActionError, setRowActionError] = useState<string | null>(null);
+  // Regulatory artifacts must never depend on render timing: export handlers
+  // build only from this loader's freshly awaited return value (an unfiltered
+  // reload), never from render-scoped hook state.
+  const [, , , loadRegulatoryData] = useLoadAction(
     loadAllTrialsDataAction,
     [],
     { vetEmail: null, isFlagged: null }
@@ -72,14 +83,17 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
   const [exportSubmissionPackage] = useMutateAction(exportSubmissionPackageAction);
 
   const handleFlagClick = (trial: TrialData) => {
+    if (!isAdmin) return; // defense in depth: flag writes are admin-only
+    setRowActionError(null);
     setSelectedTrial(trial);
     setFlagReason(trial.flag_reason || '');
     setFlagDialogOpen(true);
   };
 
   const handleToggleFlag = async () => {
+    if (!isAdmin) return; // defense in depth: flag writes are admin-only
     if (!selectedTrial) return;
-    
+
     try {
       await updateFlag({
         patientId: selectedTrial.id,
@@ -90,9 +104,12 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
       setFlagDialogOpen(false);
       setFlagReason('');
       setSelectedTrial(null);
+      setRowActionError(null);
       refresh();
     } catch (err) {
       console.error('Failed to update flag:', err);
+      setFlagDialogOpen(false);
+      setRowActionError(err instanceof Error ? err.message : 'Failed to update flag. Please try again.');
     }
   };
 
@@ -103,6 +120,7 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
     current === 'open' ? 'frozen' : current === 'frozen' ? 'locked' : 'open';
 
   const handleLockClick = (trial: TrialData) => {
+    if (!isAdmin) return; // defense in depth: lock/freeze writes are admin-only
     setSelectedTrial(trial);
     setPendingLockStatus(nextLockStatus(trial.data_lock_status));
     setLockReason('');
@@ -111,6 +129,7 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
   };
 
   const handleConfirmLock = async () => {
+    if (!isAdmin) return; // defense in depth: lock/freeze writes are admin-only
     if (!selectedTrial) return;
     if (!lockReason.trim()) {
       setLockError('A reason for change is required.');
@@ -137,6 +156,7 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
   const handleExportPackage = async () => {
     if (!trials || trials.length === 0) return;
     setIsExportingPackage(true);
+    setExportError(null);
     try {
       const [result] = await exportSubmissionPackage({ exportedBy: adminEmail });
       if (result?.files) {
@@ -144,19 +164,31 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
       }
     } catch (err) {
       console.error('Failed to export submission package:', err);
-      alert('Failed to export submission package. Please try again.');
+      setExportError(err instanceof Error ? err.message : 'Failed to export submission package. Please try again.');
     } finally {
       setIsExportingPackage(false);
     }
+  };
+
+  // Single fresh-data channel for regulatory artifacts. Throws instead of
+  // returning an empty dataset so a failed refresh can never produce a
+  // stamped 0-record FDA export.
+  const fetchFreshRegulatoryData = async (): Promise<any[]> => {
+    const fresh = await loadRegulatoryData();
+    const rows = Array.isArray(fresh) ? (fresh as any[]) : [];
+    if (rows.length === 0) {
+      throw new Error('Could not refresh trial data for export. No file was downloaded — please try again.');
+    }
+    return rows;
   };
 
   const handleExportFDACSV = async () => {
     if (!trials || trials.length === 0) return;
 
     setIsExporting(true);
+    setExportError(null);
     try {
-      await loadRegulatoryData();
-      const regulatoryData = regulatoryTrials || [];
+      const regulatoryData = await fetchFreshRegulatoryData();
 
       const timestamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0].replace('T', '_');
       const exportDate = new Date().toISOString().split('T')[0];
@@ -245,7 +277,7 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
       console.log(`FDA CSV Export completed: ${regulatoryData.length} records`);
     } catch (err) {
       console.error('FDA CSV export failed:', err);
-      alert('Export failed. Please try again.');
+      setExportError(err instanceof Error ? err.message : 'Export failed. Please try again.');
     } finally {
       setIsExporting(false);
     }
@@ -255,9 +287,9 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
     if (!trials || trials.length === 0) return;
 
     setIsExporting(true);
+    setExportError(null);
     try {
-      await loadRegulatoryData();
-      const regulatoryData = regulatoryTrials || [];
+      const regulatoryData = await fetchFreshRegulatoryData();
 
       const doc = new jsPDF('landscape', 'mm', 'a4');
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -325,7 +357,7 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
       console.log(`PDF Export completed: ${regulatoryData.length} records`);
     } catch (err) {
       console.error('PDF export failed:', err);
-      alert('PDF export failed. Please try again.');
+      setExportError(err instanceof Error ? err.message : 'PDF export failed. Please try again.');
     } finally {
       setIsExporting(false);
     }
@@ -402,6 +434,18 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
           </div>
         </CardHeader>
         <CardContent className="p-3 sm:p-6">
+          {exportError && (
+            <Alert variant="destructive" className="mb-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{exportError}</AlertDescription>
+            </Alert>
+          )}
+          {rowActionError && (
+            <Alert variant="destructive" className="mb-4">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{rowActionError}</AlertDescription>
+            </Alert>
+          )}
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-muted-foreground" />
@@ -521,34 +565,36 @@ export function MasterTrialsTable({ adminEmail }: MasterTrialsTableProps) {
                           </div>
                         </TableCell>
                         <TableCell className="text-right">
-                          <div className="flex items-center justify-end gap-1">
-                            <Button
-                              type="button"
-                              variant={
-                                lockStatus === 'locked' ? 'destructive' : lockStatus === 'frozen' ? 'default' : 'outline'
-                              }
-                              size="sm"
-                              onClick={() => handleLockClick(trial)}
-                              title={`Cycle lock: ${lockStatus} -> ${nextLockStatus(lockStatus)}`}
-                              aria-label={`Cycle lock status for ${trial.unique_id}`}
-                            >
-                              {lockStatus === 'locked' ? (
-                                <Lock className="h-4 w-4" />
-                              ) : lockStatus === 'frozen' ? (
-                                <Snowflake className="h-4 w-4" />
-                              ) : (
-                                <Unlock className="h-4 w-4" />
-                              )}
-                            </Button>
-                            <Button
-                              type="button"
-                              variant={trial.is_flagged ? 'destructive' : 'outline'}
-                              size="sm"
-                              onClick={() => handleFlagClick(trial)}
-                            >
-                              <Flag className="h-4 w-4" />
-                            </Button>
-                          </div>
+                          {isAdmin && (
+                            <div className="flex items-center justify-end gap-1">
+                              <Button
+                                type="button"
+                                variant={
+                                  lockStatus === 'locked' ? 'destructive' : lockStatus === 'frozen' ? 'default' : 'outline'
+                                }
+                                size="sm"
+                                onClick={() => handleLockClick(trial)}
+                                title={`Cycle lock: ${lockStatus} -> ${nextLockStatus(lockStatus)}`}
+                                aria-label={`Cycle lock status for ${trial.unique_id}`}
+                              >
+                                {lockStatus === 'locked' ? (
+                                  <Lock className="h-4 w-4" />
+                                ) : lockStatus === 'frozen' ? (
+                                  <Snowflake className="h-4 w-4" />
+                                ) : (
+                                  <Unlock className="h-4 w-4" />
+                                )}
+                              </Button>
+                              <Button
+                                type="button"
+                                variant={trial.is_flagged ? 'destructive' : 'outline'}
+                                size="sm"
+                                onClick={() => handleFlagClick(trial)}
+                              >
+                                <Flag className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          )}
                         </TableCell>
                       </TableRow>
                     );

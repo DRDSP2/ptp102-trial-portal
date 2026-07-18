@@ -5,13 +5,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { PatientsList } from '@/components/PatientsList';
 import { PatientEnrollmentForm } from '@/components/PatientEnrollmentForm';
 import { VeterinarianManagementPanel } from '@/components/VeterinarianManagementPanel';
 import { AdminStatisticsCards } from '@/components/AdminStatisticsCards';
 import { RecentVetActivity } from '@/components/RecentVetActivity';
 import { MasterTrialsTable } from '@/components/MasterTrialsTable';
-import { Shield, BarChart3, Users, Database, Filter, UserPlus, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText, Image, Handshake } from 'lucide-react';
+import { Shield, BarChart3, Users, Database, Filter, UserPlus, BookOpen, Stethoscope, FileText, ShieldCheck, Package, ScrollText, Image, Handshake, AlertCircle, RefreshCw } from 'lucide-react';
 import { ResearchHub } from '@/components/ResearchHub';
 import { VetToolsHub } from '@/components/VetToolsHub';
 import { AuditLogViewer } from '@/components/AuditLogViewer';
@@ -39,7 +40,7 @@ export function DashboardPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [enrollDialogOpen, setEnrollDialogOpen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  const [qualData, qualLoading, , refreshQual] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail: auth.email ?? null });
+  const [qualData, qualLoading, qualError, refreshQual] = useLoadAction(loadInvestigatorQualificationAction, [], { vetEmail: auth.email ?? null });
 
   const handleEnrollSuccess = () => {
     setEnrollDialogOpen(false);
@@ -71,10 +72,12 @@ export function DashboardPage() {
                 <Users className="mr-2 h-4 w-4" />
                 Patients
               </TabsTrigger>
-              <TabsTrigger value="veterinarians">
-                <Shield className="mr-2 h-4 w-4" />
-                Veterinarians
-              </TabsTrigger>
+              {isAdmin && (
+                <TabsTrigger value="veterinarians">
+                  <Shield className="mr-2 h-4 w-4" />
+                  Veterinarians
+                </TabsTrigger>
+              )}
               <TabsTrigger value="trials">
                 <Database className="mr-2 h-4 w-4" />
                 Trials Data
@@ -83,10 +86,12 @@ export function DashboardPage() {
                 <ShieldCheck className="mr-2 h-4 w-4" />
                 Compliance
               </TabsTrigger>
-              <TabsTrigger value="supply">
-                <Package className="mr-2 h-4 w-4" />
-                Supply
-              </TabsTrigger>
+              {isAdmin && (
+                <TabsTrigger value="supply">
+                  <Package className="mr-2 h-4 w-4" />
+                  Supply
+                </TabsTrigger>
+              )}
               <TabsTrigger value="xray">
                 <Image className="mr-2 h-4 w-4" />
                 X-Ray
@@ -113,20 +118,22 @@ export function DashboardPage() {
                     <CardTitle className="text-xl sm:text-2xl">Patient Management</CardTitle>
                     <p className="text-sm text-muted-foreground mt-1">Admin view - all patients across all veterinarians</p>
                   </div>
-                  <Dialog open={enrollDialogOpen} onOpenChange={setEnrollDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button type="button">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        Enroll Patient
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-                      <DialogHeader>
-                        <DialogTitle className="text-2xl">Enroll New Patient</DialogTitle>
-                      </DialogHeader>
-                      <PatientEnrollmentForm onSuccess={handleEnrollSuccess} />
-                    </DialogContent>
-                  </Dialog>
+                  {isAdmin && (
+                    <Dialog open={enrollDialogOpen} onOpenChange={setEnrollDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button type="button">
+                          <UserPlus className="mr-2 h-4 w-4" />
+                          Enroll Patient
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+                        <DialogHeader>
+                          <DialogTitle className="text-2xl">Enroll New Patient</DialogTitle>
+                        </DialogHeader>
+                        <PatientEnrollmentForm onSuccess={handleEnrollSuccess} />
+                      </DialogContent>
+                    </Dialog>
+                  )}
                 </CardHeader>
                 <CardContent className="p-3 sm:p-6">
                   <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2">
@@ -154,18 +161,22 @@ export function DashboardPage() {
                 </CardContent>
               </Card>
             </TabsContent>
-            <TabsContent value="veterinarians" className="mt-6">
-              <VeterinarianManagementPanel />
-            </TabsContent>
+            {isAdmin && (
+              <TabsContent value="veterinarians" className="mt-6">
+                <VeterinarianManagementPanel />
+              </TabsContent>
+            )}
             <TabsContent value="trials" className="mt-6">
               <MasterTrialsTable adminEmail={userEmail} />
             </TabsContent>
             <TabsContent value="compliance" className="mt-6">
               <AdminComplianceDashboard adminEmail={userEmail} />
             </TabsContent>
-            <TabsContent value="supply" className="mt-6 space-y-6">
-              <AdminSupplyPanel />
-            </TabsContent>
+            {isAdmin && (
+              <TabsContent value="supply" className="mt-6 space-y-6">
+                <AdminSupplyPanel />
+              </TabsContent>
+            )}
             <TabsContent value="xray" className="mt-6">
               <ErrorBoundary>
                 <HoofXrayPortal />
@@ -207,6 +218,25 @@ export function DashboardPage() {
           <Card>
             <CardContent className="p-6">
               <div className="text-center text-muted-foreground">Loading qualification status...</div>
+            </CardContent>
+          </Card>
+        ) : qualError && (!qualData || qualData.length === 0) ? (
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  {qualError instanceof Error && qualError.message
+                    ? qualError.message
+                    : 'Failed to load your qualification status. Check your connection and try again.'}
+                </AlertDescription>
+              </Alert>
+              <div className="flex justify-center">
+                <Button type="button" variant="outline" onClick={() => refreshQual()}>
+                  <RefreshCw className="mr-2 h-4 w-4" />
+                  Retry
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ) : !qualData || qualData.length === 0 ? (

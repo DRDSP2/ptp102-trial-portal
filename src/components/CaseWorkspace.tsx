@@ -25,7 +25,7 @@ import { AddLabResultForm } from '@/components/AddLabResultForm';
 import { AddAssessmentForm } from '@/components/AddAssessmentForm';
 import { ObelScoreChart } from '@/components/ObelScoreChart';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare, FileVideo, Lock, Unlock } from 'lucide-react';
+import { ArrowLeft, Clock, Activity, FileText, FlaskConical, Stethoscope, Video, AlertCircle, Download, Shield, CheckSquare, XSquare, FileVideo, Lock, Unlock, Loader2 } from 'lucide-react';
 import { VideoUploadManager } from '@/components/VideoUploadManager';
 import { useAuth } from '@/context/AuthContext';
 import { useSecureDownloadUrl } from '@/hooks/useSecureDownloadUrl';
@@ -61,14 +61,109 @@ function NoteAttachment({ path, fileName }: NoteAttachmentProps) {
   );
 }
 
+type VideoLibraryCardProps = {
+  note: any;
+};
+
+// Videos live in a PRIVATE storage bucket: note.video_url holds the raw
+// storage path, which returns 4xx when used directly as a <video src> or
+// download target. Playback and download therefore go through a signed URL —
+// the same useSecureDownloadUrl pattern as NoteAttachment above.
+function VideoLibraryCard({ note }: VideoLibraryCardProps) {
+  const { signedUrl, isLoading, error } = useSecureDownloadUrl(note.video_url);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
+
+  const handleDownload = async () => {
+    if (!signedUrl) return;
+    setDownloadError(null);
+    try {
+      const response = await fetch(signedUrl);
+      if (!response.ok) throw new Error(`Download failed (${response.status})`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = note.video_file_name || `video_${note.id}.mp4`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Download failed:', err);
+      setDownloadError(err instanceof Error ? err.message : 'Download failed. Please try again.');
+    }
+  };
+
+  return (
+    <div className="p-4 border rounded-lg bg-gunmetal-deep">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <Video className="h-5 w-5 text-blue-600 shrink-0" />
+          <div className="min-w-0">
+            <p className="font-medium text-sm truncate">{note.video_file_name || 'Untitled Video'}</p>
+            <p className="text-xs text-muted-foreground">{note.note_content}</p>
+          </div>
+        </div>
+        <Badge variant="outline">
+          {note.protocol_hour !== null ? `Hour ${note.protocol_hour}` : 'Pre-Protocol'}
+        </Badge>
+      </div>
+
+      {isLoading ? (
+        <div className="w-full h-[200px] flex items-center justify-center rounded-md mb-3 bg-black">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : signedUrl ? (
+        <video
+          src={signedUrl}
+          controls
+          className="w-full rounded-md max-h-[300px] mb-3 bg-black"
+          preload="metadata"
+          controlsList="nodownload"
+        />
+      ) : (
+        <Alert variant="destructive" className="mb-3">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{error ?? 'Video unavailable'}</AlertDescription>
+        </Alert>
+      )}
+
+      {downloadError && (
+        <Alert variant="destructive" className="mb-3">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{downloadError}</AlertDescription>
+        </Alert>
+      )}
+
+      <div className="flex items-center justify-between pt-2 border-t">
+        <div className="text-xs text-muted-foreground">
+          <p>Uploaded by: <span className="font-medium text-foreground">{note.veterinarian_name}</span></p>
+          <p>{new Date(note.created_at).toLocaleString()}</p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleDownload}
+          disabled={!signedUrl}
+        >
+          <Download className="h-3 w-3 mr-1" />
+          Download
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 type CaseWorkspaceProps = {
   patientId: number;
   onBack: () => void;
 };
-
 export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   const auth = useAuth();
   const isAdmin = auth.role === 'admin';
+  // Consultants are read-only reviewers: hide every write control below and
+  // no-op the write handlers wired into shared display components.
+  const isConsultant = auth.isConsultant;
   const userEmail = auth.email ?? 'unknown';
   const [caseData, loading, error, refresh] = useLoadAction(loadPatientCaseDataAction, [], { patientId });
   const [debugNotes] = useMutateAction(debugClinicalNotesAction);
@@ -119,11 +214,15 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
   );
 
   const handleMarkComplete = useCallback(async (stepId: string, timestamp: string) => {
+    if (isConsultant) return; // read-only role: never persist timeline changes
     await markTimelineStepComplete({ patientId, stepId, timestamp });
     await handleRefresh();
-  }, [markTimelineStepComplete, patientId, handleRefresh]);
+  }, [isConsultant, markTimelineStepComplete, patientId, handleRefresh]);
 
-  const handleReportAdverseEvent = useCallback(() => setAdverseEventOpen(true), []);
+  const handleReportAdverseEvent = useCallback(() => {
+    if (isConsultant) return; // read-only role: never open the AE report dialog
+    setAdverseEventOpen(true);
+  }, [isConsultant]);
   const handleEligibilityComplete = useCallback((eligible: boolean) => {
     if (eligible) handleRefresh();
   }, [handleRefresh]);
@@ -300,7 +399,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
         <AdminScreeningPanel patient={patient} onUpdate={handleRefresh} />
       )}
 
-      {needsScreening && !isAdmin && (
+      {needsScreening && !isAdmin && !isConsultant && (
         <Card className="border-orange-200 bg-orange-50">
           <CardContent className="p-6">
             <div className="flex items-center gap-3">
@@ -314,7 +413,8 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
         </Card>
       )}
 
-      {/* Compliance Gates */}
+      {/* Compliance Gates (write workflows — hidden from read-only consultants) */}
+      {!isConsultant && (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <EnrollmentEligibilityScreen
           patientId={patientId}
@@ -328,17 +428,20 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
           onComplete={handleConsentComplete}
         />
       </div>
+      )}
 
       <ObelScoreChart assessments={patient.assessments || []} protocolStartTime={protocolStartTime} />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2 space-y-4 sm:space-y-6">
-          <NextDoseTimer
-            protocolStartTime={protocolStartTime}
-            treatments={patient.treatments || []}
-            patientId={patientId}
-            onSuccess={handleRefresh}
-          />
+          {!isConsultant && (
+            <NextDoseTimer
+              protocolStartTime={protocolStartTime}
+              treatments={patient.treatments || []}
+              patientId={patientId}
+              onSuccess={handleRefresh}
+            />
+          )}
 
           {/* Protocol Sidebar */}
           <Card className="border-slate-200">
@@ -388,6 +491,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 completedSteps={completedTimelineSteps}
                 onMarkComplete={handleMarkComplete}
                 onReportAdverseEvent={handleReportAdverseEvent}
+                readOnly={isConsultant}
               />
             </CardContent>
           </Card>
@@ -401,18 +505,22 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
             labResults={patient.lab_results || []}
             clinicalNotes={patient.clinical_notes || []}
           />
-          <QuickAddNote patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
+          {!isConsultant && (
+            <QuickAddNote patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
+          )}
         </div>
       </div>
 
-      <AdverseEventReporter
-        patientId={patientId}
-        horseName={patient.horse_name}
-        vetEmail={userEmail}
-        vetName={userEmail}
-        open={adverseEventOpen}
-        onOpenChange={setAdverseEventOpen}
-      />
+      {!isConsultant && (
+        <AdverseEventReporter
+          patientId={patientId}
+          horseName={patient.horse_name}
+          vetEmail={userEmail}
+          vetName={userEmail}
+          open={adverseEventOpen}
+          onOpenChange={setAdverseEventOpen}
+        />
+      )}
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
@@ -449,31 +557,35 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               <CardTitle className="text-lg sm:text-xl">Treatment Administration</CardTitle>
             </CardHeader>
             <CardContent className="p-3 sm:p-6">
-              {needsScreening ? (
-                <Alert className="bg-orange-50 border-orange-200">
-                  <AlertCircle className="h-4 w-4 text-orange-600" />
-                  <AlertDescription className="text-orange-800">
-                    Treatment administration is disabled until admin screening approval.
-                  </AlertDescription>
-                </Alert>
-              ) : (
-                <AddTreatmentForm
-                  patientId={patientId}
-                  protocolHour={(() => {
-                    if (!protocolStartTime) return null;
-                    const schedule = [0, 12];
-                    for (const hour of schedule) {
-                      const hasDose = patient.treatments?.some(
-                        (t: any) => t.protocol_hour !== null && Math.abs(t.protocol_hour - hour) <= 1
-                      );
-                      if (!hasDose) return hour;
-                    }
-                    return null;
-                  })()}
-                  onSuccess={handleRefresh}
-                />
+              {!isConsultant && (
+                <>
+                  {needsScreening ? (
+                    <Alert className="bg-orange-50 border-orange-200">
+                      <AlertCircle className="h-4 w-4 text-orange-600" />
+                      <AlertDescription className="text-orange-800">
+                        Treatment administration is disabled until admin screening approval.
+                      </AlertDescription>
+                    </Alert>
+                  ) : (
+                    <AddTreatmentForm
+                      patientId={patientId}
+                      protocolHour={(() => {
+                        if (!protocolStartTime) return null;
+                        const schedule = [0, 12];
+                        for (const hour of schedule) {
+                          const hasDose = patient.treatments?.some(
+                            (t: any) => t.protocol_hour !== null && Math.abs(t.protocol_hour - hour) <= 1
+                          );
+                          if (!hasDose) return hour;
+                        }
+                        return null;
+                      })()}
+                      onSuccess={handleRefresh}
+                    />
+                  )}
+                  <Separator className="my-6" />
+                </>
               )}
-              <Separator className="my-6" />
               <div className="space-y-4">
                 <h4 className="font-medium">Treatment History</h4>
                 {patient.treatments && patient.treatments.length > 0 ? (
@@ -580,12 +692,14 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
 
         <TabsContent value="videos" className="mt-4 sm:mt-6 space-y-4">
           {visitedTabs.has('videos') && (<>
-          <VideoUploadManager
-            patientId={patientId}
-            protocolHour={currentProtocolHour}
-            veterinarianName={userEmail}
-            onSuccess={handleRefresh}
-          />
+          {!isConsultant && (
+            <VideoUploadManager
+              patientId={patientId}
+              protocolHour={currentProtocolHour}
+              veterinarianName={userEmail}
+              onSuccess={handleRefresh}
+            />
+          )}
 
           <Card>
             <CardHeader>
@@ -599,61 +713,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 <div className="space-y-4">
                   {patient.clinical_notes
                     .filter((note: any) => note.video_url && note.video_url.trim() !== '')
-                    .map((note: any) => (
-                      <div key={note.id} className="p-4 border rounded-lg bg-gunmetal-deep">
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <Video className="h-5 w-5 text-blue-600 shrink-0" />
-                            <div className="min-w-0">
-                              <p className="font-medium text-sm truncate">{note.video_file_name || 'Untitled Video'}</p>
-                              <p className="text-xs text-muted-foreground">{note.note_content}</p>
-                            </div>
-                          </div>
-                          <Badge variant="outline">
-                            {note.protocol_hour !== null ? `Hour ${note.protocol_hour}` : 'Pre-Protocol'}
-                          </Badge>
-                        </div>
-                        
-                        <video
-                          src={note.video_url}
-                          controls
-                          className="w-full rounded-md max-h-[300px] mb-3 bg-black"
-                          preload="metadata"
-                          controlsList="nodownload"
-                        />
-                        
-                        <div className="flex items-center justify-between pt-2 border-t">
-                          <div className="text-xs text-muted-foreground">
-                            <p>Uploaded by: <span className="font-medium text-foreground">{note.veterinarian_name}</span></p>
-                            <p>{new Date(note.created_at).toLocaleString()}</p>
-                          </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={async () => {
-                              try {
-                                const response = await fetch(note.video_url);
-                                const blob = await response.blob();
-                                const url = window.URL.createObjectURL(blob);
-                                const link = document.createElement('a');
-                                link.href = url;
-                                link.download = note.video_file_name || `video_${note.id}.mp4`;
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                                window.URL.revokeObjectURL(url);
-                              } catch (err) {
-                                console.error('Download failed:', err);
-                                window.open(note.video_url, '_blank');
-                              }
-                            }}
-                          >
-                            <Download className="h-3 w-3 mr-1" />
-                            Download
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
+                    .map((note: any) => <VideoLibraryCard key={note.id} note={note} />)}
                 </div>
               ) : (
                 <div className="text-center py-8">
@@ -674,8 +734,12 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               <CardTitle className="text-lg sm:text-xl">Lab Results Entry</CardTitle>
             </CardHeader>
             <CardContent className="p-3 sm:p-6">
-              <AddLabResultForm patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
-              <Separator className="my-6" />
+              {!isConsultant && (
+                <>
+                  <AddLabResultForm patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
+                  <Separator className="my-6" />
+                </>
+              )}
               <div className="space-y-4">
                 <h4 className="font-medium">Lab Results History</h4>
                 {patient.lab_results && patient.lab_results.length > 0 ? (
@@ -834,8 +898,12 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               <CardTitle className="text-lg sm:text-xl">Clinical Assessment</CardTitle>
             </CardHeader>
             <CardContent className="p-3 sm:p-6">
-              <AddAssessmentForm patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
-              <Separator className="my-6" />
+              {!isConsultant && (
+                <>
+                  <AddAssessmentForm patientId={patientId} protocolHour={currentProtocolHour} onSuccess={handleRefresh} />
+                  <Separator className="my-6" />
+                </>
+              )}
               <div className="space-y-4">
                 <h4 className="font-medium">Assessment History</h4>
                 {patient.assessments && patient.assessments.length > 0 ? (

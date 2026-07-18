@@ -2,15 +2,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutateAction } from '@uibakery/data';
-import requestPasswordResetAction from '@/actions/requestPasswordReset';
+import { supabase } from '@/lib/supabase/client';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ByrockLogo } from '@/components/ByrockLogo';
-import { KeyRound, ArrowLeft } from 'lucide-react';
+import { KeyRound, ArrowLeft, AlertCircle, CheckCircle2 } from 'lucide-react';
 
 const resetRequestSchema = z.object({
   email: z.string().email('Valid email is required'),
@@ -18,11 +17,15 @@ const resetRequestSchema = z.object({
 
 type PasswordResetRequestScreenProps = {
   onBackToLogin: () => void;
+  // Legacy prop retained for VetResetPage compatibility. The old fake-token
+  // flow was removed: Supabase now emails the recovery link directly and
+  // handleRecoveryRedirect() (src/lib/supabase/recovery.ts) takes it from
+  // there, so this callback is no longer invoked from this screen.
   onResetRequested: (email: string, token: string) => void;
 };
 
-export function PasswordResetRequestScreen({ onBackToLogin, onResetRequested }: PasswordResetRequestScreenProps) {
-  const [requestReset, isLoading] = useMutateAction(requestPasswordResetAction);
+export function PasswordResetRequestScreen({ onBackToLogin }: PasswordResetRequestScreenProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -33,32 +36,26 @@ export function PasswordResetRequestScreen({ onBackToLogin, onResetRequested }: 
     },
   });
 
-  const generateResetToken = () => {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-  };
-
   const onSubmit = async (values: z.infer<typeof resetRequestSchema>) => {
     try {
       setError(null);
-      setSuccess(false);
-      const resetToken = generateResetToken();
-      
-      const result = await requestReset({
-        email: values.email,
-        resetToken,
-      });
+      setIsLoading(true);
 
-      if (result && result.length > 0) {
-        setSuccess(true);
-        setTimeout(() => {
-          onResetRequested(values.email, resetToken);
-        }, 2000);
-      } else {
-        setError('Email not found or account not registered.');
-      }
+      // Real Supabase reset email — same pattern as ConsultantLoginScreen.
+      // Confirmation is deliberately neutral: never reveal whether an
+      // account exists for the given address.
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        values.email.toLowerCase().trim(),
+        { redirectTo: `${window.location.origin}/#/vet/login` },
+      );
+      if (resetError) throw resetError;
+
+      setSuccess(true);
     } catch (err) {
-      setError('Failed to request password reset. Please try again.');
       console.error('Error requesting password reset:', err);
+      setError('Failed to send password reset email. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,15 +77,22 @@ export function PasswordResetRequestScreen({ onBackToLogin, onResetRequested }: 
 
         <CardContent className="p-6 space-y-6">
           {success ? (
-            <Alert className="bg-green-50 border-green-200">
-              <AlertDescription className="text-green-900">
-                Password reset instructions have been generated. You will be redirected to set a new password.
-              </AlertDescription>
-            </Alert>
+            <div className="space-y-4">
+              <Alert className="bg-green-50 border-green-200">
+                <CheckCircle2 className="h-4 w-4 text-green-600" />
+                <AlertDescription className="text-green-900">
+                  If an account exists for this email, a reset link has been sent. Please check your inbox and follow the link to set a new password.
+                </AlertDescription>
+              </Alert>
+              <Button type="button" variant="ghost" size="sm" onClick={onBackToLogin} className="w-full">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back to Login
+              </Button>
+            </div>
           ) : (
             <>
               <p className="text-sm text-base-content/60">
-                Enter your email address and we'll help you reset your password.
+                Enter your email address and we'll send you a link to reset your password.
               </p>
 
               <Form {...form}>
@@ -107,11 +111,16 @@ export function PasswordResetRequestScreen({ onBackToLogin, onResetRequested }: 
                     )}
                   />
 
-                  {error && <div className="text-sm text-destructive bg-destructive/10 p-3 rounded">{error}</div>}
+                  {error && (
+                    <Alert variant="destructive">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
 
                   <div className="flex flex-col gap-2 pt-4">
                     <Button type="submit" size="lg" disabled={isLoading} className="w-full">
-                      {isLoading ? 'Processing...' : 'Request Reset'}
+                      {isLoading ? 'Sending...' : 'Request Reset'}
                     </Button>
                     <Button type="button" variant="ghost" size="sm" onClick={onBackToLogin} className="w-full">
                       <ArrowLeft className="mr-2 h-4 w-4" />

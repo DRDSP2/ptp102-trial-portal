@@ -8,10 +8,14 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 import { ObelGradeReference, type ObelGradeValue } from '@/components/ObelGradeReference';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/client';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
+import { useTrialMutation } from '@/hooks/use-trial-mutation';
+import { toLocalDatetimeInputValue } from '@/lib/datetime';
 
 const assessmentSchema = z.object({
   assessmentDatetime: z.string().min(1, 'Date and time required'),
@@ -63,12 +67,12 @@ type AddAssessmentFormProps = {
 
 export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAssessmentFormProps) {
   const auth = useAuth();
-  const [addAssessment, isSubmitting] = useMutateAction(addClinicalAssessmentAction);
+  const [addAssessment] = useMutateAction(addClinicalAssessmentAction);
 
   const form = useForm<z.infer<typeof assessmentSchema>>({
     resolver: zodResolver(assessmentSchema),
     defaultValues: {
-      assessmentDatetime: new Date().toISOString().slice(0, 16),
+      assessmentDatetime: toLocalDatetimeInputValue(),
       obelGrade: '2',
       painScore: '',
       mobilityScore: '',
@@ -81,8 +85,8 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof assessmentSchema>) => {
-    try {
+  const assessmentMutation = useTrialMutation<z.infer<typeof assessmentSchema>, void>({
+    mutationFn: async (values) => {
       await addAssessment({
         patientId,
         assessmentDatetime: new Date(values.assessmentDatetime).toISOString(),
@@ -126,12 +130,17 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
           </div>`,
         },
       }).catch((err: unknown) => console.error('Admin alert failed (non-critical):', err));
-
+    },
+    successToast: 'Assessment saved.',
+    errorTitle: 'Failed to save assessment',
+    onSuccess: () => {
       form.reset();
       onSuccess();
-    } catch (error) {
-      console.error('Failed to add assessment:', error);
-    }
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof assessmentSchema>) => {
+    assessmentMutation.mutate(values);
   };
 
   return (
@@ -310,8 +319,16 @@ export function AddAssessmentForm({ patientId, protocolHour, onSuccess }: AddAss
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting} className="w-full">
-          {isSubmitting ? 'Saving...' : 'Save Assessment'}
+        {assessmentMutation.error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Failed to save assessment</AlertTitle>
+            <AlertDescription>{assessmentMutation.error}</AlertDescription>
+          </Alert>
+        )}
+
+        <Button type="submit" disabled={assessmentMutation.isPending} className="w-full">
+          {assessmentMutation.isPending ? 'Saving...' : 'Save Assessment'}
         </Button>
       </form>
     </Form>
