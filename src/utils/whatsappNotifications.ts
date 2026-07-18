@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase/client';
+import { sendEmailNotification } from '@/utils/emailNotifications';
 
 type WhatsAppNotificationPayload = {
   activityType: string;
@@ -62,4 +63,13 @@ export async function sendWhatsAppNotification(payload: WhatsAppNotificationPayl
   } catch (err) {
     console.warn('WhatsApp notification error (non-fatal):', err);
   }
+
+  // Mirror every main event to the owner's email (best-effort, non-blocking).
+  // Fired after the WhatsApp invoke so the WhatsApp call stays first in
+  // mocked invoke sequences (tests rely on that order).
+  void sendEmailNotification({
+    activityType: payload.activityType,
+    actorEmail: payload.vetName,
+    details: enriched,
+  });
 }

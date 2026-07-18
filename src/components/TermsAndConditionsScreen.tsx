@@ -589,17 +589,18 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                 </Alert>
               )}
 
-              <div className="flex justify-between pt-4">
+              <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:justify-between">
                 {onBackToLogin && (
-                  <Button type="button" variant="outline" size="lg" onClick={onBackToLogin}>
+                  <Button type="button" variant="outline" size="lg" onClick={onBackToLogin} className="w-full sm:w-auto">
                     Back to Login
                   </Button>
                 )}
-                <div className="flex gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row">
                   <Button
                     type="button"
                     variant="outline"
                     size="lg"
+                    className="w-full sm:w-auto"
                     onClick={() => {
                       const now = new Date().toISOString();
                       printedAtRef.current = now;
@@ -610,7 +611,7 @@ export function TermsAndConditionsScreen({ onAccepted, onBackToLogin }: TermsAnd
                     <Printer className="mr-2 h-4 w-4" />
                     Print / Save as PDF
                   </Button>
-                  <Button data-testid="vet-registration-submit" type="submit" size="lg" disabled={isSubmitting} className="min-w-[200px]">
+                  <Button data-testid="vet-registration-submit" type="submit" size="lg" disabled={isSubmitting} className="min-w-[200px] w-full sm:w-auto">
                     {isSubmitting ? 'Processing...' : 'Accept Terms & Continue'}
                   </Button>
                 </div>

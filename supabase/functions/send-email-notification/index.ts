@@ -1,16 +1,15 @@
-// Generic transactional email sender for the PTP-102 Trial Portal.
-// Called from the client with { to, subject, html } for admin alerts
-// (trial events, file uploads, vet approvals) and vet-facing notices.
-// Uses the Resend API (https://resend.com).
-//
-// If RESEND_API_KEY is not configured the function returns
-// { status: 'skipped' } so callers can treat email as best-effort.
+// Sends an email notification to the trial owner (default drdsp@pm.me)
+// whenever a login or main trial event occurs. Uses the Resend API
+// (https://resend.com). If RESEND_API_KEY is not configured the function
+// returns { status: 'skipped' } so callers can treat email as best-effort,
+// mirroring the behaviour of send-whatsapp-notification.
 //
 // Required secret (Supabase dashboard → Edge Functions → Secrets):
 //   RESEND_API_KEY   — API key from https://resend.com
-// Optional secret:
+// Optional secrets:
 //   RESEND_FROM      — verified sender, e.g. 'PTP-102 Trial <trial@yourdomain.com>'
 //                      (defaults to Resend's onboarding address for testing)
+//   NOTIFY_EMAIL_TO  — recipient override (defaults to drdsp@pm.me)
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,7 +17,14 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, content-type, apikey, x-client-info',
 };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_FIELD_LEN = 500;
+const MAX_FIELDS = 40;
+
+function sanitize(value: unknown): string {
+  return String(value ?? '')
+    .replace(/[<>]/g, '')
+    .slice(0, MAX_FIELD_LEN);
+}
 
 Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
@@ -32,7 +38,7 @@ Deno.serve(async (req: Request) => {
     });
   }
 
-  let body: { to?: string; subject?: string; html?: string; text?: string };
+  let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch {
@@ -42,19 +48,26 @@ Deno.serve(async (req: Request) => {
     });
   }
 
-  const to = (body.to ?? '').trim();
-  const subject = String(body.subject ?? '').slice(0, 200);
-  const html = typeof body.html === 'string' ? body.html : undefined;
-  const text = typeof body.text === 'string' ? body.text : undefined;
+  const activityType = sanitize(body.activityType || 'Notification');
+  const actorEmail = sanitize(body.actorEmail || 'unknown');
+  const subject = sanitize(body.subject || `PTP-102: ${activityType}`);
+  const details = (body.details ?? {}) as Record<string, unknown>;
 
-  if (!EMAIL_RE.test(to) || !subject || (!html && !text)) {
-    return new Response(JSON.stringify({
-      error: 'Missing or invalid fields: require valid to, subject, and html or text',
-    }), {
-      status: 400,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+  const lines: string[] = [
+    `Activity: ${activityType}`,
+    `Actor: ${actorEmail}`,
+    `Time (UTC): ${new Date().toISOString()}`,
+    '',
+    'Details:',
+  ];
+  let count = 0;
+  for (const [key, val] of Object.entries(details)) {
+    if (count >= MAX_FIELDS) break;
+    if (val === null || val === undefined || val === '') continue;
+    lines.push(`  ${sanitize(key)}: ${sanitize(val)}`);
+    count++;
   }
+  const text = lines.join('\n');
 
   const resendKey = Deno.env.get('RESEND_API_KEY');
   if (!resendKey) {
@@ -69,6 +82,7 @@ Deno.serve(async (req: Request) => {
   }
 
   const from = Deno.env.get('RESEND_FROM') || 'PTP-102 Trial Portal <onboarding@resend.dev>';
+  const to = Deno.env.get('NOTIFY_EMAIL_TO') || 'drdsp@pm.me';
 
   try {
     const resendResp = await fetch('https://api.resend.com/emails', {
@@ -77,7 +91,12 @@ Deno.serve(async (req: Request) => {
         Authorization: `Bearer ${resendKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ from, to: [to], subject, ...(html ? { html } : { text }) }),
+      body: JSON.stringify({
+        from,
+        to: [to],
+        subject: `🐴 ${subject}`,
+        text,
+      }),
     });
 
     const resendResult = await resendResp.json();
@@ -92,13 +111,18 @@ Deno.serve(async (req: Request) => {
       });
     }
 
-    return new Response(JSON.stringify({ status: 'sent', id: resendResult.id, to }), {
+    return new Response(JSON.stringify({
+      status: 'sent',
+      id: resendResult.id,
+      to,
+      activityType,
+    }), {
       status: 200,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (err) {
     return new Response(JSON.stringify({
-      error: 'Failed to send email',
+      error: 'Failed to send email notification',
       detail: err instanceof Error ? err.message : String(err),
     }), {
       status: 502,

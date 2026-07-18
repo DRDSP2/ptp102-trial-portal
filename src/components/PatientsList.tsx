@@ -162,7 +162,6 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
         await approvePatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes || null, reasonForChange: screenNotes || null });
         if (screenPatient.enrolled_by_vet_email) {
           sendNotification(
-            sendEmail,
             NotificationType.VET_APPROVED,
             `✅ Patient Approved: ${screenPatient.horse_name}`,
             {
@@ -181,7 +180,6 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
         await rejectPatient({ patientId: screenPatient.id, adminEmail, notes: screenNotes, reasonForChange: screenNotes });
         if (screenPatient.enrolled_by_vet_email) {
           sendNotification(
-            sendEmail,
             NotificationType.VET_REJECTED,
             `❌ Patient Rejected: ${screenPatient.horse_name}`,
             {
@@ -200,7 +198,6 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
         await requestDetails({ patientId: screenPatient.id, adminEmail, notes: screenNotes, messageToVet: screenNotes, reasonForChange: screenNotes });
         if (screenPatient.enrolled_by_vet_email) {
           sendNotification(
-            sendEmail,
             NotificationType.VET_REJECTED,
             `⏳ Awaiting Further Details: ${screenPatient.horse_name}`,
             {

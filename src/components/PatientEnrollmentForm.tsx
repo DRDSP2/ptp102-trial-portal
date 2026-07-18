@@ -206,7 +206,6 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
         await createPatient(patientPayload);
 
         await sendNotification(
-          sendEmail,
           NotificationType.NEW_PATIENT_ENROLLED,
           `🐴 New Patient Enrolled: ${values.horseName}`,
           {
