@@ -1,5 +1,6 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.0';
 import { PDFDocument, StandardFonts, rgb } from 'https://esm.sh/pdf-lib@1.17.1';
+import { sendDiscordAlert } from '../_shared/discord.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -334,6 +335,23 @@ Deno.serve(async (req: Request) => {
       </div>
     </div>`,
   );
+
+  const discordResult = await sendDiscordAlert(Deno.env.get('DISCORD_WEBHOOK_URL'), {
+    activityType: 'Veterinarian Signup — Pending Approval',
+    actorEmail: email,
+    details: {
+      Name: fullName,
+      Email: email,
+      Hospital: hospitalAffiliation,
+      License: licenseNumber,
+      'Veterinarian ID': inserted.id,
+    },
+  });
+  if (discordResult.status === 'failed') {
+    console.error('Discord signup alert failed (non-critical)', {
+      upstreamStatus: discordResult.httpStatus,
+    });
+  }
 
   return new Response(JSON.stringify({ success: true, id: inserted.id, email: email!.toLowerCase().trim() }), {
     status: 201,

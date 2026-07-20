@@ -14,6 +14,7 @@ import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle, Info } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/client';
+import { sendDiscordNotification } from '@/utils/discordNotifications';
 import { sendWhatsAppNotification } from '@/utils/whatsappNotifications';
 import { useTrialMutation } from '@/hooks/use-trial-mutation';
 import { toLocalDatetimeInputValue } from '@/lib/datetime';
@@ -107,6 +108,17 @@ export function AddTreatmentForm({ patientId, protocolHour, onSuccess }: AddTrea
       // Admin email alerts
       const vetName = auth.email ?? 'Unknown Vet';
       if (finalProtocolHour === 0) {
+        void sendDiscordNotification({
+          activityType: 'Trial Started',
+          actorEmail: vetName,
+          details: {
+            'Patient ID': patientId,
+            Route: values.route,
+            'Dosage (mg)': calculatedDosage,
+            'Administration Time': new Date(values.administrationDatetime).toISOString(),
+          },
+        });
+
         supabase.functions.invoke('send-email', {
           body: {
             to: 'drdsp@pm.me',

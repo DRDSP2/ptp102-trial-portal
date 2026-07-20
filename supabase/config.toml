@@ -398,6 +398,9 @@ verify_jwt = false
 [functions.send-whatsapp-notification]
 verify_jwt = false
 
+[functions.send-discord-notification]
+verify_jwt = true
+
 # [edge_runtime.secrets]
 # secret_key = "env(SECRET_VALUE)"
 

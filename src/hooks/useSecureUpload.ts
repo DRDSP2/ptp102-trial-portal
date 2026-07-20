@@ -6,6 +6,7 @@ import createAuditLogAction from '@/actions/createAuditLog';
 import { bucketForCategory, type UploadCategory } from '@/lib/upload/config';
 import { buildStoragePath } from '@/lib/upload/path';
 import { validateUpload } from '@/lib/upload/validation';
+import { sendDiscordNotification } from '@/utils/discordNotifications';
 
 export type UseSecureUploadOptions = {
   category: UploadCategory;
@@ -116,6 +117,18 @@ export function useSecureUpload({ category, entityType, entityId }: UseSecureUpl
           }),
           reasonForChange: `File uploaded via secure upload: ${file.name}`,
         }).catch(() => {});
+
+        void sendDiscordNotification({
+          activityType: 'Secure Upload Completed',
+          actorEmail: userEmail,
+          details: {
+            File: file.name,
+            'Content Type': file.type || 'unknown',
+            'Size (bytes)': file.size,
+            Category: category,
+            Entity: `${entityType} #${entityId}`,
+          },
+        });
 
         // 7. Fire-and-forget admin email alert for file uploads
         supabase.functions.invoke('send-email', {
