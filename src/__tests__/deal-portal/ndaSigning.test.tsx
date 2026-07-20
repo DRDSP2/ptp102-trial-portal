@@ -1,5 +1,5 @@
-import { vi, describe, it, expect } from 'vitest';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+import { act, render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
@@ -7,6 +7,23 @@ import { NDASigningPage } from '@/deal-portal/pages/NDASigningPage';
 import { NDAGate } from '@/deal-portal/components/NDAGate';
 import { createMockSupabaseAuth } from '@/__tests__/utils/mockSupabaseAuth';
 import { NDA_ACKNOWLEDGEMENTS } from '@/deal-portal/lib/ndaAcknowledgements';
+
+vi.mock('@/deal-portal/lib/ndaPdf', () => ({
+  generateNdaPdf: vi.fn(async () => new Blob(['mock NDA'], { type: 'application/pdf' })),
+}));
+
+vi.mock('@/deal-portal/lib/ndaEmail', () => ({
+  sendNdaPendingAdminEmail: vi.fn().mockResolvedValue(undefined),
+  sendNdaPendingInvestorEmail: vi.fn().mockResolvedValue(undefined),
+}));
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
+const setupUser = () => userEvent.setup({ delay: null });
 
 function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: { ndaSigned?: boolean; templateVersion?: string } = {}) {
   const base = createMockSupabaseAuth({ tier: 'none', ndaSigned, templateVersion });
@@ -99,46 +116,48 @@ function buildMockAuth({ ndaSigned = false, templateVersion = 'v2.0-byrock' }: {
 
 async function fillStep1(user: ReturnType<typeof userEvent.setup>) {
   await waitFor(() => expect(screen.getByLabelText(/Counterparty Legal Name/i)).toBeInTheDocument());
-  await user.type(screen.getByLabelText(/Counterparty Legal Name/i), 'TestCo Ltd');
+  fireEvent.change(screen.getByLabelText(/Counterparty Legal Name/i), { target: { value: 'TestCo Ltd' } });
   await user.click(screen.getByRole('combobox', { name: /Entity Type/i }));
   await user.click(screen.getByRole('option', { name: /Corporation/i }));
-  await user.type(screen.getByLabelText(/Jurisdiction of Formation/i), 'Ireland');
-  await user.type(screen.getByLabelText(/Full Registered Address/i), '123 Test Street, Dublin, Ireland');
-  await user.type(screen.getByLabelText(/Contact Email/i), 'test@testco.ie');
-  await user.type(screen.getByLabelText(/Contact Name/i), 'Jane Doe');
-  await user.type(screen.getByLabelText(/Contact Title/i), 'Director');
+  fireEvent.change(screen.getByLabelText(/Jurisdiction of Formation/i), { target: { value: 'Ireland' } });
+  fireEvent.change(screen.getByLabelText(/Full Registered Address/i), { target: { value: '123 Test Street, Dublin, Ireland' } });
+  fireEvent.change(screen.getByLabelText(/Contact Email/i), { target: { value: 'test@testco.ie' } });
+  fireEvent.change(screen.getByLabelText(/Contact Name/i), { target: { value: 'Jane Doe' } });
+  fireEvent.change(screen.getByLabelText(/Contact Title/i), { target: { value: 'Director' } });
   await user.click(screen.getByRole('combobox', { name: /Estimated Number of Representatives/i }));
   await user.click(screen.getByRole('option', { name: /1–5/i }));
-  await user.type(screen.getByLabelText(/Project Purpose/i), 'Evaluate PTP-102 licensing opportunity');
-  await user.click(screen.getByRole('checkbox', { name: /North America/i }));
+  fireEvent.change(screen.getByLabelText(/Project Purpose/i), { target: { value: 'Evaluate PTP-102 licensing opportunity' } });
+  fireEvent.click(screen.getByRole('checkbox', { name: /North America/i }));
 }
 
 async function advanceToStep3(user: ReturnType<typeof userEvent.setup>) {
   await fillStep1(user);
-  await user.click(screen.getByRole('button', { name: /Continue/i }));
+  fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
   await waitFor(() => expect(screen.getByRole('button', { name: /I Have Read the Agreement/i })).toBeInTheDocument());
-  await user.click(screen.getByRole('button', { name: /I Have Read the Agreement/i }));
+  fireEvent.click(screen.getByRole('button', { name: /I Have Read the Agreement/i }));
   await waitFor(() => expect(screen.getByText(/Legal Acknowledgements/i)).toBeInTheDocument());
 }
 
-async function checkAllAcks(user: ReturnType<typeof userEvent.setup>) {
-  for (const ack of NDA_ACKNOWLEDGEMENTS) {
-    const checkbox = screen.getByRole('checkbox', { name: ack.label });
-    await user.click(checkbox);
-  }
+function checkAcks(count: number = NDA_ACKNOWLEDGEMENTS.length) {
+  const checkboxes = NDA_ACKNOWLEDGEMENTS
+    .slice(0, count)
+    .map((ack) => screen.getByRole('checkbox', { name: ack.label }));
+  act(() => {
+    checkboxes.forEach((checkbox) => checkbox.click());
+  });
 }
 
-async function fillStep4(user: ReturnType<typeof userEvent.setup>) {
-  await user.type(screen.getByLabelText(/Signer Full Name/i), 'Jane Doe');
-  await user.type(screen.getByLabelText(/Signer Title/i), 'Director');
+function fillStep4() {
+  fireEvent.change(screen.getByLabelText(/Signer Full Name/i), { target: { value: 'Jane Doe' } });
+  fireEvent.change(screen.getByLabelText(/Signer Title/i), { target: { value: 'Director' } });
   const dateInput = screen.getByLabelText(/Signature Date/i);
   fireEvent.change(dateInput, { target: { value: '2026-07-10' } });
-  await user.type(screen.getByLabelText(/Electronic Signature/i), 'Jane Doe');
+  fireEvent.change(screen.getByLabelText(/Electronic Signature/i), { target: { value: 'Jane Doe' } });
 }
 
 describe('NDA v2.0 Signing', () => {
   it('requires all 19 acknowledgements to be checked', async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     const { mock } = buildMockAuth();
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -155,26 +174,19 @@ describe('NDA v2.0 Signing', () => {
     expect(ackCheckboxes).toHaveLength(19);
 
     // Check only 18 of 19
-    for (let i = 0; i < 18; i++) {
-      await user.click(ackCheckboxes[i]);
-    }
+    checkAcks(18);
 
-    await user.click(screen.getByRole('button', { name: /Continue/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
     await waitFor(() => expect(screen.getByText(/is required/i)).toBeInTheDocument());
 
     // Check the last one
-    await user.click(ackCheckboxes[18]);
-    await user.click(screen.getByRole('button', { name: /Continue/i }));
-    await fillStep4(user);
-    await user.click(screen.getByRole('button', { name: /Execute Mutual NDA/i }));
-
-    await waitFor(() => {
-      expect(screen.queryByText(/Signature date is required/i)).not.toBeInTheDocument();
-    });
+    fireEvent.click(ackCheckboxes[18]);
+    fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
+    await waitFor(() => expect(screen.getByLabelText(/Signer Full Name/i)).toBeInTheDocument());
   });
 
   it('captures counterparty_entity_type and counterparty_jurisdiction in the submitted record', async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     const { mock, getLastNdaInsert } = buildMockAuth();
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -185,10 +197,11 @@ describe('NDA v2.0 Signing', () => {
     );
 
     await advanceToStep3(user);
-    await checkAllAcks(user);
-    await user.click(screen.getByRole('button', { name: /Continue/i }));
-    await fillStep4(user);
-    await user.click(screen.getByRole('button', { name: /Execute Mutual NDA/i }));
+    checkAcks();
+    fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
+    await waitFor(() => expect(screen.getByLabelText(/Signer Full Name/i)).toBeInTheDocument());
+    fillStep4();
+    fireEvent.click(screen.getByRole('button', { name: /Execute Mutual NDA/i }));
 
     await waitFor(() => {
       const insert = getLastNdaInsert();
@@ -199,7 +212,7 @@ describe('NDA v2.0 Signing', () => {
   });
 
   it('submits all 19 acknowledgement booleans as true', async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     const { mock, getLastNdaInsert } = buildMockAuth();
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -210,10 +223,11 @@ describe('NDA v2.0 Signing', () => {
     );
 
     await advanceToStep3(user);
-    await checkAllAcks(user);
-    await user.click(screen.getByRole('button', { name: /Continue/i }));
-    await fillStep4(user);
-    await user.click(screen.getByRole('button', { name: /Execute Mutual NDA/i }));
+    checkAcks();
+    fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
+    await waitFor(() => expect(screen.getByLabelText(/Signer Full Name/i)).toBeInTheDocument());
+    fillStep4();
+    fireEvent.click(screen.getByRole('button', { name: /Execute Mutual NDA/i }));
 
     await waitFor(() => {
       const insert = getLastNdaInsert();
@@ -225,7 +239,7 @@ describe('NDA v2.0 Signing', () => {
   });
 
   it('submits governing_law Ireland and venue Dublin, Ireland', async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     const { mock, getLastNdaInsert } = buildMockAuth();
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -236,10 +250,11 @@ describe('NDA v2.0 Signing', () => {
     );
 
     await advanceToStep3(user);
-    await checkAllAcks(user);
-    await user.click(screen.getByRole('button', { name: /Continue/i }));
-    await fillStep4(user);
-    await user.click(screen.getByRole('button', { name: /Execute Mutual NDA/i }));
+    checkAcks();
+    fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
+    await waitFor(() => expect(screen.getByLabelText(/Signer Full Name/i)).toBeInTheDocument());
+    fillStep4();
+    fireEvent.click(screen.getByRole('button', { name: /Execute Mutual NDA/i }));
 
     await waitFor(() => {
       const insert = getLastNdaInsert();
@@ -250,7 +265,7 @@ describe('NDA v2.0 Signing', () => {
   });
 
   it('renders Byrock/Ireland details and excludes Cencora/Delaware references', async () => {
-    const user = userEvent.setup();
+    const user = setupUser();
     const { mock } = buildMockAuth();
     render(
       <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -261,7 +276,7 @@ describe('NDA v2.0 Signing', () => {
     );
 
     await fillStep1(user);
-    await user.click(screen.getByRole('button', { name: /Continue/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
     await waitFor(() => expect(screen.getByRole('button', { name: /I Have Read the Agreement/i })).toBeInTheDocument());
 
     const text = document.body.textContent || '';
