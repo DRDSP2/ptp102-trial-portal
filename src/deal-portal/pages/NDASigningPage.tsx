@@ -399,7 +399,7 @@ The parties agree that this Agreement may be executed by electronic signature, w
       <div className="min-h-screen bg-slate-50 py-12 px-4">
         <Card className="max-w-3xl mx-auto">
           <CardHeader>
-            <CardTitle>NDA Submitted for Review</CardTitle>
+            <CardTitle as="h1">NDA Submitted for Review</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p>
@@ -418,7 +418,7 @@ The parties agree that this Agreement may be executed by electronic signature, w
     <div className="min-h-screen bg-slate-50 py-12 px-4">
       <Card className="max-w-3xl mx-auto">
         <CardHeader>
-          <CardTitle>Mutual Non-Disclosure Agreement v2.0</CardTitle>
+          <CardTitle as="h1">Mutual Non-Disclosure Agreement v2.0</CardTitle>
           <p className="text-sm text-muted-foreground">
             Step {step} of 4 — {step === 1 ? 'Entity Details' : step === 2 ? 'Agreement Review' : step === 3 ? 'Legal Acknowledgements' : 'Electronic Signature'}
           </p>

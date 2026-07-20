@@ -62,7 +62,7 @@ export function DoseCalculator() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label htmlFor="concentration" className="flex items-center gap-2">
-                <Droplets className="h-3.5 w-3.5 text-[#6b7f3a]" />
+                <Droplets className="h-3.5 w-3.5 text-primary" />
                 Concentration (mg/mL)
               </Label>
               <Input
@@ -78,7 +78,7 @@ export function DoseCalculator() {
 
             <div className="space-y-2">
               <Label htmlFor="volume" className="flex items-center gap-2">
-                <Droplets className="h-3.5 w-3.5 text-[#6b7f3a]" />
+                <Droplets className="h-3.5 w-3.5 text-primary" />
                 Total Volume (mL)
               </Label>
               <Input
@@ -94,7 +94,7 @@ export function DoseCalculator() {
 
             <div className="space-y-2">
               <Label htmlFor="infusionDuration" className="flex items-center gap-2">
-                <Clock className="h-3.5 w-3.5 text-[#6b7f3a]" />
+                <Clock className="h-3.5 w-3.5 text-primary" />
                 Infusion Duration (minutes)
               </Label>
               <Input
@@ -110,7 +110,7 @@ export function DoseCalculator() {
 
             <div className="space-y-2">
               <Label htmlFor="horseWeight" className="flex items-center gap-2">
-                <Weight className="h-3.5 w-3.5 text-[#6b7f3a]" />
+                <Weight className="h-3.5 w-3.5 text-primary" />
                 Horse Weight (kg)
               </Label>
               <Input
@@ -130,7 +130,7 @@ export function DoseCalculator() {
           {/* Results */}
           <div>
             <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
-              <ArrowRight className="h-4 w-4 text-[#6b7f3a]" />
+              <ArrowRight className="h-4 w-4 text-primary" />
               Calculated Results
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -184,7 +184,7 @@ function ResultCard({ label, value, highlight = false }: { label: string; value:
   return (
     <div className={`p-3 rounded-lg border ${highlight ? 'bg-[#6b7f3a]/5 border-[#6b7f3a]/20' : 'bg-white border-slate-200'}`}>
       <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">{label}</p>
-      <p className={`font-mono font-semibold ${highlight ? 'text-[#4a5c28] text-lg' : 'text-slate-900'}`}>
+      <p className={`font-mono font-semibold ${highlight ? 'text-primary text-lg' : 'text-slate-900'}`}>
         {value}
       </p>
     </div>

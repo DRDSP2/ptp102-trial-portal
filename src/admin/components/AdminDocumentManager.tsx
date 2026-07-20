@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Upload, Eye, Edit, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface DealDocument {
   id: string;
@@ -43,7 +44,7 @@ export function AdminDocumentManager() {
     const filePath = `deal-room/${metadata.category}/${Date.now()}_${file.name}`;
     const { error: uploadError } = await client.storage.from('deal-room-documents').upload(filePath, file);
     if (uploadError) {
-      alert('Upload failed: ' + uploadError.message);
+      toast.error(`Upload failed: ${uploadError.message}`);
       return;
     }
 
@@ -55,7 +56,7 @@ export function AdminDocumentManager() {
       access_tier_min: metadata.access_tier_min,
     });
     if (dbError) {
-      alert('DB insert failed: ' + dbError.message);
+      toast.error(`Document record could not be created: ${dbError.message}`);
       return;
     }
 
@@ -200,13 +201,13 @@ function UploadForm({ onSubmit }: { onSubmit: (file: File, meta: { title: string
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="text-sm font-medium">Title</label>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Document title" required />
+        <label htmlFor="upload-document-title" className="text-sm font-medium">Title</label>
+        <Input id="upload-document-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Document title" required />
       </div>
       <div>
-        <label className="text-sm font-medium">Category</label>
+        <label htmlFor="upload-document-category" className="text-sm font-medium">Category</label>
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger>
+          <SelectTrigger id="upload-document-category">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -218,9 +219,9 @@ function UploadForm({ onSubmit }: { onSubmit: (file: File, meta: { title: string
         </Select>
       </div>
       <div>
-        <label className="text-sm font-medium">Access Tier</label>
+        <label htmlFor="upload-document-tier" className="text-sm font-medium">Access Tier</label>
         <Select value={accessTier} onValueChange={setAccessTier}>
-          <SelectTrigger>
+          <SelectTrigger id="upload-document-tier">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -231,8 +232,8 @@ function UploadForm({ onSubmit }: { onSubmit: (file: File, meta: { title: string
         </Select>
       </div>
       <div>
-        <label className="text-sm font-medium">File</label>
-        <Input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} required />
+        <label htmlFor="upload-document-file" className="text-sm font-medium">File</label>
+        <Input id="upload-document-file" type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} required />
       </div>
       <Button type="submit" disabled={!file || !title}>
         Upload
@@ -262,13 +263,13 @@ function EditForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="text-sm font-medium">Title</label>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <label htmlFor="edit-document-title" className="text-sm font-medium">Title</label>
+        <Input id="edit-document-title" value={title} onChange={(e) => setTitle(e.target.value)} required />
       </div>
       <div>
-        <label className="text-sm font-medium">Category</label>
+        <label htmlFor="edit-document-category" className="text-sm font-medium">Category</label>
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger>
+          <SelectTrigger id="edit-document-category">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -280,9 +281,9 @@ function EditForm({
         </Select>
       </div>
       <div>
-        <label className="text-sm font-medium">Access Tier</label>
+        <label htmlFor="edit-document-tier" className="text-sm font-medium">Access Tier</label>
         <Select value={accessTier} onValueChange={setAccessTier}>
-          <SelectTrigger>
+          <SelectTrigger id="edit-document-tier">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

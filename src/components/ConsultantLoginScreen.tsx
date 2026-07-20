@@ -85,7 +85,7 @@ export function ConsultantLoginScreen({ onSuccess, onBackToAccessSelection }: Co
           <div className="flex items-center gap-3">
             <UserCog className="h-8 w-8 text-purple-400" />
             <div>
-              <CardTitle className="text-2xl">Consultant Access</CardTitle>
+              <CardTitle as="h1" className="text-2xl">Consultant Access</CardTitle>
               <p className="text-neutral-content/60 text-sm mt-1">FDA Compliance Review</p>
             </div>
           </div>

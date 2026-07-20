@@ -86,7 +86,7 @@ export function PasswordResetScreen({ resetToken, onSuccess }: PasswordResetScre
           <div className="flex items-center gap-3">
             <Lock className="h-8 w-8 text-blue-400" />
             <div>
-              <CardTitle className="text-2xl">Set New Password</CardTitle>
+              <CardTitle as="h1" className="text-2xl">Set New Password</CardTitle>
               <p className="text-neutral-content/60 text-sm mt-1">Create a secure password</p>
             </div>
           </div>

@@ -95,7 +95,7 @@ function VideoLibraryCard({ note }: VideoLibraryCardProps) {
   };
 
   return (
-    <div className="p-4 border rounded-lg bg-gunmetal-deep">
+    <div className="p-4 border rounded-lg bg-muted/30">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 min-w-0">
           <Video className="h-5 w-5 text-blue-600 shrink-0" />
@@ -260,7 +260,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
       <Card>
         <CardHeader className="flex flex-col sm:flex-row items-start justify-between space-y-2 sm:space-y-0">
           <div>
-            <CardTitle className="text-xl sm:text-2xl">{patient.horse_name}</CardTitle>
+            <CardTitle as="h1" className="text-xl sm:text-2xl">{patient.horse_name}</CardTitle>
             <p className="text-sm text-muted-foreground mt-1">
               {patient.unique_id} • {patient.breed} • {patient.age}y • {patient.sex}
             </p>
@@ -381,7 +381,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
       {(patient as any).data_lock_status === 'frozen' && (
         <Alert className="bg-amber-50 border-amber-200">
           <Lock className="h-4 w-4 text-warning" />
-          <AlertDescription className="text-warning-soft font-medium">
+          <AlertDescription className="text-amber-800 font-medium">
             This patient record is <strong>FROZEN</strong>. Data are reviewable; changes are still possible with a documented reason and admin approval.
           </AlertDescription>
         </Alert>
@@ -454,8 +454,8 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
             <CardContent className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <div className="p-2 bg-green-50 border border-green-200 rounded">
-                  <p className="font-semibold text-success-soft flex items-center gap-1"><CheckSquare className="h-3 w-3" /> Inclusion</p>
-                  <ul className="text-xs text-silver-strong mt-1 space-y-0.5">
+                  <p className="font-semibold text-green-800 flex items-center gap-1"><CheckSquare className="h-3 w-3" /> Inclusion</p>
+                  <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
                     <li>• Acute laminitis (Obel 1-3)</li>
                     <li>• Age 2-20 years</li>
                     <li>• Weight &gt;200 kg</li>
@@ -463,7 +463,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 </div>
                 <div className="p-2 bg-red-50 border border-red-200 rounded">
                   <p className="font-semibold text-destructive flex items-center gap-1"><XSquare className="h-3 w-3" /> Exclusion</p>
-                  <ul className="text-xs text-silver-strong mt-1 space-y-0.5">
+                  <ul className="text-xs text-muted-foreground mt-1 space-y-0.5">
                     <li>• Chronic &gt;14 days</li>
                     <li>• Pregnant/lactating</li>
                     <li>• Concurrent systemic disease</li>
@@ -471,8 +471,8 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 </div>
               </div>
               <div className="p-2 bg-blue-50 border border-blue-200 rounded text-sm">
-                <p className="font-semibold text-info-soft">Dosing Schedule</p>
-                <p className="text-xs text-silver-strong mt-1">Dose 1: Hour 0 • Dose 2: Hour 12 • 500mL IV @ 5mg/mL</p>
+                <p className="font-semibold text-blue-800">Dosing Schedule</p>
+                <p className="text-xs text-muted-foreground mt-1">Dose 1: Hour 0 • Dose 2: Hour 12 • 500mL IV @ 5mg/mL</p>
               </div>
             </CardContent>
           </Card>
@@ -523,7 +523,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
       )}
 
       <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
+        <TabsList className="w-full justify-start">
           <TabsTrigger value="treatments">
             <Activity className="h-4 w-4 mr-1 sm:mr-2" />
             <span className="hidden sm:inline">Treatments</span>
@@ -592,7 +592,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                   <>
                     <div className="space-y-2">
                       {(showAllTreatments ? patient.treatments : patient.treatments.slice(0, HISTORY_PAGE_SIZE)).map((treatment: any) => (
-                        <div key={treatment.id} className="p-4 border rounded-lg bg-gunmetal-deep">
+                        <div key={treatment.id} className="p-4 border rounded-lg bg-muted/30">
                           <div className="flex items-start justify-between mb-2">
                             <div className="flex-1">
                               <p className="font-medium text-base mb-1">
@@ -644,7 +644,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
               {patient.clinical_notes && patient.clinical_notes.length > 0 ? (
                 <div className="space-y-3">
                   {patient.clinical_notes.map((note: any) => (
-                    <div key={note.id} className="p-4 border rounded-lg bg-gunmetal-deep">
+                    <div key={note.id} className="p-4 border rounded-lg bg-muted/30">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center gap-2">
                           <Badge variant="secondary">{note.note_type}</Badge>
@@ -745,8 +745,8 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 {patient.lab_results && patient.lab_results.length > 0 ? (
                   <div className="space-y-2">
                     {patient.lab_results.map((lab: any) => (
-                      <div key={lab.id} className="p-4 border rounded-lg bg-gunmetal-deep">
-                        <div className="flex items-center justify-between mb-3">
+                      <div key={lab.id} className="p-4 border rounded-lg bg-muted/30">
+                        <div className="mb-3 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
                           <p className="font-medium">{new Date(lab.test_datetime).toLocaleString()}</p>
                           <Badge variant="outline">
                             {lab.protocol_hour !== null ? `Hour ${lab.protocol_hour}` : 'Pre-Protocol'}
@@ -756,7 +756,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                           {(lab.wbc || lab.rbc || lab.hemoglobin || lab.hematocrit || lab.platelets) && (
                             <div>
                               <p className="text-xs font-semibold text-muted-foreground mb-2">Complete Blood Count (CBC)</p>
-                              <div className="grid grid-cols-5 gap-3 text-sm">
+                              <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 lg:grid-cols-5">
                                 {lab.wbc && (
                                   <div>
                                     <span className="text-muted-foreground text-xs">WBC:</span>
@@ -794,7 +794,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                           {(lab.glucose || lab.creatinine || lab.bun || lab.alt || lab.ast || lab.alkaline_phosphatase || lab.total_protein || lab.albumin) && (
                             <div>
                               <p className="text-xs font-semibold text-muted-foreground mb-2">Biochemistry Panel</p>
-                              <div className="grid grid-cols-4 gap-3 text-sm">
+                              <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
                                 {lab.glucose && (
                                   <div>
                                     <span className="text-muted-foreground text-xs">Glucose:</span>
@@ -850,7 +850,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                           {(lab.serum_amyloid_a || lab.fibrinogen || lab.lactate) && (
                             <div>
                               <p className="text-xs font-semibold text-muted-foreground mb-2">Inflammatory Markers</p>
-                              <div className="grid grid-cols-3 gap-3 text-sm">
+                              <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
                                 {lab.serum_amyloid_a && (
                                   <div>
                                     <span className="text-muted-foreground text-xs">SAA:</span>
@@ -909,7 +909,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                 {patient.assessments && patient.assessments.length > 0 ? (
                   <div className="space-y-3">
                     {[...patient.assessments].reverse().map((assessment: any) => (
-                      <div key={assessment.id} className="p-4 border rounded-lg bg-gunmetal-deep">
+                      <div key={assessment.id} className="p-4 border rounded-lg bg-muted/30">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-2">
                             <Badge variant="outline" className="text-base px-3 py-1">
@@ -929,7 +929,7 @@ export function CaseWorkspace({ patientId, onBack }: CaseWorkspaceProps) {
                           </span>
                         </div>
                         
-                        <div className="grid grid-cols-4 gap-3 text-sm mb-3">
+                        <div className="mb-3 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
                           {assessment.digital_pulse_score !== null && (
                             <div>
                               <span className="text-muted-foreground text-xs">Digital Pulse:</span>

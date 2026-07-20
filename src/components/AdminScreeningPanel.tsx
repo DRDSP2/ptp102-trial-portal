@@ -124,13 +124,13 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
     return (
       <Card className="border-green-200 bg-green-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-success-soft">
+          <CardTitle className="flex items-center gap-2 text-green-800">
             <CheckCircle2 className="h-5 w-5" />
             Screening Approved
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2 text-sm text-silver-strong">
+          <div className="space-y-2 text-sm text-foreground">
             <p><strong>Approved by:</strong> {screenedBy}</p>
             {screenedAt && <p><strong>Date:</strong> {new Date(screenedAt).toLocaleString()}</p>}
             {screeningNotes && (
@@ -156,7 +156,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-2 text-sm text-silver-strong">
+          <div className="space-y-2 text-sm text-foreground">
             <p><strong>Rejected by:</strong> {screenedBy}</p>
             {screenedAt && <p><strong>Date:</strong> {new Date(screenedAt).toLocaleString()}</p>}
             {screeningNotes && (
@@ -176,7 +176,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
     return (
       <Card className="border-amber-200 bg-amber-50">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-warning-soft">
+          <CardTitle className="flex items-center gap-2 text-amber-800">
             <Clock className="h-5 w-5" />
             Awaiting Further Details
           </CardTitle>
@@ -187,7 +187,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
               This patient submission requires additional information from the veterinarian before it can be reviewed.
             </AlertDescription>
           </Alert>
-          <div className="space-y-2 text-sm text-silver-strong">
+          <div className="space-y-2 text-sm text-foreground">
             <p><strong>Requested by:</strong> {screenedBy}</p>
             {screenedAt && <p><strong>Date:</strong> {new Date(screenedAt).toLocaleString()}</p>}
             {screeningNotes && (
@@ -244,7 +244,7 @@ export function AdminScreeningPanel({ patient, onUpdate }: AdminScreeningPanelPr
   return (
     <Card className="border-orange-200 bg-orange-50">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between text-warning-soft">
+        <CardTitle className="flex items-center justify-between text-amber-800">
           <div className="flex items-center gap-2">
             <AlertCircle className="h-5 w-5" />
             Screening Required

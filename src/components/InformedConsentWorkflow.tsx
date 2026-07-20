@@ -816,8 +816,8 @@ export function InformedConsentWorkflow({
         <CardContent className="p-6 space-y-4">
           <div className="text-center">
             <CheckCircle2 className="h-10 w-10 text-success mx-auto" />
-            <h3 className="text-lg font-semibold text-success-soft mt-2">Informed Consent Verified & Complete</h3>
-            <p className="text-sm text-silver-strong">Owner consent has been recorded and verified for {patient.horse_name}.</p>
+            <h3 className="text-lg font-semibold text-green-800 mt-2">Informed Consent Verified & Complete</h3>
+            <p className="text-sm text-muted-foreground">Owner consent has been recorded and verified for {patient.horse_name}.</p>
           </div>
           <div className="bg-white rounded-lg border border-green-200 p-4 text-sm space-y-2 text-slate-900">
             <p><strong>Signed by:</strong> {consent.owner_signature || 'Owner'}</p>
@@ -828,7 +828,7 @@ export function InformedConsentWorkflow({
           </div>
           {consent.documents && consent.documents.length > 0 && (
             <div className="space-y-2">
-              <p className="text-sm font-medium text-success-soft">Document Versions</p>
+              <p className="text-sm font-medium text-green-800">Document Versions</p>
               {consent.documents.map((doc) => (
                 <div key={doc.id} className="flex items-center justify-between bg-white p-2 rounded border border-green-200 text-slate-900">
                   <span className="text-xs">{doc.file_name} (v{doc.version})</span>
@@ -856,7 +856,7 @@ export function InformedConsentWorkflow({
         </CardHeader>
         <CardContent className="space-y-4">
           <Alert className="bg-blue-50 border-blue-200">
-            <AlertDescription className="text-sm text-info-soft">
+            <AlertDescription className="text-sm text-blue-800">
               Review the signed consent details and document before finalizing. Only finalize if all signatures and documents are correct.
             </AlertDescription>
           </Alert>
@@ -901,7 +901,7 @@ export function InformedConsentWorkflow({
         <CardContent className="space-y-4">
           <Alert className="bg-amber-50 border-amber-200">
             <ShieldAlert className="h-4 w-4 text-warning" />
-            <AlertDescription className="text-warning-soft text-sm">
+            <AlertDescription className="text-amber-800 text-sm">
               Owner informed consent is required before enrolling {patient.horse_name}. The owner must view the full
               consent document and wait {COOLING_OFF_HOURS} hours before signing.
             </AlertDescription>
@@ -936,11 +936,11 @@ export function InformedConsentWorkflow({
       <Card className="border-blue-200">
         <CardContent className="p-8 text-center space-y-4">
           <Clock className="h-12 w-12 text-info mx-auto animate-pulse" />
-          <h3 className="text-xl font-semibold text-silver-strong">Cooling-Off Period Active</h3>
+          <h3 className="text-xl font-semibold text-foreground">Cooling-Off Period Active</h3>
           <p className="text-muted-foreground">
             Per regulatory requirements, the owner must wait {COOLING_OFF_HOURS} hours after viewing the consent document before signing.
           </p>
-          <div className="text-4xl font-mono font-bold text-info-soft">{countdown}</div>
+          <div className="text-4xl font-mono font-bold text-blue-800">{countdown}</div>
           <p className="text-sm text-muted-foreground">Remaining until consent can be signed</p>
         </CardContent>
       </Card>
@@ -967,7 +967,7 @@ export function InformedConsentWorkflow({
             </Alert>
           )}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-3">
-            <h4 className="text-sm font-semibold text-info-soft">Owner Contact Information</h4>
+            <h4 className="text-sm font-semibold text-blue-800">Owner Contact Information</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <Label className="text-xs">Owner Phone *</Label>
@@ -1069,7 +1069,7 @@ export function InformedConsentWorkflow({
       </CardHeader>
       <CardContent className="space-y-4">
         <Alert className="bg-blue-50 border-blue-200">
-          <AlertDescription className="text-sm text-info-soft">
+          <AlertDescription className="text-sm text-blue-800">
             The cooling-off period has ended. Choose how the owner will sign Section 10 of the consent form.
           </AlertDescription>
         </Alert>

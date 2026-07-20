@@ -77,7 +77,7 @@ export function PendingApprovalScreen({ email, onApproved, onRejected }: Pending
           <div className="flex items-center gap-3">
             <Clock className="h-8 w-8 text-yellow-400" />
             <div>
-              <CardTitle className="text-2xl">Pending Approval</CardTitle>
+              <CardTitle as="h1" className="text-2xl">Pending Approval</CardTitle>
               <p className="text-neutral-content/60 text-sm mt-1">PTP-102 Trial Access</p>
             </div>
           </div>

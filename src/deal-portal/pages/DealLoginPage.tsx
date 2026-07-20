@@ -62,7 +62,7 @@ export function DealLoginPage() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Deal Room Login</CardTitle>
+          <CardTitle as="h1">Deal Room Login</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>

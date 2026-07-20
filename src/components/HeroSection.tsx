@@ -42,21 +42,21 @@ export function HeroSection() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto pt-4">
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardContent className="p-4 flex flex-col items-center text-center">
-                <HeartPulse className="h-6 w-6 text-[#a4b86b] mb-2" />
+                <HeartPulse className="h-6 w-6 text-primary mb-2" />
                 <p className="text-sm font-semibold text-white">72-Hour Protocol</p>
                 <p className="text-xs text-slate-400 mt-1">Two-dose administration with close monitoring</p>
               </CardContent>
             </Card>
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardContent className="p-4 flex flex-col items-center text-center">
-                <ShieldCheck className="h-6 w-6 text-[#a4b86b] mb-2" />
+                <ShieldCheck className="h-6 w-6 text-primary mb-2" />
                 <p className="text-sm font-semibold text-white">Patents Pending</p>
                 <p className="text-xs text-slate-400 mt-1">Europe, US & Australia coverage</p>
               </CardContent>
             </Card>
             <Card className="bg-white/5 border-white/10 backdrop-blur-sm">
               <CardContent className="p-4 flex flex-col items-center text-center">
-                <FlaskConical className="h-6 w-6 text-[#a4b86b] mb-2" />
+                <FlaskConical className="h-6 w-6 text-primary mb-2" />
                 <p className="text-sm font-semibold text-white">5 mg/mL IV</p>
                 <p className="text-xs text-slate-400 mt-1">500mL slow jugular infusion</p>
               </CardContent>

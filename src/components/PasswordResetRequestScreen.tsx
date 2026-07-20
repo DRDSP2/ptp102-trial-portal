@@ -69,7 +69,7 @@ export function PasswordResetRequestScreen({ onBackToLogin }: PasswordResetReque
           <div className="flex items-center gap-3">
             <KeyRound className="h-8 w-8 text-blue-400" />
             <div>
-              <CardTitle className="text-2xl">Reset Password</CardTitle>
+              <CardTitle as="h1" className="text-2xl">Reset Password</CardTitle>
               <p className="text-neutral-content/60 text-sm mt-1">Request password reset</p>
             </div>
           </div>

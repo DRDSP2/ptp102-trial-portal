@@ -69,7 +69,7 @@ export function LiveTrialDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="bg-slate-50 p-4 rounded-lg text-center">
               <div className="text-2xl font-bold">{stats.enrolled}</div>
               <div className="text-xs text-slate-500">Horses Enrolled</div>

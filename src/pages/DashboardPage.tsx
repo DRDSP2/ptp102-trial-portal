@@ -60,7 +60,8 @@ export function DashboardPage() {
   const isStaff = auth.isStaff;
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-8">
+      <h1 className="sr-only">PTP-102 Trial Dashboard</h1>
       {isStaff ? (
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className={cn('flex w-full max-w-5xl gap-1 overflow-x-auto pb-1 scrollbar-hide')}>

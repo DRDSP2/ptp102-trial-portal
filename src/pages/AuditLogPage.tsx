@@ -11,7 +11,7 @@ export function AuditLogPage() {
 
   if (auth.role !== 'admin') {
     return (
-      <div className="container mx-auto max-w-7xl p-6">
+      <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-8">
         <div className="flex items-center justify-center min-h-[60vh]">
           <Card className="max-w-md w-full">
             <CardContent className="pt-6 text-center">
@@ -29,7 +29,7 @@ export function AuditLogPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-8">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-900">FDA-Ready Audit Trail</h1>
         <p className="text-sm text-muted-foreground">

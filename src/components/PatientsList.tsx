@@ -5,7 +5,7 @@ import loadCompletePatientTrialDataAction from '@/actions/loadCompletePatientTri
 import deletePatientAction from '@/actions/deletePatient';
 import { Patient } from '@/types/patient';
 import { PatientEnrollmentForm } from '@/components/PatientEnrollmentForm';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { DataTable, type Column } from '@/components/ui/data-table';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
@@ -240,144 +240,161 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
 
   const patientsList: Patient[] = patients;
 
+  const patientColumns: Column<Patient>[] = [
+    {
+      key: 'profile',
+      header: 'Profile',
+      headerClassName: 'w-12',
+      render: (patient) => patient.profile_picture_url ? (
+        <img
+          src={patient.profile_picture_url}
+          alt={`${patient.horse_name} profile`}
+          className="h-10 w-10 rounded-full border-2 border-slate-200 object-cover"
+        />
+      ) : (
+        <div className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-slate-300 bg-slate-200">
+          <svg className="h-6 w-6 text-slate-500" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z" />
+          </svg>
+        </div>
+      ),
+    },
+    {
+      key: 'horseName',
+      header: 'Horse Name',
+      headerClassName: 'min-w-[120px]',
+      className: 'font-medium',
+      render: (patient) => patient.horse_name,
+    },
+    {
+      key: 'breed',
+      header: 'Breed',
+      render: (patient) => patient.breed,
+      hideBelow: 'sm',
+      summaryFor: 'horseName',
+    },
+    {
+      key: 'age',
+      header: 'Age',
+      render: (patient) => `${patient.age}y`,
+      hideBelow: 'md',
+      summaryFor: 'horseName',
+    },
+    { key: 'sex', header: 'Sex', render: (patient) => patient.sex, hideBelow: 'md' },
+    { key: 'owner', header: 'Owner', render: (patient) => patient.owner_name, hideBelow: 'lg' },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (patient) => (
+        <StatusBadge
+          trialStatus={patient.trial_status}
+          screeningStatus={(patient as any).screening_status}
+        />
+      ),
+    },
+    {
+      key: 'enrollmentDate',
+      header: 'Enrollment Date',
+      render: (patient) => new Date(patient.enrollment_date).toLocaleDateString(),
+      hideBelow: 'sm',
+    },
+  ];
+
+  const patientActions = (patient: Patient) => (
+    <>
+      <Button variant="ghost" size="sm" onClick={() => onViewDetails(patient)} type="button" aria-label={`View ${patient.horse_name}`}>
+        <Eye className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => handleEditClick(patient)}
+        type="button"
+        className="text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+        aria-label={`Edit ${patient.horse_name}`}
+      >
+        <Pencil className="h-4 w-4" />
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => handleExportPatientPDF(patient)}
+        type="button"
+        disabled={exportingPatientId === patient.id}
+        className="text-blue-600 hover:bg-blue-50 hover:text-blue-700"
+        aria-label={`Export PDF for ${patient.horse_name}`}
+      >
+        {exportingPatientId === patient.id ? (
+          <Loader2 className="h-4 w-4 animate-spin" />
+        ) : (
+          <FileText className="h-4 w-4" />
+        )}
+      </Button>
+      {isAdmin && (
+        <>
+          {((patient as any).screening_status === 'pending_screening' || (patient as any).screening_status === 'awaiting_details') && (
+            <>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleScreenClick(patient, 'approve')}
+                type="button"
+                className="text-green-600 hover:bg-green-50 hover:text-green-700"
+                disabled={isApproving || isRejecting || isRequesting}
+                title="Admit"
+                aria-label={`Admit ${patient.horse_name}`}
+              >
+                <CheckCircle2 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleScreenClick(patient, 'awaiting_details')}
+                type="button"
+                className="text-amber-600 hover:bg-amber-50 hover:text-amber-700"
+                disabled={isApproving || isRejecting || isRequesting}
+                title="Awaiting Further Details"
+                aria-label={`Request details for ${patient.horse_name}`}
+              >
+                <AlertCircle className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleScreenClick(patient, 'reject')}
+                type="button"
+                className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                disabled={isApproving || isRejecting || isRequesting}
+                title="Reject"
+                aria-label={`Reject ${patient.horse_name}`}
+              >
+                <XCircle className="h-4 w-4" />
+              </Button>
+            </>
+          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleDeleteClick(patient)}
+            type="button"
+            className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+            aria-label={`Delete ${patient.horse_name}`}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </>
+      )}
+    </>
+  );
+
   return (
     <>
-      <div className="rounded-md border overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-12">Profile</TableHead>
-              <TableHead className="min-w-[120px]">Horse Name</TableHead>
-              <TableHead className="hidden sm:table-cell">Breed</TableHead>
-              <TableHead className="hidden md:table-cell">Age</TableHead>
-              <TableHead className="hidden md:table-cell">Sex</TableHead>
-              <TableHead className="hidden lg:table-cell">Owner</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="hidden sm:table-cell">Enrollment Date</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {patientsList.map((patient) => (
-              <TableRow key={patient.id}>
-                <TableCell>
-                  {patient.profile_picture_url ? (
-                    <img
-                      src={patient.profile_picture_url}
-                      alt={patient.horse_name}
-                      className="w-10 h-10 rounded-full object-cover border-2 border-slate-200"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center border-2 border-slate-300">
-                      <svg className="h-6 w-6 text-slate-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5c-.49 0-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8zm-6 8h-4v-2h4v2zm0-4h-4v-2h4v2z"/>
-                      </svg>
-                    </div>
-                  )}
-                </TableCell>
-                <TableCell className="font-medium">
-                  <div>
-                    <p>{patient.horse_name}</p>
-                    <p className="text-xs text-muted-foreground sm:hidden">{patient.breed} • {patient.age}y</p>
-                  </div>
-                </TableCell>
-                <TableCell className="hidden sm:table-cell">{patient.breed}</TableCell>
-                <TableCell className="hidden md:table-cell">{patient.age}</TableCell>
-                <TableCell className="hidden md:table-cell">{patient.sex}</TableCell>
-                <TableCell className="hidden lg:table-cell">{patient.owner_name}</TableCell>
-                <TableCell><StatusBadge trialStatus={patient.trial_status} screeningStatus={(patient as any).screening_status} /></TableCell>
-                <TableCell className="hidden sm:table-cell">{new Date(patient.enrollment_date).toLocaleDateString()}</TableCell>
-                <TableCell className="text-right">
-                  <div className="flex items-center justify-end gap-2">
-                    <Button variant="ghost" size="sm" onClick={() => onViewDetails(patient)} type="button" aria-label={`View ${patient.horse_name}`}>
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleEditClick(patient)}
-                      type="button"
-                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                      aria-label={`Edit ${patient.horse_name}`}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleExportPatientPDF(patient)}
-                      type="button"
-                      disabled={exportingPatientId === patient.id}
-                      className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                      aria-label={`Export PDF for ${patient.horse_name}`}
-                    >
-                      {exportingPatientId === patient.id ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <FileText className="h-4 w-4" />
-                      )}
-                    </Button>
-                    {isAdmin && (
-                      <>
-                        {((patient as any).screening_status === 'pending_screening' || (patient as any).screening_status === 'awaiting_details') && (
-                          <>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleScreenClick(patient, 'approve')}
-                              type="button"
-                              className="text-green-600 hover:text-green-700 hover:bg-green-50"
-                              disabled={isApproving || isRejecting || isRequesting}
-                              title="Admit"
-                              aria-label={`Admit ${patient.horse_name}`}
-                            >
-                              <CheckCircle2 className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleScreenClick(patient, 'awaiting_details')}
-                              type="button"
-                              className="text-amber-600 hover:text-amber-700 hover:bg-amber-50"
-                              disabled={isApproving || isRejecting || isRequesting}
-                              title="Awaiting Further Details"
-                              aria-label={`Request details for ${patient.horse_name}`}
-                            >
-                              <AlertCircle className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleScreenClick(patient, 'reject')}
-                              type="button"
-                              className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                              disabled={isApproving || isRejecting || isRequesting}
-                              title="Reject"
-                              aria-label={`Reject ${patient.horse_name}`}
-                            >
-                              <XCircle className="h-4 w-4" />
-                            </Button>
-                          </>
-                        )}
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDeleteClick(patient)}
-                          type="button"
-                          className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                          aria-label={`Delete ${patient.horse_name}`}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </>
-                    )}
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTable
+        columns={patientColumns}
+        rows={patientsList}
+        rowActions={patientActions}
+        caption="Trial patients"
+      />
 
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
@@ -417,7 +434,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                 <AlertDescription>{screenError}</AlertDescription>
               </Alert>
             )}
-            <label className="text-sm font-medium">
+            <label htmlFor="patient-screening-notes" className="text-sm font-medium">
               {screenAction === 'approve'
                 ? 'Admission Notes (optional)'
                 : screenAction === 'reject'
@@ -425,6 +442,7 @@ export function PatientsList({ statusFilter, onViewDetails, onPatientDeleted }: 
                 : 'Message to Veterinarian (required)'}
             </label>
             <textarea
+              id="patient-screening-notes"
               className="w-full min-h-[80px] px-3 py-2 border rounded-md text-sm"
               placeholder={
                 screenAction === 'approve'

@@ -60,7 +60,7 @@ export function VetTermsAcceptancePage() {
             <div className="flex items-center gap-3">
               <AlertTriangle className="h-8 w-8 text-yellow-400" />
               <div>
-                <CardTitle className="text-2xl">PTP-102 Laminitis Trial - Terms & Conditions</CardTitle>
+                <CardTitle as="h1" className="text-2xl">PTP-102 Laminitis Trial - Terms & Conditions</CardTitle>
                 <p className="text-neutral-content/60 text-sm mt-1">Please review and accept to continue</p>
               </div>
             </div>

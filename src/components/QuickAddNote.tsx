@@ -260,8 +260,8 @@ export function QuickAddNote({ patientId, protocolHour, onSuccess }: QuickAddNot
             <Alert className="bg-blue-50 border-blue-200">
               <Info className="h-4 w-4 text-info" />
               <AlertDescription className="text-sm space-y-2">
-                <p className="font-semibold text-info-soft">Sleip AI Gait Assessment Guidelines:</p>
-                <ul className="list-disc list-inside space-y-1 text-silver-strong text-xs ml-2">
+                <p className="font-semibold text-blue-800">Sleip AI Gait Assessment Guidelines:</p>
+                <ul className="list-disc list-inside space-y-1 text-muted-foreground text-xs ml-2">
                   <li><strong>Camera Position:</strong> Side view, perpendicular to horse's path of travel</li>
                   <li><strong>Distance:</strong> 15-20 feet from the horse to capture full body in frame</li>
                   <li><strong>Surface:</strong> Flat, even ground (concrete or asphalt preferred)</li>

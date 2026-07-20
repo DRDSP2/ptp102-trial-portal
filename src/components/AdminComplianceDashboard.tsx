@@ -9,6 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { QueryState } from '@/components/ui/query-state';
+import { Skeleton } from '@/components/ui/skeleton';
 import loadAdminComplianceDashboardAction from '@/actions/loadAdminComplianceDashboard';
 import loadAllInvestigatorQualificationsAction from '@/actions/loadAllInvestigatorQualifications';
 import loadAllAdverseEventsAction from '@/actions/loadAllAdverseEvents';
@@ -40,11 +42,11 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
   const auth = useAuth();
   const isAdmin = auth.role === 'admin';
   const [stats, statsLoading, , refreshStats] = useLoadAction(loadAdminComplianceDashboardAction, []);
-  const [investigators, invLoading] = useLoadAction(loadAllInvestigatorQualificationsAction, []);
-  const [aes, aeLoading] = useLoadAction(loadAllAdverseEventsAction, []);
-  const [deviations, devLoading] = useLoadAction(loadProtocolDeviationsAction, []);
-  const [shipments, shipLoading] = useLoadAction(loadNCIEShipmentsAction, []);
-  const [fdaCorr, fdaLoading] = useLoadAction(loadFDACorrespondenceAction, []);
+  const [investigators, invLoading, invError] = useLoadAction(loadAllInvestigatorQualificationsAction, []);
+  const [aes, aeLoading, aeError] = useLoadAction(loadAllAdverseEventsAction, []);
+  const [deviations, devLoading, devError] = useLoadAction(loadProtocolDeviationsAction, []);
+  const [shipments, shipLoading, shipError] = useLoadAction(loadNCIEShipmentsAction, []);
+  const [fdaCorr, fdaLoading, fdaError] = useLoadAction(loadFDACorrespondenceAction, []);
   const [bulkUpdateLock, isBulkUpdating] = useMutateAction(bulkUpdateDataLockStatusAction);
 
   const [bulkOpen, setBulkOpen] = useState(false);
@@ -85,6 +87,20 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
   };
 
   const s = stats && stats.length > 0 ? stats[0] : null;
+
+  const listSkeleton = (
+    <div className="space-y-2" aria-label="Loading records">
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-16 w-full" />
+      <Skeleton className="h-16 w-full" />
+    </div>
+  );
+
+  const emptyList = (message: string) => (
+    <p className="rounded-md border border-dashed p-6 text-center text-sm text-muted-foreground">
+      {message}
+    </p>
+  );
 
   const statCards = [
     { label: 'Total Patients', value: s?.total_patients || 0, icon: <Users className="h-4 w-4" />, color: 'bg-blue-50 text-blue-700' },
@@ -142,7 +158,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
       </div>
 
       <Tabs defaultValue="investigators" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6">
+        <TabsList className="w-full justify-start">
           <TabsTrigger value="investigators"><Users className="h-4 w-4 mr-1" />Investigators</TabsTrigger>
           <TabsTrigger value="aes"><AlertTriangle className="h-4 w-4 mr-1" />AEs</TabsTrigger>
           <TabsTrigger value="deviations"><Activity className="h-4 w-4 mr-1" />Deviations</TabsTrigger>
@@ -157,9 +173,16 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">Investigator Qualification Status</CardTitle>
             </CardHeader>
             <CardContent>
-              {invLoading ? <p className="text-sm text-muted-foreground">Loading...</p> : (
-                <div className="space-y-2">
-                  {investigators?.map((inv: any) => (
+              <QueryState
+                data={investigators}
+                isLoading={invLoading}
+                error={invError}
+                skeleton={listSkeleton}
+                empty={emptyList('No investigator qualifications found.')}
+              >
+                {(rows) => (
+                  <div className="space-y-2">
+                  {rows.map((inv: any) => (
                     <div key={inv.id} className="p-3 border rounded-lg flex items-center justify-between">
                       <div>
                         <p className="text-sm font-medium">{inv.full_name}</p>
@@ -174,9 +197,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                         {inv.qualification_status}
                       </Badge>
                     </div>
-                  )) || <p className="text-sm text-muted-foreground">No investigator qualifications found.</p>}
-                </div>
-              )}
+                  ))}
+                  </div>
+                )}
+              </QueryState>
             </CardContent>
           </Card>
         </TabsContent>
@@ -187,9 +211,16 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">Adverse Events Log</CardTitle>
             </CardHeader>
             <CardContent>
-              {aeLoading ? <p className="text-sm text-muted-foreground">Loading...</p> : (
-                <div className="space-y-2">
-                  {aes?.map((ae: any) => (
+              <QueryState
+                data={aes}
+                isLoading={aeLoading}
+                error={aeError}
+                skeleton={listSkeleton}
+                empty={emptyList('No adverse events reported.')}
+              >
+                {(rows) => (
+                  <div className="space-y-2">
+                  {rows.map((ae: any) => (
                     <div key={ae.id} className={`p-3 border rounded-lg ${ae.severity === 'Severe' || ae.severity === 'Life-Threatening' || ae.severity === 'Fatal' ? 'border-red-300 bg-red-50' : ''}`}>
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-sm font-medium">{ae.horse_name} ({ae.unique_id})</p>
@@ -202,9 +233,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                       <p className="text-xs text-muted-foreground">{ae.event_description}</p>
                       <p className="text-xs text-muted-foreground/80 mt-1">Reported: {new Date(ae.created_at).toLocaleString()} by {ae.reporter_name}</p>
                     </div>
-                  )) || <p className="text-sm text-muted-foreground">No adverse events reported.</p>}
-                </div>
-              )}
+                  ))}
+                  </div>
+                )}
+              </QueryState>
             </CardContent>
           </Card>
         </TabsContent>
@@ -215,9 +247,16 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">Protocol Deviations</CardTitle>
             </CardHeader>
             <CardContent>
-              {devLoading ? <p className="text-sm text-muted-foreground">Loading...</p> : (
-                <div className="space-y-2">
-                  {deviations?.map((dev: any) => (
+              <QueryState
+                data={deviations}
+                isLoading={devLoading}
+                error={devError}
+                skeleton={listSkeleton}
+                empty={emptyList('No protocol deviations found.')}
+              >
+                {(rows) => (
+                  <div className="space-y-2">
+                  {rows.map((dev: any) => (
                     <div key={dev.id} className="p-3 border rounded-lg">
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-sm font-medium">{dev.deviation_type}</p>
@@ -230,9 +269,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                       <p className="text-xs text-muted-foreground">{dev.description}</p>
                       <p className="text-xs text-muted-foreground/80 mt-1">{dev.horse_name} • {new Date(dev.deviation_date).toLocaleDateString()}</p>
                     </div>
-                  )) || <p className="text-sm text-muted-foreground">No protocol deviations found.</p>}
-                </div>
-              )}
+                  ))}
+                  </div>
+                )}
+              </QueryState>
             </CardContent>
           </Card>
         </TabsContent>
@@ -243,9 +283,16 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">NCIE Shipment Log</CardTitle>
             </CardHeader>
             <CardContent>
-              {shipLoading ? <p className="text-sm text-muted-foreground">Loading...</p> : (
-                <div className="space-y-3">
-                  {shipments?.map((ship: any) => (
+              <QueryState
+                data={shipments}
+                isLoading={shipLoading}
+                error={shipError}
+                skeleton={listSkeleton}
+                empty={emptyList('No shipments logged.')}
+              >
+                {(rows) => (
+                  <div className="space-y-3">
+                  {rows.map((ship: any) => (
                     <div key={ship.id} className="p-4 border rounded-lg">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
@@ -277,9 +324,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                         )}
                       </div>
                     </div>
-                  )) || <p className="text-sm text-muted-foreground">No shipments logged.</p>}
-                </div>
-              )}
+                  ))}
+                  </div>
+                )}
+              </QueryState>
             </CardContent>
           </Card>
         </TabsContent>
@@ -290,9 +338,16 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
               <CardTitle className="text-base">FDA Correspondence</CardTitle>
             </CardHeader>
             <CardContent>
-              {fdaLoading ? <p className="text-sm text-muted-foreground">Loading...</p> : (
-                <div className="space-y-2">
-                  {fdaCorr?.map((corr: any) => (
+              <QueryState
+                data={fdaCorr}
+                isLoading={fdaLoading}
+                error={fdaError}
+                skeleton={listSkeleton}
+                empty={emptyList('No FDA correspondence logged.')}
+              >
+                {(rows) => (
+                  <div className="space-y-2">
+                  {rows.map((corr: any) => (
                     <div key={corr.id} className="p-3 border rounded-lg">
                       <div className="flex items-center justify-between">
                         <p className="text-sm font-medium">{corr.subject}</p>
@@ -301,9 +356,10 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                       <p className="text-xs text-muted-foreground">{corr.description}</p>
                       <p className="text-xs text-muted-foreground/80">{corr.from_entity} → {corr.to_entity} • {new Date(corr.correspondence_date).toLocaleDateString()}</p>
                     </div>
-                  )) || <p className="text-sm text-muted-foreground">No FDA correspondence logged.</p>}
-                </div>
-              )}
+                  ))}
+                  </div>
+                )}
+              </QueryState>
             </CardContent>
           </Card>
         </TabsContent>
@@ -331,7 +387,7 @@ export function AdminComplianceDashboard({ adminEmail = null }: BulkLockProps = 
                         <Unlock className="h-4 w-4 text-muted-foreground" />
                         <span className="text-xs font-medium text-muted-foreground">Open</span>
                       </div>
-                      <p className="text-2xl font-bold text-silver-strong">{s?.patients_open ?? 0}</p>
+                      <p className="text-2xl font-bold text-foreground">{s?.patients_open ?? 0}</p>
                     </div>
                     <div className="p-4 border rounded-lg bg-amber-50">
                       <div className="flex items-center gap-2 mb-1">

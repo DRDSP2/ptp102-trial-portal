@@ -30,7 +30,7 @@ export function VetToolsHub() {
       </div>
 
       <Tabs value={activeTool} onValueChange={setActiveTool} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
+        <TabsList className="w-full justify-start">
           <TabsTrigger value="dose-calc">
             <Calculator className="h-4 w-4 mr-2" />
             Dose Calc
@@ -82,7 +82,7 @@ function WeightEstimator() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Weight className="h-5 w-5 text-[#6b7f3a]" />
+          <Weight className="h-5 w-5 text-primary" />
           Horse Weight Estimator
         </CardTitle>
       </CardHeader>
@@ -104,11 +104,12 @@ function WeightEstimator() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-2">
-              <Ruler className="h-3.5 w-3.5 text-[#6b7f3a]" />
+            <label htmlFor="heart-girth" className="text-sm font-medium flex items-center gap-2">
+              <Ruler className="h-3.5 w-3.5 text-primary" />
               Heart Girth {unit === 'metric' ? '(cm)' : '(inches)'}
             </label>
             <input
+              id="heart-girth"
               type="number"
               value={girth}
               onChange={(e) => setGirth(e.target.value)}
@@ -117,11 +118,12 @@ function WeightEstimator() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium flex items-center gap-2">
-              <Ruler className="h-3.5 w-3.5 text-[#6b7f3a]" />
+            <label htmlFor="body-length" className="text-sm font-medium flex items-center gap-2">
+              <Ruler className="h-3.5 w-3.5 text-primary" />
               Body Length {unit === 'metric' ? '(cm)' : '(inches)'}
             </label>
             <input
+              id="body-length"
               type="number"
               value={length}
               onChange={(e) => setLength(e.target.value)}
@@ -133,7 +135,7 @@ function WeightEstimator() {
 
         <div className="p-4 bg-[#6b7f3a]/5 border border-[#6b7f3a]/20 rounded-lg text-center">
           <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Estimated Weight</p>
-          <p className="text-3xl font-mono font-bold text-[#4a5c28]">
+          <p className="text-3xl font-mono font-bold text-primary">
             {weight > 0 ? `${weight.toFixed(0)} ${unit === 'metric' ? 'kg' : 'lbs'}` : '—'}
           </p>
           {weight > 0 && unit === 'imperial' && (
@@ -160,15 +162,16 @@ function TemperatureConverter() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Thermometer className="h-5 w-5 text-[#6b7f3a]" />
+          <Thermometer className="h-5 w-5 text-primary" />
           Temperature Converter
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Celsius (°C)</label>
+            <label htmlFor="temperature-celsius" className="text-sm font-medium">Celsius (°C)</label>
             <input
+              id="temperature-celsius"
               type="number"
               step="0.1"
               value={celsius}
@@ -177,8 +180,9 @@ function TemperatureConverter() {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Fahrenheit (°F)</label>
+            <label htmlFor="temperature-fahrenheit" className="text-sm font-medium">Fahrenheit (°F)</label>
             <input
+              id="temperature-fahrenheit"
               type="number"
               step="0.1"
               value={typeof fahrenheit === 'number' ? fahrenheit.toFixed(1) : fahrenheit}
@@ -277,7 +281,7 @@ function ProtocolReference() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Syringe className="h-5 w-5 text-[#6b7f3a]" />
+          <Syringe className="h-5 w-5 text-primary" />
           PTP-102 Protocol Reference
         </CardTitle>
       </CardHeader>
@@ -295,7 +299,7 @@ function ProtocolReference() {
                 <ul className="space-y-2">
                   {step.items.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
-                      <ChevronRight className="h-3.5 w-3.5 text-[#6b7f3a] mt-0.5 flex-shrink-0" />
+                      <ChevronRight className="h-3.5 w-3.5 text-primary mt-0.5 flex-shrink-0" />
                       {item}
                     </li>
                   ))}

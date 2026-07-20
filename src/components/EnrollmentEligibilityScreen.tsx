@@ -184,7 +184,7 @@ export function EnrollmentEligibilityScreen({
       <CardContent className="space-y-5">
         <Alert className="bg-blue-50 border-blue-200">
           <ShieldCheck className="h-4 w-4 text-info" />
-          <AlertDescription className="text-sm text-info-soft">
+          <AlertDescription className="text-sm text-blue-800">
             All inclusion criteria must be "Yes" and all exclusion criteria must be "No" for standard enrollment. 
             If criteria are not met, a protocol deviation justification is required.
           </AlertDescription>
@@ -208,7 +208,7 @@ export function EnrollmentEligibilityScreen({
 
         {/* Inclusion Criteria */}
         <div>
-          <h4 className="text-sm font-semibold text-silver-strong mb-3 flex items-center gap-2">
+          <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 text-green-600" />
             Inclusion Criteria (ALL must be Yes)
           </h4>
@@ -220,7 +220,7 @@ export function EnrollmentEligibilityScreen({
                   <button
                     onClick={() => setInclusion(c.key, true)}
                     disabled={locked}
-                    className={`px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
+                    className={`min-h-10 min-w-10 px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
                       inclusions[c.key] === true ? 'bg-green-700 text-white' : 'bg-slate-100 text-slate-800 hover:bg-green-50'
                     } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
@@ -230,7 +230,7 @@ export function EnrollmentEligibilityScreen({
                   <button
                     onClick={() => setInclusion(c.key, false)}
                     disabled={locked}
-                    className={`px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
+                    className={`min-h-10 min-w-10 px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
                       inclusions[c.key] === false ? 'bg-red-700 text-white' : 'bg-slate-100 text-slate-800 hover:bg-red-50'
                     } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
@@ -245,7 +245,7 @@ export function EnrollmentEligibilityScreen({
 
         {/* Exclusion Criteria */}
         <div>
-          <h4 className="text-sm font-semibold text-silver-strong mb-3 flex items-center gap-2">
+          <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
             <XCircle className="h-4 w-4 text-red-600" />
             Exclusion Criteria (ALL must be No)
           </h4>
@@ -257,7 +257,7 @@ export function EnrollmentEligibilityScreen({
                   <button
                     onClick={() => setExclusion(c.key, true)}
                     disabled={locked}
-                    className={`px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
+                    className={`min-h-10 min-w-10 px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
                       exclusions[c.key] === true ? 'bg-red-700 text-white' : 'bg-slate-100 text-slate-800 hover:bg-red-50'
                     } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
@@ -267,7 +267,7 @@ export function EnrollmentEligibilityScreen({
                   <button
                     onClick={() => setExclusion(c.key, false)}
                     disabled={locked}
-                    className={`px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
+                    className={`min-h-10 min-w-10 px-3 py-1 text-xs rounded-md font-semibold transition-colors ${
                       exclusions[c.key] === false ? 'bg-green-700 text-white' : 'bg-slate-100 text-slate-800 hover:bg-green-50'
                     } ${locked ? 'opacity-50 cursor-not-allowed' : ''}`}
                     type="button"
@@ -284,7 +284,7 @@ export function EnrollmentEligibilityScreen({
         {isEligible && (
           <Alert className="bg-green-50 border-green-200">
             <CheckCircle2 className="h-4 w-4 text-success" />
-            <AlertDescription className="text-success-soft font-medium">
+            <AlertDescription className="text-green-800 font-medium">
               Horse meets all eligibility criteria. Proceed with enrollment.
             </AlertDescription>
           </Alert>
@@ -306,13 +306,14 @@ export function EnrollmentEligibilityScreen({
           <div className="space-y-3">
             <Alert className="bg-amber-50 border-amber-200">
               <AlertTriangle className="h-4 w-4 text-warning" />
-              <AlertDescription className="text-warning-soft">
+              <AlertDescription className="text-amber-800">
                 Protocol deviation requires sponsor approval and documentation.
               </AlertDescription>
             </Alert>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-silver-strong">Deviation Justification</label>
+              <label htmlFor="deviation-justification" className="text-sm font-medium text-foreground">Deviation Justification</label>
               <textarea
+                id="deviation-justification"
                 value={deviationJustification}
                 onChange={(e) => !locked && setDeviationJustification(e.target.value)}
                 disabled={locked}

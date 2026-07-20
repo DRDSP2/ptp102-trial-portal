@@ -24,7 +24,7 @@ export function TermSheetNegotiationPage() {
   if (loading) return <div className="p-8 text-center">Loading term sheet...</div>;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-8">
+    <div className="mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 lg:py-8">
       <h1 className="text-2xl font-bold">Term Sheet Negotiation</h1>
 
       {error && (

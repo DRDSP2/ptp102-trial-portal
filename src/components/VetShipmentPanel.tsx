@@ -127,7 +127,7 @@ export function VetShipmentPanel({ vetEmail }: VetShipmentPanelProps) {
                   <div className="flex items-center gap-2 mt-1">
                     <p className="font-mono font-semibold text-sm">{ship.tracking_number || 'Not assigned'}</p>
                     {ship.tracking_number && (
-                      <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleCopyTracking(ship.tracking_number)} type="button">
+                      <Button variant="ghost" size="icon" onClick={() => handleCopyTracking(ship.tracking_number)} type="button" aria-label={`Copy tracking number ${ship.tracking_number}`}>
                         <Copy className="h-3 w-3" />
                       </Button>
                     )}

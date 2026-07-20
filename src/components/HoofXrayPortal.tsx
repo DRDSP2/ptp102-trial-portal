@@ -631,11 +631,11 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Image File</label>
-              <input ref={fileInputRef} type="file" accept="image/*" className="mt-1 block w-full text-sm" />
+              <label htmlFor="xray-image-file" className="text-sm font-medium">Image File</label>
+              <input id="xray-image-file" ref={fileInputRef} type="file" accept="image/*" className="mt-1 block w-full text-sm" />
             </div>
             <div>
-              <label className="text-sm font-medium">Hoof Side</label>
+              <label htmlFor="hoof-side" className="text-sm font-medium">Hoof Side</label>
               <Select defaultValue="left">
                 <SelectTrigger id="hoof-side">
                   <SelectValue />
@@ -648,11 +648,11 @@ export function HoofXrayPortal({ patientId }: { patientId?: number }) {
             </div>
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-sm font-medium">Pixel Spacing X (mm/px)</label>
+                <label htmlFor="pixel-spacing-x" className="text-sm font-medium">Pixel Spacing X (mm/px)</label>
                 <input id="pixel-spacing-x" type="number" step="0.01" defaultValue="0.1" className="mt-1 block w-full rounded-md border px-3 py-2 text-sm" />
               </div>
               <div>
-                <label className="text-sm font-medium">Pixel Spacing Y (mm/px)</label>
+                <label htmlFor="pixel-spacing-y" className="text-sm font-medium">Pixel Spacing Y (mm/px)</label>
                 <input id="pixel-spacing-y" type="number" step="0.01" defaultValue="0.1" className="mt-1 block w-full rounded-md border px-3 py-2 text-sm" />
               </div>
             </div>

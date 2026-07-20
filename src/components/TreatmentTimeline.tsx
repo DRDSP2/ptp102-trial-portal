@@ -167,7 +167,7 @@ const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
           {!readOnly && (
             <button
               onClick={onReportAdverseEvent}
-              className="ml-auto px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
+              className="ml-auto min-h-10 px-3 py-1.5 text-sm font-medium text-white bg-red-600 rounded hover:bg-red-700"
               type="button"
             >
               Report Adverse Event
@@ -184,7 +184,7 @@ const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
           {!readOnly && (
             <button
               onClick={onReportAdverseEvent}
-              className="ml-auto px-3 py-1.5 text-sm font-medium text-white bg-amber-600 rounded hover:bg-amber-700"
+              className="ml-auto min-h-10 px-3 py-1.5 text-sm font-medium text-white bg-amber-600 rounded hover:bg-amber-700"
               type="button"
             >
               Report Adverse Event
@@ -220,7 +220,7 @@ const TreatmentTimelineImpl: React.FC<TreatmentTimelineProps> = ({
                   <button
                     onClick={() => onMarkComplete(step.id, new Date().toISOString())}
                     disabled={step.status === 'upcoming'}
-                    className={`mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+                    className={`mt-3 min-h-10 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
                       step.status === 'upcoming'
                         ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                         : 'bg-white border border-current hover:bg-opacity-50'

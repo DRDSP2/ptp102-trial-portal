@@ -484,7 +484,7 @@ export function PatientEnrollmentForm({ onSuccess, patient }: PatientEnrollmentF
           <TabsContent value="clinical" className="space-y-4 mt-4">
             <Alert className="bg-blue-50 border-blue-200">
               <Info className="h-4 w-4 text-info" />
-              <AlertDescription className="text-sm text-info-soft">
+              <AlertDescription className="text-sm text-blue-800">
                 Complete clinical examination parameters to aid in laminitis screening. Values outside normal ranges will be highlighted for admin review.
               </AlertDescription>
             </Alert>

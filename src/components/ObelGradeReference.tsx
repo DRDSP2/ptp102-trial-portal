@@ -379,7 +379,7 @@ export function ObelGradeReference({ value, onChange, patientName }: ObelGradeRe
               <button
                 type="button"
                 onClick={togglePlay}
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:border-white/25 hover:bg-white/10"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors hover:border-white/25 hover:bg-white/10"
                 aria-label={isPlaying ? 'Pause demo video' : 'Play demo video'}
               >
                 {isPlaying ? (
@@ -415,7 +415,7 @@ export function ObelGradeReference({ value, onChange, patientName }: ObelGradeRe
             </h3>
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-[11px] text-white/50">Obel Score (0–4)</label>
+                <p className="mb-1 text-[11px] text-white/50">Obel Score (0–4)</p>
                 <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium">
                   <span
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold ${gradeNumClass[currentGrade]}`}
@@ -426,7 +426,7 @@ export function ObelGradeReference({ value, onChange, patientName }: ObelGradeRe
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-[11px] text-white/50">Clinical Meaning</label>
+                <p className="mb-1 text-[11px] text-white/50">Clinical Meaning</p>
                 <p className="text-xs leading-relaxed text-white/70">
                   {currentGrade === '0' && 'No lameness — baseline normal gait.'}
                   {currentGrade === '1' && 'Mild lameness, often only visible at trot.'}

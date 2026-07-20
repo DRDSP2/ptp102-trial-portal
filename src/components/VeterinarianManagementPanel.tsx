@@ -16,6 +16,7 @@ import { ReasonForChangeDialog } from '@/components/ReasonForChangeDialog';
 import { CheckCircle, XCircle, Trash2, Eye, FileDown, FileText, Download, GraduationCap, Award, Shield, User, Building2, Mail, Loader2 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { toast } from 'sonner';
 
 type Veterinarian = {
   id: number;
@@ -228,7 +229,7 @@ export function VeterinarianManagementPanel() {
         await refreshVets();
       } catch (error) {
         console.error('Failed to delete veterinarian:', error);
-        alert('Failed to delete veterinarian. Please try again.');
+        toast.error('Failed to delete veterinarian. Please try again.');
       }
     }
   }, [deleteVet, refreshVets]);
@@ -239,10 +240,10 @@ export function VeterinarianManagementPanel() {
         body: { email: vet.email, actor_email: 'admin' },
       });
       if (error) throw error;
-      alert(`Recovery email sent if this account exists.`);
+      toast.success('Recovery email sent if this account exists.');
     } catch (err) {
       console.error('Failed to send recovery email:', err);
-      alert('Failed to send recovery email. Please try again.');
+      toast.error('Failed to send recovery email. Please try again.');
     }
   };
 
@@ -428,7 +429,7 @@ export function VeterinarianManagementPanel() {
       doc.save(`PTP102_Vet_Contract_${vet.full_name.replace(/\s+/g, '_')}_${timestamp}.pdf`);
     } catch (err) {
       console.error('Contract PDF export failed:', err);
-      alert('Failed to export contract PDF. Please try again.');
+      toast.error('Failed to export contract PDF. Please try again.');
     }
   };
 
@@ -488,7 +489,7 @@ export function VeterinarianManagementPanel() {
       doc.save(`PTP102_Vet_TC_Report_${timestamp}.pdf`);
     } catch (err) {
       console.error('PDF export failed:', err);
-      alert('Failed to export T&C report. Please try again.');
+      toast.error('Failed to export T&C report. Please try again.');
     }
   };
 
@@ -622,7 +623,7 @@ export function VeterinarianManagementPanel() {
       doc.save(`PTP102_Full_Registration_${vet.full_name.replace(/\s+/g, '_')}_${timestamp}.pdf`);
     } catch (err) {
       console.error('Registration packet PDF export failed:', err);
-      alert('Failed to export registration packet. Please try again.');
+      toast.error('Failed to export registration packet. Please try again.');
     }
   };
 
@@ -755,7 +756,7 @@ export function VeterinarianManagementPanel() {
       doc.save(`PTP102_GCP_Record_${vet.full_name.replace(/\s+/g, '_')}_${timestamp}.pdf`);
     } catch (err) {
       console.error('GCP record PDF export failed:', err);
-      alert('Failed to export GCP training record. Please try again.');
+      toast.error('Failed to export GCP training record. Please try again.');
     }
   };
 
@@ -819,7 +820,7 @@ export function VeterinarianManagementPanel() {
       doc.save(`PTP102_All_Vets_Registration_${timestamp}.pdf`);
     } catch (err) {
       console.error('All vets PDF export failed:', err);
-      alert('Failed to export all vets registration. Please try again.');
+      toast.error('Failed to export all vets registration. Please try again.');
     }
   };
 
@@ -1046,17 +1047,17 @@ export function VeterinarianManagementPanel() {
                                               />
                                             )}
                                             <div className="flex gap-1">
-                                              <Button size="sm" variant="outline" className="flex-1 text-[10px] h-7" type="button" onClick={async () => {
+                                              <Button size="sm" variant="outline" className="min-h-10 flex-1 text-[10px]" type="button" onClick={async () => {
                                                 try {
                                                   await approveQual({ veterinarianId: vet.id, vetEmail: vet.email });
-                                                  alert(`Investigator qualification approved.`);
-                                                } catch (_e) { alert('Failed.'); }
+                                                  toast.success('Investigator qualification approved.');
+                                                } catch (_e) { toast.error('Failed to approve qualification.'); }
                                               }}>Approve Qual</Button>
-                                              <Button size="sm" variant="outline" className="flex-1 text-[10px] h-7 text-red-600" type="button" onClick={async () => {
+                                              <Button size="sm" variant="outline" className="min-h-10 flex-1 text-[10px] text-red-600" type="button" onClick={async () => {
                                                 try {
                                                   await rejectQual({ veterinarianId: vet.id, vetEmail: vet.email });
-                                                  alert(`Investigator qualification rejected.`);
-                                                } catch (_e) { alert('Failed.'); }
+                                                  toast.success('Investigator qualification rejected.');
+                                                } catch (_e) { toast.error('Failed to reject qualification.'); }
                                               }}>Reject Qual</Button>
                                             </div>
                                           </>
@@ -1095,9 +1096,9 @@ export function VeterinarianManagementPanel() {
                                         onClick={async () => {
                                           try {
                                             await approveQual({ veterinarianId: vet.id, vetEmail: vet.email });
-                                            alert('Investigator qualification approved.');
+                                            toast.success('Investigator qualification approved.');
                                           } catch (_e) {
-                                            alert('Failed to approve qualification.');
+                                            toast.error('Failed to approve qualification.');
                                           }
                                         }}
                                         type="button"
@@ -1115,9 +1116,9 @@ export function VeterinarianManagementPanel() {
                                           if (window.confirm('Reject this investigator qualification?')) {
                                             try {
                                               await rejectQual({ veterinarianId: vet.id, vetEmail: vet.email });
-                                              alert('Investigator qualification rejected.');
+                                              toast.success('Investigator qualification rejected.');
                                             } catch (_e) {
-                                              alert('Failed to reject qualification.');
+                                              toast.error('Failed to reject qualification.');
                                             }
                                           }
                                         }}

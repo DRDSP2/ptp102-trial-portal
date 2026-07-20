@@ -119,8 +119,8 @@ export function MonitoringChecklist({ protocolHour, treatments, assessments, lab
           <>
             {isWithin72Hours && (
               <div className="bg-orange-100 border border-orange-300 rounded-md p-3 mb-3">
-                <p className="text-xs font-semibold text-warning-soft">PRIMARY OBSERVATION PERIOD (0-72h)</p>
-                <p className="text-xs text-silver-strong mt-1">Close monitoring required - document all observations</p>
+                <p className="text-xs font-semibold text-amber-800">PRIMARY OBSERVATION PERIOD (0-72h)</p>
+                <p className="text-xs text-muted-foreground mt-1">Close monitoring required - document all observations</p>
               </div>
             )}
             <div className="space-y-2">
@@ -137,10 +137,10 @@ export function MonitoringChecklist({ protocolHour, treatments, assessments, lab
                     )}
                   </div>
                   <div className="flex-1">
-                    <label className="text-sm font-medium leading-none flex items-center gap-1">
+                    <p className="text-sm font-medium leading-none flex items-center gap-1">
                       {item.label}
                       {item.required && <span className="text-destructive">*</span>}
-                    </label>
+                    </p>
                     <p className="text-xs text-muted-foreground mt-0.5">{item.description}</p>
                   </div>
                 </div>

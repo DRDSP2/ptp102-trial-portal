@@ -85,7 +85,7 @@ export function DealSignupPage() {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Deal Room Access Request</CardTitle>
+          <CardTitle as="h1">Deal Room Access Request</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>

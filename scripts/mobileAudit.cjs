@@ -6,11 +6,14 @@ const ROUTES = [
   ['/', 'AuthSelection'],
   ['/#/vet/login', 'VetLogin'],
   ['/#/admin/login', 'AdminLogin'],
+  ['/#/consultant/login', 'ConsultantLogin'],
   ['/#/vet/register', 'VetRegister'],
   ['/#/vet/forgot', 'VetForgot'],
+  ['/#/deal/login', 'DealLogin'],
 ];
 const VIEWPORTS = [
   { width: 360, height: 640, label: '360x640 (Android)' },
+  { width: 375, height: 812, label: '375x812 (target)' },
   { width: 390, height: 844, label: '390x844 (iPhone)' },
 ];
 

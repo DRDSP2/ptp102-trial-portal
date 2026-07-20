@@ -259,11 +259,11 @@ export function AdminSupplyPanel() {
       {lowOrDepleted.length > 0 && (
         <Alert className="border-amber-300 bg-amber-50">
           <AlertTriangle className="h-4 w-4 text-warning" />
-          <AlertDescription className="text-warning-soft">
+          <AlertDescription className="text-amber-800">
             <span className="font-semibold">{lowOrDepleted.length}</span> batch(es) are low or depleted.{' '}
             <Button
               variant="link"
-              className="h-auto p-0 text-warning-soft font-semibold underline"
+              className="h-auto p-0 text-amber-800 font-semibold underline"
               onClick={() => setStatusFilter('low')}
             >
               View low stock

@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useLoadAction } from '@uibakery/data';
+import { useLoadAction, useMutateAction } from '@uibakery/data';
 import loadAuditLogsAction from '@/actions/loadAuditLogs';
+import createAuditLogAction from '@/actions/createAuditLog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -28,8 +29,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ShieldCheck, ShieldAlert, Eye, HelpCircle } from 'lucide-react';
+import { ShieldCheck, ShieldAlert, Eye, HelpCircle, Download } from 'lucide-react';
 import { type AuditAction, type AuditEntityType } from '@/lib/auditTypes';
+import { AUDIT_TIME_ZONE, formatAuditTimestamp } from '@/lib/datetime';
+import { downloadAuditCsv } from '@/lib/auditCsv';
+import { useAuth } from '@/context/AuthContext';
 
 const AUDIT_ACTIONS: AuditAction[] = [
   'CREATE',
@@ -93,6 +97,7 @@ export function safeStringify(value: string | null): string {
 }
 
 export function AuditLogViewer() {
+  const auth = useAuth();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -108,14 +113,33 @@ export function AuditLogViewer() {
     action: actionFilter || null,
     entityType: entityTypeFilter || null,
   });
+  const [createAuditLog] = useMutateAction(createAuditLogAction);
 
   const [selectedLog, setSelectedLog] = useState<any | null>(null);
 
-  const formatTimestamp = (ts: string) => {
+  const handleExport = async () => {
+    const rows = logs ?? [];
+    if (rows.length === 0) return;
+
+    downloadAuditCsv(rows);
     try {
-      return new Date(ts).toLocaleString();
-    } catch {
-      return ts;
+      await createAuditLog({
+        userId: auth.user?.id ?? null,
+        userEmail: auth.email,
+        userRole: auth.role,
+        action: 'EXPORT',
+        entityType: 'system',
+        entityId: null,
+        fieldName: 'audit_trail_csv',
+        oldValue: null,
+        newValue: JSON.stringify({ rowCount: rows.length, timeZone: AUDIT_TIME_ZONE, exportedAt: new Date().toISOString() }),
+        reasonForChange: 'Exported the filtered audit trail as CSV',
+        ipAddress: null,
+        userAgent: navigator.userAgent,
+        sessionId: null,
+      });
+    } catch (exportAuditError) {
+      console.error('Audit CSV downloaded, but the export audit event could not be recorded:', exportAuditError);
     }
   };
 
@@ -137,13 +161,25 @@ export function AuditLogViewer() {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between gap-4">
         <CardTitle className="text-lg flex items-center gap-2">
           <ShieldCheck className="h-5 w-5" />
           Audit Trail
         </CardTitle>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleExport}
+          disabled={loading || !!error || !logs?.length}
+        >
+          <Download className="h-4 w-4" />
+          Export CSV
+        </Button>
       </CardHeader>
       <CardContent className="space-y-4">
+        <p className="text-xs text-muted-foreground">
+          Displayed and exported timestamps use <span className="font-semibold">{AUDIT_TIME_ZONE}</span> and include GMT/IST. CSV exports also retain the original ISO 8601 UTC timestamp.
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="audit-start-date">Start Date</Label>
@@ -182,9 +218,9 @@ export function AuditLogViewer() {
             />
           </div>
           <div className="space-y-2">
-            <Label>Action</Label>
+            <Label htmlFor="audit-action">Action</Label>
             <Select value={actionFilter || 'all'} onValueChange={(v) => setActionFilter(v === 'all' ? '' : v)}>
-              <SelectTrigger>
+              <SelectTrigger id="audit-action">
                 <SelectValue placeholder="All actions" />
               </SelectTrigger>
               <SelectContent>
@@ -198,9 +234,9 @@ export function AuditLogViewer() {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Entity Type</Label>
+            <Label htmlFor="audit-entity-type">Entity Type</Label>
             <Select value={entityTypeFilter || 'all'} onValueChange={(v) => setEntityTypeFilter(v === 'all' ? '' : v)}>
-              <SelectTrigger>
+              <SelectTrigger id="audit-entity-type">
                 <SelectValue placeholder="All entity types" />
               </SelectTrigger>
               <SelectContent>
@@ -257,7 +293,7 @@ export function AuditLogViewer() {
                 logs.map((log: any) => (
                   <TableRow key={log.id}>
                     <TableCell className="font-mono text-xs">{log.sequenceNumber}</TableCell>
-                    <TableCell className="text-xs whitespace-nowrap">{formatTimestamp(log.timestamp)}</TableCell>
+                    <TableCell className="text-xs whitespace-nowrap">{formatAuditTimestamp(log.timestamp)}</TableCell>
                     <TableCell className="text-xs">{log.userEmail}</TableCell>
                     <TableCell>{getActionBadge(log.action)}</TableCell>
                     <TableCell className="text-xs">{log.entityType}</TableCell>
@@ -277,7 +313,7 @@ export function AuditLogViewer() {
                       )}
                     </TableCell>
                     <TableCell>
-                      <Button variant="ghost" size="sm" onClick={() => setSelectedLog(log)}>
+                      <Button variant="ghost" size="sm" onClick={() => setSelectedLog(log)} aria-label={`View audit entry ${log.sequenceNumber}`}>
                         <Eye className="h-4 w-4" />
                       </Button>
                     </TableCell>
@@ -299,7 +335,7 @@ export function AuditLogViewer() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label className="text-muted-foreground">Timestamp</Label>
-                      <p>{formatTimestamp(selectedLog.timestamp)}</p>
+                      <p>{formatAuditTimestamp(selectedLog.timestamp)}</p>
                     </div>
                     <div>
                       <Label className="text-muted-foreground">User</Label>

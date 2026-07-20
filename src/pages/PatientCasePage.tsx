@@ -9,7 +9,7 @@ export function PatientCasePage() {
 
   if (!numericPatientId || Number.isNaN(numericPatientId)) {
     return (
-      <div className="container mx-auto max-w-7xl p-6">
+      <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-8">
         <div className="text-center text-destructive py-12">Invalid patient ID.</div>
       </div>
     );
@@ -20,7 +20,7 @@ export function PatientCasePage() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <div className="container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:py-8">
       <CaseWorkspace patientId={numericPatientId} onBack={handleBack} />
     </div>
   );

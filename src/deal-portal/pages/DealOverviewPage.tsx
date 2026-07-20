@@ -51,7 +51,8 @@ export function DealOverviewPage() {
   const userTier = dealTier || 'none';
 
   return (
-    <div className="space-y-8 p-6 max-w-6xl mx-auto">
+    <div className="mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 lg:py-8">
+      <h1 className="text-2xl font-bold">Deal Room Overview</h1>
       {/* Top: Pitch deck + Company profile */}
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1">

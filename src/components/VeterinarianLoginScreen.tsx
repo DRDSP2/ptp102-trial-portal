@@ -109,7 +109,7 @@ export function VeterinarianLoginScreen({ onSuccess, onNeedRegistration, onForgo
           <div className="flex items-center gap-3">
             <LogIn className="h-8 w-8 text-blue-400" />
             <div>
-              <CardTitle className="text-2xl">Veterinarian Login</CardTitle>
+              <CardTitle as="h1" className="text-2xl">Veterinarian Login</CardTitle>
               <p className="text-neutral-content/60 text-sm mt-1">PTP-102 Trial Access</p>
             </div>
           </div>

@@ -89,7 +89,7 @@ export function AppShell({ children }: AppShellProps) {
                 Change Password
               </Button>
             )}
-            <Button variant="outline" size="sm" onClick={handleLogout}>
+            <Button variant="outline" size="sm" onClick={handleLogout} aria-label="Log out">
               <LogOut className="h-4 w-4" />
             </Button>
           </div>
@@ -97,7 +97,7 @@ export function AppShell({ children }: AppShellProps) {
       </header>
 
       {showDealNav && (
-        <nav className="bg-base-100 border-b border-base-200 px-6 py-2">
+        <nav className="bg-base-100 border-b border-base-200 px-4 py-2 sm:px-6">
           <div className="container mx-auto max-w-7xl flex gap-2 overflow-x-auto">
             {([
               { label: 'Overview', path: '/deal/overview', tier: 'evaluation' },
@@ -130,7 +130,7 @@ export function AppShell({ children }: AppShellProps) {
       )}
 
       {showBreadcrumb && (
-        <div className="bg-base-100 border-b border-base-200 px-6 py-2">
+        <div className="bg-base-100 border-b border-base-200 px-4 py-2 sm:px-6">
           <div className="container mx-auto max-w-7xl">
             <Breadcrumb>
               <BreadcrumbList>

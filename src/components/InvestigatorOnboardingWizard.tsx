@@ -603,7 +603,7 @@ export function InvestigatorOnboardingWizard({ vetEmail, onSubmitted }: { vetEma
           <div key={s.num} className="flex items-center gap-2">
             <button
               onClick={() => setStep(s.num)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`flex min-h-10 items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 step === s.num
                   ? 'bg-slate-900 text-white'
                   : s.num < step

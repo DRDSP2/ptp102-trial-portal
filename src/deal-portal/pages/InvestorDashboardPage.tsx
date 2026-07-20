@@ -5,7 +5,7 @@ import { TeamDirectory } from '@/deal-portal/components/TeamDirectory';
 
 export function InvestorDashboardPage() {
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-8">
+    <div className="mx-auto max-w-6xl space-y-8 px-4 py-6 sm:px-6 lg:py-8">
       <h1 className="text-2xl font-bold">Investor Dashboard</h1>
       <InvestorDashboard />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

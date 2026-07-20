@@ -125,7 +125,7 @@ export function OfferSubmissionPage() {
   };
 
   return (
-    <div className="space-y-6 p-6 max-w-4xl mx-auto">
+    <div className="mx-auto max-w-4xl space-y-6 px-4 py-6 sm:px-6 lg:py-8">
       <h1 className="text-2xl font-bold">Submit an Offer</h1>
       <p className="text-sm text-muted-foreground">
         Select a region and offer type, then submit it for admin review. You can track
@@ -151,9 +151,9 @@ export function OfferSubmissionPage() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Region</label>
+              <label htmlFor="offer-region" className="text-sm font-medium">Region</label>
               <Select value={region} onValueChange={setRegion}>
-                <SelectTrigger>
+                <SelectTrigger id="offer-region">
                   <SelectValue placeholder="Select region" />
                 </SelectTrigger>
                 <SelectContent>
@@ -166,9 +166,9 @@ export function OfferSubmissionPage() {
               </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Offer Type</label>
+              <label htmlFor="offer-type" className="text-sm font-medium">Offer Type</label>
               <Select value={offerType} onValueChange={setOfferType}>
-                <SelectTrigger>
+                <SelectTrigger id="offer-type">
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -183,10 +183,11 @@ export function OfferSubmissionPage() {
           </div>
 
           {offerType === 'investment' && (
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-2 space-y-2">
-                <label className="text-sm font-medium">Investment Amount</label>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="space-y-2 sm:col-span-2">
+                <label htmlFor="offer-amount" className="text-sm font-medium">Investment Amount</label>
                 <Input
+                  id="offer-amount"
                   type="number"
                   min={0}
                   value={amount}
@@ -195,15 +196,16 @@ export function OfferSubmissionPage() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">Currency</label>
-                <Input value={currency} onChange={(e) => setCurrency(e.target.value)} />
+                <label htmlFor="offer-currency" className="text-sm font-medium">Currency</label>
+                <Input id="offer-currency" value={currency} onChange={(e) => setCurrency(e.target.value)} />
               </div>
             </div>
           )}
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Message / Terms</label>
+            <label htmlFor="offer-message" className="text-sm font-medium">Message / Terms</label>
             <Textarea
+              id="offer-message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Describe the offer, exclusivity, or any terms you would like considered."

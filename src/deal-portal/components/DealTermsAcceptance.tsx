@@ -56,7 +56,7 @@ export function DealTermsAcceptance() {
   return (
     <Card className="max-w-2xl mx-auto mt-12">
       <CardHeader>
-        <CardTitle>Terms of Service &amp; Privacy Policy</CardTitle>
+        <CardTitle as="h1">Terms of Service &amp; Privacy Policy</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="h-48 overflow-y-auto border rounded p-4 text-sm text-slate-600 bg-slate-50">
