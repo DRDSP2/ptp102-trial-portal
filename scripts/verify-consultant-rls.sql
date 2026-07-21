@@ -1,7 +1,7 @@
 -- verify-consultant-rls.sql
 --
 -- Manual verification of the consultant RLS grants (migration 20260715000000)
--- and the seeded account (migration 20260715000001).
+-- and the Supabase-managed consultant accounts.
 --
 -- Run this in the Supabase SQL Editor (or `supabase db query --linked --file`).
 -- It impersonates a consultant via the JWT claims GUC under the `authenticated`
@@ -52,7 +52,7 @@ SELECT
 
 RESET ROLE;
 
--- Confirm the seeded consultant account exists with the right shape.
+-- Confirm both Supabase-managed consultant accounts have the right shape.
 SELECT email,
        raw_app_meta_data ->> 'role'            AS role,
        raw_user_meta_data ->> 'full_name'     AS full_name,
@@ -60,6 +60,7 @@ SELECT email,
        (encrypted_password IS NOT NULL)        AS has_password,
        email_confirmed_at IS NOT NULL          AS email_confirmed
 FROM auth.users
-WHERE email = 'mark@hughesvet.com';
+WHERE lower(email) IN ('mark@hughesvet.com', 'drdsp@protonmail.ch')
+ORDER BY email;
 
 COMMIT;
