@@ -101,7 +101,7 @@ export function ConsultantLoginScreen({ onSuccess, onBackToAccessSelection }: Co
                   <FormItem>
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="mark@hughesvet.com" {...field} />
+                      <Input type="email" autoComplete="off" placeholder="your.email@example.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
